@@ -314,9 +314,9 @@ public abstract class EntityPlayer extends EntityLiving
         craftingInventory = inventorySlots;
     }
 
-    public void updateCloak()
+    public void updateCloak() //URL par défaut : http://s3.amazonaws.com/MinecraftCloaks/
     {
-        playerCloakUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftCloaks/").append(username).append(".png").toString();
+        playerCloakUrl = (new StringBuilder()).append("http://www.icraftevo.fr/Launcher/MinecraftCloaks/").append(username).append(".png").toString();
         cloakUrl = playerCloakUrl;
     }
 

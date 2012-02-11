@@ -1,0 +1,9 @@
+!SESSION 2012-02-12 00:05:55.286 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_25
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.mylyn.tasks.ui 2 0 2012-02-12 00:08:41.175
+!MESSAGE No search provider was registed. Tasks search is not available.
