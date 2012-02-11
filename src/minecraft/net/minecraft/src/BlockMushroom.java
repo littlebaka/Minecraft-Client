@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            BlockFlower, World, Block, BlockMycelium, 
-//            WorldGenBigMushroom, WorldGenerator
-
 public class BlockMushroom extends BlockFlower
 {
-
     protected BlockMushroom(int i, int j)
     {
         super(i, j);
@@ -23,32 +14,30 @@ public class BlockMushroom extends BlockFlower
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if(random.nextInt(25) == 0)
+        if (random.nextInt(25) == 0)
         {
             byte byte0 = 4;
             int l = 5;
-            for(int i1 = i - byte0; i1 <= i + byte0; i1++)
+            for (int i1 = i - byte0; i1 <= i + byte0; i1++)
             {
-                for(int k1 = k - byte0; k1 <= k + byte0; k1++)
+                for (int k1 = k - byte0; k1 <= k + byte0; k1++)
                 {
-                    for(int i2 = j - 1; i2 <= j + 1; i2++)
+                    for (int i2 = j - 1; i2 <= j + 1; i2++)
                     {
-                        if(world.getBlockId(i1, i2, k1) == blockID && --l <= 0)
+                        if (world.getBlockId(i1, i2, k1) == blockID && --l <= 0)
                         {
                             return;
                         }
                     }
-
                 }
-
             }
 
             int j1 = (i + random.nextInt(3)) - 1;
             int l1 = (j + random.nextInt(2)) - random.nextInt(2);
             int j2 = (k + random.nextInt(3)) - 1;
-            for(int k2 = 0; k2 < 4; k2++)
+            for (int k2 = 0; k2 < 4; k2++)
             {
-                if(world.isAirBlock(j1, l1, j2) && canBlockStay(world, j1, l1, j2))
+                if (world.isAirBlock(j1, l1, j2) && canBlockStay(world, j1, l1, j2))
                 {
                     i = j1;
                     j = l1;
@@ -59,7 +48,7 @@ public class BlockMushroom extends BlockFlower
                 j2 = (k + random.nextInt(3)) - 1;
             }
 
-            if(world.isAirBlock(j1, l1, j2) && canBlockStay(world, j1, l1, j2))
+            if (world.isAirBlock(j1, l1, j2) && canBlockStay(world, j1, l1, j2))
             {
                 world.setBlockWithNotify(j1, l1, j2, blockID);
             }
@@ -73,34 +62,36 @@ public class BlockMushroom extends BlockFlower
 
     public boolean canBlockStay(World world, int i, int j, int k)
     {
-        if(j < 0 || j >= world.field_35472_c)
+        if (j < 0 || j >= world.worldHeight)
         {
             return false;
-        } else
+        }
+        else
         {
             int l = world.getBlockId(i, j - 1, k);
             return l == Block.mycelium.blockID || world.getFullBlockLightValue(i, j, k) < 13 && canThisPlantGrowOnThisBlockID(l);
         }
     }
 
-    public boolean func_35293_c(World world, int i, int j, int k, Random random)
+    public boolean fertilizeMushroom(World world, int i, int j, int k, Random random)
     {
         int l = world.getBlockMetadata(i, j, k);
         world.setBlock(i, j, k, 0);
         WorldGenBigMushroom worldgenbigmushroom = null;
-        if(blockID == Block.mushroomBrown.blockID)
+        if (blockID == Block.mushroomBrown.blockID)
         {
             worldgenbigmushroom = new WorldGenBigMushroom(0);
-        } else
-        if(blockID == Block.mushroomRed.blockID)
+        }
+        else if (blockID == Block.mushroomRed.blockID)
         {
             worldgenbigmushroom = new WorldGenBigMushroom(1);
         }
-        if(worldgenbigmushroom == null || !worldgenbigmushroom.generate(world, random, i, j, k))
+        if (worldgenbigmushroom == null || !worldgenbigmushroom.generate(world, random, i, j, k))
         {
             world.setBlockAndMetadata(i, j, k, blockID, l);
             return false;
-        } else
+        }
+        else
         {
             return true;
         }

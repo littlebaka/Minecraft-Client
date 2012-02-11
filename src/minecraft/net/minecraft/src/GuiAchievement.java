@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Gui, RenderItem, StatCollector, Achievement, 
-//            ScaledResolution, RenderEngine, FontRenderer, RenderHelper
-
 public class GuiAchievement extends Gui
 {
-
     private Minecraft theGame;
     private int achievementWindowWidth;
     private int achievementWindowHeight;
@@ -33,7 +24,7 @@ public class GuiAchievement extends Gui
     public void queueTakenAchievement(Achievement achievement)
     {
         achievementGetLocalText = StatCollector.translateToLocal("achievement.get");
-        achievementStatName = achievement.statName;
+        achievementStatName = StatCollector.translateToLocal(achievement.func_44020_i());
         achievementTime = System.currentTimeMillis();
         theAchievement = achievement;
         haveAchiement = false;
@@ -41,7 +32,7 @@ public class GuiAchievement extends Gui
 
     public void queueAchievementInformation(Achievement achievement)
     {
-        achievementGetLocalText = achievement.statName;
+        achievementGetLocalText = StatCollector.translateToLocal(achievement.func_44020_i());
         achievementStatName = achievement.getDescription();
         achievementTime = System.currentTimeMillis() - 2500L;
         theAchievement = achievement;
@@ -71,12 +62,12 @@ public class GuiAchievement extends Gui
 
     public void updateAchievementWindow()
     {
-        if(theAchievement == null || achievementTime == 0L)
+        if (theAchievement == null || achievementTime == 0L)
         {
             return;
         }
         double d = (double)(System.currentTimeMillis() - achievementTime) / 3000D;
-        if(!haveAchiement && !haveAchiement && (d < 0.0D || d > 1.0D))
+        if (!haveAchiement && !haveAchiement && (d < 0.0D || d > 1.0D))
         {
             achievementTime = 0L;
             return;
@@ -85,13 +76,13 @@ public class GuiAchievement extends Gui
         GL11.glDisable(2929 /*GL_DEPTH_TEST*/);
         GL11.glDepthMask(false);
         double d1 = d * 2D;
-        if(d1 > 1.0D)
+        if (d1 > 1.0D)
         {
             d1 = 2D - d1;
         }
         d1 *= 4D;
         d1 = 1.0D - d1;
-        if(d1 < 0.0D)
+        if (d1 < 0.0D)
         {
             d1 = 0.0D;
         }
@@ -105,10 +96,11 @@ public class GuiAchievement extends Gui
         GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, k);
         GL11.glDisable(2896 /*GL_LIGHTING*/);
         drawTexturedModalRect(i, j, 96, 202, 160, 32);
-        if(haveAchiement)
+        if (haveAchiement)
         {
             theGame.fontRenderer.drawSplitString(achievementStatName, i + 30, j + 7, 120, -1);
-        } else
+        }
+        else
         {
             theGame.fontRenderer.drawString(achievementGetLocalText, i + 30, j + 7, -256);
             theGame.fontRenderer.drawString(achievementStatName, i + 30, j + 18, -1);

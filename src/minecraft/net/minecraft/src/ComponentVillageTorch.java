@@ -1,25 +1,16 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentVillage, StructureBoundingBox, StructureComponent, Block, 
-//            World
-
 public class ComponentVillageTorch extends ComponentVillage
 {
-
-    private int field_35100_a;
+    private int averageGroundLevel;
 
     public ComponentVillageTorch(int i, Random random, StructureBoundingBox structureboundingbox, int j)
     {
         super(i);
-        field_35100_a = -1;
+        averageGroundLevel = -1;
         coordBaseMode = j;
         boundingBox = structureboundingbox;
     }
@@ -31,10 +22,11 @@ public class ComponentVillageTorch extends ComponentVillage
     public static StructureBoundingBox func_35099_a(List list, Random random, int i, int j, int k, int l)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, 0, 0, 0, 3, 4, 2, l);
-        if(StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return structureboundingbox;
         }
@@ -42,14 +34,14 @@ public class ComponentVillageTorch extends ComponentVillage
 
     public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox)
     {
-        if(field_35100_a < 0)
+        if (averageGroundLevel < 0)
         {
-            field_35100_a = getAverageGroundLevel(world, structureboundingbox);
-            if(field_35100_a < 0)
+            averageGroundLevel = getAverageGroundLevel(world, structureboundingbox);
+            if (averageGroundLevel < 0)
             {
                 return true;
             }
-            boundingBox.offset(0, ((field_35100_a - boundingBox.maxY) + 4) - 1, 0);
+            boundingBox.offset(0, ((averageGroundLevel - boundingBox.maxY) + 4) - 1, 0);
         }
         fillWithBlocks(world, structureboundingbox, 0, 0, 0, 2, 3, 1, 0, 0, false);
         placeBlockAtCurrentPosition(world, Block.fence.blockID, 0, 1, 0, 0, structureboundingbox);

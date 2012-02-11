@@ -1,21 +1,12 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            IProgressUpdate, MinecraftError, ScaledResolution, Tessellator, 
-//            RenderEngine, FontRenderer
-
 public class LoadingScreenRenderer
     implements IProgressUpdate
 {
-
     private String field_1004_a;
     private Minecraft mc;
     private String currentlyDisplayedText;
@@ -45,16 +36,18 @@ public class LoadingScreenRenderer
 
     public void func_597_c(String s)
     {
-        if(!mc.running)
+        if (!mc.running)
         {
-            if(field_1005_e)
+            if (field_1005_e)
             {
                 return;
-            } else
+            }
+            else
             {
                 throw new MinecraftError();
             }
-        } else
+        }
+        else
         {
             currentlyDisplayedText = s;
             ScaledResolution scaledresolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
@@ -71,16 +64,18 @@ public class LoadingScreenRenderer
 
     public void displayLoadingString(String s)
     {
-        if(!mc.running)
+        if (!mc.running)
         {
-            if(field_1005_e)
+            if (field_1005_e)
             {
                 return;
-            } else
+            }
+            else
             {
                 throw new MinecraftError();
             }
-        } else
+        }
+        else
         {
             field_1006_d = 0L;
             field_1004_a = s;
@@ -92,18 +87,19 @@ public class LoadingScreenRenderer
 
     public void setLoadingProgress(int i)
     {
-        if(!mc.running)
+        if (!mc.running)
         {
-            if(field_1005_e)
+            if (field_1005_e)
             {
                 return;
-            } else
+            }
+            else
             {
                 throw new MinecraftError();
             }
         }
         long l = System.currentTimeMillis();
-        if(l - field_1006_d < 20L)
+        if (l - field_1006_d < 20L)
         {
             return;
         }
@@ -130,7 +126,7 @@ public class LoadingScreenRenderer
         tessellator.addVertexWithUV(j, 0.0D, 0.0D, (float)j / f, 0.0D);
         tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
         tessellator.draw();
-        if(i >= 0)
+        if (i >= 0)
         {
             byte byte0 = 100;
             byte byte1 = 2;
@@ -158,6 +154,6 @@ public class LoadingScreenRenderer
         {
             Thread.yield();
         }
-        catch(Exception exception) { }
+        catch (Exception exception) { }
     }
 }

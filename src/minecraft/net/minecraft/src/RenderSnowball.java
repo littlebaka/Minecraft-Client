@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Render, Tessellator, EntityPotion, PotionHelper, 
-//            RenderManager, Entity
-
 public class RenderSnowball extends Render
 {
-
     private int itemIconIndex;
 
     public RenderSnowball(int i)
@@ -20,7 +11,7 @@ public class RenderSnowball extends Render
         itemIconIndex = i;
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         GL11.glPushMatrix();
@@ -29,9 +20,9 @@ public class RenderSnowball extends Render
         GL11.glScalef(0.5F, 0.5F, 0.5F);
         loadTexture("/gui/items.png");
         Tessellator tessellator = Tessellator.instance;
-        if(itemIconIndex == 154)
+        if (itemIconIndex == 154)
         {
-            int i = PotionHelper.func_40358_a(((EntityPotion)entity).func_40088_g(), false);
+            int i = PotionHelper.func_40358_a(((EntityPotion)entity).getPotionDamage(), false);
             float f2 = (float)(i >> 16 & 0xff) / 255F;
             float f3 = (float)(i >> 8 & 0xff) / 255F;
             float f4 = (float)(i & 0xff) / 255F;

@@ -1,42 +1,32 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Item, ItemStack, PotionHelper, World, 
-//            PotionEffect, EntityPlayer, InventoryPlayer, EnumAction, 
-//            EntityPotion, Potion, StatCollector
-
 public class ItemPotion extends Item
 {
-
-    private HashMap field_40435_a;
+    private HashMap idEffectNameMap;
 
     public ItemPotion(int i)
     {
         super(i);
-        field_40435_a = new HashMap();
+        idEffectNameMap = new HashMap();
         setMaxStackSize(1);
         setHasSubtypes(true);
         setMaxDamage(0);
     }
 
-    public List func_40434_a_(ItemStack itemstack)
+    public List getEffectNames(ItemStack itemstack)
     {
-        return func_40431_c_(itemstack.getItemDamage());
+        return getEffectNamesFromDamage(itemstack.getItemDamage());
     }
 
-    public List func_40431_c_(int i)
+    public List getEffectNamesFromDamage(int i)
     {
-        List list = (List)field_40435_a.get(Integer.valueOf(i));
-        if(list == null)
+        List list = (List)idEffectNameMap.get(Integer.valueOf(i));
+        if (list == null)
         {
-            list = PotionHelper.func_40360_b(i, false);
-            field_40435_a.put(Integer.valueOf(i), list);
+            list = PotionHelper.getPotionEffects(i, false);
+            idEffectNameMap.put(Integer.valueOf(i), list);
         }
         return list;
     }
@@ -44,23 +34,23 @@ public class ItemPotion extends Item
     public ItemStack onFoodEaten(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {
         itemstack.stackSize--;
-        if(!world.multiplayerWorld)
+        if (!world.multiplayerWorld)
         {
-            List list = func_40434_a_(itemstack);
-            if(list != null)
+            List list = getEffectNames(itemstack);
+            if (list != null)
             {
                 PotionEffect potioneffect;
-                for(Iterator iterator = list.iterator(); iterator.hasNext(); entityplayer.addPotionEffect(new PotionEffect(potioneffect)))
+                for (Iterator iterator = list.iterator(); iterator.hasNext(); entityplayer.addPotionEffect(new PotionEffect(potioneffect)))
                 {
                     potioneffect = (PotionEffect)iterator.next();
                 }
-
             }
         }
-        if(itemstack.stackSize <= 0)
+        if (itemstack.stackSize <= 0)
         {
             return new ItemStack(Item.glassBottle);
-        } else
+        }
+        else
         {
             entityplayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
             return itemstack;
@@ -79,16 +69,17 @@ public class ItemPotion extends Item
 
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {
-        if(func_40433_c(itemstack.getItemDamage()))
+        if (isSplash(itemstack.getItemDamage()))
         {
             itemstack.stackSize--;
             world.playSoundAtEntity(entityplayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            if(!world.multiplayerWorld)
+            if (!world.multiplayerWorld)
             {
-                world.entityJoinedWorld(new EntityPotion(world, entityplayer, itemstack.getItemDamage()));
+                world.spawnEntityInWorld(new EntityPotion(world, entityplayer, itemstack.getItemDamage()));
             }
             return itemstack;
-        } else
+        }
+        else
         {
             entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
             return itemstack;
@@ -102,30 +93,54 @@ public class ItemPotion extends Item
 
     public int getIconFromDamage(int i)
     {
-        return !func_40433_c(i) ? 140 : 154;
+        return !isSplash(i) ? 140 : 154;
     }
 
-    public static boolean func_40433_c(int i)
+    public int func_46057_a(int i, int j)
+    {
+        if (j == 0)
+        {
+            return 141;
+        }
+        else
+        {
+            return super.func_46057_a(i, j);
+        }
+    }
+
+    public static boolean isSplash(int i)
     {
         return (i & 0x4000) != 0;
     }
 
-    public int getColorFromDamage(int i)
+    public int getColorFromDamage(int i, int j)
     {
-        return PotionHelper.func_40358_a(i, false);
+        if (j > 0)
+        {
+            return 0xffffff;
+        }
+        else
+        {
+            return PotionHelper.func_40358_a(i, false);
+        }
     }
 
-    public boolean func_40432_e(int i)
+    public boolean func_46058_c()
     {
-        List list = func_40431_c_(i);
-        if(list == null || list.isEmpty())
+        return true;
+    }
+
+    public boolean isEffectInstant(int i)
+    {
+        List list = getEffectNamesFromDamage(i);
+        if (list == null || list.isEmpty())
         {
             return false;
         }
-        for(Iterator iterator = list.iterator(); iterator.hasNext();)
+        for (Iterator iterator = list.iterator(); iterator.hasNext();)
         {
             PotionEffect potioneffect = (PotionEffect)iterator.next();
-            if(Potion.potionTypes[potioneffect.getPotionID()].func_40622_b())
+            if (Potion.potionTypes[potioneffect.getPotionID()].isInstant())
             {
                 return true;
             }
@@ -134,70 +149,72 @@ public class ItemPotion extends Item
         return false;
     }
 
-    public String func_40397_d(ItemStack itemstack)
+    public String getItemDisplayName(ItemStack itemstack)
     {
-        if(itemstack.getItemDamage() == 0)
+        if (itemstack.getItemDamage() == 0)
         {
             return StatCollector.translateToLocal("item.emptyPotion.name").trim();
         }
-        String s = super.func_40397_d(itemstack);
-        if(func_40433_c(itemstack.getItemDamage()))
+        String s = "";
+        if (isSplash(itemstack.getItemDamage()))
         {
-            s = (new StringBuilder()).append(StatCollector.translateToLocal("potion.prefix.grenade").trim()).append(" ").append(s).toString();
+            s = (new StringBuilder()).append(StatCollector.translateToLocal("potion.prefix.grenade").trim()).append(" ").toString();
         }
-        List list = Item.potion.func_40434_a_(itemstack);
-        if(list != null && !list.isEmpty())
+        List list = Item.potion.getEffectNames(itemstack);
+        if (list != null && !list.isEmpty())
         {
-            String s1 = ((PotionEffect)list.get(0)).func_40468_d();
+            String s1 = ((PotionEffect)list.get(0)).getEffectName();
             s1 = (new StringBuilder()).append(s1).append(".postfix").toString();
-            return (new StringBuilder()).append(s).append(" ").append(StatCollector.translateToLocal(s1).trim()).toString();
-        } else
+            return (new StringBuilder()).append(s).append(StatCollector.translateToLocal(s1).trim()).toString();
+        }
+        else
         {
             String s2 = PotionHelper.func_40359_b(itemstack.getItemDamage());
-            return (new StringBuilder()).append(StatCollector.translateToLocal(s2).trim()).append(" ").append(s).toString();
+            return (new StringBuilder()).append(StatCollector.translateToLocal(s2).trim()).append(" ").append(super.getItemDisplayName(itemstack)).toString();
         }
     }
 
-    public void func_40404_a(ItemStack itemstack, List list)
+    public void addInformation(ItemStack itemstack, List list)
     {
-        if(itemstack.getItemDamage() == 0)
+        if (itemstack.getItemDamage() == 0)
         {
             return;
         }
-        List list1 = Item.potion.func_40434_a_(itemstack);
-        if(list1 != null && !list1.isEmpty())
+        List list1 = Item.potion.getEffectNames(itemstack);
+        if (list1 != null && !list1.isEmpty())
         {
-            for(Iterator iterator = list1.iterator(); iterator.hasNext();)
+            for (Iterator iterator = list1.iterator(); iterator.hasNext();)
             {
                 PotionEffect potioneffect = (PotionEffect)iterator.next();
-                String s1 = StatCollector.translateToLocal(potioneffect.func_40468_d()).trim();
-                if(potioneffect.getAmplifier() > 0)
+                String s1 = StatCollector.translateToLocal(potioneffect.getEffectName()).trim();
+                if (potioneffect.getAmplifier() > 0)
                 {
                     s1 = (new StringBuilder()).append(s1).append(" ").append(StatCollector.translateToLocal((new StringBuilder()).append("potion.potency.").append(potioneffect.getAmplifier()).toString()).trim()).toString();
                 }
-                if(potioneffect.getDuration() > 20)
+                if (potioneffect.getDuration() > 20)
                 {
                     s1 = (new StringBuilder()).append(s1).append(" (").append(Potion.func_40620_a(potioneffect)).append(")").toString();
                 }
-                if(Potion.potionTypes[potioneffect.getPotionID()].func_40615_f())
+                if (Potion.potionTypes[potioneffect.getPotionID()].getIsBadEffect())
                 {
                     list.add((new StringBuilder()).append("\247c").append(s1).toString());
-                } else
+                }
+                else
                 {
                     list.add((new StringBuilder()).append("\2477").append(s1).toString());
                 }
             }
-
-        } else
+        }
+        else
         {
             String s = StatCollector.translateToLocal("potion.empty").trim();
             list.add((new StringBuilder()).append("\2477").append(s).toString());
         }
     }
 
-    public boolean func_40403_e(ItemStack itemstack)
+    public boolean hasEffect(ItemStack itemstack)
     {
-        List list = func_40434_a_(itemstack);
+        List list = getEffectNames(itemstack);
         return list != null && !list.isEmpty();
     }
 }

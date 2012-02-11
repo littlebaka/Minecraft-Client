@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.client;
 
 import java.applet.Applet;
@@ -11,12 +7,8 @@ import java.io.PrintStream;
 import java.net.URL;
 import net.minecraft.src.*;
 
-// Referenced classes of package net.minecraft.client:
-//            Minecraft
-
 public class MinecraftApplet extends Applet
 {
-
     private Canvas mcCanvas;
     private Minecraft mc;
     private Thread mcThread;
@@ -30,34 +22,35 @@ public class MinecraftApplet extends Applet
     {
         mcCanvas = new CanvasMinecraftApplet(this);
         boolean flag = false;
-        if(getParameter("fullscreen") != null)
+        if (getParameter("fullscreen") != null)
         {
             flag = getParameter("fullscreen").equalsIgnoreCase("true");
         }
         mc = new MinecraftAppletImpl(this, this, mcCanvas, this, getWidth(), getHeight(), flag);
         mc.minecraftUri = getDocumentBase().getHost();
-        if(getDocumentBase().getPort() > 0)
+        if (getDocumentBase().getPort() > 0)
         {
             mc.minecraftUri += ":" + getDocumentBase().getPort();
         }
-        if(getParameter("username") != null && getParameter("sessionid") != null)
+        if (getParameter("username") != null && getParameter("sessionid") != null)
         {
             mc.session = new Session(getParameter("username"), getParameter("sessionid"));
             System.out.println((new StringBuilder()).append("Setting user: ").append(mc.session.username).append(", ").append(mc.session.sessionId).toString());
-            if(getParameter("mppass") != null)
+            if (getParameter("mppass") != null)
             {
                 mc.session.mpPassParameter = getParameter("mppass");
             }
-        } else
+        }
+        else
         {
             mc.session = new Session("Player", "");
         }
-        if(getParameter("server") != null && getParameter("port") != null)
+        if (getParameter("server") != null && getParameter("port") != null)
         {
             mc.setServer(getParameter("server"), Integer.parseInt(getParameter("port")));
         }
         mc.hideQuitButton = true;
-        if("true".equals(getParameter("stand-alone")))
+        if ("true".equals(getParameter("stand-alone")))
         {
             mc.hideQuitButton = false;
         }
@@ -70,10 +63,11 @@ public class MinecraftApplet extends Applet
 
     public void startMainThread()
     {
-        if(mcThread != null)
+        if (mcThread != null)
         {
             return;
-        } else
+        }
+        else
         {
             mcThread = new Thread(mc, "Minecraft main thread");
             mcThread.start();
@@ -83,7 +77,7 @@ public class MinecraftApplet extends Applet
 
     public void start()
     {
-        if(mc != null)
+        if (mc != null)
         {
             mc.isGamePaused = false;
         }
@@ -91,7 +85,7 @@ public class MinecraftApplet extends Applet
 
     public void stop()
     {
-        if(mc != null)
+        if (mc != null)
         {
             mc.isGamePaused = true;
         }
@@ -104,7 +98,7 @@ public class MinecraftApplet extends Applet
 
     public void shutdown()
     {
-        if(mcThread == null)
+        if (mcThread == null)
         {
             return;
         }
@@ -113,13 +107,13 @@ public class MinecraftApplet extends Applet
         {
             mcThread.join(10000L);
         }
-        catch(InterruptedException interruptedexception)
+        catch (InterruptedException interruptedexception)
         {
             try
             {
                 mc.shutdownMinecraftApplet();
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 exception.printStackTrace();
             }
@@ -137,6 +131,6 @@ public class MinecraftApplet extends Applet
             removeAll();
             validate();
         }
-        catch(Exception exception) { }
+        catch (Exception exception) { }
     }
 }

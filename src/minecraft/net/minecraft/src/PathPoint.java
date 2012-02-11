@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            MathHelper
 
 public class PathPoint
 {
-
     public final int xCoord;
     public final int yCoord;
     public final int zCoord;
@@ -47,11 +38,12 @@ public class PathPoint
 
     public boolean equals(Object obj)
     {
-        if(obj instanceof PathPoint)
+        if (obj instanceof PathPoint)
         {
             PathPoint pathpoint = (PathPoint)obj;
             return hash == pathpoint.hash && xCoord == pathpoint.xCoord && yCoord == pathpoint.yCoord && zCoord == pathpoint.zCoord;
-        } else
+        }
+        else
         {
             return false;
         }

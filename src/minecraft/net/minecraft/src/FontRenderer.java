@@ -1,43 +1,47 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.IntBuffer;
+import java.io.InputStream;
+import java.text.Bidi;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GLAllocation, RenderEngine, Tessellator, GameSettings, 
-//            ChatAllowedCharacters
-
 public class FontRenderer
 {
-
     private int charWidth[];
     public int fontTextureName;
-    public int field_41063_b;
-    private int fontDisplayLists;
-    private IntBuffer buffer;
+    public int FONT_HEIGHT;
     public Random field_41064_c;
+    private byte field_44036_e[];
+    private final int field_44034_f[] = new int[256];
+    private int field_44035_g[];
+    private int field_44038_h;
+    private final RenderEngine field_44039_i;
+    private float field_46126_j;
+    private float field_46127_k;
+    private boolean field_44037_j;
+    private boolean field_46125_m;
 
-    public FontRenderer(GameSettings gamesettings, String s, RenderEngine renderengine)
+    public FontRenderer(GameSettings gamesettings, String s, RenderEngine renderengine, boolean flag)
     {
         charWidth = new int[256];
         fontTextureName = 0;
-        field_41063_b = 8;
-        buffer = GLAllocation.createDirectIntBuffer(1024 /*GL_FRONT_LEFT*/);
+        FONT_HEIGHT = 8;
         field_41064_c = new Random();
+        field_44036_e = new byte[0x10000];
+        field_44035_g = new int[32];
+        field_44039_i = renderengine;
+        field_44037_j = flag;
         BufferedImage bufferedimage;
         try
         {
             bufferedimage = ImageIO.read((net.minecraft.src.RenderEngine.class).getResourceAsStream(s));
+            InputStream inputstream = (net.minecraft.src.RenderEngine.class).getResourceAsStream("/font/glyph_sizes.bin");
+            inputstream.read(field_44036_e);
         }
-        catch(IOException ioexception)
+        catch (IOException ioexception)
         {
             throw new RuntimeException(ioexception);
         }
@@ -45,210 +49,352 @@ public class FontRenderer
         int j = bufferedimage.getHeight();
         int ai[] = new int[i * j];
         bufferedimage.getRGB(0, 0, i, j, ai, 0, i);
-        for(int k = 0; k < 256; k++)
+        for (int k = 0; k < 256; k++)
         {
-            int l = k % 16;
+            int i1 = k % 16;
             int k1 = k / 16;
-            int j2 = 7;
+            int i2 = 7;
             do
             {
-                if(j2 < 0)
+                if (i2 < 0)
                 {
                     break;
                 }
-                int i3 = l * 8 + j2;
-                boolean flag = true;
-                for(int l3 = 0; l3 < 8 && flag; l3++)
+                int k2 = i1 * 8 + i2;
+                boolean flag1 = true;
+                for (int j3 = 0; j3 < 8 && flag1; j3++)
                 {
-                    int i4 = (k1 * 8 + l3) * i;
-                    int k4 = ai[i3 + i4] & 0xff;
-                    if(k4 > 0)
+                    int l3 = (k1 * 8 + j3) * i;
+                    int j4 = ai[k2 + l3] & 0xff;
+                    if (j4 > 0)
                     {
-                        flag = false;
+                        flag1 = false;
                     }
                 }
 
-                if(!flag)
+                if (!flag1)
                 {
                     break;
                 }
-                j2--;
-            } while(true);
-            if(k == 32)
-            {
-                j2 = 2;
+                i2--;
             }
-            charWidth[k] = j2 + 2;
+            while (true);
+            if (k == 32)
+            {
+                i2 = 2;
+            }
+            charWidth[k] = i2 + 2;
         }
 
         fontTextureName = renderengine.allocateAndSetupTexture(bufferedimage);
-        fontDisplayLists = GLAllocation.generateDisplayLists(288);
-        Tessellator tessellator = Tessellator.instance;
-        for(int i1 = 0; i1 < 256; i1++)
+        for (int l = 0; l < 32; l++)
         {
-            GL11.glNewList(fontDisplayLists + i1, 4864 /*GL_COMPILE*/);
-            tessellator.startDrawingQuads();
-            int l1 = (i1 % 16) * 8;
-            int k2 = (i1 / 16) * 8;
-            float f = 7.99F;
-            float f1 = 0.0F;
-            float f2 = 0.0F;
-            tessellator.addVertexWithUV(0.0D, 0.0F + f, 0.0D, (float)l1 / 128F + f1, ((float)k2 + f) / 128F + f2);
-            tessellator.addVertexWithUV(0.0F + f, 0.0F + f, 0.0D, ((float)l1 + f) / 128F + f1, ((float)k2 + f) / 128F + f2);
-            tessellator.addVertexWithUV(0.0F + f, 0.0D, 0.0D, ((float)l1 + f) / 128F + f1, (float)k2 / 128F + f2);
-            tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, (float)l1 / 128F + f1, (float)k2 / 128F + f2);
-            tessellator.draw();
-            GL11.glTranslatef(charWidth[i1], 0.0F, 0.0F);
-            GL11.glEndList();
-        }
-
-        for(int j1 = 0; j1 < 32; j1++)
-        {
-            int i2 = (j1 >> 3 & 1) * 85;
-            int l2 = (j1 >> 2 & 1) * 170 + i2;
-            int j3 = (j1 >> 1 & 1) * 170 + i2;
-            int k3 = (j1 >> 0 & 1) * 170 + i2;
-            if(j1 == 6)
+            int j1 = (l >> 3 & 1) * 85;
+            int l1 = (l >> 2 & 1) * 170 + j1;
+            int j2 = (l >> 1 & 1) * 170 + j1;
+            int l2 = (l >> 0 & 1) * 170 + j1;
+            if (l == 6)
             {
-                l2 += 85;
+                l1 += 85;
             }
-            boolean flag1 = j1 >= 16;
-            if(gamesettings.anaglyph)
+            if (gamesettings.anaglyph)
             {
-                int j4 = (l2 * 30 + j3 * 59 + k3 * 11) / 100;
-                int l4 = (l2 * 30 + j3 * 70) / 100;
-                int i5 = (l2 * 30 + k3 * 70) / 100;
-                l2 = j4;
-                j3 = l4;
-                k3 = i5;
+                int i3 = (l1 * 30 + j2 * 59 + l2 * 11) / 100;
+                int k3 = (l1 * 30 + j2 * 70) / 100;
+                int i4 = (l1 * 30 + l2 * 70) / 100;
+                l1 = i3;
+                j2 = k3;
+                l2 = i4;
             }
-            if(flag1)
+            if (l >= 16)
             {
+                l1 /= 4;
+                j2 /= 4;
                 l2 /= 4;
-                j3 /= 4;
-                k3 /= 4;
             }
-            GL11.glNewList(fontDisplayLists + 256 + j1, 4864 /*GL_COMPILE*/);
-            GL11.glColor3f((float)l2 / 255F, (float)j3 / 255F, (float)k3 / 255F);
-            GL11.glEndList();
+            field_44035_g[l] = (l1 & 0xff) << 16 | (j2 & 0xff) << 8 | l2 & 0xff;
         }
+    }
 
+    private void func_44031_a(int i)
+    {
+        float f = (i % 16) * 8;
+        float f1 = (i / 16) * 8;
+        if (field_44038_h != fontTextureName)
+        {
+            GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, fontTextureName);
+            field_44038_h = fontTextureName;
+        }
+        float f2 = (float)charWidth[i] - 0.01F;
+        GL11.glBegin(5);
+        GL11.glTexCoord2f(f / 128F, f1 / 128F);
+        GL11.glVertex3f(field_46126_j, field_46127_k, 0.0F);
+        GL11.glTexCoord2f(f / 128F, (f1 + 7.99F) / 128F);
+        GL11.glVertex3f(field_46126_j, field_46127_k + 7.99F, 0.0F);
+        GL11.glTexCoord2f((f + f2) / 128F, f1 / 128F);
+        GL11.glVertex3f(field_46126_j + f2, field_46127_k, 0.0F);
+        GL11.glTexCoord2f((f + f2) / 128F, (f1 + 7.99F) / 128F);
+        GL11.glVertex3f(field_46126_j + f2, field_46127_k + 7.99F, 0.0F);
+        GL11.glEnd();
+        field_46126_j += charWidth[i];
+    }
+
+    private void func_44030_b(int i)
+    {
+        String s = String.format("/font/glyph_%02X.png", new Object[]
+                {
+                    Integer.valueOf(i)
+                });
+        BufferedImage bufferedimage;
+        try
+        {
+            bufferedimage = ImageIO.read((net.minecraft.src.RenderEngine.class).getResourceAsStream(s.toString()));
+        }
+        catch (IOException ioexception)
+        {
+            throw new RuntimeException(ioexception);
+        }
+        field_44034_f[i] = field_44039_i.allocateAndSetupTexture(bufferedimage);
+        field_44038_h = field_44034_f[i];
+    }
+
+    private void func_44033_a(char c)
+    {
+        if (field_44036_e[c] == 0)
+        {
+            return;
+        }
+        int i = c / 256;
+        if (field_44034_f[i] == 0)
+        {
+            func_44030_b(i);
+        }
+        if (field_44038_h != field_44034_f[i])
+        {
+            GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, field_44034_f[i]);
+            field_44038_h = field_44034_f[i];
+        }
+        int j = field_44036_e[c] >>> 4;
+        int k = field_44036_e[c] & 0xf;
+        float f = j;
+        float f1 = k + 1;
+        float f2 = (float)((c % 16) * 16) + f;
+        float f3 = ((c & 0xff) / 16) * 16;
+        float f4 = f1 - f - 0.02F;
+        GL11.glBegin(5);
+        GL11.glTexCoord2f(f2 / 256F, f3 / 256F);
+        GL11.glVertex3f(field_46126_j, field_46127_k, 0.0F);
+        GL11.glTexCoord2f(f2 / 256F, (f3 + 15.98F) / 256F);
+        GL11.glVertex3f(field_46126_j, field_46127_k + 7.99F, 0.0F);
+        GL11.glTexCoord2f((f2 + f4) / 256F, f3 / 256F);
+        GL11.glVertex3f(field_46126_j + f4 / 2.0F, field_46127_k, 0.0F);
+        GL11.glTexCoord2f((f2 + f4) / 256F, (f3 + 15.98F) / 256F);
+        GL11.glVertex3f(field_46126_j + f4 / 2.0F, field_46127_k + 7.99F, 0.0F);
+        GL11.glEnd();
+        field_46126_j += (f1 - f) / 2.0F + 1.0F;
     }
 
     public void drawStringWithShadow(String s, int i, int j, int k)
     {
+        if (field_46125_m)
+        {
+            s = func_46121_b(s);
+        }
         renderString(s, i + 1, j + 1, k, true);
-        drawString(s, i, j, k);
+        renderString(s, i, j, k, false);
     }
 
     public void drawString(String s, int i, int j, int k)
     {
+        if (field_46125_m)
+        {
+            s = func_46121_b(s);
+        }
         renderString(s, i, j, k, false);
     }
 
-    public void renderString(String s, int i, int j, int k, boolean flag)
+    private String func_46121_b(String s)
     {
-        if(s == null)
+        if (s == null || !Bidi.requiresBidi(s.toCharArray(), 0, s.length()))
         {
-            return;
+            return s;
         }
-        boolean flag1 = false;
-        if(flag)
+        Bidi bidi = new Bidi(s, -2);
+        byte abyte0[] = new byte[bidi.getRunCount()];
+        String as[] = new String[abyte0.length];
+        for (int i = 0; i < abyte0.length; i++)
         {
-            int l = k & 0xff000000;
-            k = (k & 0xfcfcfc) >> 2;
-            k += l;
+            int j = bidi.getRunStart(i);
+            int k = bidi.getRunLimit(i);
+            int i1 = bidi.getRunLevel(i);
+            String s1 = s.substring(j, k);
+            abyte0[i] = (byte)i1;
+            as[i] = s1;
         }
-        GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, fontTextureName);
-        float f = (float)(k >> 16 & 0xff) / 255F;
-        float f1 = (float)(k >> 8 & 0xff) / 255F;
-        float f2 = (float)(k & 0xff) / 255F;
-        float f3 = (float)(k >> 24 & 0xff) / 255F;
-        if(f3 == 0.0F)
+
+        String as1[] = (String[])as.clone();
+        Bidi.reorderVisually(abyte0, 0, as, 0, abyte0.length);
+        StringBuilder stringbuilder = new StringBuilder();
+        label0:
+        for (int l = 0; l < as.length; l++)
         {
-            f3 = 1.0F;
-        }
-        GL11.glColor4f(f, f1, f2, f3);
-        buffer.clear();
-        GL11.glPushMatrix();
-        GL11.glTranslatef(i, j, 0.0F);
-        for(int i1 = 0; i1 < s.length(); i1++)
-        {
-            for(; s.length() > i1 + 1 && s.charAt(i1) == '\247'; i1 += 2)
+            byte byte0 = abyte0[l];
+            int j1 = 0;
+            do
             {
-                char c = s.toLowerCase().charAt(i1 + 1);
-                if(c == 'k')
+                if (j1 >= as1.length)
+                {
+                    break;
+                }
+                if (as1[j1].equals(as[l]))
+                {
+                    byte0 = abyte0[j1];
+                    break;
+                }
+                j1++;
+            }
+            while (true);
+            if ((byte0 & 1) == 0)
+            {
+                stringbuilder.append(as[l]);
+                continue;
+            }
+            j1 = as[l].length() - 1;
+            do
+            {
+                if (j1 < 0)
+                {
+                    continue label0;
+                }
+                char c = as[l].charAt(j1);
+                if (c == '(')
+                {
+                    c = ')';
+                }
+                else if (c == ')')
+                {
+                    c = '(';
+                }
+                stringbuilder.append(c);
+                j1--;
+            }
+            while (true);
+        }
+
+        return stringbuilder.toString();
+    }
+
+    private void func_44029_a(String s, boolean flag)
+    {
+        boolean flag1 = false;
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (c == '\247' && i + 1 < s.length())
+            {
+                int j = "0123456789abcdefk".indexOf(s.toLowerCase().charAt(i + 1));
+                if (j == 16)
                 {
                     flag1 = true;
-                    continue;
                 }
-                flag1 = false;
-                int k1 = "0123456789abcdef".indexOf(c);
-                if(k1 < 0 || k1 > 15)
+                else
                 {
-                    k1 = 15;
-                }
-                buffer.put(fontDisplayLists + 256 + k1 + (flag ? 16 : 0));
-                if(buffer.remaining() == 0)
-                {
-                    buffer.flip();
-                    GL11.glCallLists(buffer);
-                    buffer.clear();
-                }
-            }
-
-            if(i1 < s.length())
-            {
-                int j1 = ChatAllowedCharacters.allowedCharacters.indexOf(s.charAt(i1));
-                if(j1 >= 0)
-                {
-                    if(flag1)
+                    flag1 = false;
+                    if (j < 0 || j > 15)
                     {
-                        int l1 = 0;
-                        do
-                        {
-                            l1 = field_41064_c.nextInt(ChatAllowedCharacters.allowedCharacters.length());
-                        } while(charWidth[j1 + 32] != charWidth[l1 + 32]);
-                        buffer.put(fontDisplayLists + 256 + field_41064_c.nextInt(2) + 8 + (flag ? 16 : 0));
-                        buffer.put(fontDisplayLists + l1 + 32);
-                    } else
-                    {
-                        buffer.put(fontDisplayLists + j1 + 32);
+                        j = 15;
                     }
+                    if (flag)
+                    {
+                        j += 16;
+                    }
+                    int l = field_44035_g[j];
+                    GL11.glColor3f((float)(l >> 16) / 255F, (float)(l >> 8 & 0xff) / 255F, (float)(l & 0xff) / 255F);
                 }
+                i++;
+                continue;
             }
-            if(buffer.remaining() == 0)
+            int k = ChatAllowedCharacters.allowedCharacters.indexOf(c);
+            if (flag1 && k > 0)
             {
-                buffer.flip();
-                GL11.glCallLists(buffer);
-                buffer.clear();
+                int i1;
+                do
+                {
+                    i1 = field_41064_c.nextInt(ChatAllowedCharacters.allowedCharacters.length());
+                }
+                while (charWidth[k + 32] != charWidth[i1 + 32]);
+                k = i1;
+            }
+            if (c == ' ')
+            {
+                field_46126_j += 4F;
+                continue;
+            }
+            if (k > 0 && !field_44037_j)
+            {
+                func_44031_a(k + 32);
+            }
+            else
+            {
+                func_44033_a(c);
             }
         }
+    }
 
-        buffer.flip();
-        GL11.glCallLists(buffer);
-        GL11.glPopMatrix();
+    private void renderString(String s, int i, int j, int k, boolean flag)
+    {
+        if (s != null)
+        {
+            field_44038_h = 0;
+            if ((k & 0xfc000000) == 0)
+            {
+                k |= 0xff000000;
+            }
+            if (flag)
+            {
+                k = (k & 0xfcfcfc) >> 2 | k & 0xff000000;
+            }
+            GL11.glColor4f((float)(k >> 16 & 0xff) / 255F, (float)(k >> 8 & 0xff) / 255F, (float)(k & 0xff) / 255F, (float)(k >> 24 & 0xff) / 255F);
+            field_46126_j = i;
+            field_46127_k = j;
+            func_44029_a(s, flag);
+        }
     }
 
     public int getStringWidth(String s)
     {
-        if(s == null)
+        if (s == null)
         {
             return 0;
         }
         int i = 0;
-        for(int j = 0; j < s.length(); j++)
+        for (int j = 0; j < s.length(); j++)
         {
-            if(s.charAt(j) == '\247')
+            char c = s.charAt(j);
+            if (c == '\247')
             {
                 j++;
                 continue;
             }
-            int k = ChatAllowedCharacters.allowedCharacters.indexOf(s.charAt(j));
-            if(k >= 0)
+            int k = ChatAllowedCharacters.allowedCharacters.indexOf(c);
+            if (k >= 0 && !field_44037_j)
             {
                 i += charWidth[k + 32];
+                continue;
             }
+            if (field_44036_e[c] == 0)
+            {
+                continue;
+            }
+            int l = field_44036_e[c] >> 4;
+            int i1 = field_44036_e[c] & 0xf;
+            if (i1 > 7)
+            {
+                i1 = 15;
+                l = 0;
+            }
+            i1++;
+            i += (i1 - l) / 2 + 1;
         }
 
         return i;
@@ -256,17 +402,35 @@ public class FontRenderer
 
     public void drawSplitString(String s, int i, int j, int k, int l)
     {
-        func_40609_a(s, i, j, k, l, false);
+        if (field_46125_m)
+        {
+            s = func_46121_b(s);
+        }
+        func_46124_b(s, i, j, k, l);
+    }
+
+    private void func_46124_b(String s, int i, int j, int k, int l)
+    {
+        func_46122_b(s, i, j, k, l, false);
     }
 
     public void func_40609_a(String s, int i, int j, int k, int l, boolean flag)
     {
-        String as[] = s.split("\n");
-        if(as.length > 1)
+        if (field_46125_m)
         {
-            for(int i1 = 0; i1 < as.length; i1++)
+            s = func_46121_b(s);
+        }
+        func_46122_b(s, i, j, k, l, flag);
+    }
+
+    private void func_46122_b(String s, int i, int j, int k, int l, boolean flag)
+    {
+        String as[] = s.split("\n");
+        if (as.length > 1)
+        {
+            for (int i1 = 0; i1 < as.length; i1++)
             {
-                drawSplitString(as[i1], i, j, k, l);
+                func_46124_b(as[i1], i, j, k, l);
                 j += splitStringWidth(as[i1], k);
             }
 
@@ -277,48 +441,49 @@ public class FontRenderer
         String s1 = "";
         do
         {
-            if(j1 >= as1.length)
+            if (j1 >= as1.length)
             {
                 break;
             }
             String s2;
-            for(s2 = (new StringBuilder()).append(s1).append(as1[j1++]).append(" ").toString(); j1 < as1.length && getStringWidth((new StringBuilder()).append(s2).append(as1[j1]).toString()) < k; s2 = (new StringBuilder()).append(s2).append(as1[j1++]).append(" ").toString()) { }
+            for (s2 = (new StringBuilder()).append(s1).append(as1[j1++]).append(" ").toString(); j1 < as1.length && getStringWidth((new StringBuilder()).append(s2).append(as1[j1]).toString()) < k; s2 = (new StringBuilder()).append(s2).append(as1[j1++]).append(" ").toString()) { }
             int k1;
-            for(; getStringWidth(s2) > k; s2 = (new StringBuilder()).append(s1).append(s2.substring(k1)).toString())
+            for (; getStringWidth(s2) > k; s2 = (new StringBuilder()).append(s1).append(s2.substring(k1)).toString())
             {
-                for(k1 = 0; getStringWidth(s2.substring(0, k1 + 1)) <= k; k1++) { }
-                if(s2.substring(0, k1).trim().length() <= 0)
+                for (k1 = 0; getStringWidth(s2.substring(0, k1 + 1)) <= k; k1++) { }
+                if (s2.substring(0, k1).trim().length() <= 0)
                 {
                     continue;
                 }
                 String s3 = s2.substring(0, k1);
-                if(s3.lastIndexOf("\247") >= 0)
+                if (s3.lastIndexOf("\247") >= 0)
                 {
                     s1 = (new StringBuilder()).append("\247").append(s3.charAt(s3.lastIndexOf("\247") + 1)).toString();
                 }
                 renderString(s3, i, j, l, flag);
-                j += field_41063_b;
+                j += FONT_HEIGHT;
             }
 
-            if(getStringWidth(s2.trim()) > 0)
+            if (getStringWidth(s2.trim()) > 0)
             {
-                if(s2.lastIndexOf("\247") >= 0)
+                if (s2.lastIndexOf("\247") >= 0)
                 {
                     s1 = (new StringBuilder()).append("\247").append(s2.charAt(s2.lastIndexOf("\247") + 1)).toString();
                 }
                 renderString(s2, i, j, l, flag);
-                j += field_41063_b;
+                j += FONT_HEIGHT;
             }
-        } while(true);
+        }
+        while (true);
     }
 
     public int splitStringWidth(String s, int i)
     {
         String as[] = s.split("\n");
-        if(as.length > 1)
+        if (as.length > 1)
         {
             int j = 0;
-            for(int k = 0; k < as.length; k++)
+            for (int k = 0; k < as.length; k++)
             {
                 j += splitStringWidth(as[k], i);
             }
@@ -330,31 +495,42 @@ public class FontRenderer
         int i1 = 0;
         do
         {
-            if(l >= as1.length)
+            if (l >= as1.length)
             {
                 break;
             }
             String s1;
-            for(s1 = (new StringBuilder()).append(as1[l++]).append(" ").toString(); l < as1.length && getStringWidth((new StringBuilder()).append(s1).append(as1[l]).toString()) < i; s1 = (new StringBuilder()).append(s1).append(as1[l++]).append(" ").toString()) { }
+            for (s1 = (new StringBuilder()).append(as1[l++]).append(" ").toString(); l < as1.length && getStringWidth((new StringBuilder()).append(s1).append(as1[l]).toString()) < i; s1 = (new StringBuilder()).append(s1).append(as1[l++]).append(" ").toString()) { }
             int j1;
-            for(; getStringWidth(s1) > i; s1 = s1.substring(j1))
+            for (; getStringWidth(s1) > i; s1 = s1.substring(j1))
             {
-                for(j1 = 0; getStringWidth(s1.substring(0, j1 + 1)) <= i; j1++) { }
-                if(s1.substring(0, j1).trim().length() > 0)
+                for (j1 = 0; getStringWidth(s1.substring(0, j1 + 1)) <= i; j1++) { }
+                if (s1.substring(0, j1).trim().length() > 0)
                 {
-                    i1 += field_41063_b;
+                    i1 += FONT_HEIGHT;
                 }
             }
 
-            if(s1.trim().length() > 0)
+            if (s1.trim().length() > 0)
             {
-                i1 += field_41063_b;
+                i1 += FONT_HEIGHT;
             }
-        } while(true);
-        if(i1 < field_41063_b)
+        }
+        while (true);
+        if (i1 < FONT_HEIGHT)
         {
-            i1 += field_41063_b;
+            i1 += FONT_HEIGHT;
         }
         return i1;
+    }
+
+    public void func_44032_a(boolean flag)
+    {
+        field_44037_j = flag;
+    }
+
+    public void func_46123_b(boolean flag)
+    {
+        field_46125_m = flag;
     }
 }

@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.BufferedReader;
@@ -9,10 +5,10 @@ import java.io.InputStreamReader;
 
 public class ChatAllowedCharacters
 {
-
     public static final String allowedCharacters = getAllowedCharacters();
-    public static final char allowedCharactersArray[] = {
-        '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', 
+    public static final char allowedCharactersArray[] =
+    {
+        '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\',
         '<', '>', '|', '"', ':'
     };
 
@@ -30,19 +26,19 @@ public class ChatAllowedCharacters
             do
             {
                 String s2;
-                if((s2 = bufferedreader.readLine()) == null)
+                if ((s2 = bufferedreader.readLine()) == null)
                 {
                     break;
                 }
-                if(!s2.startsWith("#"))
+                if (!s2.startsWith("#"))
                 {
                     s = (new StringBuilder()).append(s).append(s2).toString();
                 }
-            } while(true);
+            }
+            while (true);
             bufferedreader.close();
         }
-        catch(Exception exception) { }
+        catch (Exception exception) { }
         return s;
     }
-
 }

@@ -1,13 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 public class MapColor
 {
-
     public static final MapColor mapColorArray[] = new MapColor[16];
     public static final MapColor airColor = new MapColor(0, 0);
     public static final MapColor grassColor = new MapColor(1, 0x7fb238);
@@ -32,5 +26,4 @@ public class MapColor
         colorValue = j;
         mapColorArray[i] = this;
     }
-
 }

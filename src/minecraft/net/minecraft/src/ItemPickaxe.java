@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ItemTool, Block, EnumToolMaterial, Material, 
-//            ItemStack
 
 public class ItemPickaxe extends ItemTool
 {
-
     private static Block blocksEffectiveAgainst[];
 
     protected ItemPickaxe(int i, EnumToolMaterial enumtoolmaterial)
@@ -21,31 +11,31 @@ public class ItemPickaxe extends ItemTool
 
     public boolean canHarvestBlock(Block block)
     {
-        if(block == Block.obsidian)
+        if (block == Block.obsidian)
         {
             return toolMaterial.getHarvestLevel() == 3;
         }
-        if(block == Block.blockDiamond || block == Block.oreDiamond)
+        if (block == Block.blockDiamond || block == Block.oreDiamond)
         {
             return toolMaterial.getHarvestLevel() >= 2;
         }
-        if(block == Block.blockGold || block == Block.oreGold)
+        if (block == Block.blockGold || block == Block.oreGold)
         {
             return toolMaterial.getHarvestLevel() >= 2;
         }
-        if(block == Block.blockSteel || block == Block.oreIron)
+        if (block == Block.blockSteel || block == Block.oreIron)
         {
             return toolMaterial.getHarvestLevel() >= 1;
         }
-        if(block == Block.blockLapis || block == Block.oreLapis)
+        if (block == Block.blockLapis || block == Block.oreLapis)
         {
             return toolMaterial.getHarvestLevel() >= 1;
         }
-        if(block == Block.oreRedstone || block == Block.oreRedstoneGlowing)
+        if (block == Block.oreRedstone || block == Block.oreRedstoneGlowing)
         {
             return toolMaterial.getHarvestLevel() >= 2;
         }
-        if(block.blockMaterial == Material.rock)
+        if (block.blockMaterial == Material.rock)
         {
             return true;
         }
@@ -54,21 +44,23 @@ public class ItemPickaxe extends ItemTool
 
     public float getStrVsBlock(ItemStack itemstack, Block block)
     {
-        if(block != null && (block.blockMaterial == Material.iron || block.blockMaterial == Material.rock))
+        if (block != null && (block.blockMaterial == Material.iron || block.blockMaterial == Material.rock))
         {
             return efficiencyOnProperMaterial;
-        } else
+        }
+        else
         {
             return super.getStrVsBlock(itemstack, block);
         }
     }
 
-    static 
+    static
     {
-        blocksEffectiveAgainst = (new Block[] {
-            Block.cobblestone, Block.stairDouble, Block.stairSingle, Block.stone, Block.sandStone, Block.cobblestoneMossy, Block.oreIron, Block.blockSteel, Block.oreCoal, Block.blockGold, 
-            Block.oreGold, Block.oreDiamond, Block.blockDiamond, Block.ice, Block.netherrack, Block.oreLapis, Block.blockLapis, Block.oreRedstone, Block.oreRedstoneGlowing, Block.rail, 
-            Block.railDetector, Block.railPowered
-        });
+        blocksEffectiveAgainst = (new Block[]
+                {
+                    Block.cobblestone, Block.stairDouble, Block.stairSingle, Block.stone, Block.sandStone, Block.cobblestoneMossy, Block.oreIron, Block.blockSteel, Block.oreCoal, Block.blockGold,
+                    Block.oreGold, Block.oreDiamond, Block.blockDiamond, Block.ice, Block.netherrack, Block.oreLapis, Block.blockLapis, Block.oreRedstone, Block.oreRedstoneGlowing, Block.rail,
+                    Block.railDetector, Block.railPowered
+                });
     }
 }

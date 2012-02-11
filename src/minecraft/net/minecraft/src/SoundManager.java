@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.File;
@@ -13,13 +9,8 @@ import paulscode.sound.codecs.CodecJOrbis;
 import paulscode.sound.codecs.CodecWav;
 import paulscode.sound.libraries.LibraryLWJGLOpenAL;
 
-// Referenced classes of package net.minecraft.src:
-//            SoundPool, GameSettings, CodecMus, SoundPoolEntry, 
-//            EntityLiving, MathHelper
-
 public class SoundManager
 {
-
     private static SoundSystem sndSystem;
     private SoundPool soundPoolSounds;
     private SoundPool soundPoolStreaming;
@@ -44,7 +35,7 @@ public class SoundManager
     {
         soundPoolStreaming.isGetRandomSound = false;
         options = gamesettings;
-        if(!loaded && (gamesettings == null || gamesettings.soundVolume != 0.0F || gamesettings.musicVolume != 0.0F))
+        if (!loaded && (gamesettings == null || gamesettings.soundVolume != 0.0F || gamesettings.musicVolume != 0.0F))
         {
             tryToSetLibraryAndCodecs();
         }
@@ -68,7 +59,7 @@ public class SoundManager
             options.musicVolume = f1;
             options.saveOptions();
         }
-        catch(Throwable throwable)
+        catch (Throwable throwable)
         {
             throwable.printStackTrace();
             System.err.println("error linking with the LibraryJavaSound plug-in");
@@ -78,16 +69,17 @@ public class SoundManager
 
     public void onSoundOptionsChanged()
     {
-        if(!loaded && (options.soundVolume != 0.0F || options.musicVolume != 0.0F))
+        if (!loaded && (options.soundVolume != 0.0F || options.musicVolume != 0.0F))
         {
             tryToSetLibraryAndCodecs();
         }
-        if(loaded)
+        if (loaded)
         {
-            if(options.musicVolume == 0.0F)
+            if (options.musicVolume == 0.0F)
             {
                 sndSystem.stop("BgMusic");
-            } else
+            }
+            else
             {
                 sndSystem.setVolume("BgMusic", options.musicVolume);
             }
@@ -96,7 +88,7 @@ public class SoundManager
 
     public void closeMinecraft()
     {
-        if(loaded)
+        if (loaded)
         {
             sndSystem.cleanup();
         }
@@ -119,19 +111,19 @@ public class SoundManager
 
     public void playRandomMusicIfReady()
     {
-        if(!loaded || options.musicVolume == 0.0F)
+        if (!loaded || options.musicVolume == 0.0F)
         {
             return;
         }
-        if(!sndSystem.playing("BgMusic") && !sndSystem.playing("streaming"))
+        if (!sndSystem.playing("BgMusic") && !sndSystem.playing("streaming"))
         {
-            if(ticksBeforeMusic > 0)
+            if (ticksBeforeMusic > 0)
             {
                 ticksBeforeMusic--;
                 return;
             }
             SoundPoolEntry soundpoolentry = soundPoolMusic.getRandomSound();
-            if(soundpoolentry != null)
+            if (soundpoolentry != null)
             {
                 ticksBeforeMusic = rand.nextInt(12000) + 12000;
                 sndSystem.backgroundMusic("BgMusic", soundpoolentry.soundUrl, soundpoolentry.soundName, false);
@@ -143,14 +135,15 @@ public class SoundManager
 
     public void func_338_a(EntityLiving entityliving, float f)
     {
-        if(!loaded || options.soundVolume == 0.0F)
+        if (!loaded || options.soundVolume == 0.0F)
         {
             return;
         }
-        if(entityliving == null)
+        if (entityliving == null)
         {
             return;
-        } else
+        }
+        else
         {
             float f1 = entityliving.prevRotationYaw + (entityliving.rotationYaw - entityliving.prevRotationYaw) * f;
             double d = entityliving.prevPosX + (entityliving.posX - entityliving.prevPosX) * (double)f;
@@ -172,23 +165,23 @@ public class SoundManager
 
     public void playStreaming(String s, float f, float f1, float f2, float f3, float f4)
     {
-        if(!loaded || options.soundVolume == 0.0F)
+        if (!loaded || options.soundVolume == 0.0F)
         {
             return;
         }
         String s1 = "streaming";
-        if(sndSystem.playing("streaming"))
+        if (sndSystem.playing("streaming"))
         {
             sndSystem.stop("streaming");
         }
-        if(s == null)
+        if (s == null)
         {
             return;
         }
         SoundPoolEntry soundpoolentry = soundPoolStreaming.getRandomSoundFromSoundPool(s);
-        if(soundpoolentry != null && f3 > 0.0F)
+        if (soundpoolentry != null && f3 > 0.0F)
         {
-            if(sndSystem.playing("BgMusic"))
+            if (sndSystem.playing("BgMusic"))
             {
                 sndSystem.stop("BgMusic");
             }
@@ -201,23 +194,23 @@ public class SoundManager
 
     public void playSound(String s, float f, float f1, float f2, float f3, float f4)
     {
-        if(!loaded || options.soundVolume == 0.0F)
+        if (!loaded || options.soundVolume == 0.0F)
         {
             return;
         }
         SoundPoolEntry soundpoolentry = soundPoolSounds.getRandomSoundFromSoundPool(s);
-        if(soundpoolentry != null && f3 > 0.0F)
+        if (soundpoolentry != null && f3 > 0.0F)
         {
             latestSoundID = (latestSoundID + 1) % 256;
             String s1 = (new StringBuilder()).append("sound_").append(latestSoundID).toString();
             float f5 = 16F;
-            if(f3 > 1.0F)
+            if (f3 > 1.0F)
             {
                 f5 *= f3;
             }
             sndSystem.newSource(f3 > 1.0F, s1, soundpoolentry.soundUrl, soundpoolentry.soundName, false, f, f1, f2, 2, f5);
             sndSystem.setPitch(s1, f4);
-            if(f3 > 1.0F)
+            if (f3 > 1.0F)
             {
                 f3 = 1.0F;
             }
@@ -228,17 +221,17 @@ public class SoundManager
 
     public void playSoundFX(String s, float f, float f1)
     {
-        if(!loaded || options.soundVolume == 0.0F)
+        if (!loaded || options.soundVolume == 0.0F)
         {
             return;
         }
         SoundPoolEntry soundpoolentry = soundPoolSounds.getRandomSoundFromSoundPool(s);
-        if(soundpoolentry != null)
+        if (soundpoolentry != null)
         {
             latestSoundID = (latestSoundID + 1) % 256;
             String s1 = (new StringBuilder()).append("sound_").append(latestSoundID).toString();
             sndSystem.newSource(false, s1, soundpoolentry.soundUrl, soundpoolentry.soundName, false, 0.0F, 0.0F, 0.0F, 0, 0.0F);
-            if(f > 1.0F)
+            if (f > 1.0F)
             {
                 f = 1.0F;
             }
@@ -248,5 +241,4 @@ public class SoundManager
             sndSystem.play(s1);
         }
     }
-
 }

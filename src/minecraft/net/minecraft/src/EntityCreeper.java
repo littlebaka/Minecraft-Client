@@ -1,19 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityMob, DataWatcher, NBTTagCompound, World, 
-//            DamageSource, EntitySkeleton, Item, Entity, 
-//            EntityLightningBolt
-
 public class EntityCreeper extends EntityMob
 {
-
     int timeSinceIgnited;
     int lastActiveTime;
 
@@ -31,14 +21,14 @@ public class EntityCreeper extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(16, Byte.valueOf((byte)-1));
+        dataWatcher.addObject(16, Byte.valueOf((byte) - 1));
         dataWatcher.addObject(17, Byte.valueOf((byte)0));
     }
 
     public void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeEntityToNBT(nbttagcompound);
-        if(dataWatcher.getWatchableObjectByte(17) == 1)
+        if (dataWatcher.getWatchableObjectByte(17) == 1)
         {
             nbttagcompound.setBoolean("powered", true);
         }
@@ -52,15 +42,15 @@ public class EntityCreeper extends EntityMob
 
     protected void attackBlockedEntity(Entity entity, float f)
     {
-        if(worldObj.multiplayerWorld)
+        if (worldObj.multiplayerWorld)
         {
             return;
         }
-        if(timeSinceIgnited > 0)
+        if (timeSinceIgnited > 0)
         {
             setCreeperState(-1);
             timeSinceIgnited--;
-            if(timeSinceIgnited < 0)
+            if (timeSinceIgnited < 0)
             {
                 timeSinceIgnited = 0;
             }
@@ -70,29 +60,29 @@ public class EntityCreeper extends EntityMob
     public void onUpdate()
     {
         lastActiveTime = timeSinceIgnited;
-        if(worldObj.multiplayerWorld)
+        if (worldObj.multiplayerWorld)
         {
             int i = getCreeperState();
-            if(i > 0 && timeSinceIgnited == 0)
+            if (i > 0 && timeSinceIgnited == 0)
             {
                 worldObj.playSoundAtEntity(this, "random.fuse", 1.0F, 0.5F);
             }
             timeSinceIgnited += i;
-            if(timeSinceIgnited < 0)
+            if (timeSinceIgnited < 0)
             {
                 timeSinceIgnited = 0;
             }
-            if(timeSinceIgnited >= 30)
+            if (timeSinceIgnited >= 30)
             {
                 timeSinceIgnited = 30;
             }
         }
         super.onUpdate();
-        if(entityToAttack == null && timeSinceIgnited > 0)
+        if (entityToAttack == null && timeSinceIgnited > 0)
         {
             setCreeperState(-1);
             timeSinceIgnited--;
-            if(timeSinceIgnited < 0)
+            if (timeSinceIgnited < 0)
             {
                 timeSinceIgnited = 0;
             }
@@ -112,44 +102,46 @@ public class EntityCreeper extends EntityMob
     public void onDeath(DamageSource damagesource)
     {
         super.onDeath(damagesource);
-        if(damagesource.getEntity() instanceof EntitySkeleton)
+        if (damagesource.getEntity() instanceof EntitySkeleton)
         {
-            dropItem(Item.record13.shiftedIndex + rand.nextInt(2), 1);
+            dropItem(Item.record13.shiftedIndex + rand.nextInt(10), 1);
         }
     }
 
     protected void attackEntity(Entity entity, float f)
     {
-        if(worldObj.multiplayerWorld)
+        if (worldObj.multiplayerWorld)
         {
             return;
         }
         int i = getCreeperState();
-        if(i <= 0 && f < 3F || i > 0 && f < 7F)
+        if (i <= 0 && f < 3F || i > 0 && f < 7F)
         {
-            if(timeSinceIgnited == 0)
+            if (timeSinceIgnited == 0)
             {
                 worldObj.playSoundAtEntity(this, "random.fuse", 1.0F, 0.5F);
             }
             setCreeperState(1);
             timeSinceIgnited++;
-            if(timeSinceIgnited >= 30)
+            if (timeSinceIgnited >= 30)
             {
-                if(getPowered())
+                if (getPowered())
                 {
                     worldObj.createExplosion(this, posX, posY, posZ, 6F);
-                } else
+                }
+                else
                 {
                     worldObj.createExplosion(this, posX, posY, posZ, 3F);
                 }
                 setEntityDead();
             }
             hasAttacked = true;
-        } else
+        }
+        else
         {
             setCreeperState(-1);
             timeSinceIgnited--;
-            if(timeSinceIgnited < 0)
+            if (timeSinceIgnited < 0)
             {
                 timeSinceIgnited = 0;
             }

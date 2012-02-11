@@ -1,22 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityPlayerSP, MathHelper, World, Packet19EntityAction, 
-//            NetClientHandler, AxisAlignedBB, Packet11PlayerPosition, Packet13PlayerLookMove, 
-//            Packet12PlayerLook, Packet10Flying, Packet14BlockDig, Packet3Chat, 
-//            Packet18Animation, Packet9Respawn, Packet101CloseWindow, Container, 
-//            InventoryPlayer, StatBase, Session, DamageSource, 
-//            EntityItem
-
 public class EntityClientPlayerMP extends EntityPlayerSP
 {
-
     public NetClientHandler sendQueue;
     private int inventoryUpdateTickCounter;
     private boolean field_21093_bH;
@@ -54,10 +41,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public void onUpdate()
     {
-        if(!worldObj.blockExists(MathHelper.floor_double(posX), worldObj.field_35472_c / 2, MathHelper.floor_double(posZ)))
+        if (!worldObj.blockExists(MathHelper.floor_double(posX), worldObj.worldHeight / 2, MathHelper.floor_double(posZ)))
         {
             return;
-        } else
+        }
+        else
         {
             super.onUpdate();
             onUpdate2();
@@ -67,30 +55,32 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public void onUpdate2()
     {
-        if(inventoryUpdateTickCounter++ == 20)
+        if (inventoryUpdateTickCounter++ == 20)
         {
             sendInventoryChanged();
             inventoryUpdateTickCounter = 0;
         }
         boolean flag = isSprinting();
-        if(flag != wasSneaking)
+        if (flag != wasSneaking)
         {
-            if(flag)
+            if (flag)
             {
                 sendQueue.addToSendQueue(new Packet19EntityAction(this, 4));
-            } else
+            }
+            else
             {
                 sendQueue.addToSendQueue(new Packet19EntityAction(this, 5));
             }
             wasSneaking = flag;
         }
         boolean flag1 = isSneaking();
-        if(flag1 != field_35227_cs)
+        if (flag1 != field_35227_cs)
         {
-            if(flag1)
+            if (flag1)
             {
                 sendQueue.addToSendQueue(new Packet19EntityAction(this, 1));
-            } else
+            }
+            else
             {
                 sendQueue.addToSendQueue(new Packet19EntityAction(this, 2));
             }
@@ -104,51 +94,54 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         double d5 = rotationPitch - oldRotationPitch;
         boolean flag2 = d1 != 0.0D || d2 != 0.0D || d != 0.0D || d3 != 0.0D;
         boolean flag3 = d4 != 0.0D || d5 != 0.0D;
-        if(ridingEntity != null)
+        if (ridingEntity != null)
         {
-            if(flag3)
+            if (flag3)
             {
                 sendQueue.addToSendQueue(new Packet11PlayerPosition(motionX, -999D, -999D, motionZ, onGround));
-            } else
+            }
+            else
             {
                 sendQueue.addToSendQueue(new Packet13PlayerLookMove(motionX, -999D, -999D, motionZ, rotationYaw, rotationPitch, onGround));
             }
             flag2 = false;
-        } else
-        if(flag2 && flag3)
+        }
+        else if (flag2 && flag3)
         {
             sendQueue.addToSendQueue(new Packet13PlayerLookMove(posX, boundingBox.minY, posY, posZ, rotationYaw, rotationPitch, onGround));
             field_12242_bI = 0;
-        } else
-        if(flag2)
+        }
+        else if (flag2)
         {
             sendQueue.addToSendQueue(new Packet11PlayerPosition(posX, boundingBox.minY, posY, posZ, onGround));
             field_12242_bI = 0;
-        } else
-        if(flag3)
+        }
+        else if (flag3)
         {
             sendQueue.addToSendQueue(new Packet12PlayerLook(rotationYaw, rotationPitch, onGround));
             field_12242_bI = 0;
-        } else
+        }
+        else
         {
             sendQueue.addToSendQueue(new Packet10Flying(onGround));
-            if(field_9382_bF != onGround || field_12242_bI > 200)
+            if (field_9382_bF != onGround || field_12242_bI > 200)
             {
                 field_12242_bI = 0;
-            } else
+            }
+            else
             {
                 field_12242_bI++;
             }
         }
         field_9382_bF = onGround;
-        if(flag2)
+        if (flag2)
         {
             oldPosX = posX;
             field_9378_bz = boundingBox.minY;
             oldPosY = posY;
             oldPosZ = posZ;
         }
-        if(flag3)
+        if (flag3)
         {
             oldRotationYaw = rotationYaw;
             oldRotationPitch = rotationPitch;
@@ -182,7 +175,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     public void respawnPlayer()
     {
         sendInventoryChanged();
-        sendQueue.addToSendQueue(new Packet9Respawn((byte)dimension, (byte)worldObj.difficultySetting, worldObj.getWorldSeed(), worldObj.field_35472_c, 0));
+        sendQueue.addToSendQueue(new Packet9Respawn((byte)dimension, (byte)worldObj.difficultySetting, worldObj.getWorldSeed(), worldObj.getWorldInfo().func_46133_t(), worldObj.worldHeight, 0));
     }
 
     protected void damageEntity(DamageSource damagesource, int i)
@@ -199,10 +192,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public void setHealth(int i)
     {
-        if(field_21093_bH)
+        if (field_21093_bH)
         {
             super.setHealth(i);
-        } else
+        }
+        else
         {
             setEntityHealth(i);
             field_21093_bH = true;
@@ -211,23 +205,23 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public void addStat(StatBase statbase, int i)
     {
-        if(statbase == null)
+        if (statbase == null)
         {
             return;
         }
-        if(statbase.isIndependent)
+        if (statbase.isIndependent)
         {
             super.addStat(statbase, i);
         }
     }
 
-    public void func_27027_b(StatBase statbase, int i)
+    public void incrementStat(StatBase statbase, int i)
     {
-        if(statbase == null)
+        if (statbase == null)
         {
             return;
         }
-        if(!statbase.isIndependent)
+        if (!statbase.isIndependent)
         {
             super.addStat(statbase, i);
         }

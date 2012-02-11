@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, Packet0KeepAlive, NetClientHandler, StringTranslate, 
-//            GuiButton
-
 public class GuiDownloadTerrain extends GuiScreen
 {
-
     private NetClientHandler netHandler;
     private int updateCounter;
 
@@ -34,11 +25,11 @@ public class GuiDownloadTerrain extends GuiScreen
     public void updateScreen()
     {
         updateCounter++;
-        if(updateCounter % 20 == 0)
+        if (updateCounter % 20 == 0)
         {
             netHandler.addToSendQueue(new Packet0KeepAlive());
         }
-        if(netHandler != null)
+        if (netHandler != null)
         {
             netHandler.processReadPackets();
         }

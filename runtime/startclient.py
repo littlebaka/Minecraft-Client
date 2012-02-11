@@ -5,18 +5,29 @@ Created on Fri Apr  8 16:54:36 2011
 @author: ProfMobius
 @version: v1.0
 """
+
 import sys
 from optparse import OptionParser
+
 from commands import Commands
 
 
-def main(conffile=None):
+def main():
+    parser = OptionParser(version='MCP %s' % Commands.MCPFullVersion())
+    parser.add_option('-c', '--config', dest='config', help='additional configuration file')
+    options, _ = parser.parse_args()
+    startclient(options.config)
+
+
+def startclient(conffile=None):
     commands = Commands(conffile)
 
-    commands.startclient()
+    try:
+        commands.startclient()
+    except Exception:  # pylint: disable-msg=W0703
+        commands.logger.exception('FATAL ERROR')
+        sys.exit(1)
+
 
 if __name__ == '__main__':
-    parser = OptionParser(version='MCP %s' % Commands.MCPVersion)
-    parser.add_option('-c', '--config', dest='config', help='additional configuration file')
-    (options, args) = parser.parse_args()
-    main(options.config)
+    main()

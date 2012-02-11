@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.util.Map;
 
-// Referenced classes of package net.minecraft.src:
-//            Session, StatFileWriter, ThreadStatSyncherReceive, ThreadStatSyncherSend
-
 public class StatsSyncher
 {
-
     private volatile boolean isBusy;
     private volatile Map field_27437_b;
     private volatile Map field_27436_c;
@@ -40,7 +32,7 @@ public class StatsSyncher
         oldFile = new File(file, (new StringBuilder()).append("stats_").append(session.username.toLowerCase()).append(".old").toString());
         unsentTempFile = new File(file, (new StringBuilder()).append("stats_").append(session.username.toLowerCase()).append("_unsent.tmp").toString());
         tempFile = new File(file, (new StringBuilder()).append("stats_").append(session.username.toLowerCase()).append(".tmp").toString());
-        if(!session.username.toLowerCase().equals(session.username))
+        if (!session.username.toLowerCase().equals(session.username))
         {
             func_28214_a(file, (new StringBuilder()).append("stats_").append(session.username).append("_unsent.dat").toString(), unsentDataFile);
             func_28214_a(file, (new StringBuilder()).append("stats_").append(session.username).append(".dat").toString(), dataFile);
@@ -51,7 +43,7 @@ public class StatsSyncher
         }
         statFileWriter = statfilewriter;
         theSession = session;
-        if(unsentDataFile.exists())
+        if (unsentDataFile.exists())
         {
             statfilewriter.func_27179_a(func_27415_a(unsentDataFile, unsentTempFile, unsentOldFile));
         }
@@ -61,7 +53,7 @@ public class StatsSyncher
     private void func_28214_a(File file, String s, File file1)
     {
         File file2 = new File(file, s);
-        if(file2.exists() && !file2.isDirectory() && !file1.exists())
+        if (file2.exists() && !file2.isDirectory() && !file1.exists())
         {
             file2.renameTo(file1);
         }
@@ -69,18 +61,19 @@ public class StatsSyncher
 
     private Map func_27415_a(File file, File file1, File file2)
     {
-        if(file.exists())
+        if (file.exists())
         {
             return func_27408_a(file);
         }
-        if(file2.exists())
+        if (file2.exists())
         {
             return func_27408_a(file2);
         }
-        if(file1.exists())
+        if (file1.exists())
         {
             return func_27408_a(file1);
-        } else
+        }
+        else
         {
             return null;
         }
@@ -94,26 +87,26 @@ public class StatsSyncher
             bufferedreader = new BufferedReader(new FileReader(file));
             String s = "";
             StringBuilder stringbuilder = new StringBuilder();
-            while((s = bufferedreader.readLine()) != null) 
+            while ((s = bufferedreader.readLine()) != null)
             {
                 stringbuilder.append(s);
             }
             Map map = StatFileWriter.func_27177_a(stringbuilder.toString());
             return map;
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
         finally
         {
-            if(bufferedreader != null)
+            if (bufferedreader != null)
             {
                 try
                 {
                     bufferedreader.close();
                 }
-                catch(Exception exception2)
+                catch (Exception exception2)
                 {
                     exception2.printStackTrace();
                 }
@@ -123,7 +116,7 @@ public class StatsSyncher
     }
 
     private void func_27410_a(Map map, File file, File file1, File file2)
-        throws IOException
+    throws IOException
     {
         PrintWriter printwriter = new PrintWriter(new FileWriter(file1, false));
         try
@@ -134,11 +127,11 @@ public class StatsSyncher
         {
             printwriter.close();
         }
-        if(file2.exists())
+        if (file2.exists())
         {
             file2.delete();
         }
-        if(file.exists())
+        if (file.exists())
         {
             file.renameTo(file2);
         }
@@ -147,10 +140,11 @@ public class StatsSyncher
 
     public void beginReceiveStats()
     {
-        if(isBusy)
+        if (isBusy)
         {
             throw new IllegalStateException("Can't get stats from server while StatsSyncher is busy!");
-        } else
+        }
+        else
         {
             field_27427_l = 100;
             isBusy = true;
@@ -161,10 +155,11 @@ public class StatsSyncher
 
     public void beginSendStats(Map map)
     {
-        if(isBusy)
+        if (isBusy)
         {
             throw new IllegalStateException("Can't save stats while StatsSyncher is busy!");
-        } else
+        }
+        else
         {
             field_27427_l = 100;
             isBusy = true;
@@ -175,13 +170,13 @@ public class StatsSyncher
 
     public void syncStatsFileWithMap(Map map)
     {
-        for(int i = 30; isBusy && --i > 0;)
+        for (int i = 30; isBusy && --i > 0;)
         {
             try
             {
                 Thread.sleep(100L);
             }
-            catch(InterruptedException interruptedexception)
+            catch (InterruptedException interruptedexception)
             {
                 interruptedexception.printStackTrace();
             }
@@ -192,7 +187,7 @@ public class StatsSyncher
         {
             func_27410_a(map, unsentDataFile, unsentTempFile, unsentOldFile);
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -209,20 +204,20 @@ public class StatsSyncher
 
     public void func_27425_c()
     {
-        if(field_27427_l > 0)
+        if (field_27427_l > 0)
         {
             field_27427_l--;
         }
-        if(field_27426_m > 0)
+        if (field_27426_m > 0)
         {
             field_27426_m--;
         }
-        if(field_27436_c != null)
+        if (field_27436_c != null)
         {
             statFileWriter.func_27187_c(field_27436_c);
             field_27436_c = null;
         }
-        if(field_27437_b != null)
+        if (field_27437_b != null)
         {
             statFileWriter.func_27180_b(field_27437_b);
             field_27437_b = null;
@@ -250,7 +245,7 @@ public class StatsSyncher
     }
 
     static void func_27412_a(StatsSyncher statssyncher, Map map, File file, File file1, File file2)
-        throws IOException
+    throws IOException
     {
         statssyncher.func_27410_a(map, file, file1, file2);
     }

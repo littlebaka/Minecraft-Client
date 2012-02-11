@@ -1,17 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
-
-// Referenced classes of package net.minecraft.src:
-//            EntitySlime, World
+import java.util.Random;
 
 public class EntityMagmaCube extends EntitySlime
 {
-
     public EntityMagmaCube(World world)
     {
         super(world);
@@ -25,7 +18,7 @@ public class EntityMagmaCube extends EntitySlime
         return worldObj.difficultySetting > 0 && worldObj.checkIfAABBIsClear(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.getIsAnyLiquid(boundingBox);
     }
 
-    protected int func_40119_ar()
+    public int getTotalArmorValue()
     {
         return getSlimeSize() * 3;
     }
@@ -52,7 +45,24 @@ public class EntityMagmaCube extends EntitySlime
 
     protected int getDropItemId()
     {
-        return 0;
+        return Item.magmaCream.shiftedIndex;
+    }
+
+    protected void dropFewItems(boolean flag, int i)
+    {
+        int j = getDropItemId();
+        if (j > 0 && getSlimeSize() > 1)
+        {
+            int k = rand.nextInt(4) - 2;
+            if (i > 0)
+            {
+                k += rand.nextInt(i + 1);
+            }
+            for (int l = 0; l < k; l++)
+            {
+                dropItem(j, 1);
+            }
+        }
     }
 
     public boolean isBurning()
@@ -102,10 +112,11 @@ public class EntityMagmaCube extends EntitySlime
 
     protected String func_40138_aj()
     {
-        if(getSlimeSize() > 1)
+        if (getSlimeSize() > 1)
         {
             return "mob.magmacube.big";
-        } else
+        }
+        else
         {
             return "mob.magmacube.small";
         }

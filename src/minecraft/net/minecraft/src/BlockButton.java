@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, IBlockAccess, 
-//            AxisAlignedBB, EntityPlayer
-
 public class BlockButton extends Block
 {
-
     protected BlockButton(int i, int j)
     {
         super(i, j, Material.circuits);
@@ -41,15 +32,15 @@ public class BlockButton extends Block
 
     public boolean canPlaceBlockOnSide(World world, int i, int j, int k, int l)
     {
-        if(l == 2 && world.isBlockNormalCube(i, j, k + 1))
+        if (l == 2 && world.isBlockNormalCube(i, j, k + 1))
         {
             return true;
         }
-        if(l == 3 && world.isBlockNormalCube(i, j, k - 1))
+        if (l == 3 && world.isBlockNormalCube(i, j, k - 1))
         {
             return true;
         }
-        if(l == 4 && world.isBlockNormalCube(i + 1, j, k))
+        if (l == 4 && world.isBlockNormalCube(i + 1, j, k))
         {
             return true;
         }
@@ -58,15 +49,15 @@ public class BlockButton extends Block
 
     public boolean canPlaceBlockAt(World world, int i, int j, int k)
     {
-        if(world.isBlockNormalCube(i - 1, j, k))
+        if (world.isBlockNormalCube(i - 1, j, k))
         {
             return true;
         }
-        if(world.isBlockNormalCube(i + 1, j, k))
+        if (world.isBlockNormalCube(i + 1, j, k))
         {
             return true;
         }
-        if(world.isBlockNormalCube(i, j, k - 1))
+        if (world.isBlockNormalCube(i, j, k - 1))
         {
             return true;
         }
@@ -78,22 +69,23 @@ public class BlockButton extends Block
         int i1 = world.getBlockMetadata(i, j, k);
         int j1 = i1 & 8;
         i1 &= 7;
-        if(l == 2 && world.isBlockNormalCube(i, j, k + 1))
+        if (l == 2 && world.isBlockNormalCube(i, j, k + 1))
         {
             i1 = 4;
-        } else
-        if(l == 3 && world.isBlockNormalCube(i, j, k - 1))
+        }
+        else if (l == 3 && world.isBlockNormalCube(i, j, k - 1))
         {
             i1 = 3;
-        } else
-        if(l == 4 && world.isBlockNormalCube(i + 1, j, k))
+        }
+        else if (l == 4 && world.isBlockNormalCube(i + 1, j, k))
         {
             i1 = 2;
-        } else
-        if(l == 5 && world.isBlockNormalCube(i - 1, j, k))
+        }
+        else if (l == 5 && world.isBlockNormalCube(i - 1, j, k))
         {
             i1 = 1;
-        } else
+        }
+        else
         {
             i1 = getOrientation(world, i, j, k);
         }
@@ -102,15 +94,15 @@ public class BlockButton extends Block
 
     private int getOrientation(World world, int i, int j, int k)
     {
-        if(world.isBlockNormalCube(i - 1, j, k))
+        if (world.isBlockNormalCube(i - 1, j, k))
         {
             return 1;
         }
-        if(world.isBlockNormalCube(i + 1, j, k))
+        if (world.isBlockNormalCube(i + 1, j, k))
         {
             return 2;
         }
-        if(world.isBlockNormalCube(i, j, k - 1))
+        if (world.isBlockNormalCube(i, j, k - 1))
         {
             return 3;
         }
@@ -119,27 +111,27 @@ public class BlockButton extends Block
 
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
-        if(func_305_h(world, i, j, k))
+        if (func_305_h(world, i, j, k))
         {
             int i1 = world.getBlockMetadata(i, j, k) & 7;
             boolean flag = false;
-            if(!world.isBlockNormalCube(i - 1, j, k) && i1 == 1)
+            if (!world.isBlockNormalCube(i - 1, j, k) && i1 == 1)
             {
                 flag = true;
             }
-            if(!world.isBlockNormalCube(i + 1, j, k) && i1 == 2)
+            if (!world.isBlockNormalCube(i + 1, j, k) && i1 == 2)
             {
                 flag = true;
             }
-            if(!world.isBlockNormalCube(i, j, k - 1) && i1 == 3)
+            if (!world.isBlockNormalCube(i, j, k - 1) && i1 == 3)
             {
                 flag = true;
             }
-            if(!world.isBlockNormalCube(i, j, k + 1) && i1 == 4)
+            if (!world.isBlockNormalCube(i, j, k + 1) && i1 == 4)
             {
                 flag = true;
             }
-            if(flag)
+            if (flag)
             {
                 dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
                 world.setBlockWithNotify(i, j, k, 0);
@@ -149,12 +141,13 @@ public class BlockButton extends Block
 
     private boolean func_305_h(World world, int i, int j, int k)
     {
-        if(!canPlaceBlockAt(world, i, j, k))
+        if (!canPlaceBlockAt(world, i, j, k))
         {
             dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
             world.setBlockWithNotify(i, j, k, 0);
             return false;
-        } else
+        }
+        else
         {
             return true;
         }
@@ -169,23 +162,23 @@ public class BlockButton extends Block
         float f1 = 0.625F;
         float f2 = 0.1875F;
         float f3 = 0.125F;
-        if(flag)
+        if (flag)
         {
             f3 = 0.0625F;
         }
-        if(i1 == 1)
+        if (i1 == 1)
         {
             setBlockBounds(0.0F, f, 0.5F - f2, f3, f1, 0.5F + f2);
-        } else
-        if(i1 == 2)
+        }
+        else if (i1 == 2)
         {
             setBlockBounds(1.0F - f3, f, 0.5F - f2, 1.0F, f1, 0.5F + f2);
-        } else
-        if(i1 == 3)
+        }
+        else if (i1 == 3)
         {
             setBlockBounds(0.5F - f2, f, 0.0F, 0.5F + f2, f1, f3);
-        } else
-        if(i1 == 4)
+        }
+        else if (i1 == 4)
         {
             setBlockBounds(0.5F - f2, f, 1.0F - f3, 0.5F + f2, f1, 1.0F);
         }
@@ -201,7 +194,7 @@ public class BlockButton extends Block
         int l = world.getBlockMetadata(i, j, k);
         int i1 = l & 7;
         int j1 = 8 - (l & 8);
-        if(j1 == 0)
+        if (j1 == 0)
         {
             return true;
         }
@@ -209,22 +202,23 @@ public class BlockButton extends Block
         world.markBlocksDirty(i, j, k, i, j, k);
         world.playSoundEffect((double)i + 0.5D, (double)j + 0.5D, (double)k + 0.5D, "random.click", 0.3F, 0.6F);
         world.notifyBlocksOfNeighborChange(i, j, k, blockID);
-        if(i1 == 1)
+        if (i1 == 1)
         {
             world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
-        } else
-        if(i1 == 2)
+        }
+        else if (i1 == 2)
         {
             world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
-        } else
-        if(i1 == 3)
+        }
+        else if (i1 == 3)
         {
             world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
-        } else
-        if(i1 == 4)
+        }
+        else if (i1 == 4)
         {
             world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
-        } else
+        }
+        else
         {
             world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
         }
@@ -235,26 +229,27 @@ public class BlockButton extends Block
     public void onBlockRemoval(World world, int i, int j, int k)
     {
         int l = world.getBlockMetadata(i, j, k);
-        if((l & 8) > 0)
+        if ((l & 8) > 0)
         {
             world.notifyBlocksOfNeighborChange(i, j, k, blockID);
             int i1 = l & 7;
-            if(i1 == 1)
+            if (i1 == 1)
             {
                 world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
-            } else
-            if(i1 == 2)
+            }
+            else if (i1 == 2)
             {
                 world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
-            } else
-            if(i1 == 3)
+            }
+            else if (i1 == 3)
             {
                 world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
-            } else
-            if(i1 == 4)
+            }
+            else if (i1 == 4)
             {
                 world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
-            } else
+            }
+            else
             {
                 world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
             }
@@ -270,24 +265,24 @@ public class BlockButton extends Block
     public boolean isIndirectlyPoweringTo(World world, int i, int j, int k, int l)
     {
         int i1 = world.getBlockMetadata(i, j, k);
-        if((i1 & 8) == 0)
+        if ((i1 & 8) == 0)
         {
             return false;
         }
         int j1 = i1 & 7;
-        if(j1 == 5 && l == 1)
+        if (j1 == 5 && l == 1)
         {
             return true;
         }
-        if(j1 == 4 && l == 2)
+        if (j1 == 4 && l == 2)
         {
             return true;
         }
-        if(j1 == 3 && l == 3)
+        if (j1 == 3 && l == 3)
         {
             return true;
         }
-        if(j1 == 2 && l == 4)
+        if (j1 == 2 && l == 4)
         {
             return true;
         }
@@ -301,34 +296,35 @@ public class BlockButton extends Block
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return;
         }
         int l = world.getBlockMetadata(i, j, k);
-        if((l & 8) == 0)
+        if ((l & 8) == 0)
         {
             return;
         }
         world.setBlockMetadataWithNotify(i, j, k, l & 7);
         world.notifyBlocksOfNeighborChange(i, j, k, blockID);
         int i1 = l & 7;
-        if(i1 == 1)
+        if (i1 == 1)
         {
             world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
-        } else
-        if(i1 == 2)
+        }
+        else if (i1 == 2)
         {
             world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
-        } else
-        if(i1 == 3)
+        }
+        else if (i1 == 3)
         {
             world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
-        } else
-        if(i1 == 4)
+        }
+        else if (i1 == 4)
         {
             world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
-        } else
+        }
+        else
         {
             world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
         }

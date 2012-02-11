@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            J_JsonRootNode, EnumJsonNodeType, J_JsonNodeList
-
 final class J_JsonArray extends J_JsonRootNode
 {
-
     private final List elements;
 
     J_JsonArray(Iterable iterable)
@@ -41,14 +33,15 @@ final class J_JsonArray extends J_JsonRootNode
 
     public boolean equals(Object obj)
     {
-        if(this == obj)
+        if (this == obj)
         {
             return true;
         }
-        if(obj == null || getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
         {
             return false;
-        } else
+        }
+        else
         {
             J_JsonArray j_jsonarray = (J_JsonArray)obj;
             return elements.equals(j_jsonarray.elements);

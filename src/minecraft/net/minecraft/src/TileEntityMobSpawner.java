@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            TileEntity, World, EntityList, EntityLiving, 
-//            AxisAlignedBB, NBTTagCompound
-
 public class TileEntityMobSpawner extends TileEntity
 {
-
     public int delay;
     private String mobID;
     public double yaw;
@@ -45,7 +36,7 @@ public class TileEntityMobSpawner extends TileEntity
     public void updateEntity()
     {
         yaw2 = yaw;
-        if(!anyPlayerInRange())
+        if (!anyPlayerInRange())
         {
             return;
         }
@@ -54,38 +45,38 @@ public class TileEntityMobSpawner extends TileEntity
         double d2 = (float)zCoord + worldObj.rand.nextFloat();
         worldObj.spawnParticle("smoke", d, d1, d2, 0.0D, 0.0D, 0.0D);
         worldObj.spawnParticle("flame", d, d1, d2, 0.0D, 0.0D, 0.0D);
-        for(yaw += 1000F / ((float)delay + 200F); yaw > 360D;)
+        for (yaw += 1000F / ((float)delay + 200F); yaw > 360D;)
         {
             yaw -= 360D;
             yaw2 -= 360D;
         }
 
-        if(!worldObj.multiplayerWorld)
+        if (!worldObj.multiplayerWorld)
         {
-            if(delay == -1)
+            if (delay == -1)
             {
                 updateDelay();
             }
-            if(delay > 0)
+            if (delay > 0)
             {
                 delay--;
                 return;
             }
             byte byte0 = 4;
-            for(int i = 0; i < byte0; i++)
+            for (int i = 0; i < byte0; i++)
             {
                 EntityLiving entityliving = (EntityLiving)EntityList.createEntityInWorld(mobID, worldObj);
-                if(entityliving == null)
+                if (entityliving == null)
                 {
                     return;
                 }
                 int j = worldObj.getEntitiesWithinAABB(entityliving.getClass(), AxisAlignedBB.getBoundingBoxFromPool(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(8D, 4D, 8D)).size();
-                if(j >= 6)
+                if (j >= 6)
                 {
                     updateDelay();
                     return;
                 }
-                if(entityliving == null)
+                if (entityliving == null)
                 {
                     continue;
                 }
@@ -93,15 +84,14 @@ public class TileEntityMobSpawner extends TileEntity
                 double d4 = (yCoord + worldObj.rand.nextInt(3)) - 1;
                 double d5 = (double)zCoord + (worldObj.rand.nextDouble() - worldObj.rand.nextDouble()) * 4D;
                 entityliving.setLocationAndAngles(d3, d4, d5, worldObj.rand.nextFloat() * 360F, 0.0F);
-                if(entityliving.getCanSpawnHere())
+                if (entityliving.getCanSpawnHere())
                 {
-                    worldObj.entityJoinedWorld(entityliving);
+                    worldObj.spawnEntityInWorld(entityliving);
                     worldObj.playAuxSFX(2004, xCoord, yCoord, zCoord, 0);
                     entityliving.spawnExplosionParticle();
                     updateDelay();
                 }
             }
-
         }
         super.updateEntity();
     }

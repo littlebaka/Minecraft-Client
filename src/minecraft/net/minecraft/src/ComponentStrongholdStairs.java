@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentStronghold, EnumDoor, StructureBoundingBox, ComponentStrongholdCrossing, 
-//            StructureStrongholdPieces, ComponentStrongholdStairs2, StructureComponent, Block, 
-//            World
-
 public class ComponentStrongholdStairs extends ComponentStronghold
 {
-
     private final boolean field_35036_a;
     private final EnumDoor doorType;
 
@@ -24,16 +14,16 @@ public class ComponentStrongholdStairs extends ComponentStronghold
         field_35036_a = true;
         coordBaseMode = random.nextInt(4);
         doorType = EnumDoor.OPENING;
-        switch(coordBaseMode)
+        switch (coordBaseMode)
         {
-        case 0: // '\0'
-        case 2: // '\002'
-            boundingBox = new StructureBoundingBox(j, 64, k, (j + 5) - 1, 74, (k + 5) - 1);
-            break;
+            case 0:
+            case 2:
+                boundingBox = new StructureBoundingBox(j, 64, k, (j + 5) - 1, 74, (k + 5) - 1);
+                break;
 
-        default:
-            boundingBox = new StructureBoundingBox(j, 64, k, (j + 5) - 1, 74, (k + 5) - 1);
-            break;
+            default:
+                boundingBox = new StructureBoundingBox(j, 64, k, (j + 5) - 1, 74, (k + 5) - 1);
+                break;
         }
     }
 
@@ -48,7 +38,7 @@ public class ComponentStrongholdStairs extends ComponentStronghold
 
     public void buildComponent(StructureComponent structurecomponent, List list, Random random)
     {
-        if(field_35036_a)
+        if (field_35036_a)
         {
             StructureStrongholdPieces.func_40751_a(net.minecraft.src.ComponentStrongholdCrossing.class);
         }
@@ -58,10 +48,11 @@ public class ComponentStrongholdStairs extends ComponentStronghold
     public static ComponentStrongholdStairs getStrongholdStairsComponent(List list, Random random, int i, int j, int k, int l, int i1)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, -1, -7, 0, 5, 11, 5, l);
-        if(!canStrongholdGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (!canStrongholdGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return new ComponentStrongholdStairs(i1, random, structureboundingbox, l);
         }
@@ -69,12 +60,13 @@ public class ComponentStrongholdStairs extends ComponentStronghold
 
     public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox)
     {
-        if(isLiquidInStructureBoundingBox(world, structureboundingbox))
+        if (isLiquidInStructureBoundingBox(world, structureboundingbox))
         {
             return false;
-        } else
+        }
+        else
         {
-            if(!field_35036_a);
+            if (!field_35036_a);
             fillWithRandomizedBlocks(world, structureboundingbox, 0, 0, 0, 4, 10, 4, true, random, StructureStrongholdPieces.getStrongholdStones());
             placeDoor(world, random, structureboundingbox, doorType, 1, 7, 0);
             placeDoor(world, random, structureboundingbox, EnumDoor.OPENING, 1, 1, 4);

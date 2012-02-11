@@ -1,18 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            EntityAnimal, DataWatcher, NBTTagCompound, World, 
-//            EntityPlayer, Item, EntityPigZombie, AchievementList, 
-//            EntityLightningBolt
 
 public class EntityPig extends EntityAnimal
 {
-
     public EntityPig(World world)
     {
         super(world);
@@ -60,17 +49,19 @@ public class EntityPig extends EntityAnimal
 
     public boolean interact(EntityPlayer entityplayer)
     {
-        if(!super.interact(entityplayer))
+        if (!super.interact(entityplayer))
         {
-            if(getSaddled() && !worldObj.multiplayerWorld && (riddenByEntity == null || riddenByEntity == entityplayer))
+            if (getSaddled() && !worldObj.multiplayerWorld && (riddenByEntity == null || riddenByEntity == entityplayer))
             {
                 entityplayer.mountEntity(this);
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
-        } else
+        }
+        else
         {
             return true;
         }
@@ -78,10 +69,11 @@ public class EntityPig extends EntityAnimal
 
     protected int getDropItemId()
     {
-        if(isBurning())
+        if (isBurning())
         {
             return Item.porkCooked.shiftedIndex;
-        } else
+        }
+        else
         {
             return Item.porkRaw.shiftedIndex;
         }
@@ -94,10 +86,11 @@ public class EntityPig extends EntityAnimal
 
     public void setSaddled(boolean flag)
     {
-        if(flag)
+        if (flag)
         {
             dataWatcher.updateObject(16, Byte.valueOf((byte)1));
-        } else
+        }
+        else
         {
             dataWatcher.updateObject(16, Byte.valueOf((byte)0));
         }
@@ -105,14 +98,15 @@ public class EntityPig extends EntityAnimal
 
     public void onStruckByLightning(EntityLightningBolt entitylightningbolt)
     {
-        if(worldObj.multiplayerWorld)
+        if (worldObj.multiplayerWorld)
         {
             return;
-        } else
+        }
+        else
         {
             EntityPigZombie entitypigzombie = new EntityPigZombie(worldObj);
             entitypigzombie.setLocationAndAngles(posX, posY, posZ, rotationYaw, rotationPitch);
-            worldObj.entityJoinedWorld(entitypigzombie);
+            worldObj.spawnEntityInWorld(entitypigzombie);
             setEntityDead();
             return;
         }
@@ -121,13 +115,13 @@ public class EntityPig extends EntityAnimal
     protected void fall(float f)
     {
         super.fall(f);
-        if(f > 5F && (riddenByEntity instanceof EntityPlayer))
+        if (f > 5F && (riddenByEntity instanceof EntityPlayer))
         {
             ((EntityPlayer)riddenByEntity).triggerAchievement(AchievementList.flyPig);
         }
     }
 
-    protected EntityAnimal func_40145_a(EntityAnimal entityanimal)
+    protected EntityAnimal spawnBabyAnimal(EntityAnimal entityanimal)
     {
         return new EntityPig(worldObj);
     }

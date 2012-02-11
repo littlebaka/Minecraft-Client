@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            NetworkReaderThread, NetworkWriterThread, Packet, NetHandler, 
-//            NetworkMasterThread, ThreadCloseConnection
-
 public class NetworkManager
 {
-
     public static final Object threadSyncObject = new Object();
     public static int numReadThreads;
     public static int numWriteThreads;
@@ -42,7 +33,7 @@ public class NetworkManager
     private int field_20100_w;
 
     public NetworkManager(Socket socket, String s, NetHandler nethandler)
-        throws IOException
+    throws IOException
     {
         sendQueueLock = new Object();
         isRunning = true;
@@ -64,7 +55,7 @@ public class NetworkManager
             socket.setSoTimeout(30000);
             socket.setTrafficClass(24);
         }
-        catch(SocketException socketexception)
+        catch (SocketException socketexception)
         {
             System.err.println(socketexception.getMessage());
         }
@@ -78,17 +69,18 @@ public class NetworkManager
 
     public void addToSendQueue(Packet packet)
     {
-        if(isServerTerminating)
+        if (isServerTerminating)
         {
             return;
         }
-        synchronized(sendQueueLock)
+        synchronized (sendQueueLock)
         {
             sendQueueByteLength += packet.getPacketSize() + 1;
-            if(packet.isChunkDataPacket)
+            if (packet.isChunkDataPacket)
             {
                 chunkDataPackets.add(packet);
-            } else
+            }
+            else
             {
                 dataPackets.add(packet);
             }
@@ -100,10 +92,10 @@ public class NetworkManager
         boolean flag = false;
         try
         {
-            if(!dataPackets.isEmpty() && (chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)dataPackets.get(0)).creationTimeMillis >= (long)chunkDataSendCounter))
+            if (!dataPackets.isEmpty() && (chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)dataPackets.get(0)).creationTimeMillis >= (long)chunkDataSendCounter))
             {
                 Packet packet;
-                synchronized(sendQueueLock)
+                synchronized (sendQueueLock)
                 {
                     packet = (Packet)dataPackets.remove(0);
                     sendQueueByteLength -= packet.getPacketSize() + 1;
@@ -112,10 +104,10 @@ public class NetworkManager
                 field_28144_e[packet.getPacketId()] += packet.getPacketSize() + 1;
                 flag = true;
             }
-            if(field_20100_w-- <= 0 && !chunkDataPackets.isEmpty() && (chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)chunkDataPackets.get(0)).creationTimeMillis >= (long)chunkDataSendCounter))
+            if (field_20100_w-- <= 0 && !chunkDataPackets.isEmpty() && (chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)chunkDataPackets.get(0)).creationTimeMillis >= (long)chunkDataSendCounter))
             {
                 Packet packet1;
-                synchronized(sendQueueLock)
+                synchronized (sendQueueLock)
                 {
                     packet1 = (Packet)chunkDataPackets.remove(0);
                     sendQueueByteLength -= packet1.getPacketSize() + 1;
@@ -126,9 +118,9 @@ public class NetworkManager
                 flag = true;
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
-            if(!isTerminating)
+            if (!isTerminating)
             {
                 onNetworkError(exception);
             }
@@ -149,19 +141,20 @@ public class NetworkManager
         try
         {
             Packet packet = Packet.readPacket(socketInputStream, netHandler.isServerHandler());
-            if(packet != null)
+            if (packet != null)
             {
                 field_28145_d[packet.getPacketId()] += packet.getPacketSize() + 1;
                 readPackets.add(packet);
                 flag = true;
-            } else
+            }
+            else
             {
                 networkShutdown("disconnect.endOfStream", new Object[0]);
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
-            if(!isTerminating)
+            if (!isTerminating)
             {
                 onNetworkError(exception);
             }
@@ -173,14 +166,15 @@ public class NetworkManager
     private void onNetworkError(Exception exception)
     {
         exception.printStackTrace();
-        networkShutdown("disconnect.genericReason", new Object[] {
-            (new StringBuilder()).append("Internal exception: ").append(exception.toString()).toString()
-        });
+        networkShutdown("disconnect.genericReason", new Object[]
+                {
+                    (new StringBuilder()).append("Internal exception: ").append(exception.toString()).toString()
+                });
     }
 
     public void networkShutdown(String s, Object aobj[])
     {
-        if(!isRunning)
+        if (!isRunning)
         {
             return;
         }
@@ -194,56 +188,65 @@ public class NetworkManager
             socketInputStream.close();
             socketInputStream = null;
         }
-        catch(Throwable throwable) { }
+        catch (Throwable throwable) { }
         try
         {
             socketOutputStream.close();
             socketOutputStream = null;
         }
-        catch(Throwable throwable1) { }
+        catch (Throwable throwable1) { }
         try
         {
             networkSocket.close();
             networkSocket = null;
         }
-        catch(Throwable throwable2) { }
+        catch (Throwable throwable2) { }
     }
 
     public void processReadPackets()
     {
-        if(sendQueueByteLength > 0x100000)
+        if (sendQueueByteLength > 0x100000)
         {
             networkShutdown("disconnect.overflow", new Object[0]);
         }
-        if(readPackets.isEmpty())
+        if (readPackets.isEmpty())
         {
-            if(timeSinceLastRead++ == 1200)
+            if (timeSinceLastRead++ == 1200)
             {
                 networkShutdown("disconnect.timeout", new Object[0]);
             }
-        } else
+        }
+        else
         {
             timeSinceLastRead = 0;
         }
         Packet packet;
-        for(int i = 1000; !readPackets.isEmpty() && i-- >= 0; packet.processPacket(netHandler))
+        for (int i = 1000; !readPackets.isEmpty() && i-- >= 0; packet.processPacket(netHandler))
         {
             packet = (Packet)readPackets.remove(0);
         }
 
         wakeThreads();
-        if(isTerminating && readPackets.isEmpty())
+        if (isTerminating && readPackets.isEmpty())
         {
             netHandler.handleErrorMessage(terminationReason, field_20101_t);
         }
     }
 
-    public void func_28142_c()
+    public void serverShutdown()
     {
-        wakeThreads();
-        isServerTerminating = true;
-        readThread.interrupt();
-        (new ThreadCloseConnection(this)).start();
+        if (isServerTerminating)
+        {
+            return;
+        }
+        else
+        {
+            wakeThreads();
+            isServerTerminating = true;
+            readThread.interrupt();
+            (new ThreadCloseConnection(this)).start();
+            return;
+        }
     }
 
     static boolean isRunning(NetworkManager networkmanager)
@@ -290,5 +293,4 @@ public class NetworkManager
     {
         return networkmanager.writeThread;
     }
-
 }

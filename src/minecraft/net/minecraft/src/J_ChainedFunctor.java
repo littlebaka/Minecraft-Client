@@ -1,17 +1,8 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            J_Functor, J_JsonNodeSelector, J_JsonNodeDoesNotMatchChainedJsonNodeSelectorException
 
 final class J_ChainedFunctor
     implements J_Functor
 {
-
     private final J_JsonNodeSelector parentJsonNodeSelector;
     private final J_JsonNodeSelector childJsonNodeSelector;
 
@@ -21,9 +12,9 @@ final class J_ChainedFunctor
         childJsonNodeSelector = j_jsonnodeselector1;
     }
 
-    public boolean matchsNode(Object obj)
+    public boolean matchesNode(Object obj)
     {
-        return parentJsonNodeSelector.matchs(obj) && childJsonNodeSelector.matchs(parentJsonNodeSelector.getValue(obj));
+        return parentJsonNodeSelector.matches(obj) && childJsonNodeSelector.matches(parentJsonNodeSelector.getValue(obj));
     }
 
     public Object applyTo(Object obj)
@@ -33,7 +24,7 @@ final class J_ChainedFunctor
         {
             obj1 = parentJsonNodeSelector.getValue(obj);
         }
-        catch(J_JsonNodeDoesNotMatchChainedJsonNodeSelectorException j_jsonnodedoesnotmatchchainedjsonnodeselectorexception)
+        catch (J_JsonNodeDoesNotMatchChainedJsonNodeSelectorException j_jsonnodedoesnotmatchchainedjsonnodeselectorexception)
         {
             throw J_JsonNodeDoesNotMatchChainedJsonNodeSelectorException.func_27321_b(j_jsonnodedoesnotmatchchainedjsonnodeselectorexception, parentJsonNodeSelector);
         }
@@ -42,7 +33,7 @@ final class J_ChainedFunctor
         {
             obj2 = childJsonNodeSelector.getValue(obj1);
         }
-        catch(J_JsonNodeDoesNotMatchChainedJsonNodeSelectorException j_jsonnodedoesnotmatchchainedjsonnodeselectorexception1)
+        catch (J_JsonNodeDoesNotMatchChainedJsonNodeSelectorException j_jsonnodedoesnotmatchchainedjsonnodeselectorexception1)
         {
             throw J_JsonNodeDoesNotMatchChainedJsonNodeSelectorException.func_27323_a(j_jsonnodedoesnotmatchchainedjsonnodeselectorexception1, parentJsonNodeSelector);
         }

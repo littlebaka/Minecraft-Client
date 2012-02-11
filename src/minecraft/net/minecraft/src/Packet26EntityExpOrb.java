@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, EntityXPOrb, MathHelper, NetHandler
-
 public class Packet26EntityExpOrb extends Packet
 {
-
     public int entityId;
     public int posX;
     public int posY;
@@ -32,7 +24,7 @@ public class Packet26EntityExpOrb extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
         entityId = datainputstream.readInt();
         posX = datainputstream.readInt();
@@ -42,7 +34,7 @@ public class Packet26EntityExpOrb extends Packet
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         dataoutputstream.writeInt(entityId);
         dataoutputstream.writeInt(posX);
@@ -53,7 +45,7 @@ public class Packet26EntityExpOrb extends Packet
 
     public void processPacket(NetHandler nethandler)
     {
-        nethandler.handleXPOrb(this);
+        nethandler.handleEntityExpOrb(this);
     }
 
     public int getPacketSize()

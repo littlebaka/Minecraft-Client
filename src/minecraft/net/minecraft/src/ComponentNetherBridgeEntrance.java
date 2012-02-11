@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentNetherBridgePiece, ComponentNetherBridgeStartPiece, StructureBoundingBox, StructureComponent, 
-//            Block, World
-
 public class ComponentNetherBridgeEntrance extends ComponentNetherBridgePiece
 {
-
     public ComponentNetherBridgeEntrance(int i, Random random, StructureBoundingBox structureboundingbox, int j)
     {
         super(i);
@@ -29,10 +20,11 @@ public class ComponentNetherBridgeEntrance extends ComponentNetherBridgePiece
     public static ComponentNetherBridgeEntrance func_40030_a(List list, Random random, int i, int j, int k, int l, int i1)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, -5, -3, 0, 13, 14, 13, l);
-        if(!func_40021_a(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (!func_40021_a(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return new ComponentNetherBridgeEntrance(i1, random, structureboundingbox, l);
         }
@@ -52,7 +44,7 @@ public class ComponentNetherBridgeEntrance extends ComponentNetherBridgePiece
         fillWithBlocks(world, structureboundingbox, 5, 9, 0, 7, 12, 1, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         fillWithBlocks(world, structureboundingbox, 2, 11, 2, 10, 12, 10, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         fillWithBlocks(world, structureboundingbox, 5, 8, 0, 7, 8, 0, Block.netherFence.blockID, Block.netherFence.blockID, false);
-        for(int i = 1; i <= 11; i += 2)
+        for (int i = 1; i <= 11; i += 2)
         {
             fillWithBlocks(world, structureboundingbox, i, 10, 0, i, 11, 0, Block.netherFence.blockID, Block.netherFence.blockID, false);
             fillWithBlocks(world, structureboundingbox, i, 10, 12, i, 11, 12, Block.netherFence.blockID, Block.netherFence.blockID, false);
@@ -72,7 +64,7 @@ public class ComponentNetherBridgeEntrance extends ComponentNetherBridgePiece
         placeBlockAtCurrentPosition(world, Block.netherFence.blockID, 0, 0, 13, 12, structureboundingbox);
         placeBlockAtCurrentPosition(world, Block.netherFence.blockID, 0, 0, 13, 0, structureboundingbox);
         placeBlockAtCurrentPosition(world, Block.netherFence.blockID, 0, 12, 13, 0, structureboundingbox);
-        for(int j = 3; j <= 9; j += 2)
+        for (int j = 3; j <= 9; j += 2)
         {
             fillWithBlocks(world, structureboundingbox, 1, 7, j, 1, 8, j, Block.netherFence.blockID, Block.netherFence.blockID, false);
             fillWithBlocks(world, structureboundingbox, 11, 7, j, 11, 8, j, Block.netherFence.blockID, Block.netherFence.blockID, false);
@@ -84,24 +76,22 @@ public class ComponentNetherBridgeEntrance extends ComponentNetherBridgePiece
         fillWithBlocks(world, structureboundingbox, 4, 0, 9, 8, 1, 12, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         fillWithBlocks(world, structureboundingbox, 0, 0, 4, 3, 1, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         fillWithBlocks(world, structureboundingbox, 9, 0, 4, 12, 1, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-        for(int k = 4; k <= 8; k++)
+        for (int k = 4; k <= 8; k++)
         {
-            for(int j1 = 0; j1 <= 2; j1++)
+            for (int j1 = 0; j1 <= 2; j1++)
             {
                 fillCurrentPositionBlocksDownwards(world, Block.netherBrick.blockID, 0, k, -1, j1, structureboundingbox);
                 fillCurrentPositionBlocksDownwards(world, Block.netherBrick.blockID, 0, k, -1, 12 - j1, structureboundingbox);
             }
-
         }
 
-        for(int l = 0; l <= 2; l++)
+        for (int l = 0; l <= 2; l++)
         {
-            for(int k1 = 4; k1 <= 8; k1++)
+            for (int k1 = 4; k1 <= 8; k1++)
             {
                 fillCurrentPositionBlocksDownwards(world, Block.netherBrick.blockID, 0, l, -1, k1, structureboundingbox);
                 fillCurrentPositionBlocksDownwards(world, Block.netherBrick.blockID, 0, 12 - l, -1, k1, structureboundingbox);
             }
-
         }
 
         fillWithBlocks(world, structureboundingbox, 5, 5, 5, 7, 5, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
@@ -111,7 +101,7 @@ public class ComponentNetherBridgeEntrance extends ComponentNetherBridgePiece
         int i1 = getXWithOffset(6, 6);
         int l1 = getYWithOffset(5);
         int i2 = getZWithOffset(6, 6);
-        if(structureboundingbox.isVecInside(i1, l1, i2))
+        if (structureboundingbox.isVecInside(i1, l1, i2))
         {
             world.scheduledUpdatesAreImmediate = true;
             Block.blocksList[Block.lavaMoving.blockID].updateTick(world, i1, l1, i2, random);

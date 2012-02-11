@@ -1,29 +1,22 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Map;
 
-// Referenced classes of package net.minecraft.src:
-//            J_JsonNode, EnumJsonNodeType
-
 public final class J_JsonStringNode extends J_JsonNode
     implements Comparable
 {
-
-    private final String field_27224_a;
+    private final String value;
 
     J_JsonStringNode(String s)
     {
-        if(s == null)
+        if (s == null)
         {
             throw new NullPointerException("Attempt to construct a JsonString with a null value.");
-        } else
+        }
+        else
         {
-            field_27224_a = s;
+            value = s;
             return;
         }
     }
@@ -35,7 +28,7 @@ public final class J_JsonStringNode extends J_JsonNode
 
     public String getText()
     {
-        return field_27224_a;
+        return value;
     }
 
     public Map getFields()
@@ -50,33 +43,34 @@ public final class J_JsonStringNode extends J_JsonNode
 
     public boolean equals(Object obj)
     {
-        if(this == obj)
+        if (this == obj)
         {
             return true;
         }
-        if(obj == null || getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
         {
             return false;
-        } else
+        }
+        else
         {
             J_JsonStringNode j_jsonstringnode = (J_JsonStringNode)obj;
-            return field_27224_a.equals(j_jsonstringnode.field_27224_a);
+            return value.equals(j_jsonstringnode.value);
         }
     }
 
     public int hashCode()
     {
-        return field_27224_a.hashCode();
+        return value.hashCode();
     }
 
     public String toString()
     {
-        return (new StringBuilder()).append("JsonStringNode value:[").append(field_27224_a).append("]").toString();
+        return (new StringBuilder()).append("JsonStringNode value:[").append(value).append("]").toString();
     }
 
     public int func_27223_a(J_JsonStringNode j_jsonstringnode)
     {
-        return field_27224_a.compareTo(j_jsonstringnode.field_27224_a);
+        return value.compareTo(j_jsonstringnode.value);
     }
 
     public int compareTo(Object obj)

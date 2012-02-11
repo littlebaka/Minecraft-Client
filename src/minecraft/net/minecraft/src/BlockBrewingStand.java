@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            BlockContainer, Material, TileEntityBrewingStand, World, 
-//            EntityPlayer, ItemStack, EntityItem, Item, 
-//            TileEntity, AxisAlignedBB
-
 public class BlockBrewingStand extends BlockContainer
 {
-
     private Random field_40214_a;
 
     public BlockBrewingStand(int i)
@@ -59,14 +49,14 @@ public class BlockBrewingStand extends BlockContainer
 
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return true;
         }
         TileEntityBrewingStand tileentitybrewingstand = (TileEntityBrewingStand)world.getBlockTileEntity(i, j, k);
-        if(tileentitybrewingstand != null)
+        if (tileentitybrewingstand != null)
         {
-            entityplayer.func_40180_a(tileentitybrewingstand);
+            entityplayer.displayGUIBrewingStand(tileentitybrewingstand);
         }
         return true;
     }
@@ -82,14 +72,14 @@ public class BlockBrewingStand extends BlockContainer
     public void onBlockRemoval(World world, int i, int j, int k)
     {
         TileEntity tileentity = world.getBlockTileEntity(i, j, k);
-        if(tileentity != null && (tileentity instanceof TileEntityBrewingStand))
+        if (tileentity != null && (tileentity instanceof TileEntityBrewingStand))
         {
             TileEntityBrewingStand tileentitybrewingstand = (TileEntityBrewingStand)tileentity;
-label0:
-            for(int l = 0; l < tileentitybrewingstand.getSizeInventory(); l++)
+            label0:
+            for (int l = 0; l < tileentitybrewingstand.getSizeInventory(); l++)
             {
                 ItemStack itemstack = tileentitybrewingstand.getStackInSlot(l);
-                if(itemstack == null)
+                if (itemstack == null)
                 {
                     continue;
                 }
@@ -98,12 +88,12 @@ label0:
                 float f2 = field_40214_a.nextFloat() * 0.8F + 0.1F;
                 do
                 {
-                    if(itemstack.stackSize <= 0)
+                    if (itemstack.stackSize <= 0)
                     {
                         continue label0;
                     }
                     int i1 = field_40214_a.nextInt(21) + 10;
-                    if(i1 > itemstack.stackSize)
+                    if (i1 > itemstack.stackSize)
                     {
                         i1 = itemstack.stackSize;
                     }
@@ -113,10 +103,10 @@ label0:
                     entityitem.motionX = (float)field_40214_a.nextGaussian() * f3;
                     entityitem.motionY = (float)field_40214_a.nextGaussian() * f3 + 0.2F;
                     entityitem.motionZ = (float)field_40214_a.nextGaussian() * f3;
-                    world.entityJoinedWorld(entityitem);
-                } while(true);
+                    world.spawnEntityInWorld(entityitem);
+                }
+                while (true);
             }
-
         }
         super.onBlockRemoval(world, i, j, k);
     }

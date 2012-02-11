@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            BlockContainer, Material, World, TileEntityNote, 
-//            EntityPlayer, TileEntity
 
 public class BlockNote extends BlockContainer
 {
-
     public BlockNote(int i)
     {
         super(i, 74, Material.wood);
@@ -24,13 +14,13 @@ public class BlockNote extends BlockContainer
 
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
-        if(l > 0)
+        if (l > 0)
         {
             boolean flag = world.isBlockIndirectlyGettingPowered(i, j, k);
             TileEntityNote tileentitynote = (TileEntityNote)world.getBlockTileEntity(i, j, k);
-            if(tileentitynote != null && tileentitynote.previousRedstoneState != flag)
+            if (tileentitynote != null && tileentitynote.previousRedstoneState != flag)
             {
-                if(flag)
+                if (flag)
                 {
                     tileentitynote.triggerNote(world, i, j, k);
                 }
@@ -41,12 +31,12 @@ public class BlockNote extends BlockContainer
 
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return true;
         }
         TileEntityNote tileentitynote = (TileEntityNote)world.getBlockTileEntity(i, j, k);
-        if(tileentitynote != null)
+        if (tileentitynote != null)
         {
             tileentitynote.changePitch();
             tileentitynote.triggerNote(world, i, j, k);
@@ -56,12 +46,12 @@ public class BlockNote extends BlockContainer
 
     public void onBlockClicked(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return;
         }
         TileEntityNote tileentitynote = (TileEntityNote)world.getBlockTileEntity(i, j, k);
-        if(tileentitynote != null)
+        if (tileentitynote != null)
         {
             tileentitynote.triggerNote(world, i, j, k);
         }
@@ -76,19 +66,19 @@ public class BlockNote extends BlockContainer
     {
         float f = (float)Math.pow(2D, (double)(i1 - 12) / 12D);
         String s = "harp";
-        if(l == 1)
+        if (l == 1)
         {
             s = "bd";
         }
-        if(l == 2)
+        if (l == 2)
         {
             s = "snare";
         }
-        if(l == 3)
+        if (l == 3)
         {
             s = "hat";
         }
-        if(l == 4)
+        if (l == 4)
         {
             s = "bassattack";
         }

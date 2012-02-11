@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, GuiTextField, StringTranslate, GuiButton, 
-//            ISaveFormat, WorldInfo
-
 public class GuiRenameWorld extends GuiScreen
 {
-
     private GuiScreen parentGuiScreen;
     private GuiTextField theGuiTextField;
     private final String worldName;
@@ -52,15 +43,15 @@ public class GuiRenameWorld extends GuiScreen
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(!guibutton.enabled)
+        if (!guibutton.enabled)
         {
             return;
         }
-        if(guibutton.id == 1)
+        if (guibutton.id == 1)
         {
             mc.displayGuiScreen(parentGuiScreen);
-        } else
-        if(guibutton.id == 0)
+        }
+        else if (guibutton.id == 0)
         {
             ISaveFormat isaveformat = mc.getSaveLoader();
             isaveformat.renameWorld(worldName, theGuiTextField.getText().trim());
@@ -72,7 +63,7 @@ public class GuiRenameWorld extends GuiScreen
     {
         theGuiTextField.textboxKeyTyped(c, i);
         ((GuiButton)controlList.get(0)).enabled = theGuiTextField.getText().trim().length() > 0;
-        if(c == '\r')
+        if (c == '\r')
         {
             actionPerformed((GuiButton)controlList.get(0));
         }

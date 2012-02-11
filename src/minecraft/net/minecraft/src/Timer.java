@@ -1,13 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 public class Timer
 {
-
     float ticksPerSecond;
     private double lastHRTime;
     public int elapsedTicks;
@@ -35,17 +29,18 @@ public class Timer
         long l1 = l - lastSyncSysClock;
         long l2 = System.nanoTime() / 0xf4240L;
         double d = (double)l2 / 1000D;
-        if(l1 > 1000L)
+        if (l1 > 1000L)
         {
             lastHRTime = d;
-        } else
-        if(l1 < 0L)
+        }
+        else if (l1 < 0L)
         {
             lastHRTime = d;
-        } else
+        }
+        else
         {
             field_28132_i += l1;
-            if(field_28132_i > 1000L)
+            if (field_28132_i > 1000L)
             {
                 long l3 = l2 - lastSyncHRClock;
                 double d2 = (double)field_28132_i / (double)l3;
@@ -53,7 +48,7 @@ public class Timer
                 lastSyncHRClock = l2;
                 field_28132_i = 0L;
             }
-            if(field_28132_i < 0L)
+            if (field_28132_i < 0L)
             {
                 lastSyncHRClock = l2;
             }
@@ -61,18 +56,18 @@ public class Timer
         lastSyncSysClock = l;
         double d1 = (d - lastHRTime) * timeSyncAdjustment;
         lastHRTime = d;
-        if(d1 < 0.0D)
+        if (d1 < 0.0D)
         {
             d1 = 0.0D;
         }
-        if(d1 > 1.0D)
+        if (d1 > 1.0D)
         {
             d1 = 1.0D;
         }
         elapsedPartialTicks += d1 * (double)timerSpeed * (double)ticksPerSecond;
         elapsedTicks = (int)elapsedPartialTicks;
         elapsedPartialTicks -= elapsedTicks;
-        if(elapsedTicks > 10)
+        if (elapsedTicks > 10)
         {
             elapsedTicks = 10;
         }

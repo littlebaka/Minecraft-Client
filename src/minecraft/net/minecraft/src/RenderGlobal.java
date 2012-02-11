@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.nio.IntBuffer;
@@ -10,29 +6,9 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.ARBOcclusionQuery;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            IWorldAccess, GLAllocation, RenderList, OpenGlCapsChecker, 
-//            Tessellator, World, RenderManager, RenderBlocks, 
-//            Block, GameSettings, BlockLeaves, WorldRenderer, 
-//            Entity, MathHelper, EntitySorter, Profiler, 
-//            TileEntityRenderer, EntityRenderer, ICamera, EntityLiving, 
-//            RenderHelper, TileEntity, WorldProvider, RenderEngine, 
-//            Vec3D, EntityPlayerSP, RenderSorter, MovingObjectPosition, 
-//            EntityPlayer, EnumMovingObjectType, AxisAlignedBB, GuiIngame, 
-//            SoundManager, EntityHugeExplodeFX, EffectRenderer, EntityLargeExplodeFX, 
-//            EntityBubbleFX, EntitySuspendFX, EntityAuraFX, EntityCritFX, 
-//            EntityFX, EntitySmokeFX, EntitySpellParticleFX, EntityNoteFX, 
-//            EntityPortalFX, EntityEnchantmentTableParticleFX, EntityExplodeFX, EntityFlameFX, 
-//            EntityLavaFX, EntityFootStepFX, EntitySplashFX, EntityCloudFX, 
-//            EntityReddustFX, EntityBreakingFX, Item, EntityDropParticleFX, 
-//            Material, EntitySnowShovelFX, EntityHeartFX, EntityDiggingFX, 
-//            ImageBufferDownload, ItemPotion, StepSound, ItemRecord, 
-//            ItemStack
-
 public class RenderGlobal
     implements IWorldAccess
 {
-
     public List tileEntities;
     private World worldObj;
     private RenderEngine renderEngine;
@@ -72,7 +48,8 @@ public class RenderGlobal
     private int dummyRenderInt;
     private int worldRenderersCheckIndex;
     private List glRenderLists;
-    private RenderList allRenderLists[] = {
+    private RenderList allRenderLists[] =
+    {
         new RenderList(), new RenderList(), new RenderList(), new RenderList()
     };
     double prevSortX;
@@ -102,7 +79,7 @@ public class RenderGlobal
         byte byte1 = 8;
         glRenderListBase = GLAllocation.generateDisplayLists(byte0 * byte0 * byte1 * 3);
         occlusionEnabled = OpenGlCapsChecker.checkARBOcclusion();
-        if(occlusionEnabled)
+        if (occlusionEnabled)
         {
             occlusionResult.clear();
             glOcclusionQueryBase = GLAllocation.createDirectIntBuffer(byte0 * byte0 * byte1);
@@ -123,9 +100,9 @@ public class RenderGlobal
         byte byte2 = 64;
         int i = 256 / byte2 + 2;
         float f = 16F;
-        for(int j = -byte2 * i; j <= byte2 * i; j += byte2)
+        for (int j = -byte2 * i; j <= byte2 * i; j += byte2)
         {
-            for(int l = -byte2 * i; l <= byte2 * i; l += byte2)
+            for (int l = -byte2 * i; l <= byte2 * i; l += byte2)
             {
                 tessellator.startDrawingQuads();
                 tessellator.addVertex(j + 0, f, l + 0);
@@ -134,7 +111,6 @@ public class RenderGlobal
                 tessellator.addVertex(j + 0, f, l + byte2);
                 tessellator.draw();
             }
-
         }
 
         GL11.glEndList();
@@ -142,16 +118,15 @@ public class RenderGlobal
         GL11.glNewList(glSkyList2, 4864 /*GL_COMPILE*/);
         f = -16F;
         tessellator.startDrawingQuads();
-        for(int k = -byte2 * i; k <= byte2 * i; k += byte2)
+        for (int k = -byte2 * i; k <= byte2 * i; k += byte2)
         {
-            for(int i1 = -byte2 * i; i1 <= byte2 * i; i1 += byte2)
+            for (int i1 = -byte2 * i; i1 <= byte2 * i; i1 += byte2)
             {
                 tessellator.addVertex(k + byte2, f, i1 + 0);
                 tessellator.addVertex(k + 0, f, i1 + 0);
                 tessellator.addVertex(k + 0, f, i1 + byte2);
                 tessellator.addVertex(k + byte2, f, i1 + byte2);
             }
-
         }
 
         tessellator.draw();
@@ -163,14 +138,14 @@ public class RenderGlobal
         Random random = new Random(10842L);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        for(int i = 0; i < 1500; i++)
+        for (int i = 0; i < 1500; i++)
         {
             double d = random.nextFloat() * 2.0F - 1.0F;
             double d1 = random.nextFloat() * 2.0F - 1.0F;
             double d2 = random.nextFloat() * 2.0F - 1.0F;
             double d3 = 0.25F + random.nextFloat() * 0.25F;
             double d4 = d * d + d1 * d1 + d2 * d2;
-            if(d4 >= 1.0D || d4 <= 0.01D)
+            if (d4 >= 1.0D || d4 <= 0.01D)
             {
                 continue;
             }
@@ -190,7 +165,7 @@ public class RenderGlobal
             double d14 = random.nextDouble() * 3.1415926535897931D * 2D;
             double d15 = Math.sin(d14);
             double d16 = Math.cos(d14);
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
                 double d17 = 0.0D;
                 double d18 = (double)((j & 2) - 1) * d3;
@@ -206,7 +181,6 @@ public class RenderGlobal
                 double d28 = d23 * d9 + d25 * d10;
                 tessellator.addVertex(d5 + d26, d6 + d27, d7 + d28);
             }
-
         }
 
         tessellator.draw();
@@ -214,7 +188,7 @@ public class RenderGlobal
 
     public void changeWorld(World world)
     {
-        if(worldObj != null)
+        if (worldObj != null)
         {
             worldObj.removeWorldAccess(this);
         }
@@ -224,7 +198,7 @@ public class RenderGlobal
         RenderManager.instance.set(world);
         worldObj = world;
         globalRenderBlocks = new RenderBlocks(world);
-        if(world != null)
+        if (world != null)
         {
             world.addWorldAccess(this);
             loadRenderers();
@@ -233,27 +207,26 @@ public class RenderGlobal
 
     public void loadRenderers()
     {
-        if(worldObj == null)
+        if (worldObj == null)
         {
             return;
         }
         Block.leaves.setGraphicsLevel(mc.gameSettings.fancyGraphics);
         renderDistance = mc.gameSettings.renderDistance;
-        if(worldRenderers != null)
+        if (worldRenderers != null)
         {
-            for(int i = 0; i < worldRenderers.length; i++)
+            for (int i = 0; i < worldRenderers.length; i++)
             {
                 worldRenderers[i].stopRendering();
             }
-
         }
         int j = 64 << 3 - renderDistance;
-        if(j > 400)
+        if (j > 400)
         {
             j = 400;
         }
         renderChunksWide = j / 16 + 1;
-        renderChunksTall = worldObj.field_35472_c / 16;
+        renderChunksTall = worldObj.worldHeight / 16;
         renderChunksDeep = j / 16 + 1;
         worldRenderers = new WorldRenderer[renderChunksWide * renderChunksTall * renderChunksDeep];
         sortedWorldRenderers = new WorldRenderer[renderChunksWide * renderChunksTall * renderChunksDeep];
@@ -265,21 +238,21 @@ public class RenderGlobal
         maxBlockX = renderChunksWide;
         maxBlockY = renderChunksTall;
         maxBlockZ = renderChunksDeep;
-        for(int i1 = 0; i1 < worldRenderersToUpdate.size(); i1++)
+        for (int i1 = 0; i1 < worldRenderersToUpdate.size(); i1++)
         {
             ((WorldRenderer)worldRenderersToUpdate.get(i1)).needsUpdate = false;
         }
 
         worldRenderersToUpdate.clear();
         tileEntities.clear();
-        for(int j1 = 0; j1 < renderChunksWide; j1++)
+        for (int j1 = 0; j1 < renderChunksWide; j1++)
         {
-            for(int k1 = 0; k1 < renderChunksTall; k1++)
+            for (int k1 = 0; k1 < renderChunksTall; k1++)
             {
-                for(int l1 = 0; l1 < renderChunksDeep; l1++)
+                for (int l1 = 0; l1 < renderChunksDeep; l1++)
                 {
                     worldRenderers[(l1 * renderChunksTall + k1) * renderChunksWide + j1] = new WorldRenderer(worldObj, tileEntities, j1 * 16, k1 * 16, l1 * 16, 16, glRenderListBase + k);
-                    if(occlusionEnabled)
+                    if (occlusionEnabled)
                     {
                         worldRenderers[(l1 * renderChunksTall + k1) * renderChunksWide + j1].glOcclusionQuery = glOcclusionQueryBase.get(l);
                     }
@@ -292,15 +265,13 @@ public class RenderGlobal
                     worldRenderersToUpdate.add(worldRenderers[(l1 * renderChunksTall + k1) * renderChunksWide + j1]);
                     k += 3;
                 }
-
             }
-
         }
 
-        if(worldObj != null)
+        if (worldObj != null)
         {
             EntityLiving entityliving = mc.renderViewEntity;
-            if(entityliving != null)
+            if (entityliving != null)
             {
                 markRenderersForNewPosition(MathHelper.floor_double(((Entity) (entityliving)).posX), MathHelper.floor_double(((Entity) (entityliving)).posY), MathHelper.floor_double(((Entity) (entityliving)).posZ));
                 Arrays.sort(sortedWorldRenderers, new EntitySorter(entityliving));
@@ -311,7 +282,7 @@ public class RenderGlobal
 
     public void renderEntities(Vec3D vec3d, ICamera icamera, float f)
     {
-        if(renderEntitiesStartupCounter > 0)
+        if (renderEntitiesStartupCounter > 0)
         {
             renderEntitiesStartupCounter--;
             return;
@@ -334,34 +305,34 @@ public class RenderGlobal
         Profiler.endStartSection("global");
         List list = worldObj.getLoadedEntityList();
         countEntitiesTotal = list.size();
-        for(int i = 0; i < worldObj.weatherEffects.size(); i++)
+        for (int i = 0; i < worldObj.weatherEffects.size(); i++)
         {
             Entity entity = (Entity)worldObj.weatherEffects.get(i);
             countEntitiesRendered++;
-            if(entity.isInRangeToRenderVec3D(vec3d))
+            if (entity.isInRangeToRenderVec3D(vec3d))
             {
                 RenderManager.instance.renderEntity(entity, f);
             }
         }
 
         Profiler.endStartSection("entities");
-        for(int j = 0; j < list.size(); j++)
+        for (int j = 0; j < list.size(); j++)
         {
             Entity entity1 = (Entity)list.get(j);
-            if(!entity1.isInRangeToRenderVec3D(vec3d) || !entity1.ignoreFrustumCheck && !icamera.isBoundingBoxInFrustum(entity1.boundingBox) || entity1 == mc.renderViewEntity && mc.gameSettings.thirdPersonView == 0 && !mc.renderViewEntity.isPlayerSleeping())
+            if (!entity1.isInRangeToRenderVec3D(vec3d) || !entity1.ignoreFrustumCheck && !icamera.isBoundingBoxInFrustum(entity1.boundingBox) || entity1 == mc.renderViewEntity && mc.gameSettings.thirdPersonView == 0 && !mc.renderViewEntity.isPlayerSleeping())
             {
                 continue;
             }
             int l = MathHelper.floor_double(entity1.posY);
-            if(l < 0)
+            if (l < 0)
             {
                 l = 0;
             }
-            if(l >= worldObj.field_35472_c)
+            if (l >= worldObj.worldHeight)
             {
-                l = worldObj.field_35472_c - 1;
+                l = worldObj.worldHeight - 1;
             }
-            if(worldObj.blockExists(MathHelper.floor_double(entity1.posX), l, MathHelper.floor_double(entity1.posZ)))
+            if (worldObj.blockExists(MathHelper.floor_double(entity1.posX), l, MathHelper.floor_double(entity1.posZ)))
             {
                 countEntitiesRendered++;
                 RenderManager.instance.renderEntity(entity1, f);
@@ -370,7 +341,7 @@ public class RenderGlobal
 
         Profiler.endStartSection("tileentities");
         RenderHelper.enableStandardItemLighting();
-        for(int k = 0; k < tileEntities.size(); k++)
+        for (int k = 0; k < tileEntities.size(); k++)
         {
             TileEntityRenderer.instance.renderTileEntity((TileEntity)tileEntities.get(k), f);
         }
@@ -402,86 +373,83 @@ public class RenderGlobal
         maxBlockZ = 0x80000000;
         int l = renderChunksWide * 16;
         int i1 = l / 2;
-        for(int j1 = 0; j1 < renderChunksWide; j1++)
+        for (int j1 = 0; j1 < renderChunksWide; j1++)
         {
             int k1 = j1 * 16;
             int l1 = (k1 + i1) - i;
-            if(l1 < 0)
+            if (l1 < 0)
             {
                 l1 -= l - 1;
             }
             l1 /= l;
             k1 -= l1 * l;
-            if(k1 < minBlockX)
+            if (k1 < minBlockX)
             {
                 minBlockX = k1;
             }
-            if(k1 > maxBlockX)
+            if (k1 > maxBlockX)
             {
                 maxBlockX = k1;
             }
-            for(int i2 = 0; i2 < renderChunksDeep; i2++)
+            for (int i2 = 0; i2 < renderChunksDeep; i2++)
             {
                 int j2 = i2 * 16;
                 int k2 = (j2 + i1) - k;
-                if(k2 < 0)
+                if (k2 < 0)
                 {
                     k2 -= l - 1;
                 }
                 k2 /= l;
                 j2 -= k2 * l;
-                if(j2 < minBlockZ)
+                if (j2 < minBlockZ)
                 {
                     minBlockZ = j2;
                 }
-                if(j2 > maxBlockZ)
+                if (j2 > maxBlockZ)
                 {
                     maxBlockZ = j2;
                 }
-                for(int l2 = 0; l2 < renderChunksTall; l2++)
+                for (int l2 = 0; l2 < renderChunksTall; l2++)
                 {
                     int i3 = l2 * 16;
-                    if(i3 < minBlockY)
+                    if (i3 < minBlockY)
                     {
                         minBlockY = i3;
                     }
-                    if(i3 > maxBlockY)
+                    if (i3 > maxBlockY)
                     {
                         maxBlockY = i3;
                     }
                     WorldRenderer worldrenderer = worldRenderers[(i2 * renderChunksTall + l2) * renderChunksWide + j1];
                     boolean flag = worldrenderer.needsUpdate;
                     worldrenderer.setPosition(k1, i3, j2);
-                    if(!flag && worldrenderer.needsUpdate)
+                    if (!flag && worldrenderer.needsUpdate)
                     {
                         worldRenderersToUpdate.add(worldrenderer);
                     }
                 }
-
             }
-
         }
-
     }
 
     public int sortAndRender(EntityLiving entityliving, int i, double d)
     {
         Profiler.startSection("sortchunks");
-        for(int j = 0; j < 10; j++)
+        for (int j = 0; j < 10; j++)
         {
             worldRenderersCheckIndex = (worldRenderersCheckIndex + 1) % worldRenderers.length;
             WorldRenderer worldrenderer = worldRenderers[worldRenderersCheckIndex];
-            if(worldrenderer.needsUpdate && !worldRenderersToUpdate.contains(worldrenderer))
+            if (worldrenderer.needsUpdate && !worldRenderersToUpdate.contains(worldrenderer))
             {
                 worldRenderersToUpdate.add(worldrenderer);
             }
         }
 
-        if(mc.gameSettings.renderDistance != renderDistance)
+        if (mc.gameSettings.renderDistance != renderDistance)
         {
             loadRenderers();
         }
-        if(i == 0)
+        if (i == 0)
         {
             renderersLoaded = 0;
             dummyRenderInt = 0;
@@ -496,7 +464,7 @@ public class RenderGlobal
         double d4 = entityliving.posX - prevSortX;
         double d5 = entityliving.posY - prevSortY;
         double d6 = entityliving.posZ - prevSortZ;
-        if(d4 * d4 + d5 * d5 + d6 * d6 > 16D)
+        if (d4 * d4 + d5 * d5 + d6 * d6 > 16D)
         {
             prevSortX = entityliving.posX;
             prevSortY = entityliving.posY;
@@ -506,12 +474,12 @@ public class RenderGlobal
         }
         RenderHelper.disableStandardItemLighting();
         int k = 0;
-        if(occlusionEnabled && mc.gameSettings.advancedOpengl && !mc.gameSettings.anaglyph && i == 0)
+        if (occlusionEnabled && mc.gameSettings.advancedOpengl && !mc.gameSettings.anaglyph && i == 0)
         {
             int l = 0;
             int i1 = 16;
             checkOcclusionQueryResult(l, i1);
-            for(int j1 = l; j1 < i1; j1++)
+            for (int j1 = l; j1 < i1; j1++)
             {
                 sortedWorldRenderers[j1].isVisible = true;
             }
@@ -523,7 +491,7 @@ public class RenderGlobal
                 Profiler.endStartSection("occ");
                 int byte0 = i1;
                 i1 *= 2;
-                if(i1 > sortedWorldRenderers.length)
+                if (i1 > sortedWorldRenderers.length)
                 {
                     i1 = sortedWorldRenderers.length;
                 }
@@ -540,24 +508,24 @@ public class RenderGlobal
                 float f = 0.0F;
                 float f1 = 0.0F;
                 float f2 = 0.0F;
-                for(int k1 = byte0; k1 < i1; k1++)
+                for (int k1 = byte0; k1 < i1; k1++)
                 {
-                    if(sortedWorldRenderers[k1].skipAllRenderPasses())
+                    if (sortedWorldRenderers[k1].skipAllRenderPasses())
                     {
                         sortedWorldRenderers[k1].isInFrustum = false;
                         continue;
                     }
-                    if(!sortedWorldRenderers[k1].isInFrustum)
+                    if (!sortedWorldRenderers[k1].isInFrustum)
                     {
                         sortedWorldRenderers[k1].isVisible = true;
                     }
-                    if(!sortedWorldRenderers[k1].isInFrustum || sortedWorldRenderers[k1].isWaitingOnOcclusionQuery)
+                    if (!sortedWorldRenderers[k1].isInFrustum || sortedWorldRenderers[k1].isWaitingOnOcclusionQuery)
                     {
                         continue;
                     }
                     float f3 = MathHelper.sqrt_float(sortedWorldRenderers[k1].distanceToEntitySquared(entityliving));
                     int l1 = (int)(1.0F + f3 / 128F);
-                    if(cloudOffsetX % l1 != k1 % l1)
+                    if (cloudOffsetX % l1 != k1 % l1)
                     {
                         continue;
                     }
@@ -568,7 +536,7 @@ public class RenderGlobal
                     float f7 = f4 - f;
                     float f8 = f5 - f1;
                     float f9 = f6 - f2;
-                    if(f7 != 0.0F || f8 != 0.0F || f9 != 0.0F)
+                    if (f7 != 0.0F || f8 != 0.0F || f9 != 0.0F)
                     {
                         GL11.glTranslatef(f7, f8, f9);
                         f += f7;
@@ -584,16 +552,18 @@ public class RenderGlobal
                 }
 
                 GL11.glPopMatrix();
-                if(mc.gameSettings.anaglyph)
+                if (mc.gameSettings.anaglyph)
                 {
-                    if(EntityRenderer.anaglyphField == 0)
+                    if (EntityRenderer.anaglyphField == 0)
                     {
                         GL11.glColorMask(false, true, true, true);
-                    } else
+                    }
+                    else
                     {
                         GL11.glColorMask(true, false, false, true);
                     }
-                } else
+                }
+                else
                 {
                     GL11.glColorMask(true, true, true, true);
                 }
@@ -603,8 +573,10 @@ public class RenderGlobal
                 GL11.glEnable(2912 /*GL_FOG*/);
                 Profiler.endStartSection("render");
                 k += renderSortedRenderers(byte0, i1, i, d);
-            } while(i1 < sortedWorldRenderers.length);
-        } else
+            }
+            while (i1 < sortedWorldRenderers.length);
+        }
+        else
         {
             Profiler.endStartSection("render");
             k += renderSortedRenderers(0, sortedWorldRenderers.length, i, d);
@@ -615,15 +587,15 @@ public class RenderGlobal
 
     private void checkOcclusionQueryResult(int i, int j)
     {
-        for(int k = i; k < j; k++)
+        for (int k = i; k < j; k++)
         {
-            if(!sortedWorldRenderers[k].isWaitingOnOcclusionQuery)
+            if (!sortedWorldRenderers[k].isWaitingOnOcclusionQuery)
             {
                 continue;
             }
             occlusionResult.clear();
             ARBOcclusionQuery.glGetQueryObjectuARB(sortedWorldRenderers[k].glOcclusionQuery, 34919 /*GL_QUERY_RESULT_AVAILABLE_ARB*/, occlusionResult);
-            if(occlusionResult.get(0) != 0)
+            if (occlusionResult.get(0) != 0)
             {
                 sortedWorldRenderers[k].isWaitingOnOcclusionQuery = false;
                 occlusionResult.clear();
@@ -631,40 +603,40 @@ public class RenderGlobal
                 sortedWorldRenderers[k].isVisible = occlusionResult.get(0) != 0;
             }
         }
-
     }
 
     private int renderSortedRenderers(int i, int j, int k, double d)
     {
         glRenderLists.clear();
         int l = 0;
-        for(int i1 = i; i1 < j; i1++)
+        for (int i1 = i; i1 < j; i1++)
         {
-            if(k == 0)
+            if (k == 0)
             {
                 renderersLoaded++;
-                if(sortedWorldRenderers[i1].skipRenderPass[k])
+                if (sortedWorldRenderers[i1].skipRenderPass[k])
                 {
                     renderersSkippingRenderPass++;
-                } else
-                if(!sortedWorldRenderers[i1].isInFrustum)
+                }
+                else if (!sortedWorldRenderers[i1].isInFrustum)
                 {
                     renderersBeingClipped++;
-                } else
-                if(occlusionEnabled && !sortedWorldRenderers[i1].isVisible)
+                }
+                else if (occlusionEnabled && !sortedWorldRenderers[i1].isVisible)
                 {
                     renderersBeingOccluded++;
-                } else
+                }
+                else
                 {
                     renderersBeingRendered++;
                 }
             }
-            if(sortedWorldRenderers[i1].skipRenderPass[k] || !sortedWorldRenderers[i1].isInFrustum || occlusionEnabled && !sortedWorldRenderers[i1].isVisible)
+            if (sortedWorldRenderers[i1].skipRenderPass[k] || !sortedWorldRenderers[i1].isInFrustum || occlusionEnabled && !sortedWorldRenderers[i1].isVisible)
             {
                 continue;
             }
             int j1 = sortedWorldRenderers[i1].getGLCallListForPass(k);
-            if(j1 >= 0)
+            if (j1 >= 0)
             {
                 glRenderLists.add(sortedWorldRenderers[i1]);
                 l++;
@@ -676,24 +648,24 @@ public class RenderGlobal
         double d2 = entityliving.lastTickPosY + (entityliving.posY - entityliving.lastTickPosY) * d;
         double d3 = entityliving.lastTickPosZ + (entityliving.posZ - entityliving.lastTickPosZ) * d;
         int k1 = 0;
-        for(int l1 = 0; l1 < allRenderLists.length; l1++)
+        for (int l1 = 0; l1 < allRenderLists.length; l1++)
         {
             allRenderLists[l1].func_859_b();
         }
 
-        for(int i2 = 0; i2 < glRenderLists.size(); i2++)
+        for (int i2 = 0; i2 < glRenderLists.size(); i2++)
         {
             WorldRenderer worldrenderer = (WorldRenderer)glRenderLists.get(i2);
             int j2 = -1;
-            for(int k2 = 0; k2 < k1; k2++)
+            for (int k2 = 0; k2 < k1; k2++)
             {
-                if(allRenderLists[k2].func_862_a(worldrenderer.posXMinus, worldrenderer.posYMinus, worldrenderer.posZMinus))
+                if (allRenderLists[k2].func_862_a(worldrenderer.posXMinus, worldrenderer.posYMinus, worldrenderer.posZMinus))
                 {
                     j2 = k2;
                 }
             }
 
-            if(j2 < 0)
+            if (j2 < 0)
             {
                 j2 = k1++;
                 allRenderLists[j2].func_861_a(worldrenderer.posXMinus, worldrenderer.posYMinus, worldrenderer.posZMinus, d1, d2, d3);
@@ -708,7 +680,7 @@ public class RenderGlobal
     public void renderAllRenderLists(int i, double d)
     {
         mc.entityRenderer.enableLightmap(d);
-        for(int j = 0; j < allRenderLists.length; j++)
+        for (int j = 0; j < allRenderLists.length; j++)
         {
             allRenderLists[j].func_860_a();
         }
@@ -723,7 +695,7 @@ public class RenderGlobal
 
     public void renderSky(float f)
     {
-        if(mc.theWorld.worldProvider.worldType == 1)
+        if (mc.theWorld.worldProvider.worldType == 1)
         {
             GL11.glDisable(2912 /*GL_FOG*/);
             GL11.glDisable(3008 /*GL_ALPHA_TEST*/);
@@ -733,26 +705,26 @@ public class RenderGlobal
             GL11.glDepthMask(false);
             renderEngine.bindTexture(renderEngine.getTexture("/misc/tunnel.png"));
             Tessellator tessellator = Tessellator.instance;
-            for(int i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
                 GL11.glPushMatrix();
-                if(i == 1)
+                if (i == 1)
                 {
                     GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
                 }
-                if(i == 2)
+                if (i == 2)
                 {
                     GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
                 }
-                if(i == 3)
+                if (i == 3)
                 {
                     GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
                 }
-                if(i == 4)
+                if (i == 4)
                 {
                     GL11.glRotatef(90F, 0.0F, 0.0F, 1.0F);
                 }
-                if(i == 5)
+                if (i == 5)
                 {
                     GL11.glRotatef(-90F, 0.0F, 0.0F, 1.0F);
                 }
@@ -771,7 +743,7 @@ public class RenderGlobal
             GL11.glEnable(3008 /*GL_ALPHA_TEST*/);
             return;
         }
-        if(mc.theWorld.worldProvider.isNether)
+        if (mc.theWorld.worldProvider.isAlternateDimension)
         {
             return;
         }
@@ -780,7 +752,7 @@ public class RenderGlobal
         float f1 = (float)vec3d.xCoord;
         float f2 = (float)vec3d.yCoord;
         float f3 = (float)vec3d.zCoord;
-        if(mc.gameSettings.anaglyph)
+        if (mc.gameSettings.anaglyph)
         {
             float f4 = (f1 * 30F + f2 * 59F + f3 * 11F) / 100F;
             float f5 = (f1 * 30F + f2 * 70F) / 100F;
@@ -801,7 +773,7 @@ public class RenderGlobal
         GL11.glBlendFunc(770, 771);
         RenderHelper.disableStandardItemLighting();
         float af[] = worldObj.worldProvider.calcSunriseSunsetColors(worldObj.getCelestialAngle(f), f);
-        if(af != null)
+        if (af != null)
         {
             GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
             GL11.glShadeModel(7425 /*GL_SMOOTH*/);
@@ -812,7 +784,7 @@ public class RenderGlobal
             float f7 = af[0];
             float f9 = af[1];
             float f12 = af[2];
-            if(mc.gameSettings.anaglyph)
+            if (mc.gameSettings.anaglyph)
             {
                 float f15 = (f7 * 30F + f9 * 59F + f12 * 11F) / 100F;
                 float f18 = (f7 * 30F + f9 * 70F) / 100F;
@@ -826,7 +798,7 @@ public class RenderGlobal
             tessellator1.addVertex(0.0D, 100D, 0.0D);
             int j = 16;
             tessellator1.setColorRGBA_F(af[0], af[1], af[2], 0.0F);
-            for(int k = 0; k <= j; k++)
+            for (int k = 0; k <= j; k++)
             {
                 float f22 = ((float)k * 3.141593F * 2.0F) / (float)j;
                 float f23 = MathHelper.sin(f22);
@@ -874,7 +846,7 @@ public class RenderGlobal
         tessellator1.draw();
         GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
         float f19 = worldObj.getStarBrightness(f) * da;
-        if(f19 > 0.0F)
+        if (f19 > 0.0F)
         {
             GL11.glColor4f(f19, f19, f19, f19);
             GL11.glCallList(starGLCallList);
@@ -886,8 +858,8 @@ public class RenderGlobal
         GL11.glPopMatrix();
         GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
         GL11.glColor3f(0.0F, 0.0F, 0.0F);
-        double d = mc.thePlayer.getPosition(f).yCoord - 63D;
-        if(d < 0.0D)
+        double d = mc.thePlayer.getPosition(f).yCoord - worldObj.func_46068_G();
+        if (d < 0.0D)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 12F, 0.0F);
@@ -921,10 +893,11 @@ public class RenderGlobal
             tessellator1.addVertex(f11, f17, -f11);
             tessellator1.draw();
         }
-        if(worldObj.worldProvider.func_28112_c())
+        if (worldObj.worldProvider.func_28112_c())
         {
             GL11.glColor3f(f1 * 0.2F + 0.04F, f2 * 0.2F + 0.04F, f3 * 0.6F + 0.1F);
-        } else
+        }
+        else
         {
             GL11.glColor3f(f1, f2, f3);
         }
@@ -938,11 +911,11 @@ public class RenderGlobal
 
     public void renderClouds(float f)
     {
-        if(mc.theWorld.worldProvider.isNether)
+        if (mc.theWorld.worldProvider.isAlternateDimension)
         {
             return;
         }
-        if(mc.gameSettings.fancyGraphics)
+        if (mc.gameSettings.fancyGraphics)
         {
             renderCloudsFancy(f);
             return;
@@ -959,7 +932,7 @@ public class RenderGlobal
         float f2 = (float)vec3d.xCoord;
         float f3 = (float)vec3d.yCoord;
         float f4 = (float)vec3d.zCoord;
-        if(mc.gameSettings.anaglyph)
+        if (mc.gameSettings.anaglyph)
         {
             float f5 = (f2 * 30F + f3 * 59F + f4 * 11F) / 100F;
             float f7 = (f2 * 30F + f3 * 70F) / 100F;
@@ -981,16 +954,15 @@ public class RenderGlobal
         float f11 = (float)(d2 * (double)f6);
         tessellator.startDrawingQuads();
         tessellator.setColorRGBA_F(f2, f3, f4, 0.8F);
-        for(int l = -byte0 * i; l < byte0 * i; l += byte0)
+        for (int l = -byte0 * i; l < byte0 * i; l += byte0)
         {
-            for(int i1 = -byte0 * i; i1 < byte0 * i; i1 += byte0)
+            for (int i1 = -byte0 * i; i1 < byte0 * i; i1 += byte0)
             {
                 tessellator.addVertexWithUV(l + 0, f9, i1 + byte0, (float)(l + 0) * f6 + f10, (float)(i1 + byte0) * f6 + f11);
                 tessellator.addVertexWithUV(l + byte0, f9, i1 + byte0, (float)(l + byte0) * f6 + f10, (float)(i1 + byte0) * f6 + f11);
                 tessellator.addVertexWithUV(l + byte0, f9, i1 + 0, (float)(l + byte0) * f6 + f10, (float)(i1 + 0) * f6 + f11);
                 tessellator.addVertexWithUV(l + 0, f9, i1 + 0, (float)(l + 0) * f6 + f10, (float)(i1 + 0) * f6 + f11);
             }
-
         }
 
         tessellator.draw();
@@ -1026,7 +998,7 @@ public class RenderGlobal
         float f5 = (float)vec3d.xCoord;
         float f6 = (float)vec3d.yCoord;
         float f7 = (float)vec3d.zCoord;
-        if(mc.gameSettings.anaglyph)
+        if (mc.gameSettings.anaglyph)
         {
             float f8 = (f5 * 30F + f6 * 59F + f7 * 11F) / 100F;
             float f10 = (f5 * 30F + f6 * 70F) / 100F;
@@ -1046,35 +1018,37 @@ public class RenderGlobal
         byte byte0 = 4;
         float f16 = 0.0009765625F;
         GL11.glScalef(f2, 1.0F, f2);
-        for(int l = 0; l < 2; l++)
+        for (int l = 0; l < 2; l++)
         {
-            if(l == 0)
+            if (l == 0)
             {
                 GL11.glColorMask(false, false, false, false);
-            } else
-            if(mc.gameSettings.anaglyph)
+            }
+            else if (mc.gameSettings.anaglyph)
             {
-                if(EntityRenderer.anaglyphField == 0)
+                if (EntityRenderer.anaglyphField == 0)
                 {
                     GL11.glColorMask(false, true, true, true);
-                } else
+                }
+                else
                 {
                     GL11.glColorMask(true, false, false, true);
                 }
-            } else
+            }
+            else
             {
                 GL11.glColorMask(true, true, true, true);
             }
-            for(int i1 = -byte0 + 1; i1 <= byte0; i1++)
+            for (int i1 = -byte0 + 1; i1 <= byte0; i1++)
             {
-                for(int j1 = -byte0 + 1; j1 <= byte0; j1++)
+                for (int j1 = -byte0 + 1; j1 <= byte0; j1++)
                 {
                     tessellator.startDrawingQuads();
                     float f17 = i1 * k;
                     float f18 = j1 * k;
                     float f19 = f17 - f14;
                     float f20 = f18 - f15;
-                    if(f4 > -f3 - 1.0F)
+                    if (f4 > -f3 - 1.0F)
                     {
                         tessellator.setColorRGBA_F(f5 * 0.7F, f6 * 0.7F, f7 * 0.7F, 0.8F);
                         tessellator.setNormal(0.0F, -1F, 0.0F);
@@ -1083,7 +1057,7 @@ public class RenderGlobal
                         tessellator.addVertexWithUV(f19 + (float)k, f4 + 0.0F, f20 + 0.0F, (f17 + (float)k) * f13 + f9, (f18 + 0.0F) * f13 + f11);
                         tessellator.addVertexWithUV(f19 + 0.0F, f4 + 0.0F, f20 + 0.0F, (f17 + 0.0F) * f13 + f9, (f18 + 0.0F) * f13 + f11);
                     }
-                    if(f4 <= f3 + 1.0F)
+                    if (f4 <= f3 + 1.0F)
                     {
                         tessellator.setColorRGBA_F(f5, f6, f7, 0.8F);
                         tessellator.setNormal(0.0F, 1.0F, 0.0F);
@@ -1093,60 +1067,54 @@ public class RenderGlobal
                         tessellator.addVertexWithUV(f19 + 0.0F, (f4 + f3) - f16, f20 + 0.0F, (f17 + 0.0F) * f13 + f9, (f18 + 0.0F) * f13 + f11);
                     }
                     tessellator.setColorRGBA_F(f5 * 0.9F, f6 * 0.9F, f7 * 0.9F, 0.8F);
-                    if(i1 > -1)
+                    if (i1 > -1)
                     {
                         tessellator.setNormal(-1F, 0.0F, 0.0F);
-                        for(int k1 = 0; k1 < k; k1++)
+                        for (int k1 = 0; k1 < k; k1++)
                         {
                             tessellator.addVertexWithUV(f19 + (float)k1 + 0.0F, f4 + 0.0F, f20 + (float)k, (f17 + (float)k1 + 0.5F) * f13 + f9, (f18 + (float)k) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + (float)k1 + 0.0F, f4 + f3, f20 + (float)k, (f17 + (float)k1 + 0.5F) * f13 + f9, (f18 + (float)k) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + (float)k1 + 0.0F, f4 + f3, f20 + 0.0F, (f17 + (float)k1 + 0.5F) * f13 + f9, (f18 + 0.0F) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + (float)k1 + 0.0F, f4 + 0.0F, f20 + 0.0F, (f17 + (float)k1 + 0.5F) * f13 + f9, (f18 + 0.0F) * f13 + f11);
                         }
-
                     }
-                    if(i1 <= 1)
+                    if (i1 <= 1)
                     {
                         tessellator.setNormal(1.0F, 0.0F, 0.0F);
-                        for(int l1 = 0; l1 < k; l1++)
+                        for (int l1 = 0; l1 < k; l1++)
                         {
                             tessellator.addVertexWithUV((f19 + (float)l1 + 1.0F) - f16, f4 + 0.0F, f20 + (float)k, (f17 + (float)l1 + 0.5F) * f13 + f9, (f18 + (float)k) * f13 + f11);
                             tessellator.addVertexWithUV((f19 + (float)l1 + 1.0F) - f16, f4 + f3, f20 + (float)k, (f17 + (float)l1 + 0.5F) * f13 + f9, (f18 + (float)k) * f13 + f11);
                             tessellator.addVertexWithUV((f19 + (float)l1 + 1.0F) - f16, f4 + f3, f20 + 0.0F, (f17 + (float)l1 + 0.5F) * f13 + f9, (f18 + 0.0F) * f13 + f11);
                             tessellator.addVertexWithUV((f19 + (float)l1 + 1.0F) - f16, f4 + 0.0F, f20 + 0.0F, (f17 + (float)l1 + 0.5F) * f13 + f9, (f18 + 0.0F) * f13 + f11);
                         }
-
                     }
                     tessellator.setColorRGBA_F(f5 * 0.8F, f6 * 0.8F, f7 * 0.8F, 0.8F);
-                    if(j1 > -1)
+                    if (j1 > -1)
                     {
                         tessellator.setNormal(0.0F, 0.0F, -1F);
-                        for(int i2 = 0; i2 < k; i2++)
+                        for (int i2 = 0; i2 < k; i2++)
                         {
                             tessellator.addVertexWithUV(f19 + 0.0F, f4 + f3, f20 + (float)i2 + 0.0F, (f17 + 0.0F) * f13 + f9, (f18 + (float)i2 + 0.5F) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + (float)k, f4 + f3, f20 + (float)i2 + 0.0F, (f17 + (float)k) * f13 + f9, (f18 + (float)i2 + 0.5F) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + (float)k, f4 + 0.0F, f20 + (float)i2 + 0.0F, (f17 + (float)k) * f13 + f9, (f18 + (float)i2 + 0.5F) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + 0.0F, f4 + 0.0F, f20 + (float)i2 + 0.0F, (f17 + 0.0F) * f13 + f9, (f18 + (float)i2 + 0.5F) * f13 + f11);
                         }
-
                     }
-                    if(j1 <= 1)
+                    if (j1 <= 1)
                     {
                         tessellator.setNormal(0.0F, 0.0F, 1.0F);
-                        for(int j2 = 0; j2 < k; j2++)
+                        for (int j2 = 0; j2 < k; j2++)
                         {
                             tessellator.addVertexWithUV(f19 + 0.0F, f4 + f3, (f20 + (float)j2 + 1.0F) - f16, (f17 + 0.0F) * f13 + f9, (f18 + (float)j2 + 0.5F) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + (float)k, f4 + f3, (f20 + (float)j2 + 1.0F) - f16, (f17 + (float)k) * f13 + f9, (f18 + (float)j2 + 0.5F) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + (float)k, f4 + 0.0F, (f20 + (float)j2 + 1.0F) - f16, (f17 + (float)k) * f13 + f9, (f18 + (float)j2 + 0.5F) * f13 + f11);
                             tessellator.addVertexWithUV(f19 + 0.0F, f4 + 0.0F, (f20 + (float)j2 + 1.0F) - f16, (f17 + 0.0F) * f13 + f9, (f18 + (float)j2 + 0.5F) * f13 + f11);
                         }
-
                     }
                     tessellator.draw();
                 }
-
             }
-
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -1157,32 +1125,32 @@ public class RenderGlobal
     public boolean updateRenderers(EntityLiving entityliving, boolean flag)
     {
         boolean flag1 = false;
-        if(flag1)
+        if (flag1)
         {
             Collections.sort(worldRenderersToUpdate, new RenderSorter(entityliving));
             int i = worldRenderersToUpdate.size() - 1;
             int j = worldRenderersToUpdate.size();
-            for(int k = 0; k < j; k++)
+            for (int k = 0; k < j; k++)
             {
                 WorldRenderer worldrenderer = (WorldRenderer)worldRenderersToUpdate.get(i - k);
-                if(!flag)
+                if (!flag)
                 {
-                    if(worldrenderer.distanceToEntitySquared(entityliving) > 256F)
+                    if (worldrenderer.distanceToEntitySquared(entityliving) > 256F)
                     {
-                        if(worldrenderer.isInFrustum)
+                        if (worldrenderer.isInFrustum)
                         {
-                            if(k >= 30)
+                            if (k >= 30)
                             {
                                 return false;
                             }
-                        } else
-                        if(k >= 1)
+                        }
+                        else if (k >= 1)
                         {
                             return false;
                         }
                     }
-                } else
-                if(!worldrenderer.isInFrustum)
+                }
+                else if (!worldrenderer.isInFrustum)
                 {
                     continue;
                 }
@@ -1199,20 +1167,20 @@ public class RenderGlobal
         ArrayList arraylist = null;
         int l = worldRenderersToUpdate.size();
         int i1 = 0;
-        for(int j1 = 0; j1 < l; j1++)
+        for (int j1 = 0; j1 < l; j1++)
         {
             WorldRenderer worldrenderer1 = (WorldRenderer)worldRenderersToUpdate.get(j1);
-            if(!flag)
+            if (!flag)
             {
-                if(worldrenderer1.distanceToEntitySquared(entityliving) > 256F)
+                if (worldrenderer1.distanceToEntitySquared(entityliving) > 256F)
                 {
                     int k2;
-                    for(k2 = 0; k2 < byte0 && (aworldrenderer[k2] == null || rendersorter.doCompare(aworldrenderer[k2], worldrenderer1) <= 0); k2++) { }
-                    if(--k2 <= 0)
+                    for (k2 = 0; k2 < byte0 && (aworldrenderer[k2] == null || rendersorter.doCompare(aworldrenderer[k2], worldrenderer1) <= 0); k2++) { }
+                    if (--k2 <= 0)
                     {
                         continue;
                     }
-                    for(int i3 = k2; --i3 != 0;)
+                    for (int i3 = k2; --i3 != 0;)
                     {
                         aworldrenderer[i3 - 1] = aworldrenderer[i3];
                     }
@@ -1220,12 +1188,12 @@ public class RenderGlobal
                     aworldrenderer[k2] = worldrenderer1;
                     continue;
                 }
-            } else
-            if(!worldrenderer1.isInFrustum)
+            }
+            else if (!worldrenderer1.isInFrustum)
             {
                 continue;
             }
-            if(arraylist == null)
+            if (arraylist == null)
             {
                 arraylist = new ArrayList();
             }
@@ -1234,29 +1202,28 @@ public class RenderGlobal
             worldRenderersToUpdate.set(j1, null);
         }
 
-        if(arraylist != null)
+        if (arraylist != null)
         {
-            if(arraylist.size() > 1)
+            if (arraylist.size() > 1)
             {
                 Collections.sort(arraylist, rendersorter);
             }
-            for(int k1 = arraylist.size() - 1; k1 >= 0; k1--)
+            for (int k1 = arraylist.size() - 1; k1 >= 0; k1--)
             {
                 WorldRenderer worldrenderer2 = (WorldRenderer)arraylist.get(k1);
                 worldrenderer2.updateRenderer();
                 worldrenderer2.needsUpdate = false;
             }
-
         }
         int l1 = 0;
-        for(int i2 = byte0 - 1; i2 >= 0; i2--)
+        for (int i2 = byte0 - 1; i2 >= 0; i2--)
         {
             WorldRenderer worldrenderer3 = aworldrenderer[i2];
-            if(worldrenderer3 == null)
+            if (worldrenderer3 == null)
             {
                 continue;
             }
-            if(!worldrenderer3.isInFrustum && i2 != byte0 - 1)
+            if (!worldrenderer3.isInFrustum && i2 != byte0 - 1)
             {
                 aworldrenderer[i2] = null;
                 aworldrenderer[0] = null;
@@ -1269,34 +1236,34 @@ public class RenderGlobal
 
         int j2 = 0;
         int l2 = 0;
-        for(int j3 = worldRenderersToUpdate.size(); j2 != j3; j2++)
+        for (int j3 = worldRenderersToUpdate.size(); j2 != j3; j2++)
         {
             WorldRenderer worldrenderer4 = (WorldRenderer)worldRenderersToUpdate.get(j2);
-            if(worldrenderer4 == null)
+            if (worldrenderer4 == null)
             {
                 continue;
             }
             boolean flag2 = false;
-            for(int k3 = 0; k3 < byte0 && !flag2; k3++)
+            for (int k3 = 0; k3 < byte0 && !flag2; k3++)
             {
-                if(worldrenderer4 == aworldrenderer[k3])
+                if (worldrenderer4 == aworldrenderer[k3])
                 {
                     flag2 = true;
                 }
             }
 
-            if(flag2)
+            if (flag2)
             {
                 continue;
             }
-            if(l2 != j2)
+            if (l2 != j2)
             {
                 worldRenderersToUpdate.set(l2, worldrenderer4);
             }
             l2++;
         }
 
-        while(--j2 >= l2) 
+        while (--j2 >= l2)
         {
             worldRenderersToUpdate.remove(j2);
         }
@@ -1310,9 +1277,9 @@ public class RenderGlobal
         GL11.glEnable(3008 /*GL_ALPHA_TEST*/);
         GL11.glBlendFunc(770, 1);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, (MathHelper.sin((float)System.currentTimeMillis() / 100F) * 0.2F + 0.4F) * 0.5F);
-        if(i == 0)
+        if (i == 0)
         {
-            if(damagePartialTime > 0.0F)
+            if (damagePartialTime > 0.0F)
             {
                 GL11.glBlendFunc(774, 768);
                 int j = renderEngine.getTexture("/terrain.png");
@@ -1327,7 +1294,7 @@ public class RenderGlobal
                 double d = entityplayer.lastTickPosX + (entityplayer.posX - entityplayer.lastTickPosX) * (double)f;
                 double d1 = entityplayer.lastTickPosY + (entityplayer.posY - entityplayer.lastTickPosY) * (double)f;
                 double d2 = entityplayer.lastTickPosZ + (entityplayer.posZ - entityplayer.lastTickPosZ) * (double)f;
-                if(block == null)
+                if (block == null)
                 {
                     block = Block.stone;
                 }
@@ -1345,8 +1312,8 @@ public class RenderGlobal
                 GL11.glDepthMask(true);
                 GL11.glPopMatrix();
             }
-        } else
-        if(itemstack != null)
+        }
+        else if (itemstack != null)
         {
             GL11.glBlendFunc(770, 771);
             float f1 = MathHelper.sin((float)System.currentTimeMillis() / 100F) * 0.2F + 0.8F;
@@ -1356,27 +1323,27 @@ public class RenderGlobal
             int i1 = movingobjectposition.blockX;
             int j1 = movingobjectposition.blockY;
             int k1 = movingobjectposition.blockZ;
-            if(movingobjectposition.sideHit == 0)
+            if (movingobjectposition.sideHit == 0)
             {
                 j1--;
             }
-            if(movingobjectposition.sideHit == 1)
+            if (movingobjectposition.sideHit == 1)
             {
                 j1++;
             }
-            if(movingobjectposition.sideHit == 2)
+            if (movingobjectposition.sideHit == 2)
             {
                 k1--;
             }
-            if(movingobjectposition.sideHit == 3)
+            if (movingobjectposition.sideHit == 3)
             {
                 k1++;
             }
-            if(movingobjectposition.sideHit == 4)
+            if (movingobjectposition.sideHit == 4)
             {
                 i1--;
             }
-            if(movingobjectposition.sideHit == 5)
+            if (movingobjectposition.sideHit == 5)
             {
                 i1++;
             }
@@ -1387,7 +1354,7 @@ public class RenderGlobal
 
     public void drawSelectionBox(EntityPlayer entityplayer, MovingObjectPosition movingobjectposition, int i, ItemStack itemstack, float f)
     {
-        if(i == 0 && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
+        if (i == 0 && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
         {
             GL11.glEnable(3042 /*GL_BLEND*/);
             GL11.glBlendFunc(770, 771);
@@ -1397,7 +1364,7 @@ public class RenderGlobal
             GL11.glDepthMask(false);
             float f1 = 0.002F;
             int j = worldObj.getBlockId(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
-            if(j > 0)
+            if (j > 0)
             {
                 Block.blocksList[j].setBlockBoundsBasedOnState(worldObj, movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
                 double d = entityplayer.lastTickPosX + (entityplayer.posX - entityplayer.lastTickPosX) * (double)f;
@@ -1448,40 +1415,37 @@ public class RenderGlobal
         int j2 = MathHelper.bucketInt(l, 16);
         int k2 = MathHelper.bucketInt(i1, 16);
         int l2 = MathHelper.bucketInt(j1, 16);
-        for(int i3 = k1; i3 <= j2; i3++)
+        for (int i3 = k1; i3 <= j2; i3++)
         {
             int j3 = i3 % renderChunksWide;
-            if(j3 < 0)
+            if (j3 < 0)
             {
                 j3 += renderChunksWide;
             }
-            for(int k3 = l1; k3 <= k2; k3++)
+            for (int k3 = l1; k3 <= k2; k3++)
             {
                 int l3 = k3 % renderChunksTall;
-                if(l3 < 0)
+                if (l3 < 0)
                 {
                     l3 += renderChunksTall;
                 }
-                for(int i4 = i2; i4 <= l2; i4++)
+                for (int i4 = i2; i4 <= l2; i4++)
                 {
                     int j4 = i4 % renderChunksDeep;
-                    if(j4 < 0)
+                    if (j4 < 0)
                     {
                         j4 += renderChunksDeep;
                     }
                     int k4 = (j4 * renderChunksTall + l3) * renderChunksWide + j3;
                     WorldRenderer worldrenderer = worldRenderers[k4];
-                    if(!worldrenderer.needsUpdate)
+                    if (!worldrenderer.needsUpdate)
                     {
                         worldRenderersToUpdate.add(worldrenderer);
                         worldrenderer.markDirty();
                     }
                 }
-
             }
-
         }
-
     }
 
     public void markBlockAndNeighborsNeedsUpdate(int i, int j, int k)
@@ -1496,9 +1460,9 @@ public class RenderGlobal
 
     public void clipRenderersByFrustrum(ICamera icamera, float f)
     {
-        for(int i = 0; i < worldRenderers.length; i++)
+        for (int i = 0; i < worldRenderers.length; i++)
         {
-            if(!worldRenderers[i].skipAllRenderPasses() && (!worldRenderers[i].isInFrustum || (i + frustrumCheckOffset & 0xf) == 0))
+            if (!worldRenderers[i].skipAllRenderPasses() && (!worldRenderers[i].isInFrustum || (i + frustrumCheckOffset & 0xf) == 0))
             {
                 worldRenderers[i].updateInFrustrum(icamera);
             }
@@ -1509,42 +1473,42 @@ public class RenderGlobal
 
     public void playRecord(String s, int i, int j, int k)
     {
-        if(s != null)
+        if (s != null)
         {
             mc.ingameGUI.setRecordPlayingMessage((new StringBuilder()).append("C418 - ").append(s).toString());
         }
         mc.sndManager.playStreaming(s, i, j, k, 1.0F, 1.0F);
     }
 
-    public void playSound(String s, double d, double d1, double d2, 
+    public void playSound(String s, double d, double d1, double d2,
             float f, float f1)
     {
         float f2 = 16F;
-        if(f > 1.0F)
+        if (f > 1.0F)
         {
             f2 *= f;
         }
-        if(mc.renderViewEntity.getDistanceSq(d, d1, d2) < (double)(f2 * f2))
+        if (mc.renderViewEntity.getDistanceSq(d, d1, d2) < (double)(f2 * f2))
         {
             mc.sndManager.playSound(s, (float)d, (float)d1, (float)d2, f, f1);
         }
     }
 
-    public void spawnParticle(String s, double d, double d1, double d2, 
+    public void spawnParticle(String s, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         func_40193_b(s, d, d1, d2, d3, d4, d5);
     }
 
-    public EntityFX func_40193_b(String s, double d, double d1, double d2, 
+    public EntityFX func_40193_b(String s, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
-        if(mc == null || mc.renderViewEntity == null || mc.effectRenderer == null)
+        if (mc == null || mc.renderViewEntity == null || mc.effectRenderer == null)
         {
             return null;
         }
-        int i = mc.gameSettings.field_41087_P;
-        if(i == 1 && worldObj.rand.nextInt(3) == 0)
+        int i = mc.gameSettings.particles;
+        if (i == 1 && worldObj.rand.nextInt(3) == 0)
         {
             i = 2;
         }
@@ -1552,150 +1516,150 @@ public class RenderGlobal
         double d7 = mc.renderViewEntity.posY - d1;
         double d8 = mc.renderViewEntity.posZ - d2;
         Object obj = null;
-        if(s.equals("hugeexplosion"))
+        if (s.equals("hugeexplosion"))
         {
             mc.effectRenderer.addEffect(((EntityFX) (obj = new EntityHugeExplodeFX(worldObj, d, d1, d2, d3, d4, d5))));
-        } else
-        if(s.equals("largeexplode"))
+        }
+        else if (s.equals("largeexplode"))
         {
             mc.effectRenderer.addEffect(((EntityFX) (obj = new EntityLargeExplodeFX(renderEngine, worldObj, d, d1, d2, d3, d4, d5))));
         }
-        if(obj != null)
+        if (obj != null)
         {
             return ((EntityFX) (obj));
         }
         double d9 = 16D;
-        if(d6 * d6 + d7 * d7 + d8 * d8 > d9 * d9)
+        if (d6 * d6 + d7 * d7 + d8 * d8 > d9 * d9)
         {
             return null;
         }
-        if(i > 1)
+        if (i > 1)
         {
             return null;
         }
-        if(s.equals("bubble"))
+        if (s.equals("bubble"))
         {
             obj = new EntityBubbleFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("suspended"))
+        }
+        else if (s.equals("suspended"))
         {
             obj = new EntitySuspendFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("depthsuspend"))
+        }
+        else if (s.equals("depthsuspend"))
         {
             obj = new EntityAuraFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("townaura"))
+        }
+        else if (s.equals("townaura"))
         {
             obj = new EntityAuraFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("crit"))
+        }
+        else if (s.equals("crit"))
         {
             obj = new EntityCritFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("magicCrit"))
+        }
+        else if (s.equals("magicCrit"))
         {
             obj = new EntityCritFX(worldObj, d, d1, d2, d3, d4, d5);
             ((EntityFX) (obj)).func_40097_b(((EntityFX) (obj)).func_40098_n() * 0.3F, ((EntityFX) (obj)).func_40101_o() * 0.8F, ((EntityFX) (obj)).func_40102_p());
-            ((EntityFX) (obj)).func_40099_c(((EntityFX) (obj)).func_40100_q() + 1);
-        } else
-        if(s.equals("smoke"))
+            ((EntityFX) (obj)).setParticleTextureIndex(((EntityFX) (obj)).getParticleTextureIndex() + 1);
+        }
+        else if (s.equals("smoke"))
         {
             obj = new EntitySmokeFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("mobSpell"))
+        }
+        else if (s.equals("mobSpell"))
         {
             obj = new EntitySpellParticleFX(worldObj, d, d1, d2, 0.0D, 0.0D, 0.0D);
             ((EntityFX) (obj)).func_40097_b((float)d3, (float)d4, (float)d5);
-        } else
-        if(s.equals("spell"))
+        }
+        else if (s.equals("spell"))
         {
             obj = new EntitySpellParticleFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("instantSpell"))
+        }
+        else if (s.equals("instantSpell"))
         {
             obj = new EntitySpellParticleFX(worldObj, d, d1, d2, d3, d4, d5);
             ((EntitySpellParticleFX)obj).func_40110_b(144);
-        } else
-        if(s.equals("note"))
+        }
+        else if (s.equals("note"))
         {
             obj = new EntityNoteFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("portal"))
+        }
+        else if (s.equals("portal"))
         {
             obj = new EntityPortalFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("enchantmenttable"))
+        }
+        else if (s.equals("enchantmenttable"))
         {
             obj = new EntityEnchantmentTableParticleFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("explode"))
+        }
+        else if (s.equals("explode"))
         {
             obj = new EntityExplodeFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("flame"))
+        }
+        else if (s.equals("flame"))
         {
             obj = new EntityFlameFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("lava"))
+        }
+        else if (s.equals("lava"))
         {
             obj = new EntityLavaFX(worldObj, d, d1, d2);
-        } else
-        if(s.equals("footstep"))
+        }
+        else if (s.equals("footstep"))
         {
             obj = new EntityFootStepFX(renderEngine, worldObj, d, d1, d2);
-        } else
-        if(s.equals("splash"))
+        }
+        else if (s.equals("splash"))
         {
             obj = new EntitySplashFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("largesmoke"))
+        }
+        else if (s.equals("largesmoke"))
         {
             obj = new EntitySmokeFX(worldObj, d, d1, d2, d3, d4, d5, 2.5F);
-        } else
-        if(s.equals("cloud"))
+        }
+        else if (s.equals("cloud"))
         {
             obj = new EntityCloudFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("reddust"))
+        }
+        else if (s.equals("reddust"))
         {
             obj = new EntityReddustFX(worldObj, d, d1, d2, (float)d3, (float)d4, (float)d5);
-        } else
-        if(s.equals("snowballpoof"))
+        }
+        else if (s.equals("snowballpoof"))
         {
             obj = new EntityBreakingFX(worldObj, d, d1, d2, Item.snowball);
-        } else
-        if(s.equals("dripWater"))
+        }
+        else if (s.equals("dripWater"))
         {
             obj = new EntityDropParticleFX(worldObj, d, d1, d2, Material.water);
-        } else
-        if(s.equals("dripLava"))
+        }
+        else if (s.equals("dripLava"))
         {
             obj = new EntityDropParticleFX(worldObj, d, d1, d2, Material.lava);
-        } else
-        if(s.equals("snowshovel"))
+        }
+        else if (s.equals("snowshovel"))
         {
             obj = new EntitySnowShovelFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.equals("slime"))
+        }
+        else if (s.equals("slime"))
         {
             obj = new EntityBreakingFX(worldObj, d, d1, d2, Item.slimeBall);
-        } else
-        if(s.equals("heart"))
+        }
+        else if (s.equals("heart"))
         {
             obj = new EntityHeartFX(worldObj, d, d1, d2, d3, d4, d5);
-        } else
-        if(s.startsWith("iconcrack_"))
+        }
+        else if (s.startsWith("iconcrack_"))
         {
             int j = Integer.parseInt(s.substring(s.indexOf("_") + 1));
             obj = new EntityBreakingFX(worldObj, d, d1, d2, d3, d4, d5, Item.itemsList[j]);
-        } else
-        if(s.startsWith("tilecrack_"))
+        }
+        else if (s.startsWith("tilecrack_"))
         {
             int k = Integer.parseInt(s.substring(s.indexOf("_") + 1));
             obj = new EntityDiggingFX(worldObj, d, d1, d2, d3, d4, d5, Block.blocksList[k], 0, 0);
         }
-        if(obj != null)
+        if (obj != null)
         {
             mc.effectRenderer.addEffect(((EntityFX) (obj)));
         }
@@ -1705,11 +1669,11 @@ public class RenderGlobal
     public void obtainEntitySkin(Entity entity)
     {
         entity.updateCloak();
-        if(entity.skinUrl != null)
+        if (entity.skinUrl != null)
         {
             renderEngine.obtainImageData(entity.skinUrl, new ImageBufferDownload());
         }
-        if(entity.cloakUrl != null)
+        if (entity.cloakUrl != null)
         {
             renderEngine.obtainImageData(entity.cloakUrl, new ImageBufferDownload());
         }
@@ -1717,11 +1681,11 @@ public class RenderGlobal
 
     public void releaseEntitySkin(Entity entity)
     {
-        if(entity.skinUrl != null)
+        if (entity.skinUrl != null)
         {
             renderEngine.releaseImageData(entity.skinUrl);
         }
-        if(entity.cloakUrl != null)
+        if (entity.cloakUrl != null)
         {
             renderEngine.releaseImageData(entity.cloakUrl);
         }
@@ -1739,156 +1703,158 @@ public class RenderGlobal
     public void playAuxSFX(EntityPlayer entityplayer, int i, int j, int k, int l, int i1)
     {
         Random random = worldObj.rand;
-        switch(i)
+        switch (i)
         {
-        default:
-            break;
+            default:
+                break;
 
-        case 1001: 
-            worldObj.playSoundEffect(j, k, l, "random.click", 1.0F, 1.2F);
-            break;
+            case 1001:
+                worldObj.playSoundEffect(j, k, l, "random.click", 1.0F, 1.2F);
+                break;
 
-        case 1000: 
-            worldObj.playSoundEffect(j, k, l, "random.click", 1.0F, 1.0F);
-            break;
+            case 1000:
+                worldObj.playSoundEffect(j, k, l, "random.click", 1.0F, 1.0F);
+                break;
 
-        case 1002: 
-            worldObj.playSoundEffect(j, k, l, "random.bow", 1.0F, 1.2F);
-            break;
+            case 1002:
+                worldObj.playSoundEffect(j, k, l, "random.bow", 1.0F, 1.2F);
+                break;
 
-        case 2000: 
-            int j1 = i1 % 3 - 1;
-            int i2 = (i1 / 3) % 3 - 1;
-            double d3 = (double)j + (double)j1 * 0.59999999999999998D + 0.5D;
-            double d7 = (double)k + 0.5D;
-            double d11 = (double)l + (double)i2 * 0.59999999999999998D + 0.5D;
-            for(int i3 = 0; i3 < 10; i3++)
-            {
-                double d13 = random.nextDouble() * 0.20000000000000001D + 0.01D;
-                double d14 = d3 + (double)j1 * 0.01D + (random.nextDouble() - 0.5D) * (double)i2 * 0.5D;
-                double d15 = d7 + (random.nextDouble() - 0.5D) * 0.5D;
-                double d17 = d11 + (double)i2 * 0.01D + (random.nextDouble() - 0.5D) * (double)j1 * 0.5D;
-                double d19 = (double)j1 * d13 + random.nextGaussian() * 0.01D;
-                double d21 = -0.029999999999999999D + random.nextGaussian() * 0.01D;
-                double d23 = (double)i2 * d13 + random.nextGaussian() * 0.01D;
-                spawnParticle("smoke", d14, d15, d17, d19, d21, d23);
-            }
-
-            break;
-
-        case 2003: 
-            double d = (double)j + 0.5D;
-            double d4 = k;
-            double d8 = (double)l + 0.5D;
-            String s = (new StringBuilder()).append("iconcrack_").append(Item.eyeOfEnder.shiftedIndex).toString();
-            for(int j2 = 0; j2 < 8; j2++)
-            {
-                spawnParticle(s, d, d4, d8, random.nextGaussian() * 0.14999999999999999D, random.nextDouble() * 0.20000000000000001D, random.nextGaussian() * 0.14999999999999999D);
-            }
-
-            for(double d12 = 0.0D; d12 < 6.2831853071795862D; d12 += 0.15707963267948966D)
-            {
-                spawnParticle("portal", d + Math.cos(d12) * 5D, d4 - 0.40000000000000002D, d8 + Math.sin(d12) * 5D, Math.cos(d12) * -5D, 0.0D, Math.sin(d12) * -5D);
-                spawnParticle("portal", d + Math.cos(d12) * 5D, d4 - 0.40000000000000002D, d8 + Math.sin(d12) * 5D, Math.cos(d12) * -7D, 0.0D, Math.sin(d12) * -7D);
-            }
-
-            break;
-
-        case 2002: 
-            double d1 = j;
-            double d5 = k;
-            double d9 = l;
-            String s1 = (new StringBuilder()).append("iconcrack_").append(Item.potion.shiftedIndex).toString();
-            for(int k2 = 0; k2 < 8; k2++)
-            {
-                spawnParticle(s1, d1, d5, d9, random.nextGaussian() * 0.14999999999999999D, random.nextDouble() * 0.20000000000000001D, random.nextGaussian() * 0.14999999999999999D);
-            }
-
-            int l2 = Item.potion.getColorFromDamage(i1);
-            float f = (float)(l2 >> 16 & 0xff) / 255F;
-            float f1 = (float)(l2 >> 8 & 0xff) / 255F;
-            float f2 = (float)(l2 >> 0 & 0xff) / 255F;
-            String s2 = "spell";
-            if(Item.potion.func_40432_e(i1))
-            {
-                s2 = "instantSpell";
-            }
-            for(int j3 = 0; j3 < 100; j3++)
-            {
-                double d16 = random.nextDouble() * 4D;
-                double d18 = random.nextDouble() * 3.1415926535897931D * 2D;
-                double d20 = Math.cos(d18) * d16;
-                double d22 = 0.01D + random.nextDouble() * 0.5D;
-                double d24 = Math.sin(d18) * d16;
-                EntityFX entityfx = func_40193_b(s2, d1 + d20 * 0.10000000000000001D, d5 + 0.29999999999999999D, d9 + d24 * 0.10000000000000001D, d20, d22, d24);
-                if(entityfx != null)
+            case 2000:
+                int j1 = i1 % 3 - 1;
+                int i2 = (i1 / 3) % 3 - 1;
+                double d3 = (double)j + (double)j1 * 0.59999999999999998D + 0.5D;
+                double d7 = (double)k + 0.5D;
+                double d11 = (double)l + (double)i2 * 0.59999999999999998D + 0.5D;
+                for (int i3 = 0; i3 < 10; i3++)
                 {
-                    float f3 = 0.75F + random.nextFloat() * 0.25F;
-                    entityfx.func_40097_b(f * f3, f1 * f3, f2 * f3);
-                    entityfx.multiplyVelocity((float)d16);
+                    double d13 = random.nextDouble() * 0.20000000000000001D + 0.01D;
+                    double d14 = d3 + (double)j1 * 0.01D + (random.nextDouble() - 0.5D) * (double)i2 * 0.5D;
+                    double d15 = d7 + (random.nextDouble() - 0.5D) * 0.5D;
+                    double d17 = d11 + (double)i2 * 0.01D + (random.nextDouble() - 0.5D) * (double)j1 * 0.5D;
+                    double d19 = (double)j1 * d13 + random.nextGaussian() * 0.01D;
+                    double d21 = -0.029999999999999999D + random.nextGaussian() * 0.01D;
+                    double d23 = (double)i2 * d13 + random.nextGaussian() * 0.01D;
+                    spawnParticle("smoke", d14, d15, d17, d19, d21, d23);
                 }
-            }
 
-            worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "random.glass", 1.0F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
-            break;
+                break;
 
-        case 2001: 
-            int k1 = i1 & 0xff;
-            if(k1 > 0)
-            {
-                Block block = Block.blocksList[k1];
-                mc.sndManager.playSound(block.stepSound.stepSoundDir(), (float)j + 0.5F, (float)k + 0.5F, (float)l + 0.5F, (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
-            }
-            mc.effectRenderer.addBlockDestroyEffects(j, k, l, i1 & 0xff, i1 >> 8 & 0xff);
-            break;
+            case 2003:
+                double d = (double)j + 0.5D;
+                double d4 = k;
+                double d8 = (double)l + 0.5D;
+                String s = (new StringBuilder()).append("iconcrack_").append(Item.eyeOfEnder.shiftedIndex).toString();
+                for (int j2 = 0; j2 < 8; j2++)
+                {
+                    spawnParticle(s, d, d4, d8, random.nextGaussian() * 0.14999999999999999D, random.nextDouble() * 0.20000000000000001D, random.nextGaussian() * 0.14999999999999999D);
+                }
 
-        case 2004: 
-            for(int l1 = 0; l1 < 20; l1++)
-            {
-                double d2 = (double)j + 0.5D + ((double)worldObj.rand.nextFloat() - 0.5D) * 2D;
-                double d6 = (double)k + 0.5D + ((double)worldObj.rand.nextFloat() - 0.5D) * 2D;
-                double d10 = (double)l + 0.5D + ((double)worldObj.rand.nextFloat() - 0.5D) * 2D;
-                worldObj.spawnParticle("smoke", d2, d6, d10, 0.0D, 0.0D, 0.0D);
-                worldObj.spawnParticle("flame", d2, d6, d10, 0.0D, 0.0D, 0.0D);
-            }
+                for (double d12 = 0.0D; d12 < 6.2831853071795862D; d12 += 0.15707963267948966D)
+                {
+                    spawnParticle("portal", d + Math.cos(d12) * 5D, d4 - 0.40000000000000002D, d8 + Math.sin(d12) * 5D, Math.cos(d12) * -5D, 0.0D, Math.sin(d12) * -5D);
+                    spawnParticle("portal", d + Math.cos(d12) * 5D, d4 - 0.40000000000000002D, d8 + Math.sin(d12) * 5D, Math.cos(d12) * -7D, 0.0D, Math.sin(d12) * -7D);
+                }
 
-            break;
+                break;
 
-        case 1003: 
-            if(Math.random() < 0.5D)
-            {
-                worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "random.door_open", 1.0F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
-            } else
-            {
-                worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "random.door_close", 1.0F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
-            }
-            break;
+            case 2002:
+                double d1 = j;
+                double d5 = k;
+                double d9 = l;
+                String s1 = (new StringBuilder()).append("iconcrack_").append(Item.potion.shiftedIndex).toString();
+                for (int k2 = 0; k2 < 8; k2++)
+                {
+                    spawnParticle(s1, d1, d5, d9, random.nextGaussian() * 0.14999999999999999D, random.nextDouble() * 0.20000000000000001D, random.nextGaussian() * 0.14999999999999999D);
+                }
 
-        case 1004: 
-            worldObj.playSoundEffect((float)j + 0.5F, (float)k + 0.5F, (float)l + 0.5F, "random.fizz", 0.5F, 2.6F + (random.nextFloat() - random.nextFloat()) * 0.8F);
-            break;
+                int l2 = Item.potion.getColorFromDamage(i1, 0);
+                float f = (float)(l2 >> 16 & 0xff) / 255F;
+                float f1 = (float)(l2 >> 8 & 0xff) / 255F;
+                float f2 = (float)(l2 >> 0 & 0xff) / 255F;
+                String s2 = "spell";
+                if (Item.potion.isEffectInstant(i1))
+                {
+                    s2 = "instantSpell";
+                }
+                for (int j3 = 0; j3 < 100; j3++)
+                {
+                    double d16 = random.nextDouble() * 4D;
+                    double d18 = random.nextDouble() * 3.1415926535897931D * 2D;
+                    double d20 = Math.cos(d18) * d16;
+                    double d22 = 0.01D + random.nextDouble() * 0.5D;
+                    double d24 = Math.sin(d18) * d16;
+                    EntityFX entityfx = func_40193_b(s2, d1 + d20 * 0.10000000000000001D, d5 + 0.29999999999999999D, d9 + d24 * 0.10000000000000001D, d20, d22, d24);
+                    if (entityfx != null)
+                    {
+                        float f3 = 0.75F + random.nextFloat() * 0.25F;
+                        entityfx.func_40097_b(f * f3, f1 * f3, f2 * f3);
+                        entityfx.multiplyVelocity((float)d16);
+                    }
+                }
 
-        case 1005: 
-            if(Item.itemsList[i1] instanceof ItemRecord)
-            {
-                worldObj.playRecord(((ItemRecord)Item.itemsList[i1]).recordName, j, k, l);
-            } else
-            {
-                worldObj.playRecord(null, j, k, l);
-            }
-            break;
+                worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "random.glass", 1.0F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                break;
 
-        case 1007: 
-            worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "mob.ghast.charge", 10F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
-            break;
+            case 2001:
+                int k1 = i1 & 0xff;
+                if (k1 > 0)
+                {
+                    Block block = Block.blocksList[k1];
+                    mc.sndManager.playSound(block.stepSound.stepSoundDir(), (float)j + 0.5F, (float)k + 0.5F, (float)l + 0.5F, (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
+                }
+                mc.effectRenderer.addBlockDestroyEffects(j, k, l, i1 & 0xff, i1 >> 8 & 0xff);
+                break;
 
-        case 1008: 
-            worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "mob.ghast.fireball", 10F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
-            break;
+            case 2004:
+                for (int l1 = 0; l1 < 20; l1++)
+                {
+                    double d2 = (double)j + 0.5D + ((double)worldObj.rand.nextFloat() - 0.5D) * 2D;
+                    double d6 = (double)k + 0.5D + ((double)worldObj.rand.nextFloat() - 0.5D) * 2D;
+                    double d10 = (double)l + 0.5D + ((double)worldObj.rand.nextFloat() - 0.5D) * 2D;
+                    worldObj.spawnParticle("smoke", d2, d6, d10, 0.0D, 0.0D, 0.0D);
+                    worldObj.spawnParticle("flame", d2, d6, d10, 0.0D, 0.0D, 0.0D);
+                }
 
-        case 1009: 
-            worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "mob.ghast.fireball", 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
-            break;
+                break;
+
+            case 1003:
+                if (Math.random() < 0.5D)
+                {
+                    worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "random.door_open", 1.0F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                }
+                else
+                {
+                    worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "random.door_close", 1.0F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                }
+                break;
+
+            case 1004:
+                worldObj.playSoundEffect((float)j + 0.5F, (float)k + 0.5F, (float)l + 0.5F, "random.fizz", 0.5F, 2.6F + (random.nextFloat() - random.nextFloat()) * 0.8F);
+                break;
+
+            case 1005:
+                if (Item.itemsList[i1] instanceof ItemRecord)
+                {
+                    worldObj.playRecord(((ItemRecord)Item.itemsList[i1]).recordName, j, k, l);
+                }
+                else
+                {
+                    worldObj.playRecord(null, j, k, l);
+                }
+                break;
+
+            case 1007:
+                worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "mob.ghast.charge", 10F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
+                break;
+
+            case 1008:
+                worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "mob.ghast.fireball", 10F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
+                break;
+
+            case 1009:
+                worldObj.playSoundEffect((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D, "mob.ghast.fireball", 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
+                break;
         }
     }
 }

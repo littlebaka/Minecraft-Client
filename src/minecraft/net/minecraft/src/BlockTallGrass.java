@@ -1,20 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            BlockFlower, ColorizerGrass, ColorizerFoliage, IBlockAccess, 
-//            WorldChunkManager, BiomeGenBase, Item, World, 
-//            EntityPlayer, ItemStack, ItemShears, StatList, 
-//            Block
-
 public class BlockTallGrass extends BlockFlower
 {
-
     protected BlockTallGrass(int i, int j)
     {
         super(i, j);
@@ -24,18 +13,19 @@ public class BlockTallGrass extends BlockFlower
 
     public int getBlockTextureFromSideAndMetadata(int i, int j)
     {
-        if(j == 1)
+        if (j == 1)
         {
             return blockIndexInTexture;
         }
-        if(j == 2)
+        if (j == 2)
         {
             return blockIndexInTexture + 16 + 1;
         }
-        if(j == 0)
+        if (j == 0)
         {
             return blockIndexInTexture + 16;
-        } else
+        }
+        else
         {
             return blockIndexInTexture;
         }
@@ -50,10 +40,11 @@ public class BlockTallGrass extends BlockFlower
 
     public int getRenderColor(int i)
     {
-        if(i == 0)
+        if (i == 0)
         {
             return 0xffffff;
-        } else
+        }
+        else
         {
             return ColorizerFoliage.getFoliageColorBasic();
         }
@@ -62,38 +53,41 @@ public class BlockTallGrass extends BlockFlower
     public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k)
     {
         int l = iblockaccess.getBlockMetadata(i, j, k);
-        if(l == 0)
+        if (l == 0)
         {
             return 0xffffff;
-        } else
+        }
+        else
         {
-            return iblockaccess.getWorldChunkManager().getBiomeGenAt(i, k).func_40254_a(iblockaccess, i, j, k);
+            return iblockaccess.getWorldChunkManager().getBiomeGenAt(i, k).getGrassColorAtCoords(iblockaccess, i, j, k);
         }
     }
 
     public int idDropped(int i, Random random, int j)
     {
-        if(random.nextInt(8) == 0)
+        if (random.nextInt(8) == 0)
         {
             return Item.seeds.shiftedIndex;
-        } else
+        }
+        else
         {
             return -1;
         }
     }
 
-    public int func_40198_a(int i, Random random)
+    public int quantityDroppedWithBonus(int i, Random random)
     {
         return 1 + random.nextInt(i * 2 + 1);
     }
 
     public void harvestBlock(World world, EntityPlayer entityplayer, int i, int j, int k, int l)
     {
-        if(!world.multiplayerWorld && entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex)
+        if (!world.multiplayerWorld && entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex)
         {
             entityplayer.addStat(StatList.mineBlockStatArray[blockID], 1);
             dropBlockAsItem_do(world, i, j, k, new ItemStack(Block.tallGrass, 1, l));
-        } else
+        }
+        else
         {
             super.harvestBlock(world, entityplayer, i, j, k, l);
         }

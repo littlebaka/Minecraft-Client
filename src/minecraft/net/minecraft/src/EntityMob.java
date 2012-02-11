@@ -1,33 +1,23 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityCreature, IMob, World, DamageSource, 
-//            Potion, PotionEffect, Entity, AxisAlignedBB, 
-//            MathHelper, EnumSkyBlock, NBTTagCompound
-
 public abstract class EntityMob extends EntityCreature
     implements IMob
 {
-
     protected int attackStrength;
 
     public EntityMob(World world)
     {
         super(world);
         attackStrength = 2;
-        field_35171_bJ = 5;
+        experienceValue = 5;
     }
 
     public void onLivingUpdate()
     {
         float f = getEntityBrightness(1.0F);
-        if(f > 0.5F)
+        if (f > 0.5F)
         {
             entityAge += 2;
         }
@@ -37,7 +27,7 @@ public abstract class EntityMob extends EntityCreature
     public void onUpdate()
     {
         super.onUpdate();
-        if(!worldObj.multiplayerWorld && worldObj.difficultySetting == 0)
+        if (!worldObj.multiplayerWorld && worldObj.difficultySetting == 0)
         {
             setEntityDead();
         }
@@ -46,10 +36,11 @@ public abstract class EntityMob extends EntityCreature
     protected Entity findPlayerToAttack()
     {
         EntityPlayer entityplayer = worldObj.getClosestVulnerablePlayerToEntity(this, 16D);
-        if(entityplayer != null && canEntityBeSeen(entityplayer))
+        if (entityplayer != null && canEntityBeSeen(entityplayer))
         {
             return entityplayer;
-        } else
+        }
+        else
         {
             return null;
         }
@@ -57,48 +48,50 @@ public abstract class EntityMob extends EntityCreature
 
     public boolean attackEntityFrom(DamageSource damagesource, int i)
     {
-        if(super.attackEntityFrom(damagesource, i))
+        if (super.attackEntityFrom(damagesource, i))
         {
             Entity entity = damagesource.getEntity();
-            if(riddenByEntity == entity || ridingEntity == entity)
+            if (riddenByEntity == entity || ridingEntity == entity)
             {
                 return true;
             }
-            if(entity != this)
+            if (entity != this)
             {
                 entityToAttack = entity;
+                field_46020_bQ = (entity instanceof EntityLiving) ? (EntityLiving)entity : null;
             }
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
     }
 
-    protected boolean attackEntityAsMob(Entity entity)
+    public boolean attackEntityAsMob(Entity entity)
     {
         int i = attackStrength;
-        if(isPotionActive(Potion.potionDamageBoost))
+        if (isPotionActive(Potion.damageBoost))
         {
-            i += 3 << getActivePotionEffect(Potion.potionDamageBoost).getAmplifier();
+            i += 3 << getActivePotionEffect(Potion.damageBoost).getAmplifier();
         }
-        if(isPotionActive(Potion.potionWeakness))
+        if (isPotionActive(Potion.weakness))
         {
-            i -= 2 << getActivePotionEffect(Potion.potionWeakness).getAmplifier();
+            i -= 2 << getActivePotionEffect(Potion.weakness).getAmplifier();
         }
         return entity.attackEntityFrom(DamageSource.causeMobDamage(this), i);
     }
 
     protected void attackEntity(Entity entity, float f)
     {
-        if(attackTime <= 0 && f < 2.0F && entity.boundingBox.maxY > boundingBox.minY && entity.boundingBox.minY < boundingBox.maxY)
+        if (attackTime <= 0 && f < 2.0F && entity.boundingBox.maxY > boundingBox.minY && entity.boundingBox.minY < boundingBox.maxY)
         {
             attackTime = 20;
             attackEntityAsMob(entity);
         }
     }
 
-    protected float getBlockPathWeight(int i, int j, int k)
+    public float getBlockPathWeight(int i, int j, int k)
     {
         return 0.5F - worldObj.getLightBrightness(i, j, k);
     }
@@ -118,12 +111,12 @@ public abstract class EntityMob extends EntityCreature
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(boundingBox.minY);
         int k = MathHelper.floor_double(posZ);
-        if(worldObj.getSavedLightValue(EnumSkyBlock.Sky, i, j, k) > rand.nextInt(32))
+        if (worldObj.getSavedLightValue(EnumSkyBlock.Sky, i, j, k) > rand.nextInt(32))
         {
             return false;
         }
         int l = worldObj.getBlockLightValue(i, j, k);
-        if(worldObj.getIsThundering())
+        if (worldObj.getIsThundering())
         {
             int i1 = worldObj.skylightSubtracted;
             worldObj.skylightSubtracted = 10;

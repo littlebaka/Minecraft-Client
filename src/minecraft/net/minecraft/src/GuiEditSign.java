@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
@@ -9,14 +5,8 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, GuiButton, World, Packet130UpdateSign, 
-//            TileEntitySign, NetClientHandler, Block, TileEntityRenderer, 
-//            ChatAllowedCharacters
-
 public class GuiEditSign extends GuiScreen
 {
-
     protected String screenTitle;
     private TileEntitySign entitySign;
     private int updateCounter;
@@ -40,7 +30,7 @@ public class GuiEditSign extends GuiScreen
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
-        if(mc.theWorld.multiplayerWorld)
+        if (mc.theWorld.multiplayerWorld)
         {
             mc.getSendQueue().addToSendQueue(new Packet130UpdateSign(entitySign.xCoord, entitySign.yCoord, entitySign.zCoord, entitySign.signText));
         }
@@ -53,11 +43,11 @@ public class GuiEditSign extends GuiScreen
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(!guibutton.enabled)
+        if (!guibutton.enabled)
         {
             return;
         }
-        if(guibutton.id == 0)
+        if (guibutton.id == 0)
         {
             entitySign.onInventoryChanged();
             mc.displayGuiScreen(null);
@@ -66,19 +56,19 @@ public class GuiEditSign extends GuiScreen
 
     protected void keyTyped(char c, int i)
     {
-        if(i == 200)
+        if (i == 200)
         {
             editLine = editLine - 1 & 3;
         }
-        if(i == 208 || i == 28)
+        if (i == 208 || i == 28)
         {
             editLine = editLine + 1 & 3;
         }
-        if(i == 14 && entitySign.signText[editLine].length() > 0)
+        if (i == 14 && entitySign.signText[editLine].length() > 0)
         {
             entitySign.signText[editLine] = entitySign.signText[editLine].substring(0, entitySign.signText[editLine].length() - 1);
         }
-        if(allowedCharacters.indexOf(c) >= 0 && entitySign.signText[editLine].length() < 15)
+        if (allowedCharacters.indexOf(c) >= 0 && entitySign.signText[editLine].length() < 15)
         {
             entitySign.signText[editLine] += c;
         }
@@ -94,31 +84,32 @@ public class GuiEditSign extends GuiScreen
         GL11.glScalef(-f1, -f1, -f1);
         GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
         Block block = entitySign.getBlockType();
-        if(block == Block.signPost)
+        if (block == Block.signPost)
         {
             float f2 = (float)(entitySign.getBlockMetadata() * 360) / 16F;
             GL11.glRotatef(f2, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -1.0625F, 0.0F);
-        } else
+        }
+        else
         {
             int k = entitySign.getBlockMetadata();
             float f3 = 0.0F;
-            if(k == 2)
+            if (k == 2)
             {
                 f3 = 180F;
             }
-            if(k == 4)
+            if (k == 4)
             {
                 f3 = 90F;
             }
-            if(k == 5)
+            if (k == 5)
             {
                 f3 = -90F;
             }
             GL11.glRotatef(f3, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -1.0625F, 0.0F);
         }
-        if((updateCounter / 6) % 2 == 0)
+        if ((updateCounter / 6) % 2 == 0)
         {
             entitySign.lineBeingEdited = editLine;
         }
@@ -128,7 +119,7 @@ public class GuiEditSign extends GuiScreen
         super.drawScreen(i, j, f);
     }
 
-    static 
+    static
     {
         allowedCharacters = ChatAllowedCharacters.allowedCharacters;
     }

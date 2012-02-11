@@ -1,9 +1,4 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 public enum EnumToolMaterial
 {
@@ -11,35 +6,19 @@ public enum EnumToolMaterial
     STONE("STONE", 1, 1, 131, 4F, 1, 5),
     IRON("IRON", 2, 2, 250, 6F, 2, 14),
     EMERALD("EMERALD", 3, 3, 1561, 8F, 3, 10),
-    GOLD("GOLD", 4, 0, 32, 12F, 0, 22),
-    ADAMANTITE("ADAMANTITE", 5, 0, 32, 12F, 0, 22); //TODO
-/*
-    public static final EnumToolMaterial WOOD;
-    public static final EnumToolMaterial STONE;
-    public static final EnumToolMaterial IRON;
-    public static final EnumToolMaterial EMERALD;
-    public static final EnumToolMaterial GOLD;
-*/
+    GOLD("GOLD", 4, 0, 32, 12F, 0, 22);
+
     private final int harvestLevel;
     private final int maxUses;
     private final float efficiencyOnProperMaterial;
     private final int damageVsEntity;
     private final int enchantability;
-    private static final EnumToolMaterial allToolMaterials[]; /* synthetic field */
-/*
-    public static final EnumToolMaterial[] values()
-    {
-        return (EnumToolMaterial[])allToolMaterials.clone();
-    }
+    private static final EnumToolMaterial allToolMaterials[] = (new EnumToolMaterial[] {
+        WOOD, STONE, IRON, EMERALD, GOLD
+    });
 
-    public static EnumToolMaterial valueOf(String s)
-    {
-        return (EnumToolMaterial)Enum.valueOf(net.minecraft.src.EnumToolMaterial.class, s);
-    }
-*/
     private EnumToolMaterial(String s, int i, int j, int k, float f, int l, int i1)
     {
-//        super(s, i);
         harvestLevel = j;
         maxUses = k;
         efficiencyOnProperMaterial = f;
@@ -70,19 +49,5 @@ public enum EnumToolMaterial
     public int getEnchantability()
     {
         return enchantability;
-    }
-
-    static 
-    {
-/*
-        WOOD = new EnumToolMaterial("WOOD", 0, 0, 59, 2.0F, 0, 15);
-        STONE = new EnumToolMaterial("STONE", 1, 1, 131, 4F, 1, 5);
-        IRON = new EnumToolMaterial("IRON", 2, 2, 250, 6F, 2, 14);
-        EMERALD = new EnumToolMaterial("EMERALD", 3, 3, 1561, 8F, 3, 10);
-        GOLD = new EnumToolMaterial("GOLD", 4, 0, 32, 12F, 0, 22);
-*/
-        allToolMaterials = (new EnumToolMaterial[] {
-            WOOD, STONE, IRON, EMERALD, GOLD, ADAMANTITE //TODO
-        });
     }
 }

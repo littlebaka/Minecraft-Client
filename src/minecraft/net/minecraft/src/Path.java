@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            PathPoint
 
 public class Path
 {
-
     private PathPoint pathPoints[];
     private int count;
 
@@ -22,11 +13,11 @@ public class Path
 
     public PathPoint addPoint(PathPoint pathpoint)
     {
-        if(pathpoint.index >= 0)
+        if (pathpoint.index >= 0)
         {
             throw new IllegalStateException("OW KNOWS!");
         }
-        if(count == pathPoints.length)
+        if (count == pathPoints.length)
         {
             PathPoint apathpoint[] = new PathPoint[count << 1];
             System.arraycopy(pathPoints, 0, apathpoint, 0, count);
@@ -48,7 +39,7 @@ public class Path
         PathPoint pathpoint = pathPoints[0];
         pathPoints[0] = pathPoints[--count];
         pathPoints[count] = null;
-        if(count > 0)
+        if (count > 0)
         {
             sortForward(0);
         }
@@ -60,10 +51,11 @@ public class Path
     {
         float f1 = pathpoint.distanceToTarget;
         pathpoint.distanceToTarget = f;
-        if(f < f1)
+        if (f < f1)
         {
             sortBack(pathpoint.index);
-        } else
+        }
+        else
         {
             sortForward(pathpoint.index);
         }
@@ -75,20 +67,21 @@ public class Path
         float f = pathpoint.distanceToTarget;
         do
         {
-            if(i <= 0)
+            if (i <= 0)
             {
                 break;
             }
             int j = i - 1 >> 1;
             PathPoint pathpoint1 = pathPoints[j];
-            if(f >= pathpoint1.distanceToTarget)
+            if (f >= pathpoint1.distanceToTarget)
             {
                 break;
             }
             pathPoints[i] = pathpoint1;
             pathpoint1.index = i;
             i = j;
-        } while(true);
+        }
+        while (true);
         pathPoints[i] = pathpoint;
         pathpoint.index = i;
     }
@@ -101,7 +94,7 @@ public class Path
         {
             int j = 1 + (i << 1);
             int k = j + 1;
-            if(j >= count)
+            if (j >= count)
             {
                 break;
             }
@@ -109,18 +102,19 @@ public class Path
             float f1 = pathpoint1.distanceToTarget;
             PathPoint pathpoint2;
             float f2;
-            if(k >= count)
+            if (k >= count)
             {
                 pathpoint2 = null;
                 f2 = (1.0F / 0.0F);
-            } else
+            }
+            else
             {
                 pathpoint2 = pathPoints[k];
                 f2 = pathpoint2.distanceToTarget;
             }
-            if(f1 < f2)
+            if (f1 < f2)
             {
-                if(f1 >= f)
+                if (f1 >= f)
                 {
                     break;
                 }
@@ -129,14 +123,15 @@ public class Path
                 i = j;
                 continue;
             }
-            if(f2 >= f)
+            if (f2 >= f)
             {
                 break;
             }
             pathPoints[i] = pathpoint2;
             pathpoint2.index = i;
             i = k;
-        } while(true);
+        }
+        while (true);
         pathPoints[i] = pathpoint;
         pathpoint.index = i;
     }

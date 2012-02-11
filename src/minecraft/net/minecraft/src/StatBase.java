@@ -1,22 +1,13 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            StatList, AchievementMap, IStatType, StatTypeSimple, 
-//            StatTypeTime, StatTypeDistance
-
 public class StatBase
 {
-
     public final int statId;
-    public final String statName;
+    private final String statName;
     public boolean isIndependent;
     public String statGuid;
     private final IStatType type;
@@ -47,10 +38,11 @@ public class StatBase
 
     public StatBase registerStat()
     {
-        if(StatList.oneShotStats.containsKey(Integer.valueOf(statId)))
+        if (StatList.oneShotStats.containsKey(Integer.valueOf(statId)))
         {
             throw new RuntimeException((new StringBuilder()).append("Duplicate stat id: \"").append(((StatBase)StatList.oneShotStats.get(Integer.valueOf(statId))).statName).append("\" and \"").append(statName).append("\" at id ").append(statId).toString());
-        } else
+        }
+        else
         {
             StatList.field_25188_a.add(this);
             StatList.oneShotStats.put(Integer.valueOf(statId), this);
@@ -69,9 +61,14 @@ public class StatBase
         return type.format(i);
     }
 
-    public String toString()
+    public String func_44020_i()
     {
         return statName;
+    }
+
+    public String toString()
+    {
+        return StatCollector.translateToLocal(statName);
     }
 
     static NumberFormat getNumberFormat()
@@ -84,7 +81,7 @@ public class StatBase
         return decimalFormat;
     }
 
-    static 
+    static
     {
         numberFormat = NumberFormat.getIntegerInstance(Locale.US);
     }

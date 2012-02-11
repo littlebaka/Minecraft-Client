@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, AxisAlignedBB, 
-//            EntityLiving, MathHelper, EntityPlayer
 
 public class BlockFenceGate extends Block
 {
-
     public BlockFenceGate(int i, int j)
     {
         super(i, j, Material.wood);
@@ -19,10 +9,11 @@ public class BlockFenceGate extends Block
 
     public boolean canPlaceBlockAt(World world, int i, int j, int k)
     {
-        if(!world.getBlockMaterial(i, j - 1, k).isSolid())
+        if (!world.getBlockMaterial(i, j - 1, k).isSolid())
         {
             return false;
-        } else
+        }
+        else
         {
             return super.canPlaceBlockAt(world, i, j, k);
         }
@@ -31,12 +22,30 @@ public class BlockFenceGate extends Block
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k)
     {
         int l = world.getBlockMetadata(i, j, k);
-        if(isFenceGateOpen(l))
+        if (isFenceGateOpen(l))
         {
             return null;
-        } else
+        }
+        if (l == 2 || l == 0)
         {
-            return AxisAlignedBB.getBoundingBoxFromPool(i, j, k, i + 1, (float)j + 1.5F, k + 1);
+            return AxisAlignedBB.getBoundingBoxFromPool(i, j, (float)k + 0.375F, i + 1, (float)j + 1.5F, (float)k + 0.625F);
+        }
+        else
+        {
+            return AxisAlignedBB.getBoundingBoxFromPool((float)i + 0.375F, j, k, (float)i + 0.625F, (float)j + 1.5F, k + 1);
+        }
+    }
+
+    public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int i, int j, int k)
+    {
+        int l = func_35290_f(iblockaccess.getBlockMetadata(i, j, k));
+        if (l == 2 || l == 0)
+        {
+            setBlockBounds(0.0F, 0.0F, 0.375F, 1.0F, 1.0F, 0.625F);
+        }
+        else
+        {
+            setBlockBounds(0.375F, 0.0F, 0.0F, 0.625F, 1.0F, 1.0F);
         }
     }
 
@@ -64,14 +73,15 @@ public class BlockFenceGate extends Block
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
         int l = world.getBlockMetadata(i, j, k);
-        if(isFenceGateOpen(l))
+        if (isFenceGateOpen(l))
         {
             world.setBlockMetadataWithNotify(i, j, k, l & -5);
-        } else
+        }
+        else
         {
             int i1 = (MathHelper.floor_double((double)((entityplayer.rotationYaw * 4F) / 360F) + 0.5D) & 3) % 4;
             int j1 = func_35290_f(l);
-            if(j1 == (i1 + 2) % 4)
+            if (j1 == (i1 + 2) % 4)
             {
                 l = i1;
             }
@@ -79,6 +89,29 @@ public class BlockFenceGate extends Block
         }
         world.playAuxSFXAtEntity(entityplayer, 1003, i, j, k, 0);
         return true;
+    }
+
+    public void onNeighborBlockChange(World world, int i, int j, int k, int l)
+    {
+        if (world.multiplayerWorld)
+        {
+            return;
+        }
+        int i1 = world.getBlockMetadata(i, j, k);
+        boolean flag = world.isBlockIndirectlyGettingPowered(i, j, k);
+        if (flag || l > 0 && Block.blocksList[l].canProvidePower() || l == 0)
+        {
+            if (flag && !isFenceGateOpen(i1))
+            {
+                world.setBlockMetadataWithNotify(i, j, k, i1 | 4);
+                world.playAuxSFXAtEntity(null, 1003, i, j, k, 0);
+            }
+            else if (!flag && isFenceGateOpen(i1))
+            {
+                world.setBlockMetadataWithNotify(i, j, k, i1 & -5);
+                world.playAuxSFXAtEntity(null, 1003, i, j, k, 0);
+            }
+        }
     }
 
     public static boolean isFenceGateOpen(int i)

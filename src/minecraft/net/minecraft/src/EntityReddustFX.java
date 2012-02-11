@@ -1,32 +1,23 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, World, Tessellator
 
 public class EntityReddustFX extends EntityFX
 {
-
     float reddustParticleScale;
 
-    public EntityReddustFX(World world, double d, double d1, double d2, 
+    public EntityReddustFX(World world, double d, double d1, double d2,
             float f, float f1, float f2)
     {
         this(world, d, d1, d2, 1.0F, f, f1, f2);
     }
 
-    public EntityReddustFX(World world, double d, double d1, double d2, 
+    public EntityReddustFX(World world, double d, double d1, double d2,
             float f, float f1, float f2, float f3)
     {
         super(world, d, d1, d2, 0.0D, 0.0D, 0.0D);
         motionX *= 0.10000000149011612D;
         motionY *= 0.10000000149011612D;
         motionZ *= 0.10000000149011612D;
-        if(f1 == 0.0F)
+        if (f1 == 0.0F)
         {
             f1 = 1.0F;
         }
@@ -45,11 +36,11 @@ public class EntityReddustFX extends EntityFX
     public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5)
     {
         float f6 = (((float)particleAge + f) / (float)particleMaxAge) * 32F;
-        if(f6 < 0.0F)
+        if (f6 < 0.0F)
         {
             f6 = 0.0F;
         }
-        if(f6 > 1.0F)
+        if (f6 > 1.0F)
         {
             f6 = 1.0F;
         }
@@ -62,13 +53,13 @@ public class EntityReddustFX extends EntityFX
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
-        if(particleAge++ >= particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
             setEntityDead();
         }
-        func_40099_c(7 - (particleAge * 8) / particleMaxAge);
+        setParticleTextureIndex(7 - (particleAge * 8) / particleMaxAge);
         moveEntity(motionX, motionY, motionZ);
-        if(posY == prevPosY)
+        if (posY == prevPosY)
         {
             motionX *= 1.1000000000000001D;
             motionZ *= 1.1000000000000001D;
@@ -76,7 +67,7 @@ public class EntityReddustFX extends EntityFX
         motionX *= 0.95999997854232788D;
         motionY *= 0.95999997854232788D;
         motionZ *= 0.95999997854232788D;
-        if(onGround)
+        if (onGround)
         {
             motionX *= 0.69999998807907104D;
             motionZ *= 0.69999998807907104D;

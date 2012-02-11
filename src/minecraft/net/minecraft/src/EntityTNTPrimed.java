@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Entity, MathHelper, World, NBTTagCompound
 
 public class EntityTNTPrimed extends Entity
 {
-
     public int fuse;
 
     public EntityTNTPrimed(World world)
@@ -60,23 +51,25 @@ public class EntityTNTPrimed extends Entity
         motionX *= 0.98000001907348633D;
         motionY *= 0.98000001907348633D;
         motionZ *= 0.98000001907348633D;
-        if(onGround)
+        if (onGround)
         {
             motionX *= 0.69999998807907104D;
             motionZ *= 0.69999998807907104D;
             motionY *= -0.5D;
         }
-        if(fuse-- <= 0)
+        if (fuse-- <= 0)
         {
-            if(!worldObj.multiplayerWorld)
+            if (!worldObj.multiplayerWorld)
             {
                 setEntityDead();
                 explode();
-            } else
+            }
+            else
             {
                 setEntityDead();
             }
-        } else
+        }
+        else
         {
             worldObj.spawnParticle("smoke", posX, posY + 0.5D, posZ, 0.0D, 0.0D, 0.0D);
         }

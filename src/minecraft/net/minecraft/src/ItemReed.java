@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Item, Block, World, EntityPlayer, 
-//            ItemStack, StepSound
 
 public class ItemReed extends Item
 {
-
     private int spawnID;
 
     public ItemReed(int i, Block block)
@@ -23,51 +13,51 @@ public class ItemReed extends Item
     public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l)
     {
         int i1 = world.getBlockId(i, j, k);
-        if(i1 == Block.snow.blockID)
+        if (i1 == Block.snow.blockID)
         {
             l = 0;
-        } else
-        if(i1 != Block.vine.blockID)
+        }
+        else if (i1 != Block.vine.blockID)
         {
-            if(l == 0)
+            if (l == 0)
             {
                 j--;
             }
-            if(l == 1)
+            if (l == 1)
             {
                 j++;
             }
-            if(l == 2)
+            if (l == 2)
             {
                 k--;
             }
-            if(l == 3)
+            if (l == 3)
             {
                 k++;
             }
-            if(l == 4)
+            if (l == 4)
             {
                 i--;
             }
-            if(l == 5)
+            if (l == 5)
             {
                 i++;
             }
         }
-        if(!entityplayer.func_35190_e(i, j, k))
+        if (!entityplayer.canPlayerEdit(i, j, k))
         {
             return false;
         }
-        if(itemstack.stackSize == 0)
+        if (itemstack.stackSize == 0)
         {
             return false;
         }
-        if(world.canBlockBePlacedAt(spawnID, i, j, k, false, l))
+        if (world.canBlockBePlacedAt(spawnID, i, j, k, false, l))
         {
             Block block = Block.blocksList[spawnID];
-            if(world.setBlockWithNotify(i, j, k, spawnID))
+            if (world.setBlockWithNotify(i, j, k, spawnID))
             {
-                if(world.getBlockId(i, j, k) == spawnID)
+                if (world.getBlockId(i, j, k) == spawnID)
                 {
                     Block.blocksList[spawnID].onBlockPlaced(world, i, j, k, l);
                     Block.blocksList[spawnID].onBlockPlacedBy(world, i, j, k, entityplayer);

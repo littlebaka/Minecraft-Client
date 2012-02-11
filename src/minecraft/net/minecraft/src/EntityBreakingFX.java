@@ -1,28 +1,18 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, Item, Block, Tessellator, 
-//            World
 
 public class EntityBreakingFX extends EntityFX
 {
-
-    public EntityBreakingFX(World world, double d, double d1, double d2, 
+    public EntityBreakingFX(World world, double d, double d1, double d2,
             Item item)
     {
         super(world, d, d1, d2, 0.0D, 0.0D, 0.0D);
-        func_40099_c(item.getIconFromDamage(0));
+        setParticleTextureIndex(item.getIconFromDamage(0));
         particleRed = particleGreen = particleBlue = 1.0F;
         particleGravity = Block.blockSnow.blockParticleGravity;
         particleScale /= 2.0F;
     }
 
-    public EntityBreakingFX(World world, double d, double d1, double d2, 
+    public EntityBreakingFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5, Item item)
     {
         this(world, d, d1, d2, item);
@@ -41,9 +31,9 @@ public class EntityBreakingFX extends EntityFX
 
     public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5)
     {
-        float f6 = ((float)(func_40100_q() % 16) + particleTextureJitterX / 4F) / 16F;
+        float f6 = ((float)(getParticleTextureIndex() % 16) + particleTextureJitterX / 4F) / 16F;
         float f7 = f6 + 0.01560938F;
-        float f8 = ((float)(func_40100_q() / 16) + particleTextureJitterY / 4F) / 16F;
+        float f8 = ((float)(getParticleTextureIndex() / 16) + particleTextureJitterY / 4F) / 16F;
         float f9 = f8 + 0.01560938F;
         float f10 = 0.1F * particleScale;
         float f11 = (float)((prevPosX + (posX - prevPosX) * (double)f) - interpPosX);

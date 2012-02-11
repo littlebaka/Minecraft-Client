@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Entity, MathHelper, World, Block, 
-//            BlockPistonMoving, BlockSand, NBTTagCompound
 
 public class EntityFallingSand extends Entity
 {
-
     public int blockID;
     public int fallTime;
 
@@ -21,7 +11,7 @@ public class EntityFallingSand extends Entity
         fallTime = 0;
     }
 
-    public EntityFallingSand(World world, double d, double d1, double d2, 
+    public EntityFallingSand(World world, double d, double d1, double d2,
             int i)
     {
         super(world);
@@ -55,7 +45,7 @@ public class EntityFallingSand extends Entity
 
     public void onUpdate()
     {
-        if(blockID == 0)
+        if (blockID == 0)
         {
             setEntityDead();
             return;
@@ -72,29 +62,29 @@ public class EntityFallingSand extends Entity
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
-        if(fallTime == 1 && worldObj.getBlockId(i, j, k) == blockID)
+        if (fallTime == 1 && worldObj.getBlockId(i, j, k) == blockID)
         {
             worldObj.setBlockWithNotify(i, j, k, 0);
-        } else
-        if(!worldObj.multiplayerWorld && fallTime == 1)
+        }
+        else if (!worldObj.multiplayerWorld && fallTime == 1)
         {
             setEntityDead();
         }
-        if(onGround)
+        if (onGround)
         {
             motionX *= 0.69999998807907104D;
             motionZ *= 0.69999998807907104D;
             motionY *= -0.5D;
-            if(worldObj.getBlockId(i, j, k) != Block.pistonMoving.blockID)
+            if (worldObj.getBlockId(i, j, k) != Block.pistonMoving.blockID)
             {
                 setEntityDead();
-                if((!worldObj.canBlockBePlacedAt(blockID, i, j, k, true, 1) || BlockSand.canFallBelow(worldObj, i, j - 1, k) || !worldObj.setBlockWithNotify(i, j, k, blockID)) && !worldObj.multiplayerWorld)
+                if ((!worldObj.canBlockBePlacedAt(blockID, i, j, k, true, 1) || BlockSand.canFallBelow(worldObj, i, j - 1, k) || !worldObj.setBlockWithNotify(i, j, k, blockID)) && !worldObj.multiplayerWorld)
                 {
                     dropItem(blockID, 1);
                 }
             }
-        } else
-        if(fallTime > 100 && !worldObj.multiplayerWorld)
+        }
+        else if (fallTime > 100 && !worldObj.multiplayerWorld)
         {
             dropItem(blockID, 1);
             setEntityDead();

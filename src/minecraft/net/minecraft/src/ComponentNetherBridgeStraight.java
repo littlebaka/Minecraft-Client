@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentNetherBridgePiece, ComponentNetherBridgeStartPiece, StructureBoundingBox, StructureComponent, 
-//            Block, World
-
 public class ComponentNetherBridgeStraight extends ComponentNetherBridgePiece
 {
-
     public ComponentNetherBridgeStraight(int i, Random random, StructureBoundingBox structureboundingbox, int j)
     {
         super(i);
@@ -29,10 +20,11 @@ public class ComponentNetherBridgeStraight extends ComponentNetherBridgePiece
     public static ComponentNetherBridgeStraight func_40029_a(List list, Random random, int i, int j, int k, int l, int i1)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, -1, -3, 0, 5, 10, 19, l);
-        if(!func_40021_a(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (!func_40021_a(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return new ComponentNetherBridgeStraight(i1, random, structureboundingbox, l);
         }
@@ -48,14 +40,13 @@ public class ComponentNetherBridgeStraight extends ComponentNetherBridgePiece
         fillWithBlocks(world, structureboundingbox, 0, 2, 13, 4, 2, 18, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         fillWithBlocks(world, structureboundingbox, 0, 0, 0, 4, 1, 3, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         fillWithBlocks(world, structureboundingbox, 0, 0, 15, 4, 1, 18, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-        for(int i = 0; i <= 4; i++)
+        for (int i = 0; i <= 4; i++)
         {
-            for(int j = 0; j <= 2; j++)
+            for (int j = 0; j <= 2; j++)
             {
                 fillCurrentPositionBlocksDownwards(world, Block.netherBrick.blockID, 0, i, -1, j, structureboundingbox);
                 fillCurrentPositionBlocksDownwards(world, Block.netherBrick.blockID, 0, i, -1, 18 - j, structureboundingbox);
             }
-
         }
 
         fillWithBlocks(world, structureboundingbox, 0, 1, 1, 0, 4, 1, Block.netherFence.blockID, Block.netherFence.blockID, false);

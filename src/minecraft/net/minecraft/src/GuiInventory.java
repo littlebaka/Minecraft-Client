@@ -4,15 +4,8 @@ import java.util.*;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiContainer, EntityPlayer, AchievementList, PlayerController, 
-//            GuiContainerCreative, EntityPlayerSP, FontRenderer, RenderEngine, 
-//            RenderHelper, RenderManager, GuiButton, GuiAchievements, 
-//            GuiStats, PotionEffect, Potion, StatCollector
-
 public class GuiInventory extends GuiContainer
 {
-
     private float xSize_lo;
     private float ySize_lo;
 
@@ -25,7 +18,7 @@ public class GuiInventory extends GuiContainer
 
     public void updateScreen()
     {
-        if(mc.playerController.isInCreativeMode())
+        if (mc.playerController.isInCreativeMode())
         {
             mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
         }
@@ -34,23 +27,24 @@ public class GuiInventory extends GuiContainer
     public void initGui()
     {
         controlList.clear();
-        if(mc.playerController.isInCreativeMode())
+        if (mc.playerController.isInCreativeMode())
         {
             mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
-        } else
+        }
+        else
         {
             super.initGui();
-            if(!mc.thePlayer.func_40118_aO().isEmpty())
+            if (!mc.thePlayer.func_40118_aO().isEmpty())
             {
-                field_40216_e = 160 + (width - xSize - 200) / 2;
+                guiLeft = 160 + (width - xSize - 200) / 2;
             }
         }
     }
 
-    /*protected void drawGuiContainerForegroundLayer()
+    protected void drawGuiContainerForegroundLayer()
     {
         fontRenderer.drawString("Crafting", 86, 16, 0x404040);
-    }*/
+    }
 
     public void drawScreen(int i, int j, float f)
     {
@@ -64,8 +58,8 @@ public class GuiInventory extends GuiContainer
         int k = mc.renderEngine.getTexture("/gui/inventory.png");
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(k);
-        int l = field_40216_e;
-        int i1 = field_40215_f;
+        int l = guiLeft;
+        int i1 = guiTop;
         drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
         func_40218_g();
         GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
@@ -100,11 +94,11 @@ public class GuiInventory extends GuiContainer
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(guibutton.id == 0)
+        if (guibutton.id == 0)
         {
             mc.displayGuiScreen(new GuiAchievements(mc.statFileWriter));
         }
-        if(guibutton.id == 1)
+        if (guibutton.id == 1)
         {
             mc.displayGuiScreen(new GuiStats(this, mc.statFileWriter));
         }
@@ -112,41 +106,48 @@ public class GuiInventory extends GuiContainer
 
     private void func_40218_g()
     {
-        int i = field_40216_e - 124;
-        int j = field_40215_f;
+        int i = guiLeft - 124;
+        int j = guiTop;
         int k = mc.renderEngine.getTexture("/gui/inventory.png");
         Collection collection = mc.thePlayer.func_40118_aO();
-        if(collection.isEmpty())
+        if (collection.isEmpty())
         {
             return;
         }
         int l = 33;
-        if(collection.size() > 5)
+        if (collection.size() > 5)
         {
             l = 132 / (collection.size() - 1);
         }
-        for(Iterator iterator = mc.thePlayer.func_40118_aO().iterator(); iterator.hasNext();)
+        for (Iterator iterator = mc.thePlayer.func_40118_aO().iterator(); iterator.hasNext();)
         {
             PotionEffect potioneffect = (PotionEffect)iterator.next();
             Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             mc.renderEngine.bindTexture(k);
             drawTexturedModalRect(i, j, 0, ySize, 140, 32);
-            if(potion.func_40617_d())
+            if (potion.hasStatusIcon())
             {
-                int i1 = potion.func_40611_e();
+                int i1 = potion.getStatusIconIndex();
                 drawTexturedModalRect(i + 6, j + 7, 0 + (i1 % 8) * 18, ySize + 32 + (i1 / 8) * 18, 18, 18);
             }
-            String s = StatCollector.translateToLocal(potion.func_40623_c());
-            if(potioneffect.getAmplifier() > 0)
+            String s = StatCollector.translateToLocal(potion.getName());
+            if (potioneffect.getAmplifier() == 1)
             {
-                s = (new StringBuilder()).append(s).append(" ").append(StatCollector.translateToLocal((new StringBuilder()).append("potion.potency.").append(potioneffect.getAmplifier()).toString())).toString();
+                s = (new StringBuilder()).append(s).append(" II").toString();
+            }
+            else if (potioneffect.getAmplifier() == 2)
+            {
+                s = (new StringBuilder()).append(s).append(" III").toString();
+            }
+            else if (potioneffect.getAmplifier() == 3)
+            {
+                s = (new StringBuilder()).append(s).append(" IV").toString();
             }
             fontRenderer.drawStringWithShadow(s, i + 10 + 18, j + 6, 0xffffff);
             String s1 = Potion.func_40620_a(potioneffect);
             fontRenderer.drawStringWithShadow(s1, i + 10 + 18, j + 6 + 10, 0x7f7f7f);
             j += l;
         }
-
     }
 }

@@ -1,28 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 import net.minecraft.client.Minecraft;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityPlayer, MouseFilter, Session, MovementInput, 
-//            PlayerController, AchievementList, StatFileWriter, GuiAchievement, 
-//            World, SoundManager, Potion, PotionEffect, 
-//            AxisAlignedBB, FoodStats, PlayerCapabilities, GuiWinGame, 
-//            ItemStack, Item, NBTTagCompound, GuiEditSign, 
-//            GuiChest, GuiCrafting, GuiEnchantment, GuiFurnace, 
-//            GuiBrewingStand, GuiDispenser, EntityCrit2FX, EffectRenderer, 
-//            EntityPickupFX, InventoryPlayer, DamageSource, GuiIngame, 
-//            StatBase, Achievement, MathHelper, TileEntitySign, 
-//            IInventory, TileEntityFurnace, TileEntityBrewingStand, TileEntityDispenser, 
-//            Entity
-
 public class EntityPlayerSP extends EntityPlayer
 {
-
     public MovementInput movementInput;
     protected Minecraft mc;
     protected int sprintToggleTimer;
@@ -45,7 +27,7 @@ public class EntityPlayerSP extends EntityPlayer
         field_21902_bL = new MouseFilter();
         mc = minecraft;
         dimension = i;
-        if(session != null && session.username != null && session.username.length() > 0)
+        if (session != null && session.username != null && session.username.length() > 0)
         {
             skinUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftSkins/").append(session.username).append(".png").toString();
         }
@@ -69,21 +51,26 @@ public class EntityPlayerSP extends EntityPlayer
         renderArmYaw += (double)(rotationYaw - renderArmYaw) * 0.5D;
     }
 
+    protected boolean func_44001_ad()
+    {
+        return true;
+    }
+
     public void onLivingUpdate()
     {
-        if(sprintingTicksLeft > 0)
+        if (sprintingTicksLeft > 0)
         {
             sprintingTicksLeft--;
-            if(sprintingTicksLeft == 0)
+            if (sprintingTicksLeft == 0)
             {
                 setSprinting(false);
             }
         }
-        if(sprintToggleTimer > 0)
+        if (sprintToggleTimer > 0)
         {
             sprintToggleTimer--;
         }
-        if(mc.playerController.func_35643_e())
+        if (mc.playerController.func_35643_e())
         {
             posX = posZ = 0.5D;
             posX = 0.0D;
@@ -93,38 +80,39 @@ public class EntityPlayerSP extends EntityPlayer
             posY = 68.5D;
             return;
         }
-        if(!mc.statFileWriter.hasAchievementUnlocked(AchievementList.openInventory))
+        if (!mc.statFileWriter.hasAchievementUnlocked(AchievementList.openInventory))
         {
             mc.guiAchievement.queueAchievementInformation(AchievementList.openInventory);
         }
         prevTimeInPortal = timeInPortal;
-        if(inPortal)
+        if (inPortal)
         {
-            if(!worldObj.multiplayerWorld && ridingEntity != null)
+            if (!worldObj.multiplayerWorld && ridingEntity != null)
             {
                 mountEntity(null);
             }
-            if(mc.currentScreen != null)
+            if (mc.currentScreen != null)
             {
                 mc.displayGuiScreen(null);
             }
-            if(timeInPortal == 0.0F)
+            if (timeInPortal == 0.0F)
             {
                 mc.sndManager.playSoundFX("portal.trigger", 1.0F, rand.nextFloat() * 0.4F + 0.8F);
             }
             timeInPortal += 0.0125F;
-            if(timeInPortal >= 1.0F)
+            if (timeInPortal >= 1.0F)
             {
                 timeInPortal = 1.0F;
-                if(!worldObj.multiplayerWorld)
+                if (!worldObj.multiplayerWorld)
                 {
                     timeUntilPortal = 10;
                     mc.sndManager.playSoundFX("portal.travel", 1.0F, rand.nextFloat() * 0.4F + 0.8F);
                     byte byte0 = 0;
-                    if(dimension == -1)
+                    if (dimension == -1)
                     {
                         byte0 = 0;
-                    } else
+                    }
+                    else
                     {
                         byte0 = -1;
                     }
@@ -133,26 +121,27 @@ public class EntityPlayerSP extends EntityPlayer
                 }
             }
             inPortal = false;
-        } else
-        if(isPotionActive(Potion.potionConfusion) && getActivePotionEffect(Potion.potionConfusion).getDuration() > 60)
+        }
+        else if (isPotionActive(Potion.confusion) && getActivePotionEffect(Potion.confusion).getDuration() > 60)
         {
             timeInPortal += 0.006666667F;
-            if(timeInPortal > 1.0F)
+            if (timeInPortal > 1.0F)
             {
                 timeInPortal = 1.0F;
             }
-        } else
+        }
+        else
         {
-            if(timeInPortal > 0.0F)
+            if (timeInPortal > 0.0F)
             {
                 timeInPortal -= 0.05F;
             }
-            if(timeInPortal < 0.0F)
+            if (timeInPortal < 0.0F)
             {
                 timeInPortal = 0.0F;
             }
         }
-        if(timeUntilPortal > 0)
+        if (timeUntilPortal > 0)
         {
             timeUntilPortal--;
         }
@@ -160,13 +149,13 @@ public class EntityPlayerSP extends EntityPlayer
         float f = 0.8F;
         boolean flag1 = movementInput.moveForward >= f;
         movementInput.updatePlayerMoveState(this);
-        if(isUsingItem())
+        if (isUsingItem())
         {
             movementInput.moveStrafe *= 0.2F;
             movementInput.moveForward *= 0.2F;
             sprintToggleTimer = 0;
         }
-        if(movementInput.sneak && ySize < 0.2F)
+        if (movementInput.sneak && ySize < 0.2F)
         {
             ySize = 0.2F;
         }
@@ -175,49 +164,51 @@ public class EntityPlayerSP extends EntityPlayer
         pushOutOfBlocks(posX + (double)width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ - (double)width * 0.34999999999999998D);
         pushOutOfBlocks(posX + (double)width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ + (double)width * 0.34999999999999998D);
         boolean flag2 = (float)getFoodStats().getFoodLevel() > 6F;
-        if(onGround && !flag1 && movementInput.moveForward >= f && !isSprinting() && flag2 && !isUsingItem() && !isPotionActive(Potion.potionBlindness))
+        if (onGround && !flag1 && movementInput.moveForward >= f && !isSprinting() && flag2 && !isUsingItem() && !isPotionActive(Potion.blindness))
         {
-            if(sprintToggleTimer == 0)
+            if (sprintToggleTimer == 0)
             {
                 sprintToggleTimer = 7;
-            } else
+            }
+            else
             {
                 setSprinting(true);
                 sprintToggleTimer = 0;
             }
         }
-        if(isSneaking())
+        if (isSneaking())
         {
             sprintToggleTimer = 0;
         }
-        if(isSprinting() && (movementInput.moveForward < f || isCollidedHorizontally || !flag2))
+        if (isSprinting() && (movementInput.moveForward < f || isCollidedHorizontally || !flag2))
         {
             setSprinting(false);
         }
-        if(capabilities.allowFlying && !flag && movementInput.jump)
+        if (capabilities.allowFlying && !flag && movementInput.jump)
         {
-            if(flyToggleTimer == 0)
+            if (flyToggleTimer == 0)
             {
                 flyToggleTimer = 7;
-            } else
+            }
+            else
             {
                 capabilities.isFlying = !capabilities.isFlying;
                 flyToggleTimer = 0;
             }
         }
-        if(capabilities.isFlying)
+        if (capabilities.isFlying)
         {
-            if(movementInput.sneak)
+            if (movementInput.sneak)
             {
                 motionY -= 0.14999999999999999D;
             }
-            if(movementInput.jump)
+            if (movementInput.jump)
             {
                 motionY += 0.14999999999999999D;
             }
         }
         super.onLivingUpdate();
-        if(onGround && capabilities.isFlying)
+        if (onGround && capabilities.isFlying)
         {
             capabilities.isFlying = false;
         }
@@ -225,13 +216,14 @@ public class EntityPlayerSP extends EntityPlayer
 
     public void func_40182_b(int i)
     {
-        if(!worldObj.multiplayerWorld)
+        if (!worldObj.multiplayerWorld)
         {
-            if(dimension == 1 && i == 1)
+            if (dimension == 1 && i == 1)
             {
                 triggerAchievement(AchievementList.theEnd2);
                 mc.displayGuiScreen(new GuiWinGame());
-            } else
+            }
+            else
             {
                 triggerAchievement(AchievementList.theEnd);
                 mc.sndManager.playSoundFX("portal.travel", 1.0F, rand.nextFloat() * 0.4F + 0.8F);
@@ -243,19 +235,20 @@ public class EntityPlayerSP extends EntityPlayer
     public float getFOVMultiplier()
     {
         float f = 1.0F;
-        if(capabilities.isFlying)
+        if (capabilities.isFlying)
         {
             f *= 1.1F;
         }
-        f *= ((landMovementFactor * func_35166_t_()) / speedOnGround + 1.0F) / 2.0F;
-        if(isUsingItem() && getItemInUse().itemID == Item.bow.shiftedIndex)
+        f *= ((landMovementFactor * getSpeedModifier()) / speedOnGround + 1.0F) / 2.0F;
+        if (isUsingItem() && getItemInUse().itemID == Item.bow.shiftedIndex)
         {
             int i = getItemInUseDuration();
             float f1 = (float)i / 20F;
-            if(f1 > 1.0F)
+            if (f1 > 1.0F)
             {
                 f1 = 1.0F;
-            } else
+            }
+            else
             {
                 f1 *= f1;
             }
@@ -297,7 +290,7 @@ public class EntityPlayerSP extends EntityPlayer
         mc.displayGuiScreen(new GuiCrafting(inventory, worldObj, i, j, k));
     }
 
-    public void func_40181_c(int i, int j, int k)
+    public void displayGUIEnchantment(int i, int j, int k)
     {
         mc.displayGuiScreen(new GuiEnchantment(inventory, worldObj, i, j, k));
     }
@@ -307,7 +300,7 @@ public class EntityPlayerSP extends EntityPlayer
         mc.displayGuiScreen(new GuiFurnace(inventory, tileentityfurnace));
     }
 
-    public void func_40180_a(TileEntityBrewingStand tileentitybrewingstand)
+    public void displayGUIBrewingStand(TileEntityBrewingStand tileentitybrewingstand)
     {
         mc.displayGuiScreen(new GuiBrewingStand(inventory, tileentitybrewingstand));
     }
@@ -333,11 +326,6 @@ public class EntityPlayerSP extends EntityPlayer
         mc.effectRenderer.addEffect(new EntityPickupFX(mc.theWorld, entity, this, -0.5F));
     }
 
-    public int getPlayerArmorValue()
-    {
-        return inventory.getTotalArmorValue();
-    }
-
     public void sendChatMessage(String s)
     {
     }
@@ -350,14 +338,15 @@ public class EntityPlayerSP extends EntityPlayer
     public void setHealth(int i)
     {
         int j = getEntityHealth() - i;
-        if(j <= 0)
+        if (j <= 0)
         {
             setEntityHealth(i);
-            if(j < 0)
+            if (j < 0)
             {
                 heartsLife = heartsHalvesLife / 2;
             }
-        } else
+        }
+        else
         {
             naturalArmorRating = j;
             setEntityHealth(getEntityHealth());
@@ -383,22 +372,23 @@ public class EntityPlayerSP extends EntityPlayer
 
     public void addStat(StatBase statbase, int i)
     {
-        if(statbase == null)
+        if (statbase == null)
         {
             return;
         }
-        if(statbase.isAchievement())
+        if (statbase.isAchievement())
         {
             Achievement achievement = (Achievement)statbase;
-            if(achievement.parentAchievement == null || mc.statFileWriter.hasAchievementUnlocked(achievement.parentAchievement))
+            if (achievement.parentAchievement == null || mc.statFileWriter.hasAchievementUnlocked(achievement.parentAchievement))
             {
-                if(!mc.statFileWriter.hasAchievementUnlocked(achievement))
+                if (!mc.statFileWriter.hasAchievementUnlocked(achievement))
                 {
                     mc.guiAchievement.queueTakenAchievement(achievement);
                 }
                 mc.statFileWriter.readStat(statbase, i);
             }
-        } else
+        }
+        else
         {
             mc.statFileWriter.readStat(statbase, i);
         }
@@ -416,7 +406,7 @@ public class EntityPlayerSP extends EntityPlayer
         int k = MathHelper.floor_double(d2);
         double d3 = d - (double)i;
         double d4 = d2 - (double)k;
-        if(isBlockTranslucent(i, j, k) || isBlockTranslucent(i, j + 1, k))
+        if (isBlockTranslucent(i, j, k) || isBlockTranslucent(i, j + 1, k))
         {
             boolean flag = !isBlockTranslucent(i - 1, j, k) && !isBlockTranslucent(i - 1, j + 1, k);
             boolean flag1 = !isBlockTranslucent(i + 1, j, k) && !isBlockTranslucent(i + 1, j + 1, k);
@@ -424,40 +414,40 @@ public class EntityPlayerSP extends EntityPlayer
             boolean flag3 = !isBlockTranslucent(i, j, k + 1) && !isBlockTranslucent(i, j + 1, k + 1);
             byte byte0 = -1;
             double d5 = 9999D;
-            if(flag && d3 < d5)
+            if (flag && d3 < d5)
             {
                 d5 = d3;
                 byte0 = 0;
             }
-            if(flag1 && 1.0D - d3 < d5)
+            if (flag1 && 1.0D - d3 < d5)
             {
                 d5 = 1.0D - d3;
                 byte0 = 1;
             }
-            if(flag2 && d4 < d5)
+            if (flag2 && d4 < d5)
             {
                 d5 = d4;
                 byte0 = 4;
             }
-            if(flag3 && 1.0D - d4 < d5)
+            if (flag3 && 1.0D - d4 < d5)
             {
                 double d6 = 1.0D - d4;
                 byte0 = 5;
             }
             float f = 0.1F;
-            if(byte0 == 0)
+            if (byte0 == 0)
             {
                 motionX = -f;
             }
-            if(byte0 == 1)
+            if (byte0 == 1)
             {
                 motionX = f;
             }
-            if(byte0 == 4)
+            if (byte0 == 4)
             {
                 motionZ = -f;
             }
-            if(byte0 == 5)
+            if (byte0 == 5)
             {
                 motionZ = f;
             }
@@ -468,10 +458,11 @@ public class EntityPlayerSP extends EntityPlayer
     public void setSprinting(boolean flag)
     {
         super.setSprinting(flag);
-        if(!flag)
+        if (!flag)
         {
             sprintingTicksLeft = 0;
-        } else
+        }
+        else
         {
             sprintingTicksLeft = 600;
         }

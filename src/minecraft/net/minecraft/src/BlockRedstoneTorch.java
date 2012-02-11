@@ -1,27 +1,19 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            BlockTorch, Block, RedstoneUpdateInfo, World, 
-//            IBlockAccess
-
 public class BlockRedstoneTorch extends BlockTorch
 {
-
     private boolean torchActive;
     private static List torchUpdates = new ArrayList();
 
     public int getBlockTextureFromSideAndMetadata(int i, int j)
     {
-        if(i == 1)
+        if (i == 1)
         {
             return Block.redstoneWire.getBlockTextureFromSideAndMetadata(i, j);
-        } else
+        }
+        else
         {
             return super.getBlockTextureFromSideAndMetadata(i, j);
         }
@@ -29,15 +21,15 @@ public class BlockRedstoneTorch extends BlockTorch
 
     private boolean checkForBurnout(World world, int i, int j, int k, boolean flag)
     {
-        if(flag)
+        if (flag)
         {
             torchUpdates.add(new RedstoneUpdateInfo(i, j, k, world.getWorldTime()));
         }
         int l = 0;
-        for(int i1 = 0; i1 < torchUpdates.size(); i1++)
+        for (int i1 = 0; i1 < torchUpdates.size(); i1++)
         {
             RedstoneUpdateInfo redstoneupdateinfo = (RedstoneUpdateInfo)torchUpdates.get(i1);
-            if(redstoneupdateinfo.x == i && redstoneupdateinfo.y == j && redstoneupdateinfo.z == k && ++l >= 8)
+            if (redstoneupdateinfo.x == i && redstoneupdateinfo.y == j && redstoneupdateinfo.z == k && ++l >= 8)
             {
                 return true;
             }
@@ -61,11 +53,11 @@ public class BlockRedstoneTorch extends BlockTorch
 
     public void onBlockAdded(World world, int i, int j, int k)
     {
-        if(world.getBlockMetadata(i, j, k) == 0)
+        if (world.getBlockMetadata(i, j, k) == 0)
         {
             super.onBlockAdded(world, i, j, k);
         }
-        if(torchActive)
+        if (torchActive)
         {
             world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
             world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
@@ -78,7 +70,7 @@ public class BlockRedstoneTorch extends BlockTorch
 
     public void onBlockRemoval(World world, int i, int j, int k)
     {
-        if(torchActive)
+        if (torchActive)
         {
             world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
             world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
@@ -91,24 +83,24 @@ public class BlockRedstoneTorch extends BlockTorch
 
     public boolean isPoweringTo(IBlockAccess iblockaccess, int i, int j, int k, int l)
     {
-        if(!torchActive)
+        if (!torchActive)
         {
             return false;
         }
         int i1 = iblockaccess.getBlockMetadata(i, j, k);
-        if(i1 == 5 && l == 1)
+        if (i1 == 5 && l == 1)
         {
             return false;
         }
-        if(i1 == 3 && l == 3)
+        if (i1 == 3 && l == 3)
         {
             return false;
         }
-        if(i1 == 4 && l == 2)
+        if (i1 == 4 && l == 2)
         {
             return false;
         }
-        if(i1 == 1 && l == 5)
+        if (i1 == 1 && l == 5)
         {
             return false;
         }
@@ -118,19 +110,19 @@ public class BlockRedstoneTorch extends BlockTorch
     private boolean func_30002_h(World world, int i, int j, int k)
     {
         int l = world.getBlockMetadata(i, j, k);
-        if(l == 5 && world.isBlockIndirectlyProvidingPowerTo(i, j - 1, k, 0))
+        if (l == 5 && world.isBlockIndirectlyProvidingPowerTo(i, j - 1, k, 0))
         {
             return true;
         }
-        if(l == 3 && world.isBlockIndirectlyProvidingPowerTo(i, j, k - 1, 2))
+        if (l == 3 && world.isBlockIndirectlyProvidingPowerTo(i, j, k - 1, 2))
         {
             return true;
         }
-        if(l == 4 && world.isBlockIndirectlyProvidingPowerTo(i, j, k + 1, 3))
+        if (l == 4 && world.isBlockIndirectlyProvidingPowerTo(i, j, k + 1, 3))
         {
             return true;
         }
-        if(l == 1 && world.isBlockIndirectlyProvidingPowerTo(i - 1, j, k, 4))
+        if (l == 1 && world.isBlockIndirectlyProvidingPowerTo(i - 1, j, k, 4))
         {
             return true;
         }
@@ -140,27 +132,26 @@ public class BlockRedstoneTorch extends BlockTorch
     public void updateTick(World world, int i, int j, int k, Random random)
     {
         boolean flag = func_30002_h(world, i, j, k);
-        for(; torchUpdates.size() > 0 && world.getWorldTime() - ((RedstoneUpdateInfo)torchUpdates.get(0)).updateTime > 100L; torchUpdates.remove(0)) { }
-        if(torchActive)
+        for (; torchUpdates.size() > 0 && world.getWorldTime() - ((RedstoneUpdateInfo)torchUpdates.get(0)).updateTime > 100L; torchUpdates.remove(0)) { }
+        if (torchActive)
         {
-            if(flag)
+            if (flag)
             {
                 world.setBlockAndMetadataWithNotify(i, j, k, Block.torchRedstoneIdle.blockID, world.getBlockMetadata(i, j, k));
-                if(checkForBurnout(world, i, j, k, true))
+                if (checkForBurnout(world, i, j, k, true))
                 {
                     world.playSoundEffect((float)i + 0.5F, (float)j + 0.5F, (float)k + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-                    for(int l = 0; l < 5; l++)
+                    for (int l = 0; l < 5; l++)
                     {
                         double d = (double)i + random.nextDouble() * 0.59999999999999998D + 0.20000000000000001D;
                         double d1 = (double)j + random.nextDouble() * 0.59999999999999998D + 0.20000000000000001D;
                         double d2 = (double)k + random.nextDouble() * 0.59999999999999998D + 0.20000000000000001D;
                         world.spawnParticle("smoke", d, d1, d2, 0.0D, 0.0D, 0.0D);
                     }
-
                 }
             }
-        } else
-        if(!flag && !checkForBurnout(world, i, j, k, false))
+        }
+        else if (!flag && !checkForBurnout(world, i, j, k, false))
         {
             world.setBlockAndMetadataWithNotify(i, j, k, Block.torchRedstoneActive.blockID, world.getBlockMetadata(i, j, k));
         }
@@ -174,10 +165,11 @@ public class BlockRedstoneTorch extends BlockTorch
 
     public boolean isIndirectlyPoweringTo(World world, int i, int j, int k, int l)
     {
-        if(l == 0)
+        if (l == 0)
         {
             return isPoweringTo(world, i, j, k, l);
-        } else
+        }
+        else
         {
             return false;
         }
@@ -195,7 +187,7 @@ public class BlockRedstoneTorch extends BlockTorch
 
     public void randomDisplayTick(World world, int i, int j, int k, Random random)
     {
-        if(!torchActive)
+        if (!torchActive)
         {
             return;
         }
@@ -205,25 +197,25 @@ public class BlockRedstoneTorch extends BlockTorch
         double d2 = (double)((float)k + 0.5F) + (double)(random.nextFloat() - 0.5F) * 0.20000000000000001D;
         double d3 = 0.2199999988079071D;
         double d4 = 0.27000001072883606D;
-        if(l == 1)
+        if (l == 1)
         {
             world.spawnParticle("reddust", d - d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 2)
+        }
+        else if (l == 2)
         {
             world.spawnParticle("reddust", d + d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 3)
+        }
+        else if (l == 3)
         {
             world.spawnParticle("reddust", d, d1 + d3, d2 - d4, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 4)
+        }
+        else if (l == 4)
         {
             world.spawnParticle("reddust", d, d1 + d3, d2 + d4, 0.0D, 0.0D, 0.0D);
-        } else
+        }
+        else
         {
             world.spawnParticle("reddust", d, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
-
 }

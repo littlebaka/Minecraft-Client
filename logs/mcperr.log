@@ -1,1 +1,5 @@
-2012-01-10 21:06 -    commands.checkbins - WARNING - !! Can not find server bins !!
+23:22:47 - !! Can not find client sources !!
+23:22:47 - !! Can not find server sources !!
+23:25:00 - !! Updates available. Please run updatemcp to get them. !!
+23:26:16 - !! Missing jar file jars\minecraft_server.jar. Aborting !!
+23:26:34 - !! Can not find server sources !!

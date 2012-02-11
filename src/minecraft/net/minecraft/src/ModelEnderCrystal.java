@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            ModelBase, ModelRenderer, Entity
-
 public class ModelEnderCrystal extends ModelBase
 {
-
     private ModelRenderer field_41057_g;
     private ModelRenderer field_41058_h;
     private ModelRenderer field_41059_i;

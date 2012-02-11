@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            RenderEngine, MapData, MapColor, GameSettings, 
-//            Tessellator, MapCoord, FontRenderer, EntityPlayer
-
 public class MapItemRenderer
 {
-
     private int intArray[];
     private int bufferedImage;
     private GameSettings gameSettings;
@@ -26,19 +17,18 @@ public class MapItemRenderer
         gameSettings = gamesettings;
         fontRenderer = fontrenderer;
         bufferedImage = renderengine.allocateAndSetupTexture(new BufferedImage(128, 128, 2));
-        for(int i = 0; i < 16384 /*GL_LIGHT0*/; i++)
+        for (int i = 0; i < 16384 /*GL_LIGHT0*/; i++)
         {
             intArray[i] = 0;
         }
-
     }
 
     public void renderMap(EntityPlayer entityplayer, RenderEngine renderengine, MapData mapdata)
     {
-        for(int i = 0; i < 16384 /*GL_LIGHT0*/; i++)
+        for (int i = 0; i < 16384 /*GL_LIGHT0*/; i++)
         {
             byte byte0 = mapdata.colors[i];
-            if(byte0 / 4 == 0)
+            if (byte0 / 4 == 0)
             {
                 intArray[i] = (i + i / 128 & 1) * 8 + 16 << 24;
                 continue;
@@ -46,18 +36,18 @@ public class MapItemRenderer
             int l = MapColor.mapColorArray[byte0 / 4].colorValue;
             int i1 = byte0 & 3;
             char c = '\334';
-            if(i1 == 2)
+            if (i1 == 2)
             {
                 c = '\377';
             }
-            if(i1 == 0)
+            if (i1 == 0)
             {
                 c = '\264';
             }
             int j1 = ((l >> 16 & 0xff) * c) / 255;
             int k1 = ((l >> 8 & 0xff) * c) / 255;
             int l1 = ((l & 0xff) * c) / 255;
-            if(gameSettings.anaglyph)
+            if (gameSettings.anaglyph)
             {
                 int i2 = (j1 * 30 + k1 * 59 + l1 * 11) / 100;
                 int j2 = (j1 * 30 + k1 * 70) / 100;
@@ -87,7 +77,7 @@ public class MapItemRenderer
         GL11.glEnable(3008 /*GL_ALPHA_TEST*/);
         GL11.glDisable(3042 /*GL_BLEND*/);
         renderengine.bindTexture(renderengine.getTexture("/misc/mapicons.png"));
-        for(Iterator iterator = mapdata.playersVisibleOnMap.iterator(); iterator.hasNext(); GL11.glPopMatrix())
+        for (Iterator iterator = mapdata.playersVisibleOnMap.iterator(); iterator.hasNext(); GL11.glPopMatrix())
         {
             MapCoord mapcoord = (MapCoord)iterator.next();
             GL11.glPushMatrix();

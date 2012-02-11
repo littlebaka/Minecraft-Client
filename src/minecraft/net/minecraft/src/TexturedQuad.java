@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            PositionTextureVertex, Vec3D, Tessellator
 
 public class TexturedQuad
 {
-
     public PositionTextureVertex vertexPositions[];
     public int nVertices;
     private boolean invertNormal;
@@ -37,7 +28,7 @@ public class TexturedQuad
     public void flipFace()
     {
         PositionTextureVertex apositiontexturevertex[] = new PositionTextureVertex[vertexPositions.length];
-        for(int i = 0; i < vertexPositions.length; i++)
+        for (int i = 0; i < vertexPositions.length; i++)
         {
             apositiontexturevertex[i] = vertexPositions[vertexPositions.length - i - 1];
         }
@@ -51,14 +42,15 @@ public class TexturedQuad
         Vec3D vec3d1 = vertexPositions[1].vector3D.subtract(vertexPositions[2].vector3D);
         Vec3D vec3d2 = vec3d1.crossProduct(vec3d).normalize();
         tessellator.startDrawingQuads();
-        if(invertNormal)
+        if (invertNormal)
         {
             tessellator.setNormal(-(float)vec3d2.xCoord, -(float)vec3d2.yCoord, -(float)vec3d2.zCoord);
-        } else
+        }
+        else
         {
             tessellator.setNormal((float)vec3d2.xCoord, (float)vec3d2.yCoord, (float)vec3d2.zCoord);
         }
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             PositionTextureVertex positiontexturevertex = vertexPositions[i];
             tessellator.addVertexWithUV((float)positiontexturevertex.vector3D.xCoord * f, (float)positiontexturevertex.vector3D.yCoord * f, (float)positiontexturevertex.vector3D.zCoord * f, positiontexturevertex.texturePositionX, positiontexturevertex.texturePositionY);

@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.File;
@@ -9,21 +5,16 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.Sys;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, StringTranslate, GuiSmallButton, TexturePackList, 
-//            GuiTexturePackSlot, GuiButton, RenderEngine, FontRenderer
-
 public class GuiTexturePacks extends GuiScreen
 {
-
     protected GuiScreen guiScreen;
-    private int field_6454_o;
+    private int refreshTimer;
     private String fileLocation;
     private GuiTexturePackSlot guiTexturePackSlot;
 
     public GuiTexturePacks(GuiScreen guiscreen)
     {
-        field_6454_o = -1;
+        refreshTimer = -1;
         fileLocation = "";
         guiScreen = guiscreen;
     }
@@ -41,19 +32,20 @@ public class GuiTexturePacks extends GuiScreen
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(!guibutton.enabled)
+        if (!guibutton.enabled)
         {
             return;
         }
-        if(guibutton.id == 5)
+        if (guibutton.id == 5)
         {
             Sys.openURL((new StringBuilder()).append("file://").append(fileLocation).toString());
-        } else
-        if(guibutton.id == 6)
+        }
+        else if (guibutton.id == 6)
         {
             mc.renderEngine.refreshTextures();
             mc.displayGuiScreen(guiScreen);
-        } else
+        }
+        else
         {
             guiTexturePackSlot.actionPerformed(guibutton);
         }
@@ -72,10 +64,10 @@ public class GuiTexturePacks extends GuiScreen
     public void drawScreen(int i, int j, float f)
     {
         guiTexturePackSlot.drawScreen(i, j, f);
-        if(field_6454_o <= 0)
+        if (refreshTimer <= 0)
         {
             mc.texturePackList.updateAvaliableTexturePacks();
-            field_6454_o += 20;
+            refreshTimer += 20;
         }
         StringTranslate stringtranslate = StringTranslate.getInstance();
         drawCenteredString(fontRenderer, stringtranslate.translateKey("texturePack.title"), width / 2, 16, 0xffffff);
@@ -86,7 +78,7 @@ public class GuiTexturePacks extends GuiScreen
     public void updateScreen()
     {
         super.updateScreen();
-        field_6454_o--;
+        refreshTimer--;
     }
 
     static Minecraft func_22124_a(GuiTexturePacks guitexturepacks)

@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            EntityDamageSource, EntityDamageSourceIndirect, EntityLiving, EntityPlayer, 
-//            EntityArrow, Entity, EntityFireball
 
 public class DamageSource
 {
-
-    public static DamageSource inFire = (new DamageSource("inFire")).func_40546_j();
-    public static DamageSource onFire = (new DamageSource("onFire")).setDamageBypassesArmor().func_40546_j();
-    public static DamageSource lava = (new DamageSource("lava")).func_40546_j();
+    public static DamageSource inFire = (new DamageSource("inFire")).setFireDamage();
+    public static DamageSource onFire = (new DamageSource("onFire")).setDamageBypassesArmor().setFireDamage();
+    public static DamageSource lava = (new DamageSource("lava")).setFireDamage();
     public static DamageSource inWall = (new DamageSource("inWall")).setDamageBypassesArmor();
     public static DamageSource drown = (new DamageSource("drown")).setDamageBypassesArmor();
     public static DamageSource starve = (new DamageSource("starve")).setDamageBypassesArmor();
@@ -24,11 +14,11 @@ public class DamageSource
     public static DamageSource generic = (new DamageSource("generic")).setDamageBypassesArmor();
     public static DamageSource explosion = new DamageSource("explosion");
     public static DamageSource magic = (new DamageSource("magic")).setDamageBypassesArmor();
-    private boolean isBlockable;
+    private boolean isUnblockable;
     private boolean isDamageAllowedInCreativeMode;
     private float hungerDamage;
-    private boolean field_40549_q;
-    private boolean field_40548_r;
+    private boolean fireDamage;
+    private boolean projectile;
     public String damageType;
 
     public static DamageSource causeMobDamage(EntityLiving entityliving)
@@ -43,38 +33,38 @@ public class DamageSource
 
     public static DamageSource causeArrowDamage(EntityArrow entityarrow, Entity entity)
     {
-        return (new EntityDamageSourceIndirect("arrow", entityarrow, entity)).func_40544_c();
+        return (new EntityDamageSourceIndirect("arrow", entityarrow, entity)).setProjectile();
     }
 
     public static DamageSource causeFireballDamage(EntityFireball entityfireball, Entity entity)
     {
-        return (new EntityDamageSourceIndirect("fireball", entityfireball, entity)).func_40546_j().func_40544_c();
+        return (new EntityDamageSourceIndirect("fireball", entityfireball, entity)).setFireDamage().setProjectile();
     }
 
     public static DamageSource causeThrownDamage(Entity entity, Entity entity1)
     {
-        return (new EntityDamageSourceIndirect("thrown", entity, entity1)).func_40544_c();
+        return (new EntityDamageSourceIndirect("thrown", entity, entity1)).setProjectile();
     }
 
-    public static DamageSource func_40542_b(Entity entity, Entity entity1)
+    public static DamageSource causeIndirectMagicDamage(Entity entity, Entity entity1)
     {
         return (new EntityDamageSourceIndirect("indirectMagic", entity, entity1)).setDamageBypassesArmor();
     }
 
-    public boolean func_40547_b()
+    public boolean isProjectile()
     {
-        return field_40548_r;
+        return projectile;
     }
 
-    public DamageSource func_40544_c()
+    public DamageSource setProjectile()
     {
-        field_40548_r = true;
+        projectile = true;
         return this;
     }
 
-    public boolean unblockable()
+    public boolean isUnblockable()
     {
-        return isBlockable;
+        return isUnblockable;
     }
 
     public float getHungerDamage()
@@ -89,7 +79,7 @@ public class DamageSource
 
     protected DamageSource(String s)
     {
-        isBlockable = false;
+        isUnblockable = false;
         isDamageAllowedInCreativeMode = false;
         hungerDamage = 0.3F;
         damageType = s;
@@ -107,7 +97,7 @@ public class DamageSource
 
     protected DamageSource setDamageBypassesArmor()
     {
-        isBlockable = true;
+        isUnblockable = true;
         hungerDamage = 0.0F;
         return this;
     }
@@ -118,20 +108,19 @@ public class DamageSource
         return this;
     }
 
-    protected DamageSource func_40546_j()
+    protected DamageSource setFireDamage()
     {
-        field_40549_q = true;
+        fireDamage = true;
         return this;
     }
 
-    public boolean func_40543_k()
+    public boolean fireDamage()
     {
-        return field_40549_q;
+        return fireDamage;
     }
 
-    public String func_40545_l()
+    public String getDamageType()
     {
         return damageType;
     }
-
 }

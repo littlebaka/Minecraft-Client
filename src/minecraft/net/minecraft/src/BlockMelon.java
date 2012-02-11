@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, Item
-
 public class BlockMelon extends Block
 {
-
     protected BlockMelon(int i)
     {
         super(i, Material.pumpkin);
@@ -38,10 +30,10 @@ public class BlockMelon extends Block
         return 3 + random.nextInt(5);
     }
 
-    public int func_40198_a(int i, Random random)
+    public int quantityDroppedWithBonus(int i, Random random)
     {
         int j = quantityDropped(random) + random.nextInt(1 + i);
-        if(j > 9)
+        if (j > 9)
         {
             j = 9;
         }

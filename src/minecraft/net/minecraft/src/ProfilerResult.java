@@ -1,47 +1,42 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 public final class ProfilerResult
     implements Comparable
 {
-
-    public double field_40704_a;
-    public double field_40702_b;
-    public String field_40703_c;
+    public double sectionPercentage;
+    public double globalPercentage;
+    public String name;
 
     public ProfilerResult(String s, double d, double d1)
     {
-        field_40703_c = s;
-        field_40704_a = d;
-        field_40702_b = d1;
+        name = s;
+        sectionPercentage = d;
+        globalPercentage = d1;
     }
 
-    public int func_40701_a(ProfilerResult profilerresult)
+    public int compareProfilerResult(ProfilerResult profilerresult)
     {
-        if(profilerresult.field_40704_a < field_40704_a)
+        if (profilerresult.sectionPercentage < sectionPercentage)
         {
             return -1;
         }
-        if(profilerresult.field_40704_a > field_40704_a)
+        if (profilerresult.sectionPercentage > sectionPercentage)
         {
             return 1;
-        } else
+        }
+        else
         {
-            return profilerresult.field_40703_c.compareTo(field_40703_c);
+            return profilerresult.name.compareTo(name);
         }
     }
 
-    public int func_40700_a()
+    public int getDisplayColor()
     {
-        return (field_40703_c.hashCode() & 0xaaaaaa) + 0x444444;
+        return (name.hashCode() & 0xaaaaaa) + 0x444444;
     }
 
     public int compareTo(Object obj)
     {
-        return func_40701_a((ProfilerResult)obj);
+        return compareProfilerResult((ProfilerResult)obj);
     }
 }

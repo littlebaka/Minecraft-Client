@@ -1,19 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            ClippingHelper, GLAllocation, MathHelper
-
 public class ClippingHelperImpl extends ClippingHelper
 {
-
     private static ClippingHelperImpl instance = new ClippingHelperImpl();
     private FloatBuffer projectionMatrixBuffer;
     private FloatBuffer modelviewMatrixBuffer;
@@ -99,5 +91,4 @@ public class ClippingHelperImpl extends ClippingHelper
         frustum[5][3] = clippingMatrix[15] + clippingMatrix[14];
         normalize(frustum, 5);
     }
-
 }

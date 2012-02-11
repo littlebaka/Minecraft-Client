@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import net.minecraft.client.Minecraft;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, GuiButton, GuiMainMenu
-
 public class GuiConflictWarning extends GuiScreen
 {
-
     private int updateCounter;
 
     public GuiConflictWarning()
@@ -33,11 +25,11 @@ public class GuiConflictWarning extends GuiScreen
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(!guibutton.enabled)
+        if (!guibutton.enabled)
         {
             return;
         }
-        if(guibutton.id == 0)
+        if (guibutton.id == 0)
         {
             mc.displayGuiScreen(new GuiMainMenu());
         }

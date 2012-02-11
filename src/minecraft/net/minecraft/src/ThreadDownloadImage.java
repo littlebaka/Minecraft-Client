@@ -1,29 +1,20 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
-// Referenced classes of package net.minecraft.src:
-//            ThreadDownloadImageData, ImageBuffer
-
 class ThreadDownloadImage extends Thread
 {
-
-    final String location; /* synthetic field */
-    final ImageBuffer buffer; /* synthetic field */
-    final ThreadDownloadImageData imageData; /* synthetic field */
+    final String location;
+    final ImageBuffer buffer;
+    final ThreadDownloadImageData imageData;
 
     ThreadDownloadImage(ThreadDownloadImageData threaddownloadimagedata, String s, ImageBuffer imagebuffer)
     {
         imageData = threaddownloadimagedata;
         location = s;
         buffer = imagebuffer;
-//        super();
     }
 
     public void run()
@@ -36,19 +27,20 @@ class ThreadDownloadImage extends Thread
             httpurlconnection.setDoInput(true);
             httpurlconnection.setDoOutput(false);
             httpurlconnection.connect();
-            if(httpurlconnection.getResponseCode() / 100 == 4)
+            if (httpurlconnection.getResponseCode() / 100 == 4)
             {
                 return;
             }
-            if(buffer == null)
+            if (buffer == null)
             {
                 imageData.image = ImageIO.read(httpurlconnection.getInputStream());
-            } else
+            }
+            else
             {
                 imageData.image = buffer.parseUserSkin(ImageIO.read(httpurlconnection.getInputStream()));
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }

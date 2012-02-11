@@ -1,23 +1,14 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Render, EntityArrow, Tessellator, MathHelper, 
-//            Entity
-
 public class RenderArrow extends Render
 {
-
     public RenderArrow()
     {
     }
 
-    public void renderArrow(EntityArrow entityarrow, double d, double d1, double d2, 
+    public void renderArrow(EntityArrow entityarrow, double d, double d1, double d2,
             float f, float f1)
     {
         loadTexture("/item/arrows.png");
@@ -38,7 +29,7 @@ public class RenderArrow extends Render
         float f10 = 0.05625F;
         GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
         float f11 = (float)entityarrow.arrowShake - f1;
-        if(f11 > 0.0F)
+        if (f11 > 0.0F)
         {
             float f12 = -MathHelper.sin(f11 * 3F) * f11;
             GL11.glRotatef(f12, 0.0F, 0.0F, 1.0F);
@@ -60,7 +51,7 @@ public class RenderArrow extends Render
         tessellator.addVertexWithUV(-7D, -2D, 2D, f7, f9);
         tessellator.addVertexWithUV(-7D, -2D, -2D, f6, f9);
         tessellator.draw();
-        for(int j = 0; j < 4; j++)
+        for (int j = 0; j < 4; j++)
         {
             GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f10);
@@ -76,7 +67,7 @@ public class RenderArrow extends Render
         GL11.glPopMatrix();
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         renderArrow((EntityArrow)entity, d, d1, d2, f, f1);

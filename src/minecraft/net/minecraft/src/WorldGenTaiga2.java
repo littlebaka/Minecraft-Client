@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            WorldGenerator, World, Block, BlockLeaves, 
-//            BlockGrass
-
 public class WorldGenTaiga2 extends WorldGenerator
 {
-
     public WorldGenTaiga2(boolean flag)
     {
         super(flag);
@@ -25,47 +16,47 @@ public class WorldGenTaiga2 extends WorldGenerator
         int j1 = l - i1;
         int k1 = 2 + random.nextInt(2);
         boolean flag = true;
-        if(j < 1 || j + l + 1 > world.field_35472_c)
+        if (j < 1 || j + l + 1 > world.worldHeight)
         {
             return false;
         }
-        for(int l1 = j; l1 <= j + 1 + l && flag; l1++)
+        for (int l1 = j; l1 <= j + 1 + l && flag; l1++)
         {
             int j2 = 1;
-            if(l1 - j < i1)
+            if (l1 - j < i1)
             {
                 j2 = 0;
-            } else
+            }
+            else
             {
                 j2 = k1;
             }
-            for(int l2 = i - j2; l2 <= i + j2 && flag; l2++)
+            for (int l2 = i - j2; l2 <= i + j2 && flag; l2++)
             {
-                for(int j3 = k - j2; j3 <= k + j2 && flag; j3++)
+                for (int j3 = k - j2; j3 <= k + j2 && flag; j3++)
                 {
-                    if(l1 >= 0 && l1 < world.field_35472_c)
+                    if (l1 >= 0 && l1 < world.worldHeight)
                     {
                         int k3 = world.getBlockId(l2, l1, j3);
-                        if(k3 != 0 && k3 != Block.leaves.blockID)
+                        if (k3 != 0 && k3 != Block.leaves.blockID)
                         {
                             flag = false;
                         }
-                    } else
+                    }
+                    else
                     {
                         flag = false;
                     }
                 }
-
             }
-
         }
 
-        if(!flag)
+        if (!flag)
         {
             return false;
         }
         int i2 = world.getBlockId(i, j - 1, k);
-        if(i2 != Block.grass.blockID && i2 != Block.dirt.blockID || j >= world.field_35472_c - l - 1)
+        if (i2 != Block.grass.blockID && i2 != Block.dirt.blockID || j >= world.worldHeight - l - 1)
         {
             return false;
         }
@@ -73,42 +64,42 @@ public class WorldGenTaiga2 extends WorldGenerator
         int k2 = random.nextInt(2);
         int i3 = 1;
         boolean flag1 = false;
-        for(int l3 = 0; l3 <= j1; l3++)
+        for (int l3 = 0; l3 <= j1; l3++)
         {
             int j4 = (j + l) - l3;
-            for(int l4 = i - k2; l4 <= i + k2; l4++)
+            for (int l4 = i - k2; l4 <= i + k2; l4++)
             {
                 int j5 = l4 - i;
-                for(int k5 = k - k2; k5 <= k + k2; k5++)
+                for (int k5 = k - k2; k5 <= k + k2; k5++)
                 {
                     int l5 = k5 - k;
-                    if((Math.abs(j5) != k2 || Math.abs(l5) != k2 || k2 <= 0) && !Block.opaqueCubeLookup[world.getBlockId(l4, j4, k5)])
+                    if ((Math.abs(j5) != k2 || Math.abs(l5) != k2 || k2 <= 0) && !Block.opaqueCubeLookup[world.getBlockId(l4, j4, k5)])
                     {
                         func_41060_a(world, l4, j4, k5, Block.leaves.blockID, 1);
                     }
                 }
-
             }
 
-            if(k2 >= i3)
+            if (k2 >= i3)
             {
                 k2 = ((flag1) ? 1 : 0);
                 flag1 = true;
-                if(++i3 > k1)
+                if (++i3 > k1)
                 {
                     i3 = k1;
                 }
-            } else
+            }
+            else
             {
                 k2++;
             }
         }
 
         int i4 = random.nextInt(3);
-        for(int k4 = 0; k4 < l - i4; k4++)
+        for (int k4 = 0; k4 < l - i4; k4++)
         {
             int i5 = world.getBlockId(i, j + k4, k);
-            if(i5 == 0 || i5 == Block.leaves.blockID)
+            if (i5 == 0 || i5 == Block.leaves.blockID)
             {
                 func_41060_a(world, i, j + k4, k, Block.wood.blockID, 1);
             }

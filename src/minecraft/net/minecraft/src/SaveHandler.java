@@ -1,28 +1,18 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.util.List;
 import java.util.logging.Logger;
 
-// Referenced classes of package net.minecraft.src:
-//            ISaveHandler, MinecraftException, WorldProviderHell, ChunkLoader, 
-//            WorldProviderEnd, CompressedStreamTools, NBTTagCompound, WorldInfo, 
-//            WorldProvider, IChunkLoader
-
 public class SaveHandler
     implements ISaveHandler
 {
-
     private static final Logger logger = Logger.getLogger("Minecraft");
     private final File saveDirectory;
     private final File playersDirectory;
     private final File mapDataDir;
     private final long now = System.currentTimeMillis();
-    private final String field_40531_f;
+    private final String saveDirectoryName;
 
     public SaveHandler(File file, String s, boolean flag)
     {
@@ -31,15 +21,15 @@ public class SaveHandler
         playersDirectory = new File(saveDirectory, "players");
         mapDataDir = new File(saveDirectory, "data");
         mapDataDir.mkdirs();
-        field_40531_f = s;
-        if(flag)
+        saveDirectoryName = s;
+        if (flag)
         {
             playersDirectory.mkdirs();
         }
-        func_22154_d();
+        createSessionLock();
     }
 
-    private void func_22154_d()
+    private void createSessionLock()
     {
         try
         {
@@ -54,7 +44,7 @@ public class SaveHandler
                 dataoutputstream.close();
             }
         }
-        catch(IOException ioexception)
+        catch (IOException ioexception)
         {
             ioexception.printStackTrace();
             throw new RuntimeException("Failed to check session lock, aborting");
@@ -74,7 +64,7 @@ public class SaveHandler
             DataInputStream datainputstream = new DataInputStream(new FileInputStream(file));
             try
             {
-                if(datainputstream.readLong() != now)
+                if (datainputstream.readLong() != now)
                 {
                     throw new MinecraftException("The save is being accessed from another location, aborting");
                 }
@@ -84,7 +74,7 @@ public class SaveHandler
                 datainputstream.close();
             }
         }
-        catch(IOException ioexception)
+        catch (IOException ioexception)
         {
             throw new MinecraftException("Failed to check session lock, aborting");
         }
@@ -92,18 +82,19 @@ public class SaveHandler
 
     public IChunkLoader getChunkLoader(WorldProvider worldprovider)
     {
-        if(worldprovider instanceof WorldProviderHell)
+        if (worldprovider instanceof WorldProviderHell)
         {
             File file = new File(saveDirectory, "DIM-1");
             file.mkdirs();
             return new ChunkLoader(file, true);
         }
-        if(worldprovider instanceof WorldProviderEnd)
+        if (worldprovider instanceof WorldProviderEnd)
         {
             File file1 = new File(saveDirectory, "DIM1");
             file1.mkdirs();
             return new ChunkLoader(file1, true);
-        } else
+        }
+        else
         {
             return new ChunkLoader(saveDirectory, true);
         }
@@ -112,7 +103,7 @@ public class SaveHandler
     public WorldInfo loadWorldInfo()
     {
         File file = new File(saveDirectory, "level.dat");
-        if(file.exists())
+        if (file.exists())
         {
             try
             {
@@ -120,13 +111,13 @@ public class SaveHandler
                 NBTTagCompound nbttagcompound2 = nbttagcompound.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound2);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 exception.printStackTrace();
             }
         }
         file = new File(saveDirectory, "level.dat_old");
-        if(file.exists())
+        if (file.exists())
         {
             try
             {
@@ -134,7 +125,7 @@ public class SaveHandler
                 NBTTagCompound nbttagcompound3 = nbttagcompound1.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound3);
             }
-            catch(Exception exception1)
+            catch (Exception exception1)
             {
                 exception1.printStackTrace();
             }
@@ -153,22 +144,22 @@ public class SaveHandler
             File file1 = new File(saveDirectory, "level.dat_old");
             File file2 = new File(saveDirectory, "level.dat");
             CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound1, new FileOutputStream(file));
-            if(file1.exists())
+            if (file1.exists())
             {
                 file1.delete();
             }
             file2.renameTo(file1);
-            if(file2.exists())
+            if (file2.exists())
             {
                 file2.delete();
             }
             file.renameTo(file2);
-            if(file.exists())
+            if (file.exists())
             {
                 file.delete();
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -185,22 +176,22 @@ public class SaveHandler
             File file1 = new File(saveDirectory, "level.dat_old");
             File file2 = new File(saveDirectory, "level.dat");
             CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound1, new FileOutputStream(file));
-            if(file1.exists())
+            if (file1.exists())
             {
                 file1.delete();
             }
             file2.renameTo(file1);
-            if(file2.exists())
+            if (file2.exists())
             {
                 file2.delete();
             }
             file.renameTo(file2);
-            if(file.exists())
+            if (file.exists())
             {
                 file.delete();
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -211,9 +202,8 @@ public class SaveHandler
         return new File(mapDataDir, (new StringBuilder()).append(s).append(".dat").toString());
     }
 
-    public String func_40530_d()
+    public String getSaveDirectoryName()
     {
-        return field_40531_f;
+        return saveDirectoryName;
     }
-
 }

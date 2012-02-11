@@ -1,30 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Packet51MapChunk, Packet, Packet255KickDisconnect, Packet1Login, 
-//            Packet10Flying, Packet52MultiBlockChange, Packet14BlockDig, Packet53BlockChange, 
-//            Packet50PreChunk, Packet20NamedEntitySpawn, Packet30Entity, Packet34EntityTeleport, 
-//            Packet15Place, Packet16BlockItemSwitch, Packet29DestroyEntity, Packet21PickupSpawn, 
-//            Packet22Collect, Packet3Chat, Packet23VehicleSpawn, Packet18Animation, 
-//            Packet19EntityAction, Packet2Handshake, Packet24MobSpawn, Packet4UpdateTime, 
-//            Packet6SpawnPosition, Packet28EntityVelocity, Packet40EntityMetadata, Packet39AttachEntity, 
-//            Packet7UseEntity, Packet38EntityStatus, Packet8UpdateHealth, Packet9Respawn, 
-//            Packet60Explosion, Packet100OpenWindow, Packet101CloseWindow, Packet102WindowClick, 
-//            Packet103SetSlot, Packet104WindowItems, Packet130UpdateSign, Packet105UpdateProgressbar, 
-//            Packet5PlayerInventory, Packet106Transaction, Packet25EntityPainting, Packet54PlayNoteBlock, 
-//            Packet200Statistic, Packet17Sleep, Packet27Position, Packet70Bed, 
-//            Packet71Weather, Packet131MapData, Packet61DoorChange, Packet254ServerPing, 
-//            Packet41EntityEffect, Packet42RemoveEntityEffect, Packet201PlayerInfo, Packet0KeepAlive, 
-//            Packet43Experience, Packet107CreativeSetSlot, Packet26EntityExpOrb, Packet108EnchantItem
 
 public abstract class NetHandler
 {
-
     public NetHandler()
     {
     }
@@ -228,7 +205,7 @@ public abstract class NetHandler
         registerPacket(packet130updatesign);
     }
 
-    public void handleCraftingProgress(Packet105UpdateProgressbar packet105updateprogressbar)
+    public void handleUpdateProgressbar(Packet105UpdateProgressbar packet105updateprogressbar)
     {
         registerPacket(packet105updateprogressbar);
     }
@@ -263,12 +240,7 @@ public abstract class NetHandler
         registerPacket(packet17sleep);
     }
 
-    public void handlePosition(Packet27Position packet27position)
-    {
-        registerPacket(packet27position);
-    }
-
-    public void handleBedUpdate(Packet70Bed packet70bed)
+    public void handleBed(Packet70Bed packet70bed)
     {
         registerPacket(packet70bed);
     }
@@ -278,12 +250,12 @@ public abstract class NetHandler
         registerPacket(packet71weather);
     }
 
-    public void processItemData(Packet131MapData packet131mapdata)
+    public void handleItemData(Packet131MapData packet131mapdata)
     {
         registerPacket(packet131mapdata);
     }
 
-    public void handleAuxSFX(Packet61DoorChange packet61doorchange)
+    public void handleDoorChange(Packet61DoorChange packet61doorchange)
     {
         registerPacket(packet61doorchange);
     }
@@ -323,12 +295,16 @@ public abstract class NetHandler
         registerPacket(packet107creativesetslot);
     }
 
-    public void handleXPOrb(Packet26EntityExpOrb packet26entityexporb)
+    public void handleEntityExpOrb(Packet26EntityExpOrb packet26entityexporb)
     {
         registerPacket(packet26entityexporb);
     }
 
-    public void func_40599_a(Packet108EnchantItem packet108enchantitem)
+    public void handleEnchantItem(Packet108EnchantItem packet108enchantitem)
+    {
+    }
+
+    public void func_44028_a(Packet250CustomPayload packet250custompayload)
     {
     }
 }

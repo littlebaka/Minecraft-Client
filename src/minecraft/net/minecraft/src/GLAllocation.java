@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.nio.*;
@@ -11,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 
 public class GLAllocation
 {
-
     private static List displayLists = new ArrayList();
     private static List textureNames = new ArrayList();
 
@@ -30,11 +25,10 @@ public class GLAllocation
     public static synchronized void generateTextureNames(IntBuffer intbuffer)
     {
         GL11.glGenTextures(intbuffer);
-        for(int i = intbuffer.position(); i < intbuffer.limit(); i++)
+        for (int i = intbuffer.position(); i < intbuffer.limit(); i++)
         {
             textureNames.add(Integer.valueOf(intbuffer.get(i)));
         }
-
     }
 
     public static synchronized void deleteDisplayLists(int i)
@@ -47,7 +41,7 @@ public class GLAllocation
 
     public static synchronized void deleteTexturesAndDisplayLists()
     {
-        for(int i = 0; i < displayLists.size(); i += 2)
+        for (int i = 0; i < displayLists.size(); i += 2)
         {
             GL11.glDeleteLists(((Integer)displayLists.get(i)).intValue(), ((Integer)displayLists.get(i + 1)).intValue());
         }
@@ -55,7 +49,7 @@ public class GLAllocation
         IntBuffer intbuffer = createDirectIntBuffer(textureNames.size());
         intbuffer.flip();
         GL11.glDeleteTextures(intbuffer);
-        for(int j = 0; j < textureNames.size(); j++)
+        for (int j = 0; j < textureNames.size(); j++)
         {
             intbuffer.put(((Integer)textureNames.get(j)).intValue());
         }
@@ -81,5 +75,4 @@ public class GLAllocation
     {
         return createDirectByteBuffer(i << 2).asFloatBuffer();
     }
-
 }

@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            MathHelper
-
 public class Vec3D
 {
-
     private static List vectorList = new ArrayList();
     private static int nextVector = 0;
     public double xCoord;
@@ -37,7 +29,7 @@ public class Vec3D
 
     public static Vec3D createVector(double d, double d1, double d2)
     {
-        if(nextVector >= vectorList.size())
+        if (nextVector >= vectorList.size())
         {
             vectorList.add(createVectorHelper(0.0D, 0.0D, 0.0D));
         }
@@ -46,15 +38,15 @@ public class Vec3D
 
     private Vec3D(double d, double d1, double d2)
     {
-        if(d == -0D)
+        if (d == -0D)
         {
             d = 0.0D;
         }
-        if(d1 == -0D)
+        if (d1 == -0D)
         {
             d1 = 0.0D;
         }
-        if(d2 == -0D)
+        if (d2 == -0D)
         {
             d2 = 0.0D;
         }
@@ -79,10 +71,11 @@ public class Vec3D
     public Vec3D normalize()
     {
         double d = MathHelper.sqrt_double(xCoord * xCoord + yCoord * yCoord + zCoord * zCoord);
-        if(d < 0.0001D)
+        if (d < 0.0001D)
         {
             return createVector(0.0D, 0.0D, 0.0D);
-        } else
+        }
+        else
         {
             return createVector(xCoord / d, yCoord / d, zCoord / d);
         }
@@ -137,15 +130,16 @@ public class Vec3D
         double d1 = vec3d.xCoord - xCoord;
         double d2 = vec3d.yCoord - yCoord;
         double d3 = vec3d.zCoord - zCoord;
-        if(d1 * d1 < 1.0000000116860974E-007D)
+        if (d1 * d1 < 1.0000000116860974E-007D)
         {
             return null;
         }
         double d4 = (d - xCoord) / d1;
-        if(d4 < 0.0D || d4 > 1.0D)
+        if (d4 < 0.0D || d4 > 1.0D)
         {
             return null;
-        } else
+        }
+        else
         {
             return createVector(xCoord + d1 * d4, yCoord + d2 * d4, zCoord + d3 * d4);
         }
@@ -156,15 +150,16 @@ public class Vec3D
         double d1 = vec3d.xCoord - xCoord;
         double d2 = vec3d.yCoord - yCoord;
         double d3 = vec3d.zCoord - zCoord;
-        if(d2 * d2 < 1.0000000116860974E-007D)
+        if (d2 * d2 < 1.0000000116860974E-007D)
         {
             return null;
         }
         double d4 = (d - yCoord) / d2;
-        if(d4 < 0.0D || d4 > 1.0D)
+        if (d4 < 0.0D || d4 > 1.0D)
         {
             return null;
-        } else
+        }
+        else
         {
             return createVector(xCoord + d1 * d4, yCoord + d2 * d4, zCoord + d3 * d4);
         }
@@ -175,15 +170,16 @@ public class Vec3D
         double d1 = vec3d.xCoord - xCoord;
         double d2 = vec3d.yCoord - yCoord;
         double d3 = vec3d.zCoord - zCoord;
-        if(d3 * d3 < 1.0000000116860974E-007D)
+        if (d3 * d3 < 1.0000000116860974E-007D)
         {
             return null;
         }
         double d4 = (d - zCoord) / d3;
-        if(d4 < 0.0D || d4 > 1.0D)
+        if (d4 < 0.0D || d4 > 1.0D)
         {
             return null;
-        } else
+        }
+        else
         {
             return createVector(xCoord + d1 * d4, yCoord + d2 * d4, zCoord + d3 * d4);
         }
@@ -217,5 +213,4 @@ public class Vec3D
         yCoord = d1;
         zCoord = d2;
     }
-
 }

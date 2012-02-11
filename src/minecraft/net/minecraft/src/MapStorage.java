@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            WorldSavedData, ISaveHandler, CompressedStreamTools, NBTTagCompound, 
-//            NBTBase, NBTTagShort
-
 public class MapStorage
 {
-
     private ISaveHandler saveHandler;
     private Map loadedDataMap;
     private List loadedDataList;
@@ -32,26 +23,28 @@ public class MapStorage
     public WorldSavedData loadData(Class class1, String s)
     {
         WorldSavedData worldsaveddata = (WorldSavedData)loadedDataMap.get(s);
-        if(worldsaveddata != null)
+        if (worldsaveddata != null)
         {
             return worldsaveddata;
         }
-        if(saveHandler != null)
+        if (saveHandler != null)
         {
             try
             {
                 File file = saveHandler.getMapFile(s);
-                if(file != null && file.exists())
+                if (file != null && file.exists())
                 {
                     try
                     {
-                        worldsaveddata = (WorldSavedData)class1.getConstructor(new Class[] {
-                            java.lang.String.class
-                        }).newInstance(new Object[] {
-                            s
-                        });
+                        worldsaveddata = (WorldSavedData)class1.getConstructor(new Class[]
+                                {
+                                    java.lang.String.class
+                                }).newInstance(new Object[]
+                                        {
+                                            s
+                                        });
                     }
-                    catch(Exception exception1)
+                    catch (Exception exception1)
                     {
                         throw new RuntimeException((new StringBuilder()).append("Failed to instantiate ").append(class1.toString()).toString(), exception1);
                     }
@@ -61,12 +54,12 @@ public class MapStorage
                     worldsaveddata.readFromNBT(nbttagcompound.getCompoundTag("data"));
                 }
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 exception.printStackTrace();
             }
         }
-        if(worldsaveddata != null)
+        if (worldsaveddata != null)
         {
             loadedDataMap.put(s, worldsaveddata);
             loadedDataList.add(worldsaveddata);
@@ -76,11 +69,11 @@ public class MapStorage
 
     public void setData(String s, WorldSavedData worldsaveddata)
     {
-        if(worldsaveddata == null)
+        if (worldsaveddata == null)
         {
             throw new RuntimeException("Can't set null data");
         }
-        if(loadedDataMap.containsKey(s))
+        if (loadedDataMap.containsKey(s))
         {
             loadedDataList.remove(loadedDataMap.remove(s));
         }
@@ -90,28 +83,27 @@ public class MapStorage
 
     public void saveAllData()
     {
-        for(int i = 0; i < loadedDataList.size(); i++)
+        for (int i = 0; i < loadedDataList.size(); i++)
         {
             WorldSavedData worldsaveddata = (WorldSavedData)loadedDataList.get(i);
-            if(worldsaveddata.isDirty())
+            if (worldsaveddata.isDirty())
             {
                 saveData(worldsaveddata);
                 worldsaveddata.setDirty(false);
             }
         }
-
     }
 
     private void saveData(WorldSavedData worldsaveddata)
     {
-        if(saveHandler == null)
+        if (saveHandler == null)
         {
             return;
         }
         try
         {
             File file = saveHandler.getMapFile(worldsaveddata.mapName);
-            if(file != null)
+            if (file != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 worldsaveddata.writeToNBT(nbttagcompound);
@@ -122,7 +114,7 @@ public class MapStorage
                 fileoutputstream.close();
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -133,35 +125,36 @@ public class MapStorage
         try
         {
             idCounts.clear();
-            if(saveHandler == null)
+            if (saveHandler == null)
             {
                 return;
             }
             File file = saveHandler.getMapFile("idcounts");
-            if(file != null && file.exists())
+            if (file != null && file.exists())
             {
                 DataInputStream datainputstream = new DataInputStream(new FileInputStream(file));
-                NBTTagCompound nbttagcompound = CompressedStreamTools.func_1141_a(datainputstream);
+                NBTTagCompound nbttagcompound = CompressedStreamTools.read(datainputstream);
                 datainputstream.close();
-                Iterator iterator = nbttagcompound.func_28110_c().iterator();
+                Iterator iterator = nbttagcompound.getTags().iterator();
                 do
                 {
-                    if(!iterator.hasNext())
+                    if (!iterator.hasNext())
                     {
                         break;
                     }
                     NBTBase nbtbase = (NBTBase)iterator.next();
-                    if(nbtbase instanceof NBTTagShort)
+                    if (nbtbase instanceof NBTTagShort)
                     {
                         NBTTagShort nbttagshort = (NBTTagShort)nbtbase;
                         String s = nbttagshort.getKey();
                         short word0 = nbttagshort.shortValue;
                         idCounts.put(s, Short.valueOf(word0));
                     }
-                } while(true);
+                }
+                while (true);
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -170,29 +163,30 @@ public class MapStorage
     public int getUniqueDataId(String s)
     {
         Short short1 = (Short)idCounts.get(s);
-        if(short1 == null)
+        if (short1 == null)
         {
             short1 = Short.valueOf((short)0);
-        } else
+        }
+        else
         {
             Short short2 = short1;
             Short short3 = short1 = Short.valueOf((short)(short1.shortValue() + 1));
             Short _tmp = short2;
         }
         idCounts.put(s, short1);
-        if(saveHandler == null)
+        if (saveHandler == null)
         {
             return short1.shortValue();
         }
         try
         {
             File file = saveHandler.getMapFile("idcounts");
-            if(file != null)
+            if (file != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 String s1;
                 short word0;
-                for(Iterator iterator = idCounts.keySet().iterator(); iterator.hasNext(); nbttagcompound.setShort(s1, word0))
+                for (Iterator iterator = idCounts.keySet().iterator(); iterator.hasNext(); nbttagcompound.setShort(s1, word0))
                 {
                     s1 = (String)iterator.next();
                     word0 = ((Short)idCounts.get(s1)).shortValue();
@@ -203,7 +197,7 @@ public class MapStorage
                 dataoutputstream.close();
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }

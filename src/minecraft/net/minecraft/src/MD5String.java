@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.math.BigInteger;
@@ -10,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class MD5String
 {
-
     private String field_27370_a;
 
     public MD5String(String s)
@@ -27,7 +22,7 @@ public class MD5String
             messagedigest.update(s1.getBytes(), 0, s1.length());
             return (new BigInteger(1, messagedigest.digest())).toString(16);
         }
-        catch(NoSuchAlgorithmException nosuchalgorithmexception)
+        catch (NoSuchAlgorithmException nosuchalgorithmexception)
         {
             throw new RuntimeException(nosuchalgorithmexception);
         }

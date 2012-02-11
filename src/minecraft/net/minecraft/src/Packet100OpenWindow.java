@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, NetHandler
-
 public class Packet100OpenWindow extends Packet
 {
-
     public int windowId;
     public int inventoryType;
     public String windowTitle;
@@ -27,21 +19,21 @@ public class Packet100OpenWindow extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
-        windowId = datainputstream.readByte();
-        inventoryType = datainputstream.readByte();
+        windowId = datainputstream.readByte() & 0xff;
+        inventoryType = datainputstream.readByte() & 0xff;
         windowTitle = readString(datainputstream, 16);
-        slotsCount = datainputstream.readByte();
+        slotsCount = datainputstream.readByte() & 0xff;
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
-        dataoutputstream.writeByte(windowId);
-        dataoutputstream.writeByte(inventoryType);
+        dataoutputstream.writeByte(windowId & 0xff);
+        dataoutputstream.writeByte(inventoryType & 0xff);
         writeString(windowTitle, dataoutputstream);
-        dataoutputstream.writeByte(slotsCount);
+        dataoutputstream.writeByte(slotsCount & 0xff);
     }
 
     public int getPacketSize()

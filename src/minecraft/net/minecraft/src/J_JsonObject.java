@@ -1,27 +1,19 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            J_JsonRootNode, EnumJsonNodeType
-
 final class J_JsonObject extends J_JsonRootNode
 {
-
-    private final Map field_27222_a;
+    private final Map fields;
 
     J_JsonObject(Map map)
     {
-        field_27222_a = new HashMap(map);
+        fields = new HashMap(map);
     }
 
     public Map getFields()
     {
-        return new HashMap(field_27222_a);
+        return new HashMap(fields);
     }
 
     public EnumJsonNodeType getType()
@@ -41,27 +33,28 @@ final class J_JsonObject extends J_JsonRootNode
 
     public boolean equals(Object obj)
     {
-        if(this == obj)
+        if (this == obj)
         {
             return true;
         }
-        if(obj == null || getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
         {
             return false;
-        } else
+        }
+        else
         {
             J_JsonObject j_jsonobject = (J_JsonObject)obj;
-            return field_27222_a.equals(j_jsonobject.field_27222_a);
+            return fields.equals(j_jsonobject.fields);
         }
     }
 
     public int hashCode()
     {
-        return field_27222_a.hashCode();
+        return fields.hashCode();
     }
 
     public String toString()
     {
-        return (new StringBuilder()).append("JsonObject fields:[").append(field_27222_a).append("]").toString();
+        return (new StringBuilder()).append("JsonObject fields:[").append(fields).append("]").toString();
     }
 }

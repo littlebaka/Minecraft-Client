@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
@@ -9,18 +5,11 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiContainer, ContainerEnchantment, FontRenderer, PlayerController, 
-//            RenderEngine, ScaledResolution, RenderHelper, MathHelper, 
-//            ModelBook, EnchantmentNameParts, EntityPlayerSP, Container, 
-//            Slot, ItemStack, InventoryPlayer, World
-
 public class GuiEnchantment extends GuiContainer
 {
-
     private static ModelBook field_40220_w = new ModelBook();
     private Random field_40230_x;
-    private ContainerEnchantment field_40228_y;
+    private ContainerEnchantment containerEnchantment;
     public int field_40227_h;
     public float field_40229_i;
     public float field_40225_j;
@@ -34,7 +23,7 @@ public class GuiEnchantment extends GuiContainer
     {
         super(new ContainerEnchantment(inventoryplayer, world, i, j, k));
         field_40230_x = new Random();
-        field_40228_y = (ContainerEnchantment)inventorySlots;
+        containerEnchantment = (ContainerEnchantment)inventorySlots;
     }
 
     public void onGuiClosed()
@@ -59,16 +48,15 @@ public class GuiEnchantment extends GuiContainer
         super.mouseClicked(i, j, k);
         int l = (width - xSize) / 2;
         int i1 = (height - ySize) / 2;
-        for(int j1 = 0; j1 < 3; j1++)
+        for (int j1 = 0; j1 < 3; j1++)
         {
             int k1 = i - (l + 60);
             int l1 = j - (i1 + 14 + 19 * j1);
-            if(k1 >= 0 && l1 >= 0 && k1 < 108 && l1 < 19 && field_40228_y.func_40233_a(mc.thePlayer, j1))
+            if (k1 >= 0 && l1 >= 0 && k1 < 108 && l1 < 19 && containerEnchantment.enchantItem(mc.thePlayer, j1))
             {
-                mc.playerController.func_40593_a(field_40228_y.windowId, j1);
+                mc.playerController.func_40593_a(containerEnchantment.windowId, j1);
             }
         }
-
     }
 
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
@@ -106,19 +94,19 @@ public class GuiEnchantment extends GuiContainer
         float f5 = field_40225_j + (field_40229_i - field_40225_j) * f + 0.75F;
         f4 = (f4 - (float)MathHelper.func_40346_b(f4)) * 1.6F - 0.3F;
         f5 = (f5 - (float)MathHelper.func_40346_b(f5)) * 1.6F - 0.3F;
-        if(f4 < 0.0F)
+        if (f4 < 0.0F)
         {
             f4 = 0.0F;
         }
-        if(f5 < 0.0F)
+        if (f5 < 0.0F)
         {
             f5 = 0.0F;
         }
-        if(f4 > 1.0F)
+        if (f4 > 1.0F)
         {
             f4 = 1.0F;
         }
-        if(f5 > 1.0F)
+        if (f5 > 1.0F)
         {
             f5 = 1.0F;
         }
@@ -134,15 +122,15 @@ public class GuiEnchantment extends GuiContainer
         RenderHelper.disableStandardItemLighting();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(k);
-        EnchantmentNameParts.field_40253_a.func_40250_a(field_40228_y.field_40234_b);
-        for(int j1 = 0; j1 < 3; j1++)
+        EnchantmentNameParts.field_40253_a.func_40250_a(containerEnchantment.nameSeed);
+        for (int j1 = 0; j1 < 3; j1++)
         {
             String s = EnchantmentNameParts.field_40253_a.func_40249_a();
             zLevel = 0.0F;
             mc.renderEngine.bindTexture(k);
-            int k1 = field_40228_y.field_40235_c[j1];
+            int k1 = containerEnchantment.enchantLevels[j1];
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            if(k1 == 0)
+            if (k1 == 0)
             {
                 drawTexturedModalRect(l + 60, i1 + 14 + 19 * j1, 0, 185, 108, 19);
                 continue;
@@ -150,7 +138,7 @@ public class GuiEnchantment extends GuiContainer
             String s1 = (new StringBuilder()).append("").append(k1).toString();
             FontRenderer fontrenderer = mc.standardGalacticFontRenderer;
             int l1 = 0x685e4a;
-            if(mc.thePlayer.playerLevel < k1)
+            if (mc.thePlayer.playerLevel < k1)
             {
                 drawTexturedModalRect(l + 60, i1 + 14 + 19 * j1, 0, 185, 108, 19);
                 fontrenderer.drawSplitString(s, l + 62, i1 + 16 + 19 * j1, 104, (l1 & 0xfefefe) >> 1);
@@ -161,11 +149,12 @@ public class GuiEnchantment extends GuiContainer
             }
             int i2 = i - (l + 60);
             int j2 = j - (i1 + 14 + 19 * j1);
-            if(i2 >= 0 && j2 >= 0 && i2 < 108 && j2 < 19)
+            if (i2 >= 0 && j2 >= 0 && i2 < 108 && j2 < 19)
             {
                 drawTexturedModalRect(l + 60, i1 + 14 + 19 * j1, 0, 204, 108, 19);
                 l1 = 0xffff80;
-            } else
+            }
+            else
             {
                 drawTexturedModalRect(l + 60, i1 + 14 + 19 * j1, 0, 166, 108, 19);
             }
@@ -174,59 +163,59 @@ public class GuiEnchantment extends GuiContainer
             l1 = 0x80ff20;
             fontrenderer.drawStringWithShadow(s1, (l + 62 + 104) - fontrenderer.getStringWidth(s1), i1 + 16 + 19 * j1 + 7, l1);
         }
-
     }
 
     public void func_40219_x_()
     {
         ItemStack itemstack = inventorySlots.getSlot(0).getStack();
-        if(!ItemStack.areItemStacksEqual(itemstack, field_40222_o))
+        if (!ItemStack.areItemStacksEqual(itemstack, field_40222_o))
         {
             field_40222_o = itemstack;
             do
             {
                 field_40226_k += field_40230_x.nextInt(4) - field_40230_x.nextInt(4);
-            } while(field_40229_i <= field_40226_k + 1.0F && field_40229_i >= field_40226_k - 1.0F);
+            }
+            while (field_40229_i <= field_40226_k + 1.0F && field_40229_i >= field_40226_k - 1.0F);
         }
         field_40227_h++;
         field_40225_j = field_40229_i;
         field_40221_n = field_40224_m;
         boolean flag = false;
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            if(field_40228_y.field_40235_c[i] != 0)
+            if (containerEnchantment.enchantLevels[i] != 0)
             {
                 flag = true;
             }
         }
 
-        if(flag)
+        if (flag)
         {
             field_40224_m += 0.2F;
-        } else
+        }
+        else
         {
             field_40224_m -= 0.2F;
         }
-        if(field_40224_m < 0.0F)
+        if (field_40224_m < 0.0F)
         {
             field_40224_m = 0.0F;
         }
-        if(field_40224_m > 1.0F)
+        if (field_40224_m > 1.0F)
         {
             field_40224_m = 1.0F;
         }
         float f = (field_40226_k - field_40229_i) * 0.4F;
         float f1 = 0.2F;
-        if(f < -f1)
+        if (f < -f1)
         {
             f = -f1;
         }
-        if(f > f1)
+        if (f > f1)
         {
             f = f1;
         }
         field_40223_l += (f - field_40223_l) * 0.9F;
         field_40229_i = field_40229_i + field_40223_l;
     }
-
 }

@@ -1,34 +1,30 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 public final class WorldSettings
 {
-
-    private final long worldSeed;
-    private final int worldType;
+    private final long seed;
+    private final int gameType;
     private final boolean mapFeaturesEnabled;
     private final boolean hardcoreEnabled;
+    private final EnumWorldType field_46108_e;
 
-    public WorldSettings(long l, int i, boolean flag, boolean flag1)
+    public WorldSettings(long l, int i, boolean flag, boolean flag1, EnumWorldType enumworldtype)
     {
-        worldSeed = l;
-        worldType = i;
+        seed = l;
+        gameType = i;
         mapFeaturesEnabled = flag;
         hardcoreEnabled = flag1;
+        field_46108_e = enumworldtype;
     }
 
     public long getSeed()
     {
-        return worldSeed;
+        return seed;
     }
 
     public int getGameType()
     {
-        return worldType;
+        return gameType;
     }
 
     public boolean getHardcoreEnabled()
@@ -39,5 +35,10 @@ public final class WorldSettings
     public boolean isMapFeaturesEnabled()
     {
         return mapFeaturesEnabled;
+    }
+
+    public EnumWorldType func_46107_e()
+    {
+        return field_46108_e;
     }
 }

@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.client;
 
 import java.awt.BorderLayout;
@@ -34,6 +30,7 @@ import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.EnumOS2;
 import net.minecraft.src.EnumOSMappingHelper;
 import net.minecraft.src.EnumOptions;
+import net.minecraft.src.EnumWorldType;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GLAllocation;
 import net.minecraft.src.GameSettings;
@@ -83,9 +80,11 @@ import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.ScreenShotHelper;
 import net.minecraft.src.Session;
 import net.minecraft.src.SoundManager;
+import net.minecraft.src.StatCollector;
 import net.minecraft.src.StatFileWriter;
 import net.minecraft.src.StatList;
 import net.minecraft.src.StatStringFormatKeyInv;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.Teleporter;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.TextureCompassFX;
@@ -118,13 +117,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 
-// Referenced classes of package net.minecraft.client:
-//            MinecraftApplet
-
 public abstract class Minecraft
     implements Runnable
 {
-
     public static byte field_28006_b[] = new byte[0xa00000];
     private static Minecraft theMinecraft;
     public PlayerController playerController;
@@ -180,11 +175,11 @@ public abstract class Minecraft
     private static File minecraftDir = null;
     public volatile boolean running;
     public String debug;
-    long field_40004_N;
+    long debugUpdateTime;
     int fpsCounter;
     boolean isTakingScreenshot;
     long prevFrameTime;
-    private String field_40006_ak;
+    private String debugProfilerName;
     public boolean inGameHasFocus;
     public boolean isRaining;
     long systemTime;
@@ -211,11 +206,11 @@ public abstract class Minecraft
         textureLavaFX = new TextureLavaFX();
         running = true;
         debug = "";
-        field_40004_N = System.currentTimeMillis();
+        debugUpdateTime = System.currentTimeMillis();
         fpsCounter = 0;
         isTakingScreenshot = false;
         prevFrameTime = -1L;
-        field_40006_ak = "root";
+        debugProfilerName = "root";
         inGameHasFocus = false;
         isRaining = false;
         systemTime = System.currentTimeMillis();
@@ -229,7 +224,7 @@ public abstract class Minecraft
         displayWidth = i;
         displayHeight = j;
         fullscreen = flag;
-        if(minecraftapplet == null || "true".equals(minecraftapplet.getParameter("stand-alone")))
+        if (minecraftapplet == null || "true".equals(minecraftapplet.getParameter("stand-alone")))
         {
             hideQuitButton = false;
         }
@@ -251,51 +246,52 @@ public abstract class Minecraft
     }
 
     public void startGame()
-        throws LWJGLException
+    throws LWJGLException
     {
-        if(mcCanvas != null)
+        if (mcCanvas != null)
         {
             Graphics g = mcCanvas.getGraphics();
-            if(g != null)
+            if (g != null)
             {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, displayWidth, displayHeight);
                 g.dispose();
             }
             Display.setParent(mcCanvas);
-        } else
-        if(fullscreen)
+        }
+        else if (fullscreen)
         {
             Display.setFullscreen(true);
             displayWidth = Display.getDisplayMode().getWidth();
             displayHeight = Display.getDisplayMode().getHeight();
-            if(displayWidth <= 0)
+            if (displayWidth <= 0)
             {
                 displayWidth = 1;
             }
-            if(displayHeight <= 0)
+            if (displayHeight <= 0)
             {
                 displayHeight = 1;
             }
-        } else
+        }
+        else
         {
             Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));
         }
-        Display.setTitle("Minecraft Minecraft 1.0.0");
+        Display.setTitle("Minecraft Minecraft 1.1");
         try
         {
             PixelFormat pixelformat = new PixelFormat();
             pixelformat = pixelformat.withDepthBits(24);
             Display.create(pixelformat);
         }
-        catch(LWJGLException lwjglexception)
+        catch (LWJGLException lwjglexception)
         {
             lwjglexception.printStackTrace();
             try
             {
                 Thread.sleep(1000L);
             }
-            catch(InterruptedException interruptedexception) { }
+            catch (InterruptedException interruptedexception) { }
             Display.create();
         }
         OpenGlHelper.initializeTextures();
@@ -305,9 +301,15 @@ public abstract class Minecraft
         texturePackList = new TexturePackList(this, mcDataDir);
         renderEngine = new RenderEngine(texturePackList, gameSettings);
         loadScreen();
-        fontRenderer = new FontRenderer(gameSettings, "/font/default.png", renderEngine);
-        standardGalacticFontRenderer = new FontRenderer(gameSettings, "/font/alternate.png", renderEngine);
-        ColorizerWater.getWaterBiomeColorizer(renderEngine.getTextureContents("/misc/watercolor.png"));
+        fontRenderer = new FontRenderer(gameSettings, "/font/default.png", renderEngine, false);
+        standardGalacticFontRenderer = new FontRenderer(gameSettings, "/font/alternate.png", renderEngine, false);
+        if (gameSettings.field_44018_Q != null)
+        {
+            StringTranslate.getInstance().func_44023_a(gameSettings.field_44018_Q);
+            fontRenderer.func_44032_a(StringTranslate.getInstance().func_46110_d());
+            fontRenderer.func_46123_b(StringTranslate.func_46109_d(gameSettings.field_44018_Q));
+        }
+        ColorizerWater.setWaterBiomeColorizer(renderEngine.getTextureContents("/misc/watercolor.png"));
         ColorizerGrass.setGrassBiomeColorizer(renderEngine.getTextureContents("/misc/grasscolor.png"));
         ColorizerFoliage.getFoilageBiomeColorizer(renderEngine.getTextureContents("/misc/foliagecolor.png"));
         entityRenderer = new EntityRenderer(this);
@@ -322,7 +324,7 @@ public abstract class Minecraft
         {
             Controllers.create();
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -358,13 +360,14 @@ public abstract class Minecraft
             downloadResourcesThread = new ThreadDownloadResources(mcDataDir, this);
             downloadResourcesThread.start();
         }
-        catch(Exception exception1) { }
+        catch (Exception exception1) { }
         checkGLError("Post startup");
         ingameGUI = new GuiIngame(this);
-        if(serverName != null)
+        if (serverName != null)
         {
             displayGuiScreen(new GuiConnecting(this, serverName, serverPort));
-        } else
+        }
+        else
         {
             displayGuiScreen(new GuiMainMenu());
         }
@@ -372,7 +375,7 @@ public abstract class Minecraft
     }
 
     private void loadScreen()
-        throws LWJGLException
+    throws LWJGLException
     {
         ScaledResolution scaledresolution = new ScaledResolution(gameSettings, displayWidth, displayHeight);
         GL11.glClear(16640);
@@ -423,7 +426,7 @@ public abstract class Minecraft
 
     public static File getMinecraftDir()
     {
-        if(minecraftDir == null)
+        if (minecraftDir == null)
         {
             minecraftDir = getAppDir("minecraft");
         }
@@ -434,36 +437,38 @@ public abstract class Minecraft
     {
         String s1 = System.getProperty("user.home", ".");
         File file;
-        switch(EnumOSMappingHelper.enumOSMappingArray[getOs().ordinal()])
+        switch (EnumOSMappingHelper.enumOSMappingArray[getOs().ordinal()])
         {
-        case 1: // '\001'
-        case 2: // '\002'
-            file = new File(s1, (new StringBuilder()).append('.').append(s).append('/').toString());
-            break;
-
-        case 3: // '\003'
-            String s2 = System.getenv("APPDATA");
-            if(s2 != null)
-            {
-                file = new File(s2, (new StringBuilder()).append(".").append(s).append('/').toString());
-            } else
-            {
+            case 1:
+            case 2:
                 file = new File(s1, (new StringBuilder()).append('.').append(s).append('/').toString());
-            }
-            break;
+                break;
 
-        case 4: // '\004'
-            file = new File(s1, (new StringBuilder()).append("Library/Application Support/").append(s).toString());
-            break;
+            case 3:
+                String s2 = System.getenv("APPDATA");
+                if (s2 != null)
+                {
+                    file = new File(s2, (new StringBuilder()).append(".").append(s).append('/').toString());
+                }
+                else
+                {
+                    file = new File(s1, (new StringBuilder()).append('.').append(s).append('/').toString());
+                }
+                break;
 
-        default:
-            file = new File(s1, (new StringBuilder()).append(s).append('/').toString());
-            break;
+            case 4:
+                file = new File(s1, (new StringBuilder()).append("Library/Application Support/").append(s).toString());
+                break;
+
+            default:
+                file = new File(s1, (new StringBuilder()).append(s).append('/').toString());
+                break;
         }
-        if(!file.exists() && !file.mkdirs())
+        if (!file.exists() && !file.mkdirs())
         {
             throw new RuntimeException((new StringBuilder()).append("The working directory could not be created: ").append(file).toString());
-        } else
+        }
+        else
         {
             return file;
         }
@@ -472,30 +477,31 @@ public abstract class Minecraft
     private static EnumOS2 getOs()
     {
         String s = System.getProperty("os.name").toLowerCase();
-        if(s.contains("win"))
+        if (s.contains("win"))
         {
             return EnumOS2.windows;
         }
-        if(s.contains("mac"))
+        if (s.contains("mac"))
         {
             return EnumOS2.macos;
         }
-        if(s.contains("solaris"))
+        if (s.contains("solaris"))
         {
             return EnumOS2.solaris;
         }
-        if(s.contains("sunos"))
+        if (s.contains("sunos"))
         {
             return EnumOS2.solaris;
         }
-        if(s.contains("linux"))
+        if (s.contains("linux"))
         {
             return EnumOS2.linux;
         }
-        if(s.contains("unix"))
+        if (s.contains("unix"))
         {
             return EnumOS2.linux;
-        } else
+        }
+        else
         {
             return EnumOS2.unknown;
         }
@@ -508,34 +514,34 @@ public abstract class Minecraft
 
     public void displayGuiScreen(GuiScreen guiscreen)
     {
-        if(currentScreen instanceof GuiUnused)
+        if (currentScreen instanceof GuiUnused)
         {
             return;
         }
-        if(currentScreen != null)
+        if (currentScreen != null)
         {
             currentScreen.onGuiClosed();
         }
-        if(guiscreen instanceof GuiMainMenu)
+        if (guiscreen instanceof GuiMainMenu)
         {
             statFileWriter.func_27175_b();
         }
         statFileWriter.syncStats();
-        if(guiscreen == null && theWorld == null)
+        if (guiscreen == null && theWorld == null)
         {
             guiscreen = new GuiMainMenu();
-        } else
-        if(guiscreen == null && thePlayer.getEntityHealth() <= 0)
+        }
+        else if (guiscreen == null && thePlayer.getEntityHealth() <= 0)
         {
             guiscreen = new GuiGameOver();
         }
-        if(guiscreen instanceof GuiMainMenu)
+        if (guiscreen instanceof GuiMainMenu)
         {
             gameSettings.showDebugInfo = false;
             ingameGUI.clearChatMessages();
         }
         currentScreen = guiscreen;
-        if(guiscreen != null)
+        if (guiscreen != null)
         {
             setIngameNotInFocus();
             ScaledResolution scaledresolution = new ScaledResolution(gameSettings, displayWidth, displayHeight);
@@ -543,7 +549,8 @@ public abstract class Minecraft
             int j = scaledresolution.getScaledHeight();
             guiscreen.setWorldAndResolution(this, i, j);
             skipRenderWorld = false;
-        } else
+        }
+        else
         {
             setIngameFocus();
         }
@@ -552,7 +559,7 @@ public abstract class Minecraft
     private void checkGLError(String s)
     {
         int i = GL11.glGetError();
-        if(i != 0)
+        if (i != 0)
         {
             String s1 = GLU.gluErrorString(i);
             System.out.println("########## GL ERROR ##########");
@@ -567,29 +574,29 @@ public abstract class Minecraft
         {
             statFileWriter.func_27175_b();
             statFileWriter.syncStats();
-            if(mcApplet != null)
+            if (mcApplet != null)
             {
                 mcApplet.clearApplet();
             }
             try
             {
-                if(downloadResourcesThread != null)
+                if (downloadResourcesThread != null)
                 {
                     downloadResourcesThread.closeMinecraft();
                 }
             }
-            catch(Exception exception) { }
+            catch (Exception exception) { }
             System.out.println("Stopping!");
             try
             {
                 changeWorld1(null);
             }
-            catch(Throwable throwable) { }
+            catch (Throwable throwable) { }
             try
             {
                 GLAllocation.deleteTexturesAndDisplayLists();
             }
-            catch(Throwable throwable1) { }
+            catch (Throwable throwable1) { }
             sndManager.closeMinecraft();
             Mouse.destroy();
             Keyboard.destroy();
@@ -597,7 +604,7 @@ public abstract class Minecraft
         finally
         {
             Display.destroy();
-            if(!hasCrashed)
+            if (!hasCrashed)
             {
                 System.exit(0);
             }
@@ -612,7 +619,7 @@ public abstract class Minecraft
         {
             startGame();
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
             onMinecraftCrash(new UnexpectedThrowable("Failed to start game", exception));
@@ -620,19 +627,19 @@ public abstract class Minecraft
         }
         try
         {
-            while(running) 
+            while (running)
             {
                 try
                 {
-                    func_40001_x();
+                    runGameLoop();
                 }
-                catch(MinecraftException minecraftexception)
+                catch (MinecraftException minecraftexception)
                 {
                     theWorld = null;
                     changeWorld1(null);
                     displayGuiScreen(new GuiConflictWarning());
                 }
-                catch(OutOfMemoryError outofmemoryerror)
+                catch (OutOfMemoryError outofmemoryerror)
                 {
                     freeMemory();
                     displayGuiScreen(new GuiErrorScreen());
@@ -640,8 +647,8 @@ public abstract class Minecraft
                 }
             }
         }
-        catch(MinecraftError minecrafterror) { }
-        catch(Throwable throwable)
+        catch (MinecraftError minecrafterror) { }
+        catch (Throwable throwable)
         {
             freeMemory();
             throwable.printStackTrace();
@@ -653,9 +660,9 @@ public abstract class Minecraft
         }
     }
 
-    private void func_40001_x()
+    private void runGameLoop()
     {
-        if(mcApplet != null && !mcApplet.isActive())
+        if (mcApplet != null && !mcApplet.isActive())
         {
             running = false;
             return;
@@ -663,22 +670,23 @@ public abstract class Minecraft
         AxisAlignedBB.clearBoundingBoxPool();
         Vec3D.initialize();
         Profiler.startSection("root");
-        if(mcCanvas == null && Display.isCloseRequested())
+        if (mcCanvas == null && Display.isCloseRequested())
         {
             shutdown();
         }
-        if(isGamePaused && theWorld != null)
+        if (isGamePaused && theWorld != null)
         {
             float f = timer.renderPartialTicks;
             timer.updateTimer();
             timer.renderPartialTicks = f;
-        } else
+        }
+        else
         {
             timer.updateTimer();
         }
         long l = System.nanoTime();
         Profiler.startSection("tick");
-        for(int i = 0; i < timer.elapsedTicks; i++)
+        for (int i = 0; i < timer.elapsedTicks; i++)
         {
             ticksRan++;
             try
@@ -686,7 +694,7 @@ public abstract class Minecraft
                 runTick();
                 continue;
             }
-            catch(MinecraftException minecraftexception)
+            catch (MinecraftException minecraftexception)
             {
                 theWorld = null;
             }
@@ -701,7 +709,7 @@ public abstract class Minecraft
         Profiler.startSection("sound");
         sndManager.func_338_a(thePlayer, timer.renderPartialTicks);
         Profiler.endStartSection("updatelights");
-        if(theWorld != null)
+        if (theWorld != null)
         {
             theWorld.updatingLighting();
         }
@@ -709,19 +717,19 @@ public abstract class Minecraft
         Profiler.startSection("render");
         Profiler.startSection("display");
         GL11.glEnable(3553 /*GL_TEXTURE_2D*/);
-        if(!Keyboard.isKeyDown(65))
+        if (!Keyboard.isKeyDown(65))
         {
             Display.update();
         }
-        if(thePlayer != null && thePlayer.isEntityInsideOpaqueBlock())
+        if (thePlayer != null && thePlayer.isEntityInsideOpaqueBlock())
         {
             gameSettings.thirdPersonView = 0;
         }
         Profiler.endSection();
-        if(!skipRenderWorld)
+        if (!skipRenderWorld)
         {
             Profiler.startSection("gameMode");
-            if(playerController != null)
+            if (playerController != null)
             {
                 playerController.setPartialTime(timer.renderPartialTicks);
             }
@@ -731,20 +739,21 @@ public abstract class Minecraft
         }
         GL11.glFlush();
         Profiler.endSection();
-        if(!Display.isActive() && fullscreen)
+        if (!Display.isActive() && fullscreen)
         {
             toggleFullscreen();
         }
         Profiler.endSection();
-        if(gameSettings.showDebugInfo)
+        if (gameSettings.showDebugInfo)
         {
-            if(!Profiler.profilingEnabled)
+            if (!Profiler.profilingEnabled)
             {
                 Profiler.clearProfiling();
             }
             Profiler.profilingEnabled = true;
             displayDebugInfo(l1);
-        } else
+        }
+        else
         {
             Profiler.profilingEnabled = false;
             prevFrameTime = System.nanoTime();
@@ -752,20 +761,20 @@ public abstract class Minecraft
         guiAchievement.updateAchievementWindow();
         Profiler.startSection("root");
         Thread.yield();
-        if(Keyboard.isKeyDown(65))
+        if (Keyboard.isKeyDown(65))
         {
             Display.update();
         }
         screenshotListener();
-        if(mcCanvas != null && !fullscreen && (mcCanvas.getWidth() != displayWidth || mcCanvas.getHeight() != displayHeight))
+        if (mcCanvas != null && !fullscreen && (mcCanvas.getWidth() != displayWidth || mcCanvas.getHeight() != displayHeight))
         {
             displayWidth = mcCanvas.getWidth();
             displayHeight = mcCanvas.getHeight();
-            if(displayWidth <= 0)
+            if (displayWidth <= 0)
             {
                 displayWidth = 1;
             }
-            if(displayHeight <= 0)
+            if (displayHeight <= 0)
             {
                 displayHeight = 1;
             }
@@ -774,11 +783,11 @@ public abstract class Minecraft
         checkGLError("Post render");
         fpsCounter++;
         isGamePaused = !isMultiplayerWorld() && currentScreen != null && currentScreen.doesGuiPauseGame();
-        while(System.currentTimeMillis() >= field_40004_N + 1000L) 
+        while (System.currentTimeMillis() >= debugUpdateTime + 1000L)
         {
             debug = (new StringBuilder()).append(fpsCounter).append(" fps, ").append(WorldRenderer.chunksUpdated).append(" chunk updates").toString();
             WorldRenderer.chunksUpdated = 0;
-            field_40004_N += 1000L;
+            debugUpdateTime += 1000L;
             fpsCounter = 0;
         }
         Profiler.endSection();
@@ -791,78 +800,79 @@ public abstract class Minecraft
             field_28006_b = new byte[0];
             renderGlobal.func_28137_f();
         }
-        catch(Throwable throwable) { }
+        catch (Throwable throwable) { }
         try
         {
             System.gc();
             AxisAlignedBB.clearBoundingBoxes();
             Vec3D.clearVectorList();
         }
-        catch(Throwable throwable1) { }
+        catch (Throwable throwable1) { }
         try
         {
             System.gc();
             changeWorld1(null);
         }
-        catch(Throwable throwable2) { }
+        catch (Throwable throwable2) { }
         System.gc();
     }
 
     private void screenshotListener()
     {
-        if(Keyboard.isKeyDown(60))
+        if (Keyboard.isKeyDown(60))
         {
-            if(!isTakingScreenshot)
+            if (!isTakingScreenshot)
             {
                 isTakingScreenshot = true;
                 ingameGUI.addChatMessage(ScreenShotHelper.saveScreenshot(minecraftDir, displayWidth, displayHeight));
             }
-        } else
+        }
+        else
         {
             isTakingScreenshot = false;
         }
     }
 
-    private void func_40003_b(int i)
+    private void updateDebugProfilerName(int i)
     {
         java.util.List list;
         ProfilerResult profilerresult;
-        list = Profiler.getProfilingData(field_40006_ak);
-        if(list == null || list.size() == 0)
+        list = Profiler.getProfilingData(debugProfilerName);
+        if (list == null || list.size() == 0)
         {
             return;
         }
         profilerresult = (ProfilerResult)list.remove(0);
-        if(i == 0)
+        if (i == 0)
         {
-            if(profilerresult.field_40703_c.length() > 0)
+            if (profilerresult.name.length() > 0)
             {
-                int j = field_40006_ak.lastIndexOf(".");
-                if(j >= 0)
+                int j = debugProfilerName.lastIndexOf(".");
+                if (j >= 0)
                 {
-                    field_40006_ak = field_40006_ak.substring(0, j);
+                    debugProfilerName = debugProfilerName.substring(0, j);
                 }
             }
         }
         else
         {
-            if(--i < list.size() && !((ProfilerResult)list.get(i)).field_40703_c.equals("unspecified"))
+            if (--i < list.size() && !(((ProfilerResult)list.get(i)).name.equals("unspecified")))
             {
-                if(field_40006_ak.length() > 0)
+                if (debugProfilerName.length() > 0)
                 {
-                    field_40006_ak += ".";
+                    debugProfilerName += ".";
                 }
-                field_40006_ak += ((ProfilerResult)list.get(i)).field_40703_c;
+                debugProfilerName += ((ProfilerResult)list.get(i)).name;
             }
         }
     }
 
     private void displayDebugInfo(long l)
     {
-        java.util.List list = Profiler.getProfilingData(field_40006_ak);
+        java.util.List list = Profiler.getProfilingData(debugProfilerName);
         ProfilerResult profilerresult = (ProfilerResult)list.remove(0);
         long l1 = 0xfe502aL;
-        if(prevFrameTime == -1L)
+        if (prevFrameTime == -1L)
         {
             prevFrameTime = System.nanoTime();
         }
@@ -895,7 +905,7 @@ public abstract class Minecraft
         tessellator.addVertex(frameTimes.length, displayHeight - i * 2, 0.0D);
         tessellator.draw();
         long l3 = 0L;
-        for(int j = 0; j < frameTimes.length; j++)
+        for (int j = 0; j < frameTimes.length; j++)
         {
             l3 += frameTimes[j];
         }
@@ -909,17 +919,18 @@ public abstract class Minecraft
         tessellator.addVertex(frameTimes.length, displayHeight - k, 0.0D);
         tessellator.draw();
         tessellator.startDrawing(1);
-        for(int i1 = 0; i1 < frameTimes.length; i1++)
+        for (int i1 = 0; i1 < frameTimes.length; i1++)
         {
             int k1 = ((i1 - numRecordedFrameTimes & frameTimes.length - 1) * 255) / frameTimes.length;
             int j2 = (k1 * k1) / 255;
             j2 = (j2 * j2) / 255;
             int i3 = (j2 * j2) / 255;
             i3 = (i3 * i3) / 255;
-            if(frameTimes[i1] > l1)
+            if (frameTimes[i1] > l1)
             {
                 tessellator.setColorOpaque_I(0xff000000 + j2 * 0x10000);
-            } else
+            }
+            else
             {
                 tessellator.setColorOpaque_I(0xff000000 + j2 * 256);
             }
@@ -946,16 +957,16 @@ public abstract class Minecraft
         tessellator.draw();
         GL11.glDisable(3042 /*GL_BLEND*/);
         double d = 0.0D;
-        for(int j3 = 0; j3 < list.size(); j3++)
+        for (int j3 = 0; j3 < list.size(); j3++)
         {
             ProfilerResult profilerresult1 = (ProfilerResult)list.get(j3);
-            int i4 = MathHelper.floor_double(profilerresult1.field_40704_a / 4D) + 1;
+            int i4 = MathHelper.floor_double(profilerresult1.sectionPercentage / 4D) + 1;
             tessellator.startDrawing(6);
-            tessellator.setColorOpaque_I(profilerresult1.func_40700_a());
+            tessellator.setColorOpaque_I(profilerresult1.getDisplayColor());
             tessellator.addVertex(i2, k2, 0.0D);
-            for(int k4 = i4; k4 >= 0; k4--)
+            for (int k4 = i4; k4 >= 0; k4--)
             {
-                float f = (float)(((d + (profilerresult1.field_40704_a * (double)k4) / (double)i4) * 3.1415927410125732D * 2D) / 100D);
+                float f = (float)(((d + (profilerresult1.sectionPercentage * (double)k4) / (double)i4) * 3.1415927410125732D * 2D) / 100D);
                 float f2 = MathHelper.sin(f) * (float)j1;
                 float f4 = MathHelper.cos(f) * (float)j1 * 0.5F;
                 tessellator.addVertex((float)i2 + f2, (float)k2 - f4, 0.0D);
@@ -963,10 +974,10 @@ public abstract class Minecraft
 
             tessellator.draw();
             tessellator.startDrawing(5);
-            tessellator.setColorOpaque_I((profilerresult1.func_40700_a() & 0xfefefe) >> 1);
-            for(int i5 = i4; i5 >= 0; i5--)
+            tessellator.setColorOpaque_I((profilerresult1.getDisplayColor() & 0xfefefe) >> 1);
+            for (int i5 = i4; i5 >= 0; i5--)
             {
-                float f1 = (float)(((d + (profilerresult1.field_40704_a * (double)i5) / (double)i4) * 3.1415927410125732D * 2D) / 100D);
+                float f1 = (float)(((d + (profilerresult1.sectionPercentage * (double)i5) / (double)i4) * 3.1415927410125732D * 2D) / 100D);
                 float f3 = MathHelper.sin(f1) * (float)j1;
                 float f5 = MathHelper.cos(f1) * (float)j1 * 0.5F;
                 tessellator.addVertex((float)i2 + f3, (float)k2 - f5, 0.0D);
@@ -974,43 +985,44 @@ public abstract class Minecraft
             }
 
             tessellator.draw();
-            d += profilerresult1.field_40704_a;
+            d += profilerresult1.sectionPercentage;
         }
 
         DecimalFormat decimalformat = new DecimalFormat("##0.00");
         GL11.glEnable(3553 /*GL_TEXTURE_2D*/);
         String s = "";
-        if(!profilerresult.field_40703_c.equals("unspecified"))
+        if (!profilerresult.name.equals("unspecified"))
         {
             s = (new StringBuilder()).append(s).append("[0] ").toString();
         }
-        if(profilerresult.field_40703_c.length() == 0)
+        if (profilerresult.name.length() == 0)
         {
             s = (new StringBuilder()).append(s).append("ROOT ").toString();
-        } else
+        }
+        else
         {
-            s = (new StringBuilder()).append(s).append(profilerresult.field_40703_c).append(" ").toString();
+            s = (new StringBuilder()).append(s).append(profilerresult.name).append(" ").toString();
         }
         int j4 = 0xffffff;
         fontRenderer.drawStringWithShadow(s, i2 - j1, k2 - j1 / 2 - 16, j4);
-        fontRenderer.drawStringWithShadow(s = (new StringBuilder()).append(decimalformat.format(profilerresult.field_40702_b)).append("%").toString(), (i2 + j1) - fontRenderer.getStringWidth(s), k2 - j1 / 2 - 16, j4);
-        for(int k3 = 0; k3 < list.size(); k3++)
+        fontRenderer.drawStringWithShadow(s = (new StringBuilder()).append(decimalformat.format(profilerresult.globalPercentage)).append("%").toString(), (i2 + j1) - fontRenderer.getStringWidth(s), k2 - j1 / 2 - 16, j4);
+        for (int k3 = 0; k3 < list.size(); k3++)
         {
             ProfilerResult profilerresult2 = (ProfilerResult)list.get(k3);
             String s1 = "";
-            if(!profilerresult2.field_40703_c.equals("unspecified"))
+            if (!profilerresult2.name.equals("unspecified"))
             {
                 s1 = (new StringBuilder()).append(s1).append("[").append(k3 + 1).append("] ").toString();
-            } else
+            }
+            else
             {
                 s1 = (new StringBuilder()).append(s1).append("[?] ").toString();
             }
-            s1 = (new StringBuilder()).append(s1).append(profilerresult2.field_40703_c).toString();
-            fontRenderer.drawStringWithShadow(s1, i2 - j1, k2 + j1 / 2 + k3 * 8 + 20, profilerresult2.func_40700_a());
-            fontRenderer.drawStringWithShadow(s1 = (new StringBuilder()).append(decimalformat.format(profilerresult2.field_40704_a)).append("%").toString(), (i2 + j1) - 50 - fontRenderer.getStringWidth(s1), k2 + j1 / 2 + k3 * 8 + 20, profilerresult2.func_40700_a());
-            fontRenderer.drawStringWithShadow(s1 = (new StringBuilder()).append(decimalformat.format(profilerresult2.field_40702_b)).append("%").toString(), (i2 + j1) - fontRenderer.getStringWidth(s1), k2 + j1 / 2 + k3 * 8 + 20, profilerresult2.func_40700_a());
+            s1 = (new StringBuilder()).append(s1).append(profilerresult2.name).toString();
+            fontRenderer.drawStringWithShadow(s1, i2 - j1, k2 + j1 / 2 + k3 * 8 + 20, profilerresult2.getDisplayColor());
+            fontRenderer.drawStringWithShadow(s1 = (new StringBuilder()).append(decimalformat.format(profilerresult2.sectionPercentage)).append("%").toString(), (i2 + j1) - 50 - fontRenderer.getStringWidth(s1), k2 + j1 / 2 + k3 * 8 + 20, profilerresult2.getDisplayColor());
+            fontRenderer.drawStringWithShadow(s1 = (new StringBuilder()).append(decimalformat.format(profilerresult2.globalPercentage)).append("%").toString(), (i2 + j1) - fontRenderer.getStringWidth(s1), k2 + j1 / 2 + k3 * 8 + 20, profilerresult2.getDisplayColor());
         }
-
     }
 
     public void shutdown()
@@ -1020,14 +1032,15 @@ public abstract class Minecraft
 
     public void setIngameFocus()
     {
-        if(!Display.isActive())
+        if (!Display.isActive())
         {
             return;
         }
-        if(inGameHasFocus)
+        if (inGameHasFocus)
         {
             return;
-        } else
+        }
+        else
         {
             inGameHasFocus = true;
             mouseHelper.grabMouseCursor();
@@ -1039,10 +1052,11 @@ public abstract class Minecraft
 
     public void setIngameNotInFocus()
     {
-        if(!inGameHasFocus)
+        if (!inGameHasFocus)
         {
             return;
-        } else
+        }
+        else
         {
             KeyBinding.unPressAllKeys();
             inGameHasFocus = false;
@@ -1053,10 +1067,11 @@ public abstract class Minecraft
 
     public void displayInGameMenu()
     {
-        if(currentScreen != null)
+        if (currentScreen != null)
         {
             return;
-        } else
+        }
+        else
         {
             displayGuiScreen(new GuiIngameMenu());
             return;
@@ -1065,26 +1080,27 @@ public abstract class Minecraft
 
     private void sendClickBlockToController(int i, boolean flag)
     {
-        if(!flag)
+        if (!flag)
         {
             leftClickCounter = 0;
         }
-        if(i == 0 && leftClickCounter > 0)
+        if (i == 0 && leftClickCounter > 0)
         {
             return;
         }
-        if(flag && objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE && i == 0)
+        if (flag && objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE && i == 0)
         {
             int j = objectMouseOver.blockX;
             int k = objectMouseOver.blockY;
             int l = objectMouseOver.blockZ;
-            playerController.sendBlockRemoving(j, k, l, objectMouseOver.sideHit);
-            if(thePlayer.func_35190_e(j, k, l))
+            playerController.onPlayerDamageBlock(j, k, l, objectMouseOver.sideHit);
+            if (thePlayer.canPlayerEdit(j, k, l))
             {
                 effectRenderer.addBlockHitEffects(j, k, l, objectMouseOver.sideHit);
                 thePlayer.swingItem();
             }
-        } else
+        }
+        else
         {
             playerController.resetBlockRemoving();
         }
@@ -1092,74 +1108,75 @@ public abstract class Minecraft
 
     private void clickMouse(int i)
     {
-        if(i == 0 && leftClickCounter > 0)
+        if (i == 0 && leftClickCounter > 0)
         {
             return;
         }
-        if(i == 0)
+        if (i == 0)
         {
             thePlayer.swingItem();
         }
-        if(i == 1)
+        if (i == 1)
         {
             rightClickDelayTimer = 4;
         }
         boolean flag = true;
         ItemStack itemstack = thePlayer.inventory.getCurrentItem();
-        if(objectMouseOver == null)
+        if (objectMouseOver == null)
         {
-            if(i == 0 && playerController.func_35641_g())
+            if (i == 0 && playerController.func_35641_g())
             {
                 leftClickCounter = 10;
             }
-        } else
-        if(objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY)
+        }
+        else if (objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY)
         {
-            if(i == 0)
+            if (i == 0)
             {
                 playerController.attackEntity(thePlayer, objectMouseOver.entityHit);
             }
-            if(i == 1)
+            if (i == 1)
             {
                 playerController.interactWithEntity(thePlayer, objectMouseOver.entityHit);
             }
-        } else
-        if(objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+        }
+        else if (objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
         {
             int j = objectMouseOver.blockX;
             int k = objectMouseOver.blockY;
             int l = objectMouseOver.blockZ;
             int i1 = objectMouseOver.sideHit;
-            if(i == 0)
+            if (i == 0)
             {
                 playerController.clickBlock(j, k, l, objectMouseOver.sideHit);
-            } else
+            }
+            else
             {
                 ItemStack itemstack2 = itemstack;
                 int j1 = itemstack2 == null ? 0 : itemstack2.stackSize;
-                if(playerController.sendPlaceBlock(thePlayer, theWorld, itemstack2, j, k, l, i1))
+                if (playerController.onPlayerRightClick(thePlayer, theWorld, itemstack2, j, k, l, i1))
                 {
                     flag = false;
                     thePlayer.swingItem();
                 }
-                if(itemstack2 == null)
+                if (itemstack2 == null)
                 {
                     return;
                 }
-                if(itemstack2.stackSize == 0)
+                if (itemstack2.stackSize == 0)
                 {
                     thePlayer.inventory.mainInventory[thePlayer.inventory.currentItem] = null;
-                } else
-                if(itemstack2.stackSize != j1 || playerController.isInCreativeMode())
+                }
+                else if (itemstack2.stackSize != j1 || playerController.isInCreativeMode())
                 {
                     entityRenderer.itemRenderer.func_9449_b();
                 }
             }
         }
-        if(flag && i == 1)
+        if (flag && i == 1)
         {
             ItemStack itemstack1 = thePlayer.inventory.getCurrentItem();
-            if(itemstack1 != null && playerController.sendUseItem(thePlayer, theWorld, itemstack1))
+            if (itemstack1 != null && playerController.sendUseItem(thePlayer, theWorld, itemstack1))
             {
                 entityRenderer.itemRenderer.func_9450_c();
             }
@@ -1171,47 +1188,49 @@ public abstract class Minecraft
         try
         {
             fullscreen = !fullscreen;
-            if(fullscreen)
+            if (fullscreen)
             {
                 Display.setDisplayMode(Display.getDesktopDisplayMode());
                 displayWidth = Display.getDisplayMode().getWidth();
                 displayHeight = Display.getDisplayMode().getHeight();
-                if(displayWidth <= 0)
+                if (displayWidth <= 0)
                 {
                     displayWidth = 1;
                 }
-                if(displayHeight <= 0)
-                {
-                    displayHeight = 1;
-                }
-            } else
-            {
-                if(mcCanvas != null)
-                {
-                    displayWidth = mcCanvas.getWidth();
-                    displayHeight = mcCanvas.getHeight();
-                } else
-                {
-                    displayWidth = tempDisplayWidth;
-                    displayHeight = tempDisplayHeight;
-                }
-                if(displayWidth <= 0)
-                {
-                    displayWidth = 1;
-                }
-                if(displayHeight <= 0)
+                if (displayHeight <= 0)
                 {
                     displayHeight = 1;
                 }
             }
-            if(currentScreen != null)
+            else
+            {
+                if (mcCanvas != null)
+                {
+                    displayWidth = mcCanvas.getWidth();
+                    displayHeight = mcCanvas.getHeight();
+                }
+                else
+                {
+                    displayWidth = tempDisplayWidth;
+                    displayHeight = tempDisplayHeight;
+                }
+                if (displayWidth <= 0)
+                {
+                    displayWidth = 1;
+                }
+                if (displayHeight <= 0)
+                {
+                    displayHeight = 1;
+                }
+            }
+            if (currentScreen != null)
             {
                 resize(displayWidth, displayHeight);
             }
             Display.setFullscreen(fullscreen);
             Display.update();
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -1219,17 +1238,17 @@ public abstract class Minecraft
 
     private void resize(int i, int j)
     {
-        if(i <= 0)
+        if (i <= 0)
         {
             i = 1;
         }
-        if(j <= 0)
+        if (j <= 0)
         {
             j = 1;
         }
         displayWidth = i;
         displayHeight = j;
-        if(currentScreen != null)
+        if (currentScreen != null)
         {
             ScaledResolution scaledresolution = new ScaledResolution(gameSettings, i, j);
             int k = scaledresolution.getScaledWidth();
@@ -1245,28 +1264,28 @@ public abstract class Minecraft
 
     public void runTick()
     {
-        if(rightClickDelayTimer > 0)
+        if (rightClickDelayTimer > 0)
         {
             rightClickDelayTimer--;
         }
-        if(ticksRan == 6000)
+        if (ticksRan == 6000)
         {
             startThreadCheckHasPaid();
         }
         Profiler.startSection("stats");
         statFileWriter.func_27178_d();
         Profiler.endStartSection("gui");
-        if(!isGamePaused)
+        if (!isGamePaused)
         {
             ingameGUI.updateTick();
         }
         Profiler.endStartSection("pick");
         entityRenderer.getMouseOver(1.0F);
         Profiler.endStartSection("centerChunkSource");
-        if(thePlayer != null)
+        if (thePlayer != null)
         {
             net.minecraft.src.IChunkProvider ichunkprovider = theWorld.getIChunkProvider();
-            if(ichunkprovider instanceof ChunkProviderLoadOrGenerate)
+            if (ichunkprovider instanceof ChunkProviderLoadOrGenerate)
             {
                 ChunkProviderLoadOrGenerate chunkproviderloadorgenerate = (ChunkProviderLoadOrGenerate)ichunkprovider;
                 int k = MathHelper.floor_float((int)thePlayer.posX) >> 4;
@@ -1275,265 +1294,271 @@ public abstract class Minecraft
             }
         }
         Profiler.endStartSection("gameMode");
-        if(!isGamePaused && theWorld != null)
+        if (!isGamePaused && theWorld != null)
         {
             playerController.updateController();
         }
         GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, renderEngine.getTexture("/terrain.png"));
         Profiler.endStartSection("textures");
-        if(!isGamePaused)
+        if (!isGamePaused)
         {
             renderEngine.updateDynamicTextures();
         }
-        if(currentScreen == null && thePlayer != null)
+        if (currentScreen == null && thePlayer != null)
         {
-            if(thePlayer.getEntityHealth() <= 0)
+            if (thePlayer.getEntityHealth() <= 0)
             {
                 displayGuiScreen(null);
-            } else
-            if(thePlayer.isPlayerSleeping() && theWorld != null && theWorld.multiplayerWorld)
+            }
+            else if (thePlayer.isPlayerSleeping() && theWorld != null && theWorld.multiplayerWorld)
             {
                 displayGuiScreen(new GuiSleepMP());
             }
-        } else
-        if(currentScreen != null && (currentScreen instanceof GuiSleepMP) && !thePlayer.isPlayerSleeping())
+        }
+        else if (currentScreen != null && (currentScreen instanceof GuiSleepMP) && !thePlayer.isPlayerSleeping())
         {
             displayGuiScreen(null);
         }
-        if(currentScreen != null)
+        if (currentScreen != null)
         {
             leftClickCounter = 10000;
         }
-        if(currentScreen != null)
+        if (currentScreen != null)
         {
             currentScreen.handleInput();
-            if(currentScreen != null)
+            if (currentScreen != null)
             {
                 currentScreen.guiParticles.update();
                 currentScreen.updateScreen();
             }
         }
-        if(currentScreen == null || currentScreen.allowUserInput)
+        if (currentScreen == null || currentScreen.allowUserInput)
         {
             Profiler.endStartSection("mouse");
             do
             {
-                if(!Mouse.next())
+                if (!Mouse.next())
                 {
                     break;
                 }
                 KeyBinding.setKeyBindState(Mouse.getEventButton() - 100, Mouse.getEventButtonState());
-                if(Mouse.getEventButtonState())
+                if (Mouse.getEventButtonState())
                 {
                     KeyBinding.onTick(Mouse.getEventButton() - 100);
                 }
                 long l = System.currentTimeMillis() - systemTime;
-                if(l <= 200L)
+                if (l <= 200L)
                 {
                     int i1 = Mouse.getEventDWheel();
-                    if(i1 != 0)
+                    if (i1 != 0)
                     {
                         thePlayer.inventory.changeCurrentItem(i1);
-                        if(gameSettings.noclip)
+                        if (gameSettings.noclip)
                         {
-                            if(i1 > 0)
+                            if (i1 > 0)
                             {
                                 i1 = 1;
                             }
-                            if(i1 < 0)
+                            if (i1 < 0)
                             {
                                 i1 = -1;
                             }
                             gameSettings.noclipRate += (float)i1 * 0.25F;
                         }
                     }
-                    if(currentScreen == null)
+                    if (currentScreen == null)
                     {
-                        if(!inGameHasFocus && Mouse.getEventButtonState())
+                        if (!inGameHasFocus && Mouse.getEventButtonState())
                         {
                             setIngameFocus();
                         }
-                    } else
-                    if(currentScreen != null)
+                    }
+                    else if (currentScreen != null)
                     {
                         currentScreen.handleMouseInput();
                     }
                 }
-            } while(true);
-            if(leftClickCounter > 0)
+            }
+            while (true);
+            if (leftClickCounter > 0)
             {
                 leftClickCounter--;
             }
             Profiler.endStartSection("keyboard");
             do
             {
-                if(!Keyboard.next())
+                if (!Keyboard.next())
                 {
                     break;
                 }
                 KeyBinding.setKeyBindState(Keyboard.getEventKey(), Keyboard.getEventKeyState());
-                if(Keyboard.getEventKeyState())
+                if (Keyboard.getEventKeyState())
                 {
                     KeyBinding.onTick(Keyboard.getEventKey());
                 }
-                if(Keyboard.getEventKeyState())
+                if (Keyboard.getEventKeyState())
                 {
-                    if(Keyboard.getEventKey() == 87)
+                    if (Keyboard.getEventKey() == 87)
                     {
                         toggleFullscreen();
-                    } else
+                    }
+                    else
                     {
-                        if(currentScreen != null)
+                        if (currentScreen != null)
                         {
                             currentScreen.handleKeyboardInput();
-                        } else
+                        }
+                        else
                         {
-                            if(Keyboard.getEventKey() == 1)
+                            if (Keyboard.getEventKey() == 1)
                             {
                                 displayInGameMenu();
                             }
-                            if(Keyboard.getEventKey() == 31 && Keyboard.isKeyDown(61))
+                            if (Keyboard.getEventKey() == 31 && Keyboard.isKeyDown(61))
                             {
                                 forceReload();
                             }
-                            if(Keyboard.getEventKey() == 20 && Keyboard.isKeyDown(61))
+                            if (Keyboard.getEventKey() == 20 && Keyboard.isKeyDown(61))
                             {
                                 renderEngine.refreshTextures();
                             }
-                            if(Keyboard.getEventKey() == 33 && Keyboard.isKeyDown(61))
+                            if (Keyboard.getEventKey() == 33 && Keyboard.isKeyDown(61))
                             {
                                 boolean flag = Keyboard.isKeyDown(42) | Keyboard.isKeyDown(54);
                                 gameSettings.setOptionValue(EnumOptions.RENDER_DISTANCE, flag ? -1 : 1);
                             }
-                            if(Keyboard.getEventKey() == 30 && Keyboard.isKeyDown(61))
+                            if (Keyboard.getEventKey() == 30 && Keyboard.isKeyDown(61))
                             {
                                 renderGlobal.loadRenderers();
                             }
-                            if(Keyboard.getEventKey() == 59)
+                            if (Keyboard.getEventKey() == 59)
                             {
                                 gameSettings.hideGUI = !gameSettings.hideGUI;
                             }
-                            if(Keyboard.getEventKey() == 61)
+                            if (Keyboard.getEventKey() == 61)
                             {
                                 gameSettings.showDebugInfo = !gameSettings.showDebugInfo;
                             }
-                            if(Keyboard.getEventKey() == 63)
+                            if (Keyboard.getEventKey() == 63)
                             {
                                 gameSettings.thirdPersonView++;
-                                if(gameSettings.thirdPersonView > 2)
+                                if (gameSettings.thirdPersonView > 2)
                                 {
                                     gameSettings.thirdPersonView = 0;
                                 }
                             }
-                            if(Keyboard.getEventKey() == 66)
+                            if (Keyboard.getEventKey() == 66)
                             {
                                 gameSettings.smoothCamera = !gameSettings.smoothCamera;
                             }
                         }
-                        for(int i = 0; i < 9; i++)
+                        for (int i = 0; i < 9; i++)
                         {
-                            if(Keyboard.getEventKey() == 2 + i)
+                            if (Keyboard.getEventKey() == 2 + i)
                             {
                                 thePlayer.inventory.currentItem = i;
                             }
                         }
 
-                        if(gameSettings.showDebugInfo)
+                        if (gameSettings.showDebugInfo)
                         {
-                            if(Keyboard.getEventKey() == 11)
+                            if (Keyboard.getEventKey() == 11)
                             {
-                                func_40003_b(0);
+                                updateDebugProfilerName(0);
                             }
                             int j = 0;
-                            while(j < 9) 
+                            while (j < 9)
                             {
-                                if(Keyboard.getEventKey() == 2 + j)
+                                if (Keyboard.getEventKey() == 2 + j)
                                 {
-                                    func_40003_b(j + 1);
+                                    updateDebugProfilerName(j + 1);
                                 }
                                 j++;
                             }
                         }
                     }
                 }
-            } while(true);
-            for(; gameSettings.keyBindInventory.isPressed(); displayGuiScreen(new GuiInventory(thePlayer))) { }
-            for(; gameSettings.keyBindDrop.isPressed(); thePlayer.dropCurrentItem()) { }
-            for(; isMultiplayerWorld() && gameSettings.keyBindChat.isPressed(); displayGuiScreen(new GuiChat())) { }
-            if(thePlayer.isUsingItem())
+            }
+            while (true);
+            for (; gameSettings.keyBindInventory.isPressed(); displayGuiScreen(new GuiInventory(thePlayer))) { }
+            for (; gameSettings.keyBindDrop.isPressed(); thePlayer.dropCurrentItem()) { }
+            for (; isMultiplayerWorld() && gameSettings.keyBindChat.isPressed(); displayGuiScreen(new GuiChat())) { }
+            if (thePlayer.isUsingItem())
             {
-                if(!gameSettings.keyBindUseItem.pressed)
+                if (!gameSettings.keyBindUseItem.pressed)
                 {
                     playerController.onStoppedUsingItem(thePlayer);
                 }
-                while(gameSettings.keyBindAttack.isPressed()) ;
-                while(gameSettings.keyBindUseItem.isPressed()) ;
-                while(gameSettings.keyBindPickBlock.isPressed()) ;
-            } else
-            {
-                for(; gameSettings.keyBindAttack.isPressed(); clickMouse(0)) { }
-                for(; gameSettings.keyBindUseItem.isPressed(); clickMouse(1)) { }
-                for(; gameSettings.keyBindPickBlock.isPressed(); clickMiddleMouseButton()) { }
+                while (gameSettings.keyBindAttack.isPressed()) ;
+                while (gameSettings.keyBindUseItem.isPressed()) ;
+                while (gameSettings.keyBindPickBlock.isPressed()) ;
             }
-            if(gameSettings.keyBindUseItem.pressed && rightClickDelayTimer == 0 && !thePlayer.isUsingItem())
+            else
+            {
+                for (; gameSettings.keyBindAttack.isPressed(); clickMouse(0)) { }
+                for (; gameSettings.keyBindUseItem.isPressed(); clickMouse(1)) { }
+                for (; gameSettings.keyBindPickBlock.isPressed(); clickMiddleMouseButton()) { }
+            }
+            if (gameSettings.keyBindUseItem.pressed && rightClickDelayTimer == 0 && !thePlayer.isUsingItem())
             {
                 clickMouse(1);
             }
             sendClickBlockToController(0, currentScreen == null && gameSettings.keyBindAttack.pressed && inGameHasFocus);
         }
-        if(theWorld != null)
+        if (theWorld != null)
         {
-            if(thePlayer != null)
+            if (thePlayer != null)
             {
                 joinPlayerCounter++;
-                if(joinPlayerCounter == 30)
+                if (joinPlayerCounter == 30)
                 {
                     joinPlayerCounter = 0;
                     theWorld.joinEntityInSurroundings(thePlayer);
                 }
             }
-            if(theWorld.getWorldInfo().isHardcoreModeEnabled())
+            if (theWorld.getWorldInfo().isHardcoreModeEnabled())
             {
                 theWorld.difficultySetting = 3;
-            } else
+            }
+            else
             {
                 theWorld.difficultySetting = gameSettings.difficulty;
             }
-            if(theWorld.multiplayerWorld)
+            if (theWorld.multiplayerWorld)
             {
                 theWorld.difficultySetting = 1;
             }
             Profiler.endStartSection("gameRenderer");
-            if(!isGamePaused)
+            if (!isGamePaused)
             {
                 entityRenderer.updateRenderer();
             }
             Profiler.endStartSection("levelRenderer");
-            if(!isGamePaused)
+            if (!isGamePaused)
             {
                 renderGlobal.updateClouds();
             }
             Profiler.endStartSection("level");
-            if(!isGamePaused)
+            if (!isGamePaused)
             {
-                if(theWorld.lightningFlash > 0)
+                if (theWorld.lightningFlash > 0)
                 {
                     theWorld.lightningFlash--;
                 }
                 theWorld.updateEntities();
             }
-            if(!isGamePaused || isMultiplayerWorld())
+            if (!isGamePaused || isMultiplayerWorld())
             {
                 theWorld.setAllowedMobSpawns(theWorld.difficultySetting > 0, true);
                 theWorld.tick();
             }
             Profiler.endStartSection("animateTick");
-            if(!isGamePaused && theWorld != null)
+            if (!isGamePaused && theWorld != null)
             {
                 theWorld.randomDisplayUpdates(MathHelper.floor_double(thePlayer.posX), MathHelper.floor_double(thePlayer.posY), MathHelper.floor_double(thePlayer.posZ));
             }
             Profiler.endStartSection("particles");
-            if(!isGamePaused)
+            if (!isGamePaused)
             {
                 effectRenderer.updateEffects();
             }
@@ -1559,29 +1584,31 @@ public abstract class Minecraft
     {
         changeWorld1(null);
         System.gc();
-        if(saveLoader.isOldMapFormat(s))
+        if (saveLoader.isOldMapFormat(s))
         {
             convertMapFormat(s, s1);
-        } else
+        }
+        else
         {
-            if(loadingScreen != null)
+            if (loadingScreen != null)
             {
-                loadingScreen.printText("Switching level");
+                loadingScreen.printText(StatCollector.translateToLocal("menu.switchingLevel"));
                 loadingScreen.displayLoadingString("");
             }
             net.minecraft.src.ISaveHandler isavehandler = saveLoader.getSaveLoader(s, false);
             World world = null;
             world = new World(isavehandler, s1, worldsettings);
-            if(world.isNewWorld)
+            if (world.isNewWorld)
             {
                 statFileWriter.readStat(StatList.createWorldStat, 1);
                 statFileWriter.readStat(StatList.startGameStat, 1);
-                changeWorld2(world, "Generating level");
-            } else
+                changeWorld2(world, StatCollector.translateToLocal("menu.generatingLevel"));
+            }
+            else
             {
                 statFileWriter.readStat(StatList.loadWorldStat, 1);
                 statFileWriter.readStat(StatList.startGameStat, 1);
-                changeWorld2(world, "Loading level");
+                changeWorld2(world, StatCollector.translateToLocal("menu.loadingLevel"));
             }
         }
     }
@@ -1595,53 +1622,55 @@ public abstract class Minecraft
         double d = thePlayer.posX;
         double d1 = thePlayer.posZ;
         double d2 = 1.0D;
-        if(j > -1 && thePlayer.dimension == -1)
+        if (j > -1 && thePlayer.dimension == -1)
         {
             d2 = 0.125D;
-        } else
-        if(j == -1 && thePlayer.dimension > -1)
+        }
+        else if (j == -1 && thePlayer.dimension > -1)
         {
             d2 = 8D;
         }
         d *= d2;
         d1 *= d2;
-        if(thePlayer.dimension == -1)
+        if (thePlayer.dimension == -1)
         {
             thePlayer.setLocationAndAngles(d, thePlayer.posY, d1, thePlayer.rotationYaw, thePlayer.rotationPitch);
-            if(thePlayer.isEntityAlive())
+            if (thePlayer.isEntityAlive())
             {
                 theWorld.updateEntityWithOptionalForce(thePlayer, false);
             }
             World world = null;
             world = new World(theWorld, WorldProvider.getProviderForDimension(thePlayer.dimension));
             changeWorld(world, "Entering the Nether", thePlayer);
-        } else
-        if(thePlayer.dimension == 0)
+        }
+        else if (thePlayer.dimension == 0)
         {
-            if(thePlayer.isEntityAlive())
+            if (thePlayer.isEntityAlive())
             {
                 thePlayer.setLocationAndAngles(d, thePlayer.posY, d1, thePlayer.rotationYaw, thePlayer.rotationPitch);
                 theWorld.updateEntityWithOptionalForce(thePlayer, false);
             }
             World world1 = null;
             world1 = new World(theWorld, WorldProvider.getProviderForDimension(thePlayer.dimension));
-            if(j == -1)
+            if (j == -1)
             {
                 changeWorld(world1, "Leaving the Nether", thePlayer);
-            } else
+            }
+            else
             {
                 changeWorld(world1, "Leaving the End", thePlayer);
             }
-        } else
+        }
+        else
         {
             World world2 = null;
             world2 = new World(theWorld, WorldProvider.getProviderForDimension(thePlayer.dimension));
-            ChunkCoordinates chunkcoordinates = world2.func_40472_j();
+            ChunkCoordinates chunkcoordinates = world2.getEntrancePortalLocation();
             d = chunkcoordinates.posX;
             thePlayer.posY = chunkcoordinates.posY;
             d1 = chunkcoordinates.posZ;
             thePlayer.setLocationAndAngles(d, thePlayer.posY, d1, 90F, 0.0F);
-            if(thePlayer.isEntityAlive())
+            if (thePlayer.isEntityAlive())
             {
                 world2.updateEntityWithOptionalForce(thePlayer, false);
             }
@@ -1649,7 +1678,7 @@ public abstract class Minecraft
         }
         thePlayer.worldObj = theWorld;
         System.out.println((new StringBuilder()).append("Teleported to ").append(theWorld.worldProvider.worldType).toString());
-        if(thePlayer.isEntityAlive() && j < 1)
+        if (thePlayer.isEntityAlive() && j < 1)
         {
             thePlayer.setLocationAndAngles(d, thePlayer.posY, d1, thePlayer.rotationYaw, thePlayer.rotationPitch);
             theWorld.updateEntityWithOptionalForce(thePlayer, false);
@@ -1657,7 +1686,7 @@ public abstract class Minecraft
         }
     }
 
-    public void func_40002_b(String s)
+    public void exitToMainMenu(String s)
     {
         theWorld = null;
         changeWorld2(null, s);
@@ -1678,63 +1707,63 @@ public abstract class Minecraft
         statFileWriter.func_27175_b();
         statFileWriter.syncStats();
         renderViewEntity = null;
-        if(loadingScreen != null)
+        if (loadingScreen != null)
         {
             loadingScreen.printText(s);
             loadingScreen.displayLoadingString("");
         }
         sndManager.playStreaming(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        if(theWorld != null)
+        if (theWorld != null)
         {
             theWorld.saveWorldIndirectly(loadingScreen);
         }
         theWorld = world;
-        if(world != null)
+        if (world != null)
         {
-            if(playerController != null)
+            if (playerController != null)
             {
                 playerController.onWorldChange(world);
             }
-            if(!isMultiplayerWorld())
+            if (!isMultiplayerWorld())
             {
-                if(entityplayer == null)
+                if (entityplayer == null)
                 {
                     thePlayer = (EntityPlayerSP)world.func_4085_a(net.minecraft.src.EntityPlayerSP.class);
                 }
-            } else
-            if(thePlayer != null)
+            }
+            else if (thePlayer != null)
             {
                 thePlayer.preparePlayerToSpawn();
-                if(world != null)
+                if (world != null)
                 {
-                    world.entityJoinedWorld(thePlayer);
+                    world.spawnEntityInWorld(thePlayer);
                 }
             }
-            if(!world.multiplayerWorld)
+            if (!world.multiplayerWorld)
             {
                 preloadWorld(s);
             }
-            if(thePlayer == null)
+            if (thePlayer == null)
             {
                 thePlayer = (EntityPlayerSP)playerController.createPlayer(world);
                 thePlayer.preparePlayerToSpawn();
                 playerController.flipPlayer(thePlayer);
             }
             thePlayer.movementInput = new MovementInputFromOptions(gameSettings);
-            if(renderGlobal != null)
+            if (renderGlobal != null)
             {
                 renderGlobal.changeWorld(world);
             }
-            if(effectRenderer != null)
+            if (effectRenderer != null)
             {
                 effectRenderer.clearEffects(world);
             }
-            if(entityplayer != null)
+            if (entityplayer != null)
             {
                 world.emptyMethod1();
             }
             net.minecraft.src.IChunkProvider ichunkprovider = world.getIChunkProvider();
-            if(ichunkprovider instanceof ChunkProviderLoadOrGenerate)
+            if (ichunkprovider instanceof ChunkProviderLoadOrGenerate)
             {
                 ChunkProviderLoadOrGenerate chunkproviderloadorgenerate = (ChunkProviderLoadOrGenerate)ichunkprovider;
                 int i = MathHelper.floor_float((int)thePlayer.posX) >> 4;
@@ -1743,12 +1772,13 @@ public abstract class Minecraft
             }
             world.spawnPlayerWithLoadedChunks(thePlayer);
             playerController.func_6473_b(thePlayer);
-            if(world.isNewWorld)
+            if (world.isNewWorld)
             {
                 world.saveWorldIndirectly(loadingScreen);
             }
             renderViewEntity = thePlayer;
-        } else
+        }
+        else
         {
             saveLoader.flushCache();
             thePlayer = null;
@@ -1759,21 +1789,21 @@ public abstract class Minecraft
 
     private void convertMapFormat(String s, String s1)
     {
-        loadingScreen.printText((new StringBuilder()).append("Converting World to ").append(saveLoader.func_22178_a()).toString());
+        loadingScreen.printText((new StringBuilder()).append("Converting World to ").append(saveLoader.getFormatName()).toString());
         loadingScreen.displayLoadingString("This may take a while :)");
         saveLoader.convertMapFormat(s, loadingScreen);
-        startWorld(s, s1, new WorldSettings(0L, 0, true, false));
+        startWorld(s, s1, new WorldSettings(0L, 0, true, false, EnumWorldType.DEFAULT));
     }
 
     private void preloadWorld(String s)
     {
-        if(loadingScreen != null)
+        if (loadingScreen != null)
         {
             loadingScreen.printText(s);
-            loadingScreen.displayLoadingString("Building terrain");
+            loadingScreen.displayLoadingString(StatCollector.translateToLocal("menu.generatingTerrain"));
         }
         char c = '\200';
-        if(playerController.func_35643_e())
+        if (playerController.func_35643_e())
         {
             c = '@';
         }
@@ -1782,39 +1812,38 @@ public abstract class Minecraft
         j *= j;
         net.minecraft.src.IChunkProvider ichunkprovider = theWorld.getIChunkProvider();
         ChunkCoordinates chunkcoordinates = theWorld.getSpawnPoint();
-        if(thePlayer != null)
+        if (thePlayer != null)
         {
             chunkcoordinates.posX = (int)thePlayer.posX;
             chunkcoordinates.posZ = (int)thePlayer.posZ;
         }
-        if(ichunkprovider instanceof ChunkProviderLoadOrGenerate)
+        if (ichunkprovider instanceof ChunkProviderLoadOrGenerate)
         {
             ChunkProviderLoadOrGenerate chunkproviderloadorgenerate = (ChunkProviderLoadOrGenerate)ichunkprovider;
             chunkproviderloadorgenerate.setCurrentChunkOver(chunkcoordinates.posX >> 4, chunkcoordinates.posZ >> 4);
         }
-        for(int k = -c; k <= c; k += 16)
+        for (int k = -c; k <= c; k += 16)
         {
-            for(int l = -c; l <= c; l += 16)
+            for (int l = -c; l <= c; l += 16)
             {
-                if(loadingScreen != null)
+                if (loadingScreen != null)
                 {
                     loadingScreen.setLoadingProgress((i++ * 100) / j);
                 }
                 theWorld.getBlockId(chunkcoordinates.posX + k, 64, chunkcoordinates.posZ + l);
-                if(playerController.func_35643_e())
+                if (playerController.func_35643_e())
                 {
                     continue;
                 }
-                while(theWorld.updatingLighting()) ;
+                while (theWorld.updatingLighting()) ;
             }
-
         }
 
-        if(!playerController.func_35643_e())
+        if (!playerController.func_35643_e())
         {
-            if(loadingScreen != null)
+            if (loadingScreen != null)
             {
-                loadingScreen.displayLoadingString("Simulating world for a bit");
+                loadingScreen.displayLoadingString(StatCollector.translateToLocal("menu.simulating"));
             }
             char c1 = '\u07D0';
             theWorld.dropOldChunks();
@@ -1826,23 +1855,23 @@ public abstract class Minecraft
         int i = s.indexOf("/");
         String s1 = s.substring(0, i);
         s = s.substring(i + 1);
-        if(s1.equalsIgnoreCase("sound"))
+        if (s1.equalsIgnoreCase("sound"))
         {
             sndManager.addSound(s, file);
-        } else
-        if(s1.equalsIgnoreCase("newsound"))
+        }
+        else if (s1.equalsIgnoreCase("newsound"))
         {
             sndManager.addSound(s, file);
-        } else
-        if(s1.equalsIgnoreCase("streaming"))
+        }
+        else if (s1.equalsIgnoreCase("streaming"))
         {
             sndManager.addStreaming(s, file);
-        } else
-        if(s1.equalsIgnoreCase("music"))
+        }
+        else if (s1.equalsIgnoreCase("music"))
         {
             sndManager.addMusic(s, file);
-        } else
-        if(s1.equalsIgnoreCase("newmusic"))
+        }
+        else if (s1.equalsIgnoreCase("newmusic"))
         {
             sndManager.addMusic(s, file);
         }
@@ -1870,32 +1899,32 @@ public abstract class Minecraft
 
     public void respawn(boolean flag, int i, boolean flag1)
     {
-        if(!theWorld.multiplayerWorld && !theWorld.worldProvider.canRespawnHere())
+        if (!theWorld.multiplayerWorld && !theWorld.worldProvider.canRespawnHere())
         {
             usePortal(0);
         }
         ChunkCoordinates chunkcoordinates = null;
         ChunkCoordinates chunkcoordinates1 = null;
         boolean flag2 = true;
-        if(thePlayer != null && !flag)
+        if (thePlayer != null && !flag)
         {
             chunkcoordinates = thePlayer.getPlayerSpawnCoordinate();
-            if(chunkcoordinates != null)
+            if (chunkcoordinates != null)
             {
                 chunkcoordinates1 = EntityPlayer.verifyRespawnCoordinates(theWorld, chunkcoordinates);
-                if(chunkcoordinates1 == null)
+                if (chunkcoordinates1 == null)
                 {
                     thePlayer.addChatMessage("tile.bed.notValid");
                 }
             }
         }
-        if(chunkcoordinates1 == null)
+        if (chunkcoordinates1 == null)
         {
             chunkcoordinates1 = theWorld.getSpawnPoint();
             flag2 = false;
         }
         net.minecraft.src.IChunkProvider ichunkprovider = theWorld.getIChunkProvider();
-        if(ichunkprovider instanceof ChunkProviderLoadOrGenerate)
+        if (ichunkprovider instanceof ChunkProviderLoadOrGenerate)
         {
             ChunkProviderLoadOrGenerate chunkproviderloadorgenerate = (ChunkProviderLoadOrGenerate)ichunkprovider;
             chunkproviderloadorgenerate.setCurrentChunkOver(chunkcoordinates1.posX >> 4, chunkcoordinates1.posZ >> 4);
@@ -1903,7 +1932,7 @@ public abstract class Minecraft
         theWorld.setSpawnLocation();
         theWorld.updateEntityList();
         int j = 0;
-        if(thePlayer != null)
+        if (thePlayer != null)
         {
             j = thePlayer.entityId;
             theWorld.setEntityDead(thePlayer);
@@ -1911,14 +1940,14 @@ public abstract class Minecraft
         EntityPlayerSP entityplayersp = thePlayer;
         renderViewEntity = null;
         thePlayer = (EntityPlayerSP)playerController.createPlayer(theWorld);
-        if(flag1)
+        if (flag1)
         {
-            thePlayer.func_41014_d(entityplayersp);
+            thePlayer.copyPlayer(entityplayersp);
         }
         thePlayer.dimension = i;
         renderViewEntity = thePlayer;
         thePlayer.preparePlayerToSpawn();
-        if(flag2)
+        if (flag2)
         {
             thePlayer.setPlayerSpawnCoordinate(chunkcoordinates);
             thePlayer.setLocationAndAngles((float)chunkcoordinates1.posX + 0.5F, (float)chunkcoordinates1.posY + 0.1F, (float)chunkcoordinates1.posZ + 0.5F, 0.0F, 0.0F);
@@ -1929,8 +1958,8 @@ public abstract class Minecraft
         thePlayer.entityId = j;
         thePlayer.func_6420_o();
         playerController.func_6473_b(thePlayer);
-        preloadWorld("Respawning");
-        if(currentScreen instanceof GuiGameOver)
+        preloadWorld(StatCollector.translateToLocal("menu.respawning"));
+        if (currentScreen instanceof GuiGameOver)
         {
             displayGuiScreen(null);
         }
@@ -1956,14 +1985,15 @@ public abstract class Minecraft
         Thread thread = new Thread(minecraftimpl, "Minecraft main thread");
         thread.setPriority(10);
         minecraftimpl.minecraftUri = "www.minecraft.net";
-        if(s3 != null && s1 != null)
+        if (s3 != null && s1 != null)
         {
             minecraftimpl.session = new Session(s3, s1);
-        } else
+        }
+        else
         {
             minecraftimpl.session = new Session((new StringBuilder()).append("Player").append(System.currentTimeMillis() % 1000L).toString(), "");
         }
-        if(s2 != null)
+        if (s2 != null)
         {
             String as[] = s2.split(":");
             minecraftimpl.setServer(as[0], Integer.parseInt(as[1]));
@@ -1975,10 +2005,11 @@ public abstract class Minecraft
 
     public NetClientHandler getSendQueue()
     {
-        if(thePlayer instanceof EntityClientPlayerMP)
+        if (thePlayer instanceof EntityClientPlayerMP)
         {
             return ((EntityClientPlayerMP)thePlayer).sendQueue;
-        } else
+        }
+        else
         {
             return null;
         }
@@ -1989,12 +2020,12 @@ public abstract class Minecraft
         String s = null;
         String s1 = null;
         s = (new StringBuilder()).append("Player").append(System.currentTimeMillis() % 1000L).toString();
-        if(args.length > 0)
+        if (args.length > 0)
         {
             s = args[0];
         }
         s1 = "-";
-        if(args.length > 1)
+        if (args.length > 1)
         {
             s1 = args[1];
         }
@@ -2023,30 +2054,30 @@ public abstract class Minecraft
 
     public boolean lineIsCommand(String s)
     {
-        if(!s.startsWith("/"));
+        if (!s.startsWith("/"));
         return false;
     }
 
     private void clickMiddleMouseButton()
     {
-        if(objectMouseOver != null)
+        if (objectMouseOver != null)
         {
             int i = theWorld.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-            if(i == Block.grass.blockID)
+            if (i == Block.grass.blockID)
             {
                 i = Block.dirt.blockID;
             }
-            if(i == Block.stairDouble.blockID)
+            if (i == Block.stairDouble.blockID)
             {
                 i = Block.stairSingle.blockID;
             }
-            if(i == Block.bedrock.blockID)
+            if (i == Block.bedrock.blockID)
             {
                 i = Block.stone.blockID;
             }
             int j = 0;
             boolean flag = false;
-            if(Item.itemsList[i].getHasSubtypes())
+            if (Item.itemsList[i] != null && Item.itemsList[i].getHasSubtypes())
             {
                 j = theWorld.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
                 flag = true;
@@ -2054,5 +2085,4 @@ public abstract class Minecraft
             thePlayer.inventory.setCurrentItem(i, j, flag, playerController instanceof PlayerControllerCreative);
         }
     }
-
 }

@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentVillage, StructureBoundingBox, StructureComponent, Block, 
-//            World
-
 public class ComponentVillageHouse1 extends ComponentVillage
 {
-
     private int averageGroundLevel;
 
     public ComponentVillageHouse1(int i, Random random, StructureBoundingBox structureboundingbox, int j)
@@ -31,10 +22,11 @@ public class ComponentVillageHouse1 extends ComponentVillage
     public static ComponentVillageHouse1 func_35095_a(List list, Random random, int i, int j, int k, int l, int i1)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, 0, 0, 0, 9, 9, 6, l);
-        if(!canVillageGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (!canVillageGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return new ComponentVillageHouse1(i1, random, structureboundingbox, l);
         }
@@ -42,10 +34,10 @@ public class ComponentVillageHouse1 extends ComponentVillage
 
     public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox)
     {
-        if(averageGroundLevel < 0)
+        if (averageGroundLevel < 0)
         {
             averageGroundLevel = getAverageGroundLevel(world, structureboundingbox);
-            if(averageGroundLevel < 0)
+            if (averageGroundLevel < 0)
             {
                 return true;
             }
@@ -56,16 +48,15 @@ public class ComponentVillageHouse1 extends ComponentVillage
         fillWithBlocks(world, structureboundingbox, 0, 5, 0, 8, 5, 5, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
         fillWithBlocks(world, structureboundingbox, 0, 6, 1, 8, 6, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
         fillWithBlocks(world, structureboundingbox, 0, 7, 2, 8, 7, 3, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-        int i = func_35009_c(Block.stairCompactPlanks.blockID, 3);
-        int j = func_35009_c(Block.stairCompactPlanks.blockID, 2);
-        for(int k = -1; k <= 2; k++)
+        int i = getMetadataWithOffset(Block.stairCompactPlanks.blockID, 3);
+        int j = getMetadataWithOffset(Block.stairCompactPlanks.blockID, 2);
+        for (int k = -1; k <= 2; k++)
         {
-            for(int i1 = 0; i1 <= 8; i1++)
+            for (int i1 = 0; i1 <= 8; i1++)
             {
                 placeBlockAtCurrentPosition(world, Block.stairCompactPlanks.blockID, i, i1, 6 + k, k, structureboundingbox);
                 placeBlockAtCurrentPosition(world, Block.stairCompactPlanks.blockID, j, i1, 6 + k, 5 - k, structureboundingbox);
             }
-
         }
 
         fillWithBlocks(world, structureboundingbox, 0, 1, 0, 0, 1, 5, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
@@ -102,8 +93,8 @@ public class ComponentVillageHouse1 extends ComponentVillage
         fillWithBlocks(world, structureboundingbox, 1, 4, 4, 7, 4, 4, Block.planks.blockID, Block.planks.blockID, false);
         fillWithBlocks(world, structureboundingbox, 1, 3, 4, 7, 3, 4, Block.bookShelf.blockID, Block.bookShelf.blockID, false);
         placeBlockAtCurrentPosition(world, Block.planks.blockID, 0, 7, 1, 4, structureboundingbox);
-        placeBlockAtCurrentPosition(world, Block.stairCompactPlanks.blockID, func_35009_c(Block.stairCompactPlanks.blockID, 0), 7, 1, 3, structureboundingbox);
-        int l = func_35009_c(Block.stairCompactPlanks.blockID, 3);
+        placeBlockAtCurrentPosition(world, Block.stairCompactPlanks.blockID, getMetadataWithOffset(Block.stairCompactPlanks.blockID, 0), 7, 1, 3, structureboundingbox);
+        int l = getMetadataWithOffset(Block.stairCompactPlanks.blockID, 3);
         placeBlockAtCurrentPosition(world, Block.stairCompactPlanks.blockID, l, 6, 1, 4, structureboundingbox);
         placeBlockAtCurrentPosition(world, Block.stairCompactPlanks.blockID, l, 5, 1, 4, structureboundingbox);
         placeBlockAtCurrentPosition(world, Block.stairCompactPlanks.blockID, l, 4, 1, 4, structureboundingbox);
@@ -115,26 +106,25 @@ public class ComponentVillageHouse1 extends ComponentVillage
         placeBlockAtCurrentPosition(world, Block.workbench.blockID, 0, 7, 1, 1, structureboundingbox);
         placeBlockAtCurrentPosition(world, 0, 0, 1, 1, 0, structureboundingbox);
         placeBlockAtCurrentPosition(world, 0, 0, 1, 2, 0, structureboundingbox);
-        placeDoorAtCurrentPosition(world, structureboundingbox, random, 1, 1, 0, func_35009_c(Block.doorWood.blockID, 1));
-        if(getBlockIdAtCurrentPosition(world, 1, 0, -1, structureboundingbox) == 0 && getBlockIdAtCurrentPosition(world, 1, -1, -1, structureboundingbox) != 0)
+        placeDoorAtCurrentPosition(world, structureboundingbox, random, 1, 1, 0, getMetadataWithOffset(Block.doorWood.blockID, 1));
+        if (getBlockIdAtCurrentPosition(world, 1, 0, -1, structureboundingbox) == 0 && getBlockIdAtCurrentPosition(world, 1, -1, -1, structureboundingbox) != 0)
         {
-            placeBlockAtCurrentPosition(world, Block.stairCompactCobblestone.blockID, func_35009_c(Block.stairCompactCobblestone.blockID, 3), 1, 0, -1, structureboundingbox);
+            placeBlockAtCurrentPosition(world, Block.stairCompactCobblestone.blockID, getMetadataWithOffset(Block.stairCompactCobblestone.blockID, 3), 1, 0, -1, structureboundingbox);
         }
-        for(int j1 = 0; j1 < 6; j1++)
+        for (int j1 = 0; j1 < 6; j1++)
         {
-            for(int k1 = 0; k1 < 9; k1++)
+            for (int k1 = 0; k1 < 9; k1++)
             {
                 clearCurrentPositionBlocksUpwards(world, k1, 9, j1, structureboundingbox);
                 fillCurrentPositionBlocksDownwards(world, Block.cobblestone.blockID, 0, k1, -1, j1, structureboundingbox);
             }
-
         }
 
-        func_40044_a(world, structureboundingbox, 2, 1, 2, 1);
+        spawnVillagers(world, structureboundingbox, 2, 1, 2, 1);
         return true;
     }
 
-    protected int func_40043_a(int i)
+    protected int getVillagerType(int i)
     {
         return 1;
     }

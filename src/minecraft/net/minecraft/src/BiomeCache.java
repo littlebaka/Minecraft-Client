@@ -1,28 +1,20 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            LongHashMap, BiomeCacheBlock, WorldChunkManager, BiomeGenBase
-
 public class BiomeCache
 {
-
     private final WorldChunkManager chunkmanager;
-    private long field_35729_b;
-    private LongHashMap field_35730_c;
-    private List field_35728_d;
+    private long lastCleanupTime;
+    private LongHashMap cacheMap;
+    private List cache;
 
     public BiomeCache(WorldChunkManager worldchunkmanager)
     {
-        field_35729_b = 0L;
-        field_35730_c = new LongHashMap();
-        field_35728_d = new ArrayList();
+        lastCleanupTime = 0L;
+        cacheMap = new LongHashMap();
+        cache = new ArrayList();
         chunkmanager = worldchunkmanager;
     }
 
@@ -31,57 +23,56 @@ public class BiomeCache
         i >>= 4;
         j >>= 4;
         long l = (long)i & 0xffffffffL | ((long)j & 0xffffffffL) << 32;
-        BiomeCacheBlock biomecacheblock = (BiomeCacheBlock)field_35730_c.getValueByKey(l);
-        if(biomecacheblock == null)
+        BiomeCacheBlock biomecacheblock = (BiomeCacheBlock)cacheMap.getValueByKey(l);
+        if (biomecacheblock == null)
         {
             biomecacheblock = new BiomeCacheBlock(this, i, j);
-            field_35730_c.add(l, biomecacheblock);
-            field_35728_d.add(biomecacheblock);
+            cacheMap.add(l, biomecacheblock);
+            cache.add(biomecacheblock);
         }
-        biomecacheblock.field_35653_f = System.currentTimeMillis();
+        biomecacheblock.lastAccessTime = System.currentTimeMillis();
         return biomecacheblock;
     }
 
-    public BiomeGenBase func_35725_a(int i, int j)
+    public BiomeGenBase getBiomeGenAt(int i, int j)
     {
-        return getBiomeCacheBlock(i, j).func_35651_a(i, j);
+        return getBiomeCacheBlock(i, j).getBiomeGenAt(i, j);
     }
 
-    public float func_35722_b(int i, int j)
+    public float getTemperature(int i, int j)
     {
-        return getBiomeCacheBlock(i, j).func_35650_b(i, j);
+        return getBiomeCacheBlock(i, j).getTemperature(i, j);
     }
 
-    public float func_35727_c(int i, int j)
+    public float getRainfall(int i, int j)
     {
-        return getBiomeCacheBlock(i, j).func_35652_c(i, j);
+        return getBiomeCacheBlock(i, j).getRainfall(i, j);
     }
 
-    public void func_35724_a()
+    public void cleanupCache()
     {
         long l = System.currentTimeMillis();
-        long l1 = l - field_35729_b;
-        if(l1 > 7500L || l1 < 0L)
+        long l1 = l - lastCleanupTime;
+        if (l1 > 7500L || l1 < 0L)
         {
-            field_35729_b = l;
-            for(int i = 0; i < field_35728_d.size(); i++)
+            lastCleanupTime = l;
+            for (int i = 0; i < cache.size(); i++)
             {
-                BiomeCacheBlock biomecacheblock = (BiomeCacheBlock)field_35728_d.get(i);
-                long l2 = l - biomecacheblock.field_35653_f;
-                if(l2 > 30000L || l2 < 0L)
+                BiomeCacheBlock biomecacheblock = (BiomeCacheBlock)cache.get(i);
+                long l2 = l - biomecacheblock.lastAccessTime;
+                if (l2 > 30000L || l2 < 0L)
                 {
-                    field_35728_d.remove(i--);
-                    long l3 = (long)biomecacheblock.field_35655_d & 0xffffffffL | ((long)biomecacheblock.field_35656_e & 0xffffffffL) << 32;
-                    field_35730_c.remove(l3);
+                    cache.remove(i--);
+                    long l3 = (long)biomecacheblock.xPosition & 0xffffffffL | ((long)biomecacheblock.zPosition & 0xffffffffL) << 32;
+                    cacheMap.remove(l3);
                 }
             }
-
         }
     }
 
-    public BiomeGenBase[] func_35723_d(int i, int j)
+    public BiomeGenBase[] getCachedBiomes(int i, int j)
     {
-        return getBiomeCacheBlock(i, j).field_35658_c;
+        return getBiomeCacheBlock(i, j).biomes;
     }
 
     static WorldChunkManager getWorldChunkManager(BiomeCache biomecache)

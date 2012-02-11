@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, World, EnumMobType, AxisAlignedBB, 
-//            EntityLiving, EntityPlayer, IBlockAccess, Material, 
-//            Entity
-
 public class BlockPressurePlate extends Block
 {
-
     private EnumMobType triggerMobType;
 
     protected BlockPressurePlate(int i, int j, EnumMobType enummobtype, Material material)
@@ -58,11 +48,11 @@ public class BlockPressurePlate extends Block
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
         boolean flag = false;
-        if(!world.isBlockNormalCube(i, j - 1, k) && world.getBlockId(i, j - 1, k) != Block.fence.blockID)
+        if (!world.isBlockNormalCube(i, j - 1, k) && world.getBlockId(i, j - 1, k) != Block.fence.blockID)
         {
             flag = true;
         }
-        if(flag)
+        if (flag)
         {
             dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
             world.setBlockWithNotify(i, j, k, 0);
@@ -71,14 +61,15 @@ public class BlockPressurePlate extends Block
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return;
         }
-        if(world.getBlockMetadata(i, j, k) == 0)
+        if (world.getBlockMetadata(i, j, k) == 0)
         {
             return;
-        } else
+        }
+        else
         {
             setStateIfMobInteractsWithPlate(world, i, j, k);
             return;
@@ -87,14 +78,15 @@ public class BlockPressurePlate extends Block
 
     public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return;
         }
-        if(world.getBlockMetadata(i, j, k) == 1)
+        if (world.getBlockMetadata(i, j, k) == 1)
         {
             return;
-        } else
+        }
+        else
         {
             setStateIfMobInteractsWithPlate(world, i, j, k);
             return;
@@ -107,23 +99,23 @@ public class BlockPressurePlate extends Block
         boolean flag1 = false;
         float f = 0.125F;
         List list = null;
-        if(triggerMobType == EnumMobType.everything)
+        if (triggerMobType == EnumMobType.everything)
         {
             list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBoxFromPool((float)i + f, j, (float)k + f, (float)(i + 1) - f, (double)j + 0.25D, (float)(k + 1) - f));
         }
-        if(triggerMobType == EnumMobType.mobs)
+        if (triggerMobType == EnumMobType.mobs)
         {
             list = world.getEntitiesWithinAABB(net.minecraft.src.EntityLiving.class, AxisAlignedBB.getBoundingBoxFromPool((float)i + f, j, (float)k + f, (float)(i + 1) - f, (double)j + 0.25D, (float)(k + 1) - f));
         }
-        if(triggerMobType == EnumMobType.players)
+        if (triggerMobType == EnumMobType.players)
         {
             list = world.getEntitiesWithinAABB(net.minecraft.src.EntityPlayer.class, AxisAlignedBB.getBoundingBoxFromPool((float)i + f, j, (float)k + f, (float)(i + 1) - f, (double)j + 0.25D, (float)(k + 1) - f));
         }
-        if(list.size() > 0)
+        if (list.size() > 0)
         {
             flag1 = true;
         }
-        if(flag1 && !flag)
+        if (flag1 && !flag)
         {
             world.setBlockMetadataWithNotify(i, j, k, 1);
             world.notifyBlocksOfNeighborChange(i, j, k, blockID);
@@ -131,7 +123,7 @@ public class BlockPressurePlate extends Block
             world.markBlocksDirty(i, j, k, i, j, k);
             world.playSoundEffect((double)i + 0.5D, (double)j + 0.10000000000000001D, (double)k + 0.5D, "random.click", 0.3F, 0.6F);
         }
-        if(!flag1 && flag)
+        if (!flag1 && flag)
         {
             world.setBlockMetadataWithNotify(i, j, k, 0);
             world.notifyBlocksOfNeighborChange(i, j, k, blockID);
@@ -139,7 +131,7 @@ public class BlockPressurePlate extends Block
             world.markBlocksDirty(i, j, k, i, j, k);
             world.playSoundEffect((double)i + 0.5D, (double)j + 0.10000000000000001D, (double)k + 0.5D, "random.click", 0.3F, 0.5F);
         }
-        if(flag1)
+        if (flag1)
         {
             world.scheduleBlockUpdate(i, j, k, blockID, tickRate());
         }
@@ -148,7 +140,7 @@ public class BlockPressurePlate extends Block
     public void onBlockRemoval(World world, int i, int j, int k)
     {
         int l = world.getBlockMetadata(i, j, k);
-        if(l > 0)
+        if (l > 0)
         {
             world.notifyBlocksOfNeighborChange(i, j, k, blockID);
             world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
@@ -160,10 +152,11 @@ public class BlockPressurePlate extends Block
     {
         boolean flag = iblockaccess.getBlockMetadata(i, j, k) == 1;
         float f = 0.0625F;
-        if(flag)
+        if (flag)
         {
             setBlockBounds(f, 0.0F, f, 1.0F - f, 0.03125F, 1.0F - f);
-        } else
+        }
+        else
         {
             setBlockBounds(f, 0.0F, f, 1.0F - f, 0.0625F, 1.0F - f);
         }
@@ -176,10 +169,11 @@ public class BlockPressurePlate extends Block
 
     public boolean isIndirectlyPoweringTo(World world, int i, int j, int k, int l)
     {
-        if(world.getBlockMetadata(i, j, k) == 0)
+        if (world.getBlockMetadata(i, j, k) == 0)
         {
             return false;
-        } else
+        }
+        else
         {
             return l == 1;
         }

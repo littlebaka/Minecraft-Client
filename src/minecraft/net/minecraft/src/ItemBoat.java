@@ -1,20 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            Item, EntityPlayer, Vec3D, MathHelper, 
-//            World, AxisAlignedBB, Entity, MovingObjectPosition, 
-//            EnumMovingObjectType, Block, EntityBoat, PlayerCapabilities, 
-//            ItemStack
-
 public class ItemBoat extends Item
 {
-
     public ItemBoat(int i)
     {
         super(i);
@@ -40,7 +29,7 @@ public class ItemBoat extends Item
         double d3 = 5D;
         Vec3D vec3d1 = vec3d.addVector((double)f7 * d3, (double)f8 * d3, (double)f9 * d3);
         MovingObjectPosition movingobjectposition = world.rayTraceBlocks_do(vec3d, vec3d1, true);
-        if(movingobjectposition == null)
+        if (movingobjectposition == null)
         {
             return itemstack;
         }
@@ -48,39 +37,39 @@ public class ItemBoat extends Item
         boolean flag = false;
         float f10 = 1.0F;
         List list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.boundingBox.addCoord(vec3d2.xCoord * d3, vec3d2.yCoord * d3, vec3d2.zCoord * d3).expand(f10, f10, f10));
-        for(int l = 0; l < list.size(); l++)
+        for (int l = 0; l < list.size(); l++)
         {
             Entity entity = (Entity)list.get(l);
-            if(!entity.canBeCollidedWith())
+            if (!entity.canBeCollidedWith())
             {
                 continue;
             }
             float f11 = entity.getCollisionBorderSize();
             AxisAlignedBB axisalignedbb = entity.boundingBox.expand(f11, f11, f11);
-            if(axisalignedbb.isVecInside(vec3d))
+            if (axisalignedbb.isVecInside(vec3d))
             {
                 flag = true;
             }
         }
 
-        if(flag)
+        if (flag)
         {
             return itemstack;
         }
-        if(movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
+        if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
         {
             int i = movingobjectposition.blockX;
             int j = movingobjectposition.blockY;
             int k = movingobjectposition.blockZ;
-            if(!world.multiplayerWorld)
+            if (!world.multiplayerWorld)
             {
-                if(world.getBlockId(i, j, k) == Block.snow.blockID)
+                if (world.getBlockId(i, j, k) == Block.snow.blockID)
                 {
                     j--;
                 }
-                world.entityJoinedWorld(new EntityBoat(world, (float)i + 0.5F, (float)j + 1.0F, (float)k + 0.5F));
+                world.spawnEntityInWorld(new EntityBoat(world, (float)i + 0.5F, (float)j + 1.0F, (float)k + 0.5F));
             }
-            if(!entityplayer.capabilities.depleteBuckets)
+            if (!entityplayer.capabilities.depleteBuckets)
             {
                 itemstack.stackSize--;
             }

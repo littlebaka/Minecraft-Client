@@ -1,19 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            Achievement, Item, Block
-
 public class AchievementList
 {
-
     public static int minDisplayColumn;
     public static int minDisplayRow;
     public static int maxDisplayColumn;
@@ -46,9 +38,7 @@ public class AchievementList
     public static Achievement enchantments;
     public static Achievement overkill;
     public static Achievement bookcase;
-    //Nouveaux achievements :
-    //public static Achievement blzb;
-    //Fin
+
     public AchievementList()
     {
     }
@@ -57,7 +47,7 @@ public class AchievementList
     {
     }
 
-    static 
+    static
     {
         achievementList = new ArrayList();
         openInventory = (new Achievement(0, "openInventory", 0, 0, Item.book, null)).setIndependent().registerAchievement();
@@ -83,13 +73,10 @@ public class AchievementList
         blazeRod = (new Achievement(20, "blazeRod", 0, 9, Item.blazeRod, portal)).registerAchievement();
         potion = (new Achievement(21, "potion", 2, 8, Item.potion, blazeRod)).registerAchievement();
         theEnd = (new Achievement(22, "theEnd", 3, 10, Item.eyeOfEnder, blazeRod)).setSpecial().registerAchievement();
-        theEnd2 = (new Achievement(23, "theEnd2", 4, 13, Block.field_41050_bK, theEnd)).setSpecial().registerAchievement();
+        theEnd2 = (new Achievement(23, "theEnd2", 4, 13, Block.dragonEgg, theEnd)).setSpecial().registerAchievement();
         enchantments = (new Achievement(24, "enchantments", -4, 4, Block.enchantmentTable, diamonds)).registerAchievement();
         overkill = (new Achievement(25, "overkill", -4, 1, Item.swordDiamond, enchantments)).setSpecial().registerAchievement();
         bookcase = (new Achievement(26, "bookcase", -3, 6, Block.bookShelf, enchantments)).registerAchievement();
-        //Nouveaux achievements :
-        //blzb = (new Achievement(27,"blazb", -10, 5, Block.bed, buildWorkBench )).registerAchievement();
-        //Fin
         System.out.println((new StringBuilder()).append(achievementList.size()).append(" achievements").toString());
     }
 }

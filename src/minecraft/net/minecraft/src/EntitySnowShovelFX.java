@@ -1,25 +1,16 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, World, Tessellator
 
 public class EntitySnowShovelFX extends EntityFX
 {
-
     float snowDigParticleScale;
 
-    public EntitySnowShovelFX(World world, double d, double d1, double d2, 
+    public EntitySnowShovelFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         this(world, d, d1, d2, d3, d4, d5, 1.0F);
     }
 
-    public EntitySnowShovelFX(World world, double d, double d1, double d2, 
+    public EntitySnowShovelFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5, float f)
     {
         super(world, d, d1, d2, d3, d4, d5);
@@ -41,11 +32,11 @@ public class EntitySnowShovelFX extends EntityFX
     public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5)
     {
         float f6 = (((float)particleAge + f) / (float)particleMaxAge) * 32F;
-        if(f6 < 0.0F)
+        if (f6 < 0.0F)
         {
             f6 = 0.0F;
         }
-        if(f6 > 1.0F)
+        if (f6 > 1.0F)
         {
             f6 = 1.0F;
         }
@@ -58,17 +49,17 @@ public class EntitySnowShovelFX extends EntityFX
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
-        if(particleAge++ >= particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
             setEntityDead();
         }
-        func_40099_c(7 - (particleAge * 8) / particleMaxAge);
+        setParticleTextureIndex(7 - (particleAge * 8) / particleMaxAge);
         motionY -= 0.029999999999999999D;
         moveEntity(motionX, motionY, motionZ);
         motionX *= 0.99000000953674316D;
         motionY *= 0.99000000953674316D;
         motionZ *= 0.99000000953674316D;
-        if(onGround)
+        if (onGround)
         {
             motionX *= 0.69999998807907104D;
             motionZ *= 0.69999998807907104D;

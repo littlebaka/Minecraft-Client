@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            WorldGenerator, MathHelper, World, Block
-
 public class WorldGenMinable extends WorldGenerator
 {
-
     private int minableBlockId;
     private int numberOfBlocks;
 
@@ -30,7 +22,7 @@ public class WorldGenMinable extends WorldGenerator
         double d3 = (float)(k + 8) - (MathHelper.cos(f) * (float)numberOfBlocks) / 8F;
         double d4 = (j + random.nextInt(3)) - 2;
         double d5 = (j + random.nextInt(3)) - 2;
-        for(int l = 0; l <= numberOfBlocks; l++)
+        for (int l = 0; l <= numberOfBlocks; l++)
         {
             double d6 = d + ((d1 - d) * (double)l) / (double)numberOfBlocks;
             double d7 = d4 + ((d5 - d4) * (double)l) / (double)numberOfBlocks;
@@ -44,33 +36,30 @@ public class WorldGenMinable extends WorldGenerator
             int l1 = MathHelper.floor_double(d6 + d10 / 2D);
             int i2 = MathHelper.floor_double(d7 + d11 / 2D);
             int j2 = MathHelper.floor_double(d8 + d10 / 2D);
-            for(int k2 = i1; k2 <= l1; k2++)
+            for (int k2 = i1; k2 <= l1; k2++)
             {
                 double d12 = (((double)k2 + 0.5D) - d6) / (d10 / 2D);
-                if(d12 * d12 >= 1.0D)
+                if (d12 * d12 >= 1.0D)
                 {
                     continue;
                 }
-                for(int l2 = j1; l2 <= i2; l2++)
+                for (int l2 = j1; l2 <= i2; l2++)
                 {
                     double d13 = (((double)l2 + 0.5D) - d7) / (d11 / 2D);
-                    if(d12 * d12 + d13 * d13 >= 1.0D)
+                    if (d12 * d12 + d13 * d13 >= 1.0D)
                     {
                         continue;
                     }
-                    for(int i3 = k1; i3 <= j2; i3++)
+                    for (int i3 = k1; i3 <= j2; i3++)
                     {
                         double d14 = (((double)i3 + 0.5D) - d8) / (d10 / 2D);
-                        if(d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlockId(k2, l2, i3) == Block.stone.blockID)
+                        if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlockId(k2, l2, i3) == Block.stone.blockID)
                         {
                             world.setBlock(k2, l2, i3, minableBlockId);
                         }
                     }
-
                 }
-
             }
-
         }
 
         return true;

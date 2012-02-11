@@ -1,23 +1,15 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, World, Tessellator
-
 public class EntityEnchantmentTableParticleFX extends EntityFX
 {
-
     private float field_40107_a;
     private double field_40109_aw;
     private double field_40108_ax;
     private double field_40106_ay;
 
-    public EntityEnchantmentTableParticleFX(World world, double d, double d1, double d2, 
+    public EntityEnchantmentTableParticleFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         super(world, d, d1, d2, d3, d4, d5);
@@ -34,7 +26,7 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
         particleRed *= 0.9F;
         particleMaxAge = (int)(Math.random() * 10D) + 30;
         noClip = true;
-        func_40099_c((int)(Math.random() * 26D + 1.0D + 224D));
+        setParticleTextureIndex((int)(Math.random() * 26D + 1.0D + 224D));
     }
 
     public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5)
@@ -51,7 +43,7 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
         int j = i & 0xff;
         int k = i >> 16 & 0xff;
         k += (int)(f1 * 15F * 16F);
-        if(k > 240)
+        if (k > 240)
         {
             k = 240;
         }
@@ -80,7 +72,7 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
         posX = field_40109_aw + motionX * (double)f;
         posY = (field_40108_ax + motionY * (double)f) - (double)(f1 * 1.2F);
         posZ = field_40106_ay + motionZ * (double)f;
-        if(particleAge++ >= particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
             setEntityDead();
         }

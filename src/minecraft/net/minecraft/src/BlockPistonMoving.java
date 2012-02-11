@@ -1,19 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            BlockContainer, Material, World, TileEntityPiston, 
-//            Block, Facing, AxisAlignedBB, IBlockAccess, 
-//            TileEntity, EntityPlayer
-
 public class BlockPistonMoving extends BlockContainer
 {
-
     public BlockPistonMoving(int i)
     {
         super(i, Material.piston);
@@ -32,10 +22,11 @@ public class BlockPistonMoving extends BlockContainer
     public void onBlockRemoval(World world, int i, int j, int k)
     {
         TileEntity tileentity = world.getBlockTileEntity(i, j, k);
-        if(tileentity != null && (tileentity instanceof TileEntityPiston))
+        if (tileentity != null && (tileentity instanceof TileEntityPiston))
         {
             ((TileEntityPiston)tileentity).clearPistonTileEntity();
-        } else
+        }
+        else
         {
             super.onBlockRemoval(world, i, j, k);
         }
@@ -68,11 +59,12 @@ public class BlockPistonMoving extends BlockContainer
 
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        if(!world.multiplayerWorld && world.getBlockTileEntity(i, j, k) == null)
+        if (!world.multiplayerWorld && world.getBlockTileEntity(i, j, k) == null)
         {
             world.setBlockWithNotify(i, j, k, 0);
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -85,15 +77,16 @@ public class BlockPistonMoving extends BlockContainer
 
     public void dropBlockAsItemWithChance(World world, int i, int j, int k, int l, float f, int i1)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return;
         }
         TileEntityPiston tileentitypiston = getTileEntityAtLocation(world, i, j, k);
-        if(tileentitypiston == null)
+        if (tileentitypiston == null)
         {
             return;
-        } else
+        }
+        else
         {
             Block.blocksList[tileentitypiston.getStoredBlockID()].dropBlockAsItem(world, i, j, k, tileentitypiston.getBlockMetadata(), 0);
             return;
@@ -102,9 +95,9 @@ public class BlockPistonMoving extends BlockContainer
 
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
-        if(!world.multiplayerWorld)
+        if (!world.multiplayerWorld)
         {
-            if(world.getBlockTileEntity(i, j, k) != null);
+            if (world.getBlockTileEntity(i, j, k) != null);
         }
     }
 
@@ -116,35 +109,35 @@ public class BlockPistonMoving extends BlockContainer
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k)
     {
         TileEntityPiston tileentitypiston = getTileEntityAtLocation(world, i, j, k);
-        if(tileentitypiston == null)
+        if (tileentitypiston == null)
         {
             return null;
         }
         float f = tileentitypiston.func_31008_a(0.0F);
-        if(tileentitypiston.func_31015_b())
+        if (tileentitypiston.isExtending())
         {
             f = 1.0F - f;
         }
-        return func_31035_a(world, i, j, k, tileentitypiston.getStoredBlockID(), f, tileentitypiston.func_31009_d());
+        return getAxisAlignedBB(world, i, j, k, tileentitypiston.getStoredBlockID(), f, tileentitypiston.getPistonOrientation());
     }
 
     public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int i, int j, int k)
     {
         TileEntityPiston tileentitypiston = getTileEntityAtLocation(iblockaccess, i, j, k);
-        if(tileentitypiston != null)
+        if (tileentitypiston != null)
         {
             Block block = Block.blocksList[tileentitypiston.getStoredBlockID()];
-            if(block == null || block == this)
+            if (block == null || block == this)
             {
                 return;
             }
             block.setBlockBoundsBasedOnState(iblockaccess, i, j, k);
             float f = tileentitypiston.func_31008_a(0.0F);
-            if(tileentitypiston.func_31015_b())
+            if (tileentitypiston.isExtending())
             {
                 f = 1.0F - f;
             }
-            int l = tileentitypiston.func_31009_d();
+            int l = tileentitypiston.getPistonOrientation();
             minX = block.minX - (double)((float)Facing.offsetsXForSide[l] * f);
             minY = block.minY - (double)((float)Facing.offsetsYForSide[l] * f);
             minZ = block.minZ - (double)((float)Facing.offsetsZForSide[l] * f);
@@ -154,17 +147,18 @@ public class BlockPistonMoving extends BlockContainer
         }
     }
 
-    public AxisAlignedBB func_31035_a(World world, int i, int j, int k, int l, float f, int i1)
+    public AxisAlignedBB getAxisAlignedBB(World world, int i, int j, int k, int l, float f, int i1)
     {
-        if(l == 0 || l == blockID)
+        if (l == 0 || l == blockID)
         {
             return null;
         }
         AxisAlignedBB axisalignedbb = Block.blocksList[l].getCollisionBoundingBoxFromPool(world, i, j, k);
-        if(axisalignedbb == null)
+        if (axisalignedbb == null)
         {
             return null;
-        } else
+        }
+        else
         {
             axisalignedbb.minX -= (float)Facing.offsetsXForSide[i1] * f;
             axisalignedbb.maxX -= (float)Facing.offsetsXForSide[i1] * f;
@@ -179,10 +173,11 @@ public class BlockPistonMoving extends BlockContainer
     private TileEntityPiston getTileEntityAtLocation(IBlockAccess iblockaccess, int i, int j, int k)
     {
         TileEntity tileentity = iblockaccess.getBlockTileEntity(i, j, k);
-        if(tileentity != null && (tileentity instanceof TileEntityPiston))
+        if (tileentity != null && (tileentity instanceof TileEntityPiston))
         {
             return (TileEntityPiston)tileentity;
-        } else
+        }
+        else
         {
             return null;
         }

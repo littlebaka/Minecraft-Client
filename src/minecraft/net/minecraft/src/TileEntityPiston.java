@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            TileEntity, Facing, Block, BlockPistonMoving, 
-//            World, Entity, NBTTagCompound
-
 public class TileEntityPiston extends TileEntity
 {
-
     private int storedBlockID;
     private int storedMetadata;
     private int storedOrientation;
@@ -45,12 +36,12 @@ public class TileEntityPiston extends TileEntity
         return storedMetadata;
     }
 
-    public boolean func_31015_b()
+    public boolean isExtending()
     {
         return extending;
     }
 
-    public int func_31009_d()
+    public int getPistonOrientation()
     {
         return storedOrientation;
     }
@@ -62,7 +53,7 @@ public class TileEntityPiston extends TileEntity
 
     public float func_31008_a(float f)
     {
-        if(f > 1.0F)
+        if (f > 1.0F)
         {
             f = 1.0F;
         }
@@ -71,10 +62,11 @@ public class TileEntityPiston extends TileEntity
 
     public float func_31017_b(float f)
     {
-        if(extending)
+        if (extending)
         {
             return (func_31008_a(f) - 1.0F) * (float)Facing.offsetsXForSide[storedOrientation];
-        } else
+        }
+        else
         {
             return (1.0F - func_31008_a(f)) * (float)Facing.offsetsXForSide[storedOrientation];
         }
@@ -82,10 +74,11 @@ public class TileEntityPiston extends TileEntity
 
     public float func_31014_c(float f)
     {
-        if(extending)
+        if (extending)
         {
             return (func_31008_a(f) - 1.0F) * (float)Facing.offsetsYForSide[storedOrientation];
-        } else
+        }
+        else
         {
             return (1.0F - func_31008_a(f)) * (float)Facing.offsetsYForSide[storedOrientation];
         }
@@ -93,10 +86,11 @@ public class TileEntityPiston extends TileEntity
 
     public float func_31013_d(float f)
     {
-        if(extending)
+        if (extending)
         {
             return (func_31008_a(f) - 1.0F) * (float)Facing.offsetsZForSide[storedOrientation];
-        } else
+        }
+        else
         {
             return (1.0F - func_31008_a(f)) * (float)Facing.offsetsZForSide[storedOrientation];
         }
@@ -104,22 +98,23 @@ public class TileEntityPiston extends TileEntity
 
     private void func_31010_a(float f, float f1)
     {
-        if(!extending)
+        if (!extending)
         {
             f--;
-        } else
+        }
+        else
         {
             f = 1.0F - f;
         }
-        AxisAlignedBB axisalignedbb = Block.pistonMoving.func_31035_a(worldObj, xCoord, yCoord, zCoord, storedBlockID, f, storedOrientation);
-        if(axisalignedbb != null)
+        AxisAlignedBB axisalignedbb = Block.pistonMoving.getAxisAlignedBB(worldObj, xCoord, yCoord, zCoord, storedBlockID, f, storedOrientation);
+        if (axisalignedbb != null)
         {
             List list = worldObj.getEntitiesWithinAABBExcludingEntity(null, axisalignedbb);
-            if(!list.isEmpty())
+            if (!list.isEmpty())
             {
                 field_31018_m.addAll(list);
                 Entity entity;
-                for(Iterator iterator = field_31018_m.iterator(); iterator.hasNext(); entity.moveEntity(f1 * (float)Facing.offsetsXForSide[storedOrientation], f1 * (float)Facing.offsetsYForSide[storedOrientation], f1 * (float)Facing.offsetsZForSide[storedOrientation]))
+                for (Iterator iterator = field_31018_m.iterator(); iterator.hasNext(); entity.moveEntity(f1 * (float)Facing.offsetsXForSide[storedOrientation], f1 * (float)Facing.offsetsYForSide[storedOrientation], f1 * (float)Facing.offsetsZForSide[storedOrientation]))
                 {
                     entity = (Entity)iterator.next();
                 }
@@ -131,12 +126,12 @@ public class TileEntityPiston extends TileEntity
 
     public void clearPistonTileEntity()
     {
-        if(lastProgress < 1.0F && worldObj != null)
+        if (lastProgress < 1.0F && worldObj != null)
         {
             lastProgress = progress = 1.0F;
             worldObj.removeBlockTileEntity(xCoord, yCoord, zCoord);
             invalidate();
-            if(worldObj.getBlockId(xCoord, yCoord, zCoord) == Block.pistonMoving.blockID)
+            if (worldObj.getBlockId(xCoord, yCoord, zCoord) == Block.pistonMoving.blockID)
             {
                 worldObj.setBlockAndMetadataWithNotify(xCoord, yCoord, zCoord, storedBlockID, storedMetadata);
             }
@@ -146,23 +141,23 @@ public class TileEntityPiston extends TileEntity
     public void updateEntity()
     {
         lastProgress = progress;
-        if(lastProgress >= 1.0F)
+        if (lastProgress >= 1.0F)
         {
             func_31010_a(1.0F, 0.25F);
             worldObj.removeBlockTileEntity(xCoord, yCoord, zCoord);
             invalidate();
-            if(worldObj.getBlockId(xCoord, yCoord, zCoord) == Block.pistonMoving.blockID)
+            if (worldObj.getBlockId(xCoord, yCoord, zCoord) == Block.pistonMoving.blockID)
             {
                 worldObj.setBlockAndMetadataWithNotify(xCoord, yCoord, zCoord, storedBlockID, storedMetadata);
             }
             return;
         }
         progress += 0.5F;
-        if(progress >= 1.0F)
+        if (progress >= 1.0F)
         {
             progress = 1.0F;
         }
-        if(extending)
+        if (extending)
         {
             func_31010_a(progress, (progress - lastProgress) + 0.0625F);
         }
@@ -187,5 +182,4 @@ public class TileEntityPiston extends TileEntity
         nbttagcompound.setFloat("progress", lastProgress);
         nbttagcompound.setBoolean("extending", extending);
     }
-
 }

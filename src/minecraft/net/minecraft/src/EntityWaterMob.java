@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityCreature, World, NBTTagCompound, EntityPlayer
-
 public abstract class EntityWaterMob extends EntityCreature
 {
-
     public EntityWaterMob(World world)
     {
         super(world);
@@ -47,7 +39,7 @@ public abstract class EntityWaterMob extends EntityCreature
         return true;
     }
 
-    protected int func_36001_a(EntityPlayer entityplayer)
+    protected int getExperiencePoints(EntityPlayer entityplayer)
     {
         return 1 + worldObj.rand.nextInt(3);
     }

@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Render, EntityPainting, EnumArt, Tessellator, 
-//            MathHelper, RenderManager, World, OpenGlHelper, 
-//            Entity
-
 public class RenderPainting extends Render
 {
-
     private Random rand;
 
     public RenderPainting()
@@ -22,7 +12,7 @@ public class RenderPainting extends Render
         rand = new Random();
     }
 
-    public void func_158_a(EntityPainting entitypainting, double d, double d1, double d2, 
+    public void func_158_a(EntityPainting entitypainting, double d, double d1, double d2,
             float f, float f1)
     {
         rand.setSeed(187L);
@@ -45,9 +35,9 @@ public class RenderPainting extends Render
         float f1 = (float)(-j) / 2.0F;
         float f2 = -0.5F;
         float f3 = 0.5F;
-        for(int i1 = 0; i1 < i / 16; i1++)
+        for (int i1 = 0; i1 < i / 16; i1++)
         {
-            for(int j1 = 0; j1 < j / 16; j1++)
+            for (int j1 = 0; j1 < j / 16; j1++)
             {
                 float f4 = f + (float)((i1 + 1) * 16);
                 float f5 = f + (float)(i1 * 16);
@@ -104,9 +94,7 @@ public class RenderPainting extends Render
                 tessellator.addVertexWithUV(f5, f6, f3, f20, f22);
                 tessellator.draw();
             }
-
         }
-
     }
 
     private void func_160_a(EntityPainting entitypainting, float f, float f1)
@@ -114,19 +102,19 @@ public class RenderPainting extends Render
         int i = MathHelper.floor_double(entitypainting.posX);
         int j = MathHelper.floor_double(entitypainting.posY + (double)(f1 / 16F));
         int k = MathHelper.floor_double(entitypainting.posZ);
-        if(entitypainting.direction == 0)
+        if (entitypainting.direction == 0)
         {
             i = MathHelper.floor_double(entitypainting.posX + (double)(f / 16F));
         }
-        if(entitypainting.direction == 1)
+        if (entitypainting.direction == 1)
         {
             k = MathHelper.floor_double(entitypainting.posZ - (double)(f / 16F));
         }
-        if(entitypainting.direction == 2)
+        if (entitypainting.direction == 2)
         {
             i = MathHelper.floor_double(entitypainting.posX - (double)(f / 16F));
         }
-        if(entitypainting.direction == 3)
+        if (entitypainting.direction == 3)
         {
             k = MathHelper.floor_double(entitypainting.posZ + (double)(f / 16F));
         }
@@ -137,7 +125,7 @@ public class RenderPainting extends Render
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         func_158_a((EntityPainting)entity, d, d1, d2, f, f1);

@@ -1,22 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, StatCollector, GuiSlotStatsGeneral, GuiSlotStatsItem, 
-//            GuiSlotStatsBlock, StringTranslate, GuiButton, GuiSlot, 
-//            RenderHelper, Item, RenderItem, RenderEngine, 
-//            Tessellator, StatFileWriter, FontRenderer
-
 public class GuiStats extends GuiScreen
 {
-
     private static RenderItem renderItem = new RenderItem();
     protected GuiScreen parentGui;
     protected String statsTitle;
@@ -56,11 +45,11 @@ public class GuiStats extends GuiScreen
         controlList.add(guibutton = new GuiButton(2, width / 2 - 46, height - 52, 100, 20, stringtranslate.translateKey("stat.blocksButton")));
         GuiButton guibutton1;
         controlList.add(guibutton1 = new GuiButton(3, width / 2 + 62, height - 52, 100, 20, stringtranslate.translateKey("stat.itemsButton")));
-        if(slotBlock.getSize() == 0)
+        if (slotBlock.getSize() == 0)
         {
             guibutton.enabled = false;
         }
-        if(slotItem.getSize() == 0)
+        if (slotItem.getSize() == 0)
         {
             guibutton1.enabled = false;
         }
@@ -68,26 +57,27 @@ public class GuiStats extends GuiScreen
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(!guibutton.enabled)
+        if (!guibutton.enabled)
         {
             return;
         }
-        if(guibutton.id == 0)
+        if (guibutton.id == 0)
         {
             mc.displayGuiScreen(parentGui);
-        } else
-        if(guibutton.id == 1)
+        }
+        else if (guibutton.id == 1)
         {
             selectedSlot = slotGeneral;
-        } else
-        if(guibutton.id == 3)
+        }
+        else if (guibutton.id == 3)
         {
             selectedSlot = slotItem;
-        } else
-        if(guibutton.id == 2)
+        }
+        else if (guibutton.id == 2)
         {
             selectedSlot = slotBlock;
-        } else
+        }
+        else
         {
             selectedSlot.actionPerformed(guibutton);
         }
@@ -223,5 +213,4 @@ public class GuiStats extends GuiScreen
     {
         guistats.drawItemSprite(i, j, k);
     }
-
 }

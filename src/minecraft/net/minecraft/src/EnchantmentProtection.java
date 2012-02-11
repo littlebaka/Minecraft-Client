@@ -1,26 +1,21 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Enchantment, EnumEnchantmentType, DamageSource
 
 public class EnchantmentProtection extends Enchantment
 {
-
-    private static final String protectionName[] = {
+    private static final String protectionName[] =
+    {
         "all", "fire", "fall", "explosion", "projectile"
     };
-    private static final int baseEnchantability[] = {
+    private static final int baseEnchantability[] =
+    {
         1, 10, 5, 5, 3
     };
-    private static final int levelEnchantability[] = {
+    private static final int levelEnchantability[] =
+    {
         16, 8, 6, 8, 6
     };
-    private static final int threesholdEnchantability[] = {
+    private static final int thresholdEnchantability[] =
+    {
         20, 12, 10, 12, 15
     };
     public final int protectionType;
@@ -29,7 +24,7 @@ public class EnchantmentProtection extends Enchantment
     {
         super(i, j, EnumEnchantmentType.armor);
         protectionType = k;
-        if(k == 2)
+        if (k == 2)
         {
             type = EnumEnchantmentType.armor_feet;
         }
@@ -42,7 +37,7 @@ public class EnchantmentProtection extends Enchantment
 
     public int getMaxEnchantability(int i)
     {
-        return getMinEnchantability(i) + threesholdEnchantability[protectionType];
+        return getMinEnchantability(i) + thresholdEnchantability[protectionType];
     }
 
     public int getMaxLevel()
@@ -52,31 +47,32 @@ public class EnchantmentProtection extends Enchantment
 
     public int calcModifierDamage(int i, DamageSource damagesource)
     {
-        if(damagesource.canHarmInCreative())
+        if (damagesource.canHarmInCreative())
         {
             return 0;
         }
         int j = (6 + i * i) / 2;
-        if(protectionType == 0)
+        if (protectionType == 0)
         {
             return j;
         }
-        if(protectionType == 1 && damagesource.func_40543_k())
+        if (protectionType == 1 && damagesource.fireDamage())
         {
             return j;
         }
-        if(protectionType == 2 && damagesource == DamageSource.fall)
+        if (protectionType == 2 && damagesource == DamageSource.fall)
         {
             return j * 2;
         }
-        if(protectionType == 3 && damagesource == DamageSource.explosion)
+        if (protectionType == 3 && damagesource == DamageSource.explosion)
         {
             return j;
         }
-        if(protectionType == 4 && damagesource.func_40547_b())
+        if (protectionType == 4 && damagesource.isProjectile())
         {
             return j;
-        } else
+        }
+        else
         {
             return 0;
         }
@@ -89,18 +85,18 @@ public class EnchantmentProtection extends Enchantment
 
     public boolean canApplyTogether(Enchantment enchantment)
     {
-        if(enchantment instanceof EnchantmentProtection)
+        if (enchantment instanceof EnchantmentProtection)
         {
             EnchantmentProtection enchantmentprotection = (EnchantmentProtection)enchantment;
-            if(enchantmentprotection.protectionType == protectionType)
+            if (enchantmentprotection.protectionType == protectionType)
             {
                 return false;
             }
             return protectionType == 2 || enchantmentprotection.protectionType == 2;
-        } else
+        }
+        else
         {
             return super.canApplyTogether(enchantment);
         }
     }
-
 }

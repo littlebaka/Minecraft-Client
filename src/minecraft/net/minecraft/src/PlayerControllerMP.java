@@ -1,22 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-// Referenced classes of package net.minecraft.src:
-//            PlayerController, PlayerControllerCreative, EntityPlayer, World, 
-//            EntityPlayerSP, ItemStack, Packet14BlockDig, NetClientHandler, 
-//            Block, StepSound, SoundManager, GuiIngame, 
-//            RenderGlobal, InventoryPlayer, Packet16BlockItemSwitch, Packet15Place, 
-//            EntityClientPlayerMP, Packet7UseEntity, Entity, Container, 
-//            Packet102WindowClick, Packet108EnchantItem, Packet107CreativeSetSlot
-
 public class PlayerControllerMP extends PlayerController
 {
-
     private int currentBlockX;
     private int currentBlockY;
     private int currentblockZ;
@@ -44,15 +31,16 @@ public class PlayerControllerMP extends PlayerController
         netClientHandler = netclienthandler;
     }
 
-    public void func_35648_a(boolean flag)
+    public void setCreative(boolean flag)
     {
         creativeMode = flag;
-        if(creativeMode)
+        if (creativeMode)
         {
-            PlayerControllerCreative.func_35646_d(mc.thePlayer);
-        } else
+            PlayerControllerCreative.enableAbilities(mc.thePlayer);
+        }
+        else
         {
-            PlayerControllerCreative.func_35645_e(mc.thePlayer);
+            PlayerControllerCreative.disableAbilities(mc.thePlayer);
         }
     }
 
@@ -66,19 +54,19 @@ public class PlayerControllerMP extends PlayerController
         return !creativeMode;
     }
 
-    public boolean sendBlockRemoved(int i, int j, int k, int l)
+    public boolean onPlayerDestroyBlock(int i, int j, int k, int l)
     {
-        if(creativeMode)
+        if (creativeMode)
         {
-            return super.sendBlockRemoved(i, j, k, l);
+            return super.onPlayerDestroyBlock(i, j, k, l);
         }
         int i1 = mc.theWorld.getBlockId(i, j, k);
-        boolean flag = super.sendBlockRemoved(i, j, k, l);
+        boolean flag = super.onPlayerDestroyBlock(i, j, k, l);
         ItemStack itemstack = mc.thePlayer.getCurrentEquippedItem();
-        if(itemstack != null)
+        if (itemstack != null)
         {
             itemstack.onDestroyBlock(i1, i, j, k, mc.thePlayer);
-            if(itemstack.stackSize == 0)
+            if (itemstack.stackSize == 0)
             {
                 itemstack.onItemDestroyedByUse(mc.thePlayer);
                 mc.thePlayer.destroyCurrentEquippedItem();
@@ -89,24 +77,25 @@ public class PlayerControllerMP extends PlayerController
 
     public void clickBlock(int i, int j, int k, int l)
     {
-        if(creativeMode)
+        if (creativeMode)
         {
             netClientHandler.addToSendQueue(new Packet14BlockDig(0, i, j, k, l));
-            PlayerControllerCreative.func_35644_a(mc, this, i, j, k, l);
+            PlayerControllerCreative.clickBlockCreative(mc, this, i, j, k, l);
             blockHitDelay = 5;
-        } else
-        if(!isHittingBlock || i != currentBlockX || j != currentBlockY || k != currentblockZ)
+        }
+        else if (!isHittingBlock || i != currentBlockX || j != currentBlockY || k != currentblockZ)
         {
             netClientHandler.addToSendQueue(new Packet14BlockDig(0, i, j, k, l));
             int i1 = mc.theWorld.getBlockId(i, j, k);
-            if(i1 > 0 && curBlockDamageMP == 0.0F)
+            if (i1 > 0 && curBlockDamageMP == 0.0F)
             {
                 Block.blocksList[i1].onBlockClicked(mc.theWorld, i, j, k, mc.thePlayer);
             }
-            if(i1 > 0 && Block.blocksList[i1].blockStrength(mc.thePlayer) >= 1.0F)
+            if (i1 > 0 && Block.blocksList[i1].blockStrength(mc.thePlayer) >= 1.0F)
             {
-                sendBlockRemoved(i, j, k, l);
-            } else
+                onPlayerDestroyBlock(i, j, k, l);
+            }
+            else
             {
                 isHittingBlock = true;
                 currentBlockX = i;
@@ -125,47 +114,48 @@ public class PlayerControllerMP extends PlayerController
         isHittingBlock = false;
     }
 
-    public void sendBlockRemoving(int i, int j, int k, int l)
+    public void onPlayerDamageBlock(int i, int j, int k, int l)
     {
         syncCurrentPlayItem();
-        if(blockHitDelay > 0)
+        if (blockHitDelay > 0)
         {
             blockHitDelay--;
             return;
         }
-        if(creativeMode)
+        if (creativeMode)
         {
             blockHitDelay = 5;
             netClientHandler.addToSendQueue(new Packet14BlockDig(0, i, j, k, l));
-            PlayerControllerCreative.func_35644_a(mc, this, i, j, k, l);
+            PlayerControllerCreative.clickBlockCreative(mc, this, i, j, k, l);
             return;
         }
-        if(i == currentBlockX && j == currentBlockY && k == currentblockZ)
+        if (i == currentBlockX && j == currentBlockY && k == currentblockZ)
         {
             int i1 = mc.theWorld.getBlockId(i, j, k);
-            if(i1 == 0)
+            if (i1 == 0)
             {
                 isHittingBlock = false;
                 return;
             }
             Block block = Block.blocksList[i1];
             curBlockDamageMP += block.blockStrength(mc.thePlayer);
-            if(stepSoundTickCounter % 4F == 0.0F && block != null)
+            if (stepSoundTickCounter % 4F == 0.0F && block != null)
             {
                 mc.sndManager.playSound(block.stepSound.stepSoundDir2(), (float)i + 0.5F, (float)j + 0.5F, (float)k + 0.5F, (block.stepSound.getVolume() + 1.0F) / 8F, block.stepSound.getPitch() * 0.5F);
             }
             stepSoundTickCounter++;
-            if(curBlockDamageMP >= 1.0F)
+            if (curBlockDamageMP >= 1.0F)
             {
                 isHittingBlock = false;
                 netClientHandler.addToSendQueue(new Packet14BlockDig(2, i, j, k, l));
-                sendBlockRemoved(i, j, k, l);
+                onPlayerDestroyBlock(i, j, k, l);
                 curBlockDamageMP = 0.0F;
                 prevBlockDamageMP = 0.0F;
                 stepSoundTickCounter = 0.0F;
                 blockHitDelay = 5;
             }
-        } else
+        }
+        else
         {
             clickBlock(i, j, k, l);
         }
@@ -173,11 +163,12 @@ public class PlayerControllerMP extends PlayerController
 
     public void setPartialTime(float f)
     {
-        if(curBlockDamageMP <= 0.0F)
+        if (curBlockDamageMP <= 0.0F)
         {
             mc.ingameGUI.damageGuiPartialTime = 0.0F;
             mc.renderGlobal.damagePartialTime = 0.0F;
-        } else
+        }
+        else
         {
             float f1 = prevBlockDamageMP + (curBlockDamageMP - prevBlockDamageMP) * f;
             mc.ingameGUI.damageGuiPartialTime = f1;
@@ -205,27 +196,27 @@ public class PlayerControllerMP extends PlayerController
     private void syncCurrentPlayItem()
     {
         int i = mc.thePlayer.inventory.currentItem;
-        if(i != currentPlayerItem)
+        if (i != currentPlayerItem)
         {
             currentPlayerItem = i;
             netClientHandler.addToSendQueue(new Packet16BlockItemSwitch(currentPlayerItem));
         }
     }
 
-    public boolean sendPlaceBlock(EntityPlayer entityplayer, World world, ItemStack itemstack, int i, int j, int k, int l)
+    public boolean onPlayerRightClick(EntityPlayer entityplayer, World world, ItemStack itemstack, int i, int j, int k, int l)
     {
         syncCurrentPlayItem();
         netClientHandler.addToSendQueue(new Packet15Place(i, j, k, l, entityplayer.inventory.getCurrentItem()));
         int i1 = world.getBlockId(i, j, k);
-        if(i1 > 0 && Block.blocksList[i1].blockActivated(world, i, j, k, entityplayer))
+        if (i1 > 0 && Block.blocksList[i1].blockActivated(world, i, j, k, entityplayer))
         {
             return true;
         }
-        if(itemstack == null)
+        if (itemstack == null)
         {
             return false;
         }
-        if(creativeMode)
+        if (creativeMode)
         {
             int j1 = itemstack.getItemDamage();
             int k1 = itemstack.stackSize;
@@ -233,7 +224,8 @@ public class PlayerControllerMP extends PlayerController
             itemstack.setItemDamage(j1);
             itemstack.stackSize = k1;
             return flag;
-        } else
+        }
+        else
         {
             return itemstack.useItem(entityplayer, world, i, j, k, l);
         }
@@ -281,7 +273,7 @@ public class PlayerControllerMP extends PlayerController
 
     public void func_35637_a(ItemStack itemstack, int i)
     {
-        if(creativeMode)
+        if (creativeMode)
         {
             netClientHandler.addToSendQueue(new Packet107CreativeSetSlot(i, itemstack));
         }
@@ -289,7 +281,7 @@ public class PlayerControllerMP extends PlayerController
 
     public void func_35639_a(ItemStack itemstack)
     {
-        if(creativeMode && itemstack != null)
+        if (creativeMode && itemstack != null)
         {
             netClientHandler.addToSendQueue(new Packet107CreativeSetSlot(-1, itemstack));
         }
@@ -297,10 +289,11 @@ public class PlayerControllerMP extends PlayerController
 
     public void func_20086_a(int i, EntityPlayer entityplayer)
     {
-        if(i == -9999)
+        if (i == -9999)
         {
             return;
-        } else
+        }
+        else
         {
             return;
         }

@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Entity, MathHelper, Tessellator, World, 
-//            NBTTagCompound
-
 public class EntityFX extends Entity
 {
-
     private int particleTextureIndex;
     protected float particleTextureJitterX;
     protected float particleTextureJitterY;
@@ -27,7 +18,7 @@ public class EntityFX extends Entity
     public static double interpPosY;
     public static double interpPosZ;
 
-    public EntityFX(World world, double d, double d1, double d2, 
+    public EntityFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         super(world);
@@ -103,7 +94,7 @@ public class EntityFX extends Entity
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
-        if(particleAge++ >= particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
             setEntityDead();
         }
@@ -112,7 +103,7 @@ public class EntityFX extends Entity
         motionX *= 0.98000001907348633D;
         motionY *= 0.98000001907348633D;
         motionZ *= 0.98000001907348633D;
-        if(onGround)
+        if (onGround)
         {
             motionX *= 0.69999998807907104D;
             motionZ *= 0.69999998807907104D;
@@ -150,12 +141,12 @@ public class EntityFX extends Entity
     {
     }
 
-    public void func_40099_c(int i)
+    public void setParticleTextureIndex(int i)
     {
         particleTextureIndex = i;
     }
 
-    public int func_40100_q()
+    public int getParticleTextureIndex()
     {
         return particleTextureIndex;
     }

@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            BlockContainer, Material, IBlockAccess, TileEntity, 
-//            Item, World, AxisAlignedBB
-
 public class BlockSign extends BlockContainer
 {
-
     private Class signEntityClass;
     private boolean isFreestanding;
 
@@ -40,7 +31,7 @@ public class BlockSign extends BlockContainer
 
     public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int i, int j, int k)
     {
-        if(isFreestanding)
+        if (isFreestanding)
         {
             return;
         }
@@ -51,19 +42,19 @@ public class BlockSign extends BlockContainer
         float f3 = 1.0F;
         float f4 = 0.125F;
         setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        if(l == 2)
+        if (l == 2)
         {
             setBlockBounds(f2, f, 1.0F - f4, f3, f1, 1.0F);
         }
-        if(l == 3)
+        if (l == 3)
         {
             setBlockBounds(f2, f, 0.0F, f3, f1, f4);
         }
-        if(l == 4)
+        if (l == 4)
         {
             setBlockBounds(1.0F - f4, f, f2, 1.0F, f1, f3);
         }
-        if(l == 5)
+        if (l == 5)
         {
             setBlockBounds(0.0F, f, f2, f4, f1, f3);
         }
@@ -90,7 +81,7 @@ public class BlockSign extends BlockContainer
         {
             return (TileEntity)signEntityClass.newInstance();
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             throw new RuntimeException(exception);
         }
@@ -104,34 +95,35 @@ public class BlockSign extends BlockContainer
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
         boolean flag = false;
-        if(isFreestanding)
+        if (isFreestanding)
         {
-            if(!world.getBlockMaterial(i, j - 1, k).isSolid())
+            if (!world.getBlockMaterial(i, j - 1, k).isSolid())
             {
                 flag = true;
             }
-        } else
+        }
+        else
         {
             int i1 = world.getBlockMetadata(i, j, k);
             flag = true;
-            if(i1 == 2 && world.getBlockMaterial(i, j, k + 1).isSolid())
+            if (i1 == 2 && world.getBlockMaterial(i, j, k + 1).isSolid())
             {
                 flag = false;
             }
-            if(i1 == 3 && world.getBlockMaterial(i, j, k - 1).isSolid())
+            if (i1 == 3 && world.getBlockMaterial(i, j, k - 1).isSolid())
             {
                 flag = false;
             }
-            if(i1 == 4 && world.getBlockMaterial(i + 1, j, k).isSolid())
+            if (i1 == 4 && world.getBlockMaterial(i + 1, j, k).isSolid())
             {
                 flag = false;
             }
-            if(i1 == 5 && world.getBlockMaterial(i - 1, j, k).isSolid())
+            if (i1 == 5 && world.getBlockMaterial(i - 1, j, k).isSolid())
             {
                 flag = false;
             }
         }
-        if(flag)
+        if (flag)
         {
             dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
             world.setBlockWithNotify(i, j, k, 0);

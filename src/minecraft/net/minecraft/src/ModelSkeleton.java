@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ModelZombie, ModelRenderer
 
 public class ModelSkeleton extends ModelZombie
 {
-
     public ModelSkeleton()
     {
         float f = 0.0F;
@@ -32,7 +23,7 @@ public class ModelSkeleton extends ModelZombie
 
     public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
     {
-        field_40333_u = true;
+        aimedBow = true;
         super.setRotationAngles(f, f1, f2, f3, f4, f5);
     }
 }

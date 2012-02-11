@@ -6,15 +6,17 @@ Created on Fri Apr  8 16:36:26 2011
 @version: v0.1
 """
 
-import os,logging
+import os
+import logging
+
 
 def whereis(filename, rootdir):
-    if not os.path.exists(rootdir):return []
+    if not os.path.exists(rootdir):
+        return []
     logger = logging.getLogger('MCPLog')
-    logger.info ('> Searching for %s in %s'%(filename, rootdir))
+    logger.info('> Searching for %s in %s' % (filename, rootdir))
     results = []
-    for path, dirlist, filelist in os.walk(rootdir):
+    for path, _, filelist in os.walk(rootdir):
         if filename in filelist:
             results.append(path)
-
     return results

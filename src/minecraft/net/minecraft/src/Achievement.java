@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            StatBase, ItemStack, StatCollector, AchievementList, 
-//            IStatStringFormat, Item, Block
-
 public class Achievement extends StatBase
 {
-
     public final int displayColumn;
     public final int displayRow;
     public final Achievement parentAchievement;
@@ -33,24 +24,24 @@ public class Achievement extends StatBase
 
     public Achievement(int i, String s, int j, int k, ItemStack itemstack, Achievement achievement)
     {
-        super(0x500000 + i, StatCollector.translateToLocal((new StringBuilder()).append("achievement.").append(s).toString()));
+        super(0x500000 + i, (new StringBuilder()).append("achievement.").append(s).toString());
         theItemStack = itemstack;
-        achievementDescription = StatCollector.translateToLocal((new StringBuilder()).append("achievement.").append(s).append(".desc").toString());
+        achievementDescription = (new StringBuilder()).append("achievement.").append(s).append(".desc").toString();
         displayColumn = j;
         displayRow = k;
-        if(j < AchievementList.minDisplayColumn)
+        if (j < AchievementList.minDisplayColumn)
         {
             AchievementList.minDisplayColumn = j;
         }
-        if(k < AchievementList.minDisplayRow)
+        if (k < AchievementList.minDisplayRow)
         {
             AchievementList.minDisplayRow = k;
         }
-        if(j > AchievementList.maxDisplayColumn)
+        if (j > AchievementList.maxDisplayColumn)
         {
             AchievementList.maxDisplayColumn = j;
         }
-        if(k > AchievementList.maxDisplayRow)
+        if (k > AchievementList.maxDisplayRow)
         {
             AchievementList.maxDisplayRow = k;
         }
@@ -83,12 +74,13 @@ public class Achievement extends StatBase
 
     public String getDescription()
     {
-        if(statStringFormatter != null)
+        if (statStringFormatter != null)
         {
-            return statStringFormatter.formatString(achievementDescription);
-        } else
+            return statStringFormatter.formatString(StatCollector.translateToLocal(achievementDescription));
+        }
+        else
         {
-            return achievementDescription;
+            return StatCollector.translateToLocal(achievementDescription);
         }
     }
 

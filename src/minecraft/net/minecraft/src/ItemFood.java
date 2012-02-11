@@ -1,23 +1,14 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Item, ItemStack, EntityPlayer, FoodStats, 
-//            World, PotionEffect, EnumAction
-
 public class ItemFood extends Item
 {
-
     public final int field_35430_a = 32;
     private final int healAmount;
     private final float saturationModifier;
     private final boolean isWolfsFavoriteMeat;
-    private boolean field_35431_bw;
+    private boolean alwaysEdible;
     private int potionId;
     private int potionDuration;
     private int potionAmplifier;
@@ -41,7 +32,7 @@ public class ItemFood extends Item
         itemstack.stackSize--;
         entityplayer.getFoodStats().addStatsFrom(this);
         world.playSoundAtEntity(entityplayer, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-        if(!world.multiplayerWorld && potionId > 0 && world.rand.nextFloat() < potionEffectProbability)
+        if (!world.multiplayerWorld && potionId > 0 && world.rand.nextFloat() < potionEffectProbability)
         {
             entityplayer.addPotionEffect(new PotionEffect(potionId, potionDuration * 20, potionAmplifier));
         }
@@ -60,7 +51,7 @@ public class ItemFood extends Item
 
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {
-        if(entityplayer.func_35197_b(field_35431_bw))
+        if (entityplayer.canEat(alwaysEdible))
         {
             entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
         }
@@ -91,9 +82,9 @@ public class ItemFood extends Item
         return this;
     }
 
-    public ItemFood func_35424_o()
+    public ItemFood setAlwaysEdible()
     {
-        field_35431_bw = true;
+        alwaysEdible = true;
         return this;
     }
 

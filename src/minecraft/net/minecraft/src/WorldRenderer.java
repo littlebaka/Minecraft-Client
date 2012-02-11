@@ -1,21 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            MathHelper, AxisAlignedBB, RenderItem, Chunk, 
-//            ChunkCache, RenderBlocks, IBlockAccess, Tessellator, 
-//            Block, TileEntityRenderer, Entity, ICamera, 
-//            World
-
 public class WorldRenderer
 {
-
     public World worldObj;
     private int glRenderList;
     private static Tessellator tessellator;
@@ -70,10 +59,11 @@ public class WorldRenderer
 
     public void setPosition(int i, int j, int k)
     {
-        if(i == posX && j == posY && k == posZ)
+        if (i == posX && j == posY && k == posZ)
         {
             return;
-        } else
+        }
+        else
         {
             setDontDraw();
             posX = i;
@@ -105,7 +95,7 @@ public class WorldRenderer
 
     public void updateRenderer()
     {
-        if(!needsUpdate)
+        if (!needsUpdate)
         {
             return;
         }
@@ -116,7 +106,7 @@ public class WorldRenderer
         int l = posX + sizeWidth;
         int i1 = posY + sizeHeight;
         int j1 = posZ + sizeDepth;
-        for(int k1 = 0; k1 < 2; k1++)
+        for (int k1 = 0; k1 < 2; k1++)
         {
             skipRenderPass[k1] = true;
         }
@@ -132,25 +122,25 @@ public class WorldRenderer
         int i2 = 0;
         do
         {
-            if(i2 >= 2)
+            if (i2 >= 2)
             {
                 break;
             }
             boolean flag = false;
             boolean flag1 = false;
             boolean flag2 = false;
-            for(int j2 = j; j2 < i1; j2++)
+            for (int j2 = j; j2 < i1; j2++)
             {
-                for(int k2 = k; k2 < j1; k2++)
+                for (int k2 = k; k2 < j1; k2++)
                 {
-                    for(int l2 = i; l2 < l; l2++)
+                    for (int l2 = i; l2 < l; l2++)
                     {
                         int i3 = chunkcache.getBlockId(l2, j2, k2);
-                        if(i3 <= 0)
+                        if (i3 <= 0)
                         {
                             continue;
                         }
-                        if(!flag2)
+                        if (!flag2)
                         {
                             flag2 = true;
                             GL11.glNewList(glRenderList + i2, 4864 /*GL_COMPILE*/);
@@ -163,55 +153,55 @@ public class WorldRenderer
                             tessellator.startDrawingQuads();
                             tessellator.setTranslationD(-posX, -posY, -posZ);
                         }
-                        if(i2 == 0 && Block.isBlockContainer[i3])
+                        if (i2 == 0 && Block.isBlockContainer[i3])
                         {
                             TileEntity tileentity = chunkcache.getBlockTileEntity(l2, j2, k2);
-                            if(TileEntityRenderer.instance.hasSpecialRenderer(tileentity))
+                            if (TileEntityRenderer.instance.hasSpecialRenderer(tileentity))
                             {
                                 tileEntityRenderers.add(tileentity);
                             }
                         }
                         Block block = Block.blocksList[i3];
                         int j3 = block.getRenderBlockPass();
-                        if(i2 == 0 && renderblocks.renderLightOnBlock(l2, j2, k2, i2))
+                        if (i2 == 0 && renderblocks.renderLightOnBlock(l2, j2, k2, i2))
                         {
                             flag1 = true;
                         }
-                        if(j3 != i2)
+                        if (j3 != i2)
                         {
                             flag = true;
                             continue;
                         }
-                        if(j3 == i2)
+                        if (j3 == i2)
                         {
                             flag1 |= renderblocks.renderBlockByRenderType(block, l2, j2, k2);
                         }
                     }
-
                 }
-
             }
 
-            if(flag2)
+            if (flag2)
             {
                 bytesDrawn += tessellator.draw();
                 GL11.glPopMatrix();
                 GL11.glEndList();
                 tessellator.setTranslationD(0.0D, 0.0D, 0.0D);
-            } else
+            }
+            else
             {
                 flag1 = false;
             }
-            if(flag1)
+            if (flag1)
             {
                 skipRenderPass[i2] = false;
             }
-            if(!flag)
+            if (!flag)
             {
                 break;
             }
             i2++;
-        } while(true);
+        }
+        while (true);
         HashSet hashset1 = new HashSet();
         hashset1.addAll(tileEntityRenderers);
         hashset1.removeAll(hashset);
@@ -232,7 +222,7 @@ public class WorldRenderer
 
     public void setDontDraw()
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             skipRenderPass[i] = true;
         }
@@ -249,14 +239,15 @@ public class WorldRenderer
 
     public int getGLCallListForPass(int i)
     {
-        if(!isInFrustum)
+        if (!isInFrustum)
         {
             return -1;
         }
-        if(!skipRenderPass[i])
+        if (!skipRenderPass[i])
         {
             return glRenderList + i;
-        } else
+        }
+        else
         {
             return -1;
         }
@@ -274,10 +265,11 @@ public class WorldRenderer
 
     public boolean skipAllRenderPasses()
     {
-        if(!isInitialized)
+        if (!isInitialized)
         {
             return false;
-        } else
+        }
+        else
         {
             return skipRenderPass[0] && skipRenderPass[1];
         }
@@ -288,7 +280,7 @@ public class WorldRenderer
         needsUpdate = true;
     }
 
-    static 
+    static
     {
         tessellator = Tessellator.instance;
     }

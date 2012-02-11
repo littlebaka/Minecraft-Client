@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ItemFood, EntityPlayer, World, DamageSource, 
-//            NBTTagCompound
 
 public class FoodStats
 {
-
     private int foodLevel;
     private float foodSaturationLevel;
     private float foodExhaustionLevel;
@@ -41,39 +31,40 @@ public class FoodStats
     {
         int i = entityplayer.worldObj.difficultySetting;
         prevFoodLevel = foodLevel;
-        if(foodExhaustionLevel > 4F)
+        if (foodExhaustionLevel > 4F)
         {
             foodExhaustionLevel -= 4F;
-            if(foodSaturationLevel > 0.0F)
+            if (foodSaturationLevel > 0.0F)
             {
                 foodSaturationLevel = Math.max(foodSaturationLevel - 1.0F, 0.0F);
-            } else
-            if(i > 0)
+            }
+            else if (i > 0)
             {
                 foodLevel = Math.max(foodLevel - 1, 0);
             }
         }
-        if(foodLevel >= 18 && entityplayer.shouldHeal())
+        if (foodLevel >= 18 && entityplayer.shouldHeal())
         {
             foodTickTimer++;
-            if(foodTickTimer >= 80)
+            if (foodTickTimer >= 80)
             {
                 entityplayer.heal(1);
                 foodTickTimer = 0;
             }
-        } else
-        if(foodLevel <= 0)
+        }
+        else if (foodLevel <= 0)
         {
             foodTickTimer++;
-            if(foodTickTimer >= 80)
+            if (foodTickTimer >= 80)
             {
-                if(entityplayer.getEntityHealth() > 10 || i >= 3 || entityplayer.getEntityHealth() > 1 && i >= 2)
+                if (entityplayer.getEntityHealth() > 10 || i >= 3 || entityplayer.getEntityHealth() > 1 && i >= 2)
                 {
                     entityplayer.attackEntityFrom(DamageSource.starve, 1);
                 }
                 foodTickTimer = 0;
             }
-        } else
+        }
+        else
         {
             foodTickTimer = 0;
         }
@@ -81,7 +72,7 @@ public class FoodStats
 
     public void readStatsFromNBT(NBTTagCompound nbttagcompound)
     {
-        if(nbttagcompound.hasKey("foodLevel"))
+        if (nbttagcompound.hasKey("foodLevel"))
         {
             foodLevel = nbttagcompound.getInteger("foodLevel");
             foodTickTimer = nbttagcompound.getInteger("foodTickTimer");

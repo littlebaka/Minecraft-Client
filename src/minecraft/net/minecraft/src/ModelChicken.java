@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            ModelBase, ModelRenderer, MathHelper, Entity
-
 public class ModelChicken extends ModelBase
 {
-
     public ModelRenderer head;
     public ModelRenderer body;
     public ModelRenderer rightLeg;
@@ -53,7 +45,7 @@ public class ModelChicken extends ModelBase
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
         setRotationAngles(f, f1, f2, f3, f4, f5);
-        if(field_40301_k)
+        if (field_40301_k)
         {
             float f6 = 2.0F;
             GL11.glPushMatrix();
@@ -71,7 +63,8 @@ public class ModelChicken extends ModelBase
             rightWing.render(f5);
             leftWing.render(f5);
             GL11.glPopMatrix();
-        } else
+        }
+        else
         {
             head.render(f5);
             bill.render(f5);

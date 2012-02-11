@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            World
-
 public abstract class WorldGenerator
 {
-
     private final boolean field_41061_a;
 
     public WorldGenerator()
@@ -32,10 +24,11 @@ public abstract class WorldGenerator
 
     protected void func_41060_a(World world, int i, int j, int k, int l, int i1)
     {
-        if(field_41061_a)
+        if (field_41061_a)
         {
             world.setBlockAndMetadataWithNotify(i, j, k, l, i1);
-        } else
+        }
+        else
         {
             world.setBlockAndMetadata(i, j, k, l, i1);
         }

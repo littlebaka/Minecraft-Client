@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Chunk, World, EnumSkyBlock, Entity, 
-//            TileEntity, AxisAlignedBB
-
 public class EmptyChunk extends Chunk
 {
-
     public EmptyChunk(World world, int i, int j)
     {
         super(world, i, j);
@@ -150,7 +141,7 @@ public class EmptyChunk extends Chunk
         return false;
     }
 
-    public int setChunkData(byte abyte0[], int i, int j, int k, int l, int i1, int j1, 
+    public int setChunkData(byte abyte0[], int i, int j, int k, int l, int i1, int j1,
             int k1)
     {
         int l1 = l - i;
@@ -165,7 +156,7 @@ public class EmptyChunk extends Chunk
         return new Random(worldObj.getWorldSeed() + (long)(xPosition * xPosition * 0x4c1906) + (long)(xPosition * 0x5ac0db) + (long)(zPosition * zPosition) * 0x4307a7L + (long)(zPosition * 0x5f24f) ^ l);
     }
 
-    public boolean getFalse()
+    public boolean isEmpty()
     {
         return true;
     }

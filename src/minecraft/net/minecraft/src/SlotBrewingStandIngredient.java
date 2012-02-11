@@ -1,18 +1,8 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Slot, Item, ItemStack, ContainerBrewingStand, 
-//            IInventory
 
 class SlotBrewingStandIngredient extends Slot
 {
-
-    final ContainerBrewingStand field_40442_a; /* synthetic field */
+    final ContainerBrewingStand field_40442_a;
 
     public SlotBrewingStandIngredient(ContainerBrewingStand containerbrewingstand, IInventory iinventory, int i, int j, int k)
     {
@@ -22,10 +12,11 @@ class SlotBrewingStandIngredient extends Slot
 
     public boolean isItemValid(ItemStack itemstack)
     {
-        if(itemstack != null)
+        if (itemstack != null)
         {
-            return Item.itemsList[itemstack.itemID].func_40406_n();
-        } else
+            return Item.itemsList[itemstack.itemID].isValidBrewingIngredient();
+        }
+        else
         {
             return false;
         }

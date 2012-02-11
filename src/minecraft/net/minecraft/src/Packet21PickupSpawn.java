@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, EntityItem, ItemStack, MathHelper, 
-//            NetHandler
-
 public class Packet21PickupSpawn extends Packet
 {
-
     public int entityId;
     public int xPosition;
     public int yPosition;
@@ -43,7 +34,7 @@ public class Packet21PickupSpawn extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
         entityId = datainputstream.readInt();
         itemID = datainputstream.readShort();
@@ -58,7 +49,7 @@ public class Packet21PickupSpawn extends Packet
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         dataoutputstream.writeInt(entityId);
         dataoutputstream.writeShort(itemID);

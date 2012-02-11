@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Render, ModelEnderCrystal, EntityEnderCrystal, MathHelper, 
-//            ModelBase, Entity
-
 public class RenderEnderCrystal extends Render
 {
-
     private int field_41037_a;
     private ModelBase field_41036_b;
 
@@ -22,10 +13,10 @@ public class RenderEnderCrystal extends Render
         shadowSize = 0.5F;
     }
 
-    public void func_41035_a(EntityEnderCrystal entityendercrystal, double d, double d1, double d2, 
+    public void func_41035_a(EntityEnderCrystal entityendercrystal, double d, double d1, double d2,
             float f, float f1)
     {
-        if(field_41037_a != 1)
+        if (field_41037_a != 1)
         {
             field_41036_b = new ModelEnderCrystal(0.0F);
             field_41037_a = 1;
@@ -40,7 +31,7 @@ public class RenderEnderCrystal extends Render
         GL11.glPopMatrix();
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         func_41035_a((EntityEnderCrystal)entity, d, d1, d2, f, f1);

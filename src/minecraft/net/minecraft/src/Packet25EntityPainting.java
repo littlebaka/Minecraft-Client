@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, EntityPainting, EnumArt, NetHandler
-
 public class Packet25EntityPainting extends Packet
 {
-
     public int entityId;
     public int xPosition;
     public int yPosition;
@@ -34,7 +26,7 @@ public class Packet25EntityPainting extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
         entityId = datainputstream.readInt();
         title = readString(datainputstream, EnumArt.maxArtTitleLength);
@@ -45,7 +37,7 @@ public class Packet25EntityPainting extends Packet
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         dataoutputstream.writeInt(entityId);
         writeString(title, dataoutputstream);

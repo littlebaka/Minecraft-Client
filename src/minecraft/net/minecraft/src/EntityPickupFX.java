@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, Entity, MathHelper, OpenGlHelper, 
-//            RenderManager, World, Tessellator
-
 public class EntityPickupFX extends EntityFX
 {
-
     private Entity field_675_a;
     private Entity field_679_o;
     private int age;
@@ -60,7 +51,7 @@ public class EntityPickupFX extends EntityFX
     public void onUpdate()
     {
         age++;
-        if(age == maxAge)
+        if (age == maxAge)
         {
             setEntityDead();
         }

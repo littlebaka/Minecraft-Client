@@ -1,22 +1,14 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            TextureOffset, Entity, EntityLiving
-
 public abstract class ModelBase
 {
-
     public float onGround;
     public boolean isRiding;
     public List boxList;
     public boolean field_40301_k;
-    private Map field_39000_a;
+    private Map modelTextureMap;
     public int textureWidth;
     public int textureHeight;
 
@@ -25,7 +17,7 @@ public abstract class ModelBase
         isRiding = false;
         boxList = new ArrayList();
         field_40301_k = true;
-        field_39000_a = new HashMap();
+        modelTextureMap = new HashMap();
         textureWidth = 64;
         textureHeight = 32;
     }
@@ -44,11 +36,11 @@ public abstract class ModelBase
 
     protected void setTextureOffset(String s, int i, int j)
     {
-        field_39000_a.put(s, new TextureOffset(i, j));
+        modelTextureMap.put(s, new TextureOffset(i, j));
     }
 
     public TextureOffset func_40297_a(String s)
     {
-        return (TextureOffset)field_39000_a.get(s);
+        return (TextureOffset)modelTextureMap.get(s);
     }
 }

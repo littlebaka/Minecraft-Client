@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, Facing, 
-//            BlockPistonBase, IBlockAccess, AxisAlignedBB
-
 public class BlockPistonExtension extends Block
 {
-
     private int field_31053_a;
 
     public BlockPistonExtension(int i, int j)
@@ -43,10 +34,10 @@ public class BlockPistonExtension extends Block
         j += Facing.offsetsYForSide[j1];
         k += Facing.offsetsZForSide[j1];
         int k1 = world.getBlockId(i, j, k);
-        if(k1 == Block.pistonBase.blockID || k1 == Block.pistonStickyBase.blockID)
+        if (k1 == Block.pistonBase.blockID || k1 == Block.pistonStickyBase.blockID)
         {
             int i1 = world.getBlockMetadata(i, j, k);
-            if(BlockPistonBase.isExtended(i1))
+            if (BlockPistonBase.isExtended(i1))
             {
                 Block.blocksList[k1].dropBlockAsItem(world, i, j, k, i1, 0);
                 world.setBlockWithNotify(i, j, k, 0);
@@ -57,16 +48,17 @@ public class BlockPistonExtension extends Block
     public int getBlockTextureFromSideAndMetadata(int i, int j)
     {
         int k = func_31050_c(j);
-        if(i == k)
+        if (i == k)
         {
-            if(field_31053_a >= 0)
+            if (field_31053_a >= 0)
             {
                 return field_31053_a;
             }
-            if((j & 8) != 0)
+            if ((j & 8) != 0)
             {
                 return blockIndexInTexture - 1;
-            } else
+            }
+            else
             {
                 return blockIndexInTexture;
             }
@@ -107,49 +99,49 @@ public class BlockPistonExtension extends Block
     public void getCollidingBoundingBoxes(World world, int i, int j, int k, AxisAlignedBB axisalignedbb, ArrayList arraylist)
     {
         int l = world.getBlockMetadata(i, j, k);
-        switch(func_31050_c(l))
+        switch (func_31050_c(l))
         {
-        case 0: // '\0'
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            setBlockBounds(0.375F, 0.25F, 0.375F, 0.625F, 1.0F, 0.625F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            break;
+            case 0:
+                setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                setBlockBounds(0.375F, 0.25F, 0.375F, 0.625F, 1.0F, 0.625F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                break;
 
-        case 1: // '\001'
-            setBlockBounds(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            setBlockBounds(0.375F, 0.0F, 0.375F, 0.625F, 0.75F, 0.625F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            break;
+            case 1:
+                setBlockBounds(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                setBlockBounds(0.375F, 0.0F, 0.375F, 0.625F, 0.75F, 0.625F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                break;
 
-        case 2: // '\002'
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            setBlockBounds(0.25F, 0.375F, 0.25F, 0.75F, 0.625F, 1.0F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            break;
+            case 2:
+                setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                setBlockBounds(0.25F, 0.375F, 0.25F, 0.75F, 0.625F, 1.0F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                break;
 
-        case 3: // '\003'
-            setBlockBounds(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            setBlockBounds(0.25F, 0.375F, 0.0F, 0.75F, 0.625F, 0.75F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            break;
+            case 3:
+                setBlockBounds(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                setBlockBounds(0.25F, 0.375F, 0.0F, 0.75F, 0.625F, 0.75F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                break;
 
-        case 4: // '\004'
-            setBlockBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            setBlockBounds(0.375F, 0.25F, 0.25F, 0.625F, 0.75F, 1.0F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            break;
+            case 4:
+                setBlockBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                setBlockBounds(0.375F, 0.25F, 0.25F, 0.625F, 0.75F, 1.0F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                break;
 
-        case 5: // '\005'
-            setBlockBounds(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            setBlockBounds(0.0F, 0.375F, 0.25F, 0.75F, 0.625F, 0.75F);
-            super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-            break;
+            case 5:
+                setBlockBounds(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                setBlockBounds(0.0F, 0.375F, 0.25F, 0.75F, 0.625F, 0.75F);
+                super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
+                break;
         }
         setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
@@ -157,31 +149,31 @@ public class BlockPistonExtension extends Block
     public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int i, int j, int k)
     {
         int l = iblockaccess.getBlockMetadata(i, j, k);
-        switch(func_31050_c(l))
+        switch (func_31050_c(l))
         {
-        case 0: // '\0'
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
-            break;
+            case 0:
+                setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
+                break;
 
-        case 1: // '\001'
-            setBlockBounds(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
-            break;
+            case 1:
+                setBlockBounds(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
+                break;
 
-        case 2: // '\002'
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
-            break;
+            case 2:
+                setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
+                break;
 
-        case 3: // '\003'
-            setBlockBounds(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
-            break;
+            case 3:
+                setBlockBounds(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
+                break;
 
-        case 4: // '\004'
-            setBlockBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
-            break;
+            case 4:
+                setBlockBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
+                break;
 
-        case 5: // '\005'
-            setBlockBounds(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            break;
+            case 5:
+                setBlockBounds(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+                break;
         }
     }
 
@@ -189,10 +181,11 @@ public class BlockPistonExtension extends Block
     {
         int i1 = func_31050_c(world.getBlockMetadata(i, j, k));
         int j1 = world.getBlockId(i - Facing.offsetsXForSide[i1], j - Facing.offsetsYForSide[i1], k - Facing.offsetsZForSide[i1]);
-        if(j1 != Block.pistonBase.blockID && j1 != Block.pistonStickyBase.blockID)
+        if (j1 != Block.pistonBase.blockID && j1 != Block.pistonStickyBase.blockID)
         {
             world.setBlockWithNotify(i, j, k, 0);
-        } else
+        }
+        else
         {
             Block.blocksList[j1].onNeighborBlockChange(world, i - Facing.offsetsXForSide[i1], j - Facing.offsetsYForSide[i1], k - Facing.offsetsZForSide[i1], l);
         }

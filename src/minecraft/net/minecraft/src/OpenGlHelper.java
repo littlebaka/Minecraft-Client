@@ -1,14 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.*;
 
 public class OpenGlHelper
 {
-
     public static int lightmapDisabled;
     public static int lightmapEnabled;
     private static boolean useMultitextureARB = false;
@@ -20,11 +15,12 @@ public class OpenGlHelper
     public static void initializeTextures()
     {
         useMultitextureARB = GLContext.getCapabilities().GL_ARB_multitexture && !GLContext.getCapabilities().OpenGL13;
-        if(useMultitextureARB)
+        if (useMultitextureARB)
         {
             lightmapDisabled = 33984 /*GL_TEXTURE0_ARB*/;
             lightmapEnabled = 33985 /*GL_TEXTURE1_ARB*/;
-        } else
+        }
+        else
         {
             lightmapDisabled = 33984 /*GL_TEXTURE0_ARB*/;
             lightmapEnabled = 33985 /*GL_TEXTURE1_ARB*/;
@@ -33,10 +29,11 @@ public class OpenGlHelper
 
     public static void setActiveTexture(int i)
     {
-        if(useMultitextureARB)
+        if (useMultitextureARB)
         {
             ARBMultitexture.glActiveTextureARB(i);
-        } else
+        }
+        else
         {
             GL13.glActiveTexture(i);
         }
@@ -44,10 +41,11 @@ public class OpenGlHelper
 
     public static void setClientActiveTexture(int i)
     {
-        if(useMultitextureARB)
+        if (useMultitextureARB)
         {
             ARBMultitexture.glClientActiveTextureARB(i);
-        } else
+        }
+        else
         {
             GL13.glClientActiveTexture(i);
         }
@@ -55,13 +53,13 @@ public class OpenGlHelper
 
     public static void setLightmapTextureCoords(int i, float f, float f1)
     {
-        if(useMultitextureARB)
+        if (useMultitextureARB)
         {
             ARBMultitexture.glMultiTexCoord2fARB(i, f, f1);
-        } else
+        }
+        else
         {
             GL13.glMultiTexCoord2f(i, f, f1);
         }
     }
-
 }

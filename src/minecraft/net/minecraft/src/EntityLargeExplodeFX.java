@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, RenderEngine, RenderHelper, Tessellator, 
-//            World
-
 public class EntityLargeExplodeFX extends EntityFX
 {
-
     private int field_35130_a;
     private int field_35129_ay;
     private RenderEngine field_35128_az;
@@ -33,10 +24,11 @@ public class EntityLargeExplodeFX extends EntityFX
     public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5)
     {
         int i = (int)((((float)field_35130_a + f) * 15F) / (float)field_35129_ay);
-        if(i > 15)
+        if (i > 15)
         {
             return;
-        } else
+        }
+        else
         {
             field_35128_az.bindTexture(field_35128_az.getTexture("/misc/explosion.png"));
             float f6 = (float)(i % 4) / 4F;
@@ -76,7 +68,7 @@ public class EntityLargeExplodeFX extends EntityFX
         prevPosY = posY;
         prevPosZ = posZ;
         field_35130_a++;
-        if(field_35130_a == field_35129_ay)
+        if (field_35130_a == field_35129_ay)
         {
             setEntityDead();
         }

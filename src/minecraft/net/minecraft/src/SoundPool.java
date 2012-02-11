@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.File;
@@ -9,12 +5,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            SoundPoolEntry
-
 public class SoundPool
 {
-
     private Random rand;
     private Map nameToSoundPoolEntriesMapping;
     private List allSoundPoolEntries;
@@ -36,12 +28,12 @@ public class SoundPool
         {
             String s1 = s;
             s = s.substring(0, s.indexOf("."));
-            if(isGetRandomSound)
+            if (isGetRandomSound)
             {
-                for(; Character.isDigit(s.charAt(s.length() - 1)); s = s.substring(0, s.length() - 1)) { }
+                for (; Character.isDigit(s.charAt(s.length() - 1)); s = s.substring(0, s.length() - 1)) { }
             }
             s = s.replaceAll("/", ".");
-            if(!nameToSoundPoolEntriesMapping.containsKey(s))
+            if (!nameToSoundPoolEntriesMapping.containsKey(s))
             {
                 nameToSoundPoolEntriesMapping.put(s, new ArrayList());
             }
@@ -51,7 +43,7 @@ public class SoundPool
             numberOfSoundPoolEntries++;
             return soundpoolentry;
         }
-        catch(MalformedURLException malformedurlexception)
+        catch (MalformedURLException malformedurlexception)
         {
             malformedurlexception.printStackTrace();
             throw new RuntimeException(malformedurlexception);
@@ -61,10 +53,11 @@ public class SoundPool
     public SoundPoolEntry getRandomSoundFromSoundPool(String s)
     {
         List list = (List)nameToSoundPoolEntriesMapping.get(s);
-        if(list == null)
+        if (list == null)
         {
             return null;
-        } else
+        }
+        else
         {
             return (SoundPoolEntry)list.get(rand.nextInt(list.size()));
         }
@@ -72,10 +65,11 @@ public class SoundPool
 
     public SoundPoolEntry getRandomSound()
     {
-        if(allSoundPoolEntries.size() == 0)
+        if (allSoundPoolEntries.size() == 0)
         {
             return null;
-        } else
+        }
+        else
         {
             return (SoundPoolEntry)allSoundPoolEntries.get(rand.nextInt(allSoundPoolEntries.size()));
         }

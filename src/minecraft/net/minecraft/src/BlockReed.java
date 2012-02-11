@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, BlockGrass, 
-//            Item, AxisAlignedBB
-
 public class BlockReed extends Block
 {
-
     protected BlockReed(int i, int j)
     {
         super(i, Material.plants);
@@ -24,18 +15,19 @@ public class BlockReed extends Block
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if(world.isAirBlock(i, j + 1, k))
+        if (world.isAirBlock(i, j + 1, k))
         {
             int l;
-            for(l = 1; world.getBlockId(i, j - l, k) == blockID; l++) { }
-            if(l < 3)
+            for (l = 1; world.getBlockId(i, j - l, k) == blockID; l++) { }
+            if (l < 3)
             {
                 int i1 = world.getBlockMetadata(i, j, k);
-                if(i1 == 15)
+                if (i1 == 15)
                 {
                     world.setBlockWithNotify(i, j + 1, k, blockID);
                     world.setBlockMetadataWithNotify(i, j, k, 0);
-                } else
+                }
+                else
                 {
                     world.setBlockMetadataWithNotify(i, j, k, i1 + 1);
                 }
@@ -46,23 +38,23 @@ public class BlockReed extends Block
     public boolean canPlaceBlockAt(World world, int i, int j, int k)
     {
         int l = world.getBlockId(i, j - 1, k);
-        if(l == blockID)
+        if (l == blockID)
         {
             return true;
         }
-        if(l != Block.grass.blockID && l != Block.dirt.blockID && l != Block.sand.blockID)
+        if (l != Block.grass.blockID && l != Block.dirt.blockID && l != Block.sand.blockID)
         {
             return false;
         }
-        if(world.getBlockMaterial(i - 1, j - 1, k) == Material.water)
+        if (world.getBlockMaterial(i - 1, j - 1, k) == Material.water)
         {
             return true;
         }
-        if(world.getBlockMaterial(i + 1, j - 1, k) == Material.water)
+        if (world.getBlockMaterial(i + 1, j - 1, k) == Material.water)
         {
             return true;
         }
-        if(world.getBlockMaterial(i, j - 1, k - 1) == Material.water)
+        if (world.getBlockMaterial(i, j - 1, k - 1) == Material.water)
         {
             return true;
         }
@@ -76,7 +68,7 @@ public class BlockReed extends Block
 
     protected final void checkBlockCoordValid(World world, int i, int j, int k)
     {
-        if(!canBlockStay(world, i, j, k))
+        if (!canBlockStay(world, i, j, k))
         {
             dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
             world.setBlockWithNotify(i, j, k, 0);

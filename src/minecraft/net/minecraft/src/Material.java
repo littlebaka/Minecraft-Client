@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            MaterialTransparent, MapColor, MaterialLiquid, MaterialLogic, 
-//            MaterialPortal, MaterialWeb
 
 public class Material
 {
-
     public static final Material air;
     public static final Material grass;
     public static final Material ground;
@@ -37,9 +27,9 @@ public class Material
     public static final Material cactus;
     public static final Material clay;
     public static final Material pumpkin;
-    public static final Material field_41056_z;
+    public static final Material dragonEgg;
     public static final Material portal;
-    public static final Material cakeMaterial;
+    public static final Material cake;
     public static final Material web;
     public static final Material piston;
     private boolean canBurn;
@@ -111,10 +101,11 @@ public class Material
 
     public boolean getIsOpaque()
     {
-        if(isTranslucent)
+        if (isTranslucent)
         {
             return false;
-        } else
+        }
+        else
         {
             return getIsSolid();
         }
@@ -142,7 +133,7 @@ public class Material
         return this;
     }
 
-    static 
+    static
     {
         air = new MaterialTransparent(MapColor.airColor);
         grass = new Material(MapColor.grassColor);
@@ -169,9 +160,9 @@ public class Material
         cactus = (new Material(MapColor.foliageColor)).setIsTranslucent().setNoPushMobility();
         clay = new Material(MapColor.clayColor);
         pumpkin = (new Material(MapColor.foliageColor)).setNoPushMobility();
-        field_41056_z = (new Material(MapColor.foliageColor)).setNoPushMobility();
+        dragonEgg = (new Material(MapColor.foliageColor)).setNoPushMobility();
         portal = (new MaterialPortal(MapColor.airColor)).setImmovableMobility();
-        cakeMaterial = (new Material(MapColor.airColor)).setNoPushMobility();
+        cake = (new Material(MapColor.airColor)).setNoPushMobility();
         web = (new MaterialWeb(MapColor.clothColor)).setNoHarvest().setNoPushMobility();
         piston = (new Material(MapColor.stoneColor)).setImmovableMobility();
     }

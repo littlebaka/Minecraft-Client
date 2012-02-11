@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            NoiseGenerator, NoiseGeneratorPerlin, MathHelper
-
 public class NoiseGeneratorOctaves extends NoiseGenerator
 {
-
     private NoiseGeneratorPerlin generatorCollection[];
     private int octaves;
 
@@ -19,29 +11,28 @@ public class NoiseGeneratorOctaves extends NoiseGenerator
     {
         octaves = i;
         generatorCollection = new NoiseGeneratorPerlin[i];
-        for(int j = 0; j < i; j++)
+        for (int j = 0; j < i; j++)
         {
             generatorCollection[j] = new NoiseGeneratorPerlin(random);
         }
-
     }
 
-    public double[] generateNoiseOctaves(double ad[], int i, int j, int k, int l, int i1, int j1, 
+    public double[] generateNoiseOctaves(double ad[], int i, int j, int k, int l, int i1, int j1,
             double d, double d1, double d2)
     {
-        if(ad == null)
+        if (ad == null)
         {
             ad = new double[l * i1 * j1];
-        } else
+        }
+        else
         {
-            for(int k1 = 0; k1 < ad.length; k1++)
+            for (int k1 = 0; k1 < ad.length; k1++)
             {
                 ad[k1] = 0.0D;
             }
-
         }
         double d3 = 1.0D;
-        for(int l1 = 0; l1 < octaves; l1++)
+        for (int l1 = 0; l1 < octaves; l1++)
         {
             double d4 = (double)i * d3 * d;
             double d5 = (double)j * d3 * d1;
@@ -61,7 +52,7 @@ public class NoiseGeneratorOctaves extends NoiseGenerator
         return ad;
     }
 
-    public double[] func_4109_a(double ad[], int i, int j, int k, int l, double d, 
+    public double[] func_4109_a(double ad[], int i, int j, int k, int l, double d,
             double d1, double d2)
     {
         return generateNoiseOctaves(ad, i, 10, j, k, 1, l, d, 1.0D, d1);

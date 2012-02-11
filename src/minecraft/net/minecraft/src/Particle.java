@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiParticle
-
 public class Particle
 {
-
     private static Random rand = new Random();
     public double posX;
     public double posY;
@@ -39,12 +31,12 @@ public class Particle
         velocityX *= accelScale;
         velocityY *= accelScale;
         velocityY += 0.10000000000000001D;
-        if(++timeTick > timeLimit)
+        if (++timeTick > timeLimit)
         {
             setDead();
         }
         tintAlpha = 2D - ((double)timeTick / (double)timeLimit) * 2D;
-        if(tintAlpha > 1.0D)
+        if (tintAlpha > 1.0D)
         {
             tintAlpha = 1.0D;
         }
@@ -66,5 +58,4 @@ public class Particle
     {
         isDead = true;
     }
-
 }

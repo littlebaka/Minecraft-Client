@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import org.lwjgl.input.Keyboard;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, GuiTextField, StringTranslate, GuiButton, 
-//            ServerNBTStorage
-
 public class GuiScreenServerList extends GuiScreen
 {
-
     private GuiScreen guiScreen;
     private GuiTextField serverTextField;
     private ServerNBTStorage field_35318_c;
@@ -48,15 +39,15 @@ public class GuiScreenServerList extends GuiScreen
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(!guibutton.enabled)
+        if (!guibutton.enabled)
         {
             return;
         }
-        if(guibutton.id == 1)
+        if (guibutton.id == 1)
         {
             guiScreen.deleteWorld(false, 0);
-        } else
-        if(guibutton.id == 0)
+        }
+        else if (guibutton.id == 0)
         {
             field_35318_c.host = serverTextField.getText();
             guiScreen.deleteWorld(true, 0);
@@ -66,7 +57,7 @@ public class GuiScreenServerList extends GuiScreen
     protected void keyTyped(char c, int i)
     {
         serverTextField.textboxKeyTyped(c, i);
-        if(c == '\r')
+        if (c == '\r')
         {
             actionPerformed((GuiButton)controlList.get(0));
         }

@@ -1,23 +1,17 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 public class SaveFormatComparator
     implements Comparable
 {
-
     private final String fileName;
     private final String displayName;
     private final long lastTimePlayed;
     private final long sizeOnDisk;
-    private final boolean field_22167_e;
+    private final boolean requiresConversion;
     private final int gameType;
-    private final boolean field_40595_g;
+    private final boolean hardcore;
 
-    public SaveFormatComparator(String s, String s1, long l, long l1, int i, 
+    public SaveFormatComparator(String s, String s1, long l, long l1, int i,
             boolean flag, boolean flag1)
     {
         fileName = s;
@@ -25,8 +19,8 @@ public class SaveFormatComparator
         lastTimePlayed = l;
         sizeOnDisk = l1;
         gameType = i;
-        field_22167_e = flag;
-        field_40595_g = flag1;
+        requiresConversion = flag;
+        hardcore = flag1;
     }
 
     public String getFileName()
@@ -39,9 +33,9 @@ public class SaveFormatComparator
         return displayName;
     }
 
-    public boolean func_22161_d()
+    public boolean requiresConversion()
     {
-        return field_22167_e;
+        return requiresConversion;
     }
 
     public long getLastTimePlayed()
@@ -51,14 +45,15 @@ public class SaveFormatComparator
 
     public int compareTo(SaveFormatComparator saveformatcomparator)
     {
-        if(lastTimePlayed < saveformatcomparator.lastTimePlayed)
+        if (lastTimePlayed < saveformatcomparator.lastTimePlayed)
         {
             return 1;
         }
-        if(lastTimePlayed > saveformatcomparator.lastTimePlayed)
+        if (lastTimePlayed > saveformatcomparator.lastTimePlayed)
         {
             return -1;
-        } else
+        }
+        else
         {
             return fileName.compareTo(saveformatcomparator.fileName);
         }
@@ -69,9 +64,9 @@ public class SaveFormatComparator
         return gameType;
     }
 
-    public boolean func_40594_g()
+    public boolean isHardcoreModeEnabled()
     {
-        return field_40595_g;
+        return hardcore;
     }
 
     public int compareTo(Object obj)

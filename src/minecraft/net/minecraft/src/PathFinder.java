@@ -1,18 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Path, IntHashMap, PathPoint, Entity, 
-//            AxisAlignedBB, MathHelper, IBlockAccess, Block, 
-//            BlockDoor, Material, PathEntity
 
 public class PathFinder
 {
-
     private IBlockAccess worldMap;
     private Path path;
     private IntHashMap pointMap;
@@ -36,7 +25,7 @@ public class PathFinder
         return createEntityPathTo(entity, (float)i + 0.5F, (float)j + 0.5F, (float)k + 0.5F, f);
     }
 
-    private PathEntity createEntityPathTo(Entity entity, double d, double d1, double d2, 
+    private PathEntity createEntityPathTo(Entity entity, double d, double d1, double d2,
             float f)
     {
         path.clearPath();
@@ -56,33 +45,34 @@ public class PathFinder
         path.clearPath();
         path.addPoint(pathpoint);
         PathPoint pathpoint3 = pathpoint;
-        while(!path.isPathEmpty()) 
+        while (!path.isPathEmpty())
         {
             PathPoint pathpoint4 = path.dequeue();
-            if(pathpoint4.equals(pathpoint1))
+            if (pathpoint4.equals(pathpoint1))
             {
                 return createEntityPath(pathpoint, pathpoint1);
             }
-            if(pathpoint4.distanceTo(pathpoint1) < pathpoint3.distanceTo(pathpoint1))
+            if (pathpoint4.distanceTo(pathpoint1) < pathpoint3.distanceTo(pathpoint1))
             {
                 pathpoint3 = pathpoint4;
             }
             pathpoint4.isFirst = true;
             int i = findPathOptions(entity, pathpoint4, pathpoint2, pathpoint1, f);
             int j = 0;
-            while(j < i) 
+            while (j < i)
             {
                 PathPoint pathpoint5 = pathOptions[j];
                 float f1 = pathpoint4.totalPathDistance + pathpoint4.distanceTo(pathpoint5);
-                if(!pathpoint5.isAssigned() || f1 < pathpoint5.totalPathDistance)
+                if (!pathpoint5.isAssigned() || f1 < pathpoint5.totalPathDistance)
                 {
                     pathpoint5.previous = pathpoint4;
                     pathpoint5.totalPathDistance = f1;
                     pathpoint5.distanceToNext = pathpoint5.distanceTo(pathpoint1);
-                    if(pathpoint5.isAssigned())
+                    if (pathpoint5.isAssigned())
                     {
                         path.changeDistance(pathpoint5, pathpoint5.totalPathDistance + pathpoint5.distanceToNext);
-                    } else
+                    }
+                    else
                     {
                         pathpoint5.distanceToTarget = pathpoint5.totalPathDistance + pathpoint5.distanceToNext;
                         path.addPoint(pathpoint5);
@@ -91,10 +81,11 @@ public class PathFinder
                 j++;
             }
         }
-        if(pathpoint3 == pathpoint)
+        if (pathpoint3 == pathpoint)
         {
             return null;
-        } else
+        }
+        else
         {
             return createEntityPath(pathpoint, pathpoint3);
         }
@@ -104,7 +95,7 @@ public class PathFinder
     {
         int i = 0;
         int j = 0;
-        if(getVerticalOffset(entity, pathpoint.xCoord, pathpoint.yCoord + 1, pathpoint.zCoord, pathpoint1) == 1)
+        if (getVerticalOffset(entity, pathpoint.xCoord, pathpoint.yCoord + 1, pathpoint.zCoord, pathpoint1) == 1)
         {
             j = 1;
         }
@@ -112,19 +103,19 @@ public class PathFinder
         PathPoint pathpoint4 = getSafePoint(entity, pathpoint.xCoord - 1, pathpoint.yCoord, pathpoint.zCoord, pathpoint1, j);
         PathPoint pathpoint5 = getSafePoint(entity, pathpoint.xCoord + 1, pathpoint.yCoord, pathpoint.zCoord, pathpoint1, j);
         PathPoint pathpoint6 = getSafePoint(entity, pathpoint.xCoord, pathpoint.yCoord, pathpoint.zCoord - 1, pathpoint1, j);
-        if(pathpoint3 != null && !pathpoint3.isFirst && pathpoint3.distanceTo(pathpoint2) < f)
+        if (pathpoint3 != null && !pathpoint3.isFirst && pathpoint3.distanceTo(pathpoint2) < f)
         {
             pathOptions[i++] = pathpoint3;
         }
-        if(pathpoint4 != null && !pathpoint4.isFirst && pathpoint4.distanceTo(pathpoint2) < f)
+        if (pathpoint4 != null && !pathpoint4.isFirst && pathpoint4.distanceTo(pathpoint2) < f)
         {
             pathOptions[i++] = pathpoint4;
         }
-        if(pathpoint5 != null && !pathpoint5.isFirst && pathpoint5.distanceTo(pathpoint2) < f)
+        if (pathpoint5 != null && !pathpoint5.isFirst && pathpoint5.distanceTo(pathpoint2) < f)
         {
             pathOptions[i++] = pathpoint5;
         }
-        if(pathpoint6 != null && !pathpoint6.isFirst && pathpoint6.distanceTo(pathpoint2) < f)
+        if (pathpoint6 != null && !pathpoint6.isFirst && pathpoint6.distanceTo(pathpoint2) < f)
         {
             pathOptions[i++] = pathpoint6;
         }
@@ -134,35 +125,36 @@ public class PathFinder
     private PathPoint getSafePoint(Entity entity, int i, int j, int k, PathPoint pathpoint, int l)
     {
         PathPoint pathpoint1 = null;
-        if(getVerticalOffset(entity, i, j, k, pathpoint) == 1)
+        if (getVerticalOffset(entity, i, j, k, pathpoint) == 1)
         {
             pathpoint1 = openPoint(i, j, k);
         }
-        if(pathpoint1 == null && l > 0 && getVerticalOffset(entity, i, j + l, k, pathpoint) == 1)
+        if (pathpoint1 == null && l > 0 && getVerticalOffset(entity, i, j + l, k, pathpoint) == 1)
         {
             pathpoint1 = openPoint(i, j + l, k);
             j += l;
         }
-        if(pathpoint1 != null)
+        if (pathpoint1 != null)
         {
             int i1 = 0;
             int j1 = 0;
             do
             {
-                if(j <= 0 || (j1 = getVerticalOffset(entity, i, j - 1, k, pathpoint)) != 1)
+                if (j <= 0 || (j1 = getVerticalOffset(entity, i, j - 1, k, pathpoint)) != 1)
                 {
                     break;
                 }
-                if(++i1 >= 4)
+                if (++i1 >= 4)
                 {
                     return null;
                 }
-                if(--j > 0)
+                if (--j > 0)
                 {
                     pathpoint1 = openPoint(i, j, k);
                 }
-            } while(true);
-            if(j1 == -2)
+            }
+            while (true);
+            if (j1 == -2)
             {
                 return null;
             }
@@ -174,7 +166,7 @@ public class PathFinder
     {
         int l = PathPoint.func_22329_a(i, j, k);
         PathPoint pathpoint = (PathPoint)pointMap.lookup(l);
-        if(pathpoint == null)
+        if (pathpoint == null)
         {
             pathpoint = new PathPoint(i, j, k);
             pointMap.addKey(l, pathpoint);
@@ -184,43 +176,41 @@ public class PathFinder
 
     private int getVerticalOffset(Entity entity, int i, int j, int k, PathPoint pathpoint)
     {
-        for(int l = i; l < i + pathpoint.xCoord; l++)
+        for (int l = i; l < i + pathpoint.xCoord; l++)
         {
-            for(int i1 = j; i1 < j + pathpoint.yCoord; i1++)
+            for (int i1 = j; i1 < j + pathpoint.yCoord; i1++)
             {
-                for(int j1 = k; j1 < k + pathpoint.zCoord; j1++)
+                for (int j1 = k; j1 < k + pathpoint.zCoord; j1++)
                 {
                     int k1 = worldMap.getBlockId(l, i1, j1);
-                    if(k1 <= 0)
+                    if (k1 <= 0)
                     {
                         continue;
                     }
-                    if(k1 == Block.doorSteel.blockID || k1 == Block.doorWood.blockID)
+                    if (k1 == Block.doorSteel.blockID || k1 == Block.doorWood.blockID)
                     {
                         int l1 = worldMap.getBlockMetadata(l, i1, j1);
-                        if(!BlockDoor.isOpen(l1))
+                        if (!BlockDoor.isOpen(l1))
                         {
                             return 0;
                         }
                         continue;
                     }
                     Material material = Block.blocksList[k1].blockMaterial;
-                    if(material.getIsSolid())
+                    if (material.getIsSolid())
                     {
                         return 0;
                     }
-                    if(material == Material.water)
+                    if (material == Material.water)
                     {
                         return -1;
                     }
-                    if(material == Material.lava)
+                    if (material == Material.lava)
                     {
                         return -2;
                     }
                 }
-
             }
-
         }
 
         return 1;
@@ -229,14 +219,14 @@ public class PathFinder
     private PathEntity createEntityPath(PathPoint pathpoint, PathPoint pathpoint1)
     {
         int i = 1;
-        for(PathPoint pathpoint2 = pathpoint1; pathpoint2.previous != null; pathpoint2 = pathpoint2.previous)
+        for (PathPoint pathpoint2 = pathpoint1; pathpoint2.previous != null; pathpoint2 = pathpoint2.previous)
         {
             i++;
         }
 
         PathPoint apathpoint[] = new PathPoint[i];
         PathPoint pathpoint3 = pathpoint1;
-        for(apathpoint[--i] = pathpoint3; pathpoint3.previous != null; apathpoint[--i] = pathpoint3)
+        for (apathpoint[--i] = pathpoint3; pathpoint3.previous != null; apathpoint[--i] = pathpoint3)
         {
             pathpoint3 = pathpoint3.previous;
         }

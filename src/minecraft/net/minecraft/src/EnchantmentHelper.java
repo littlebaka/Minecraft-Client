@@ -1,20 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            ItemStack, NBTTagList, NBTTagCompound, Enchantment, 
-//            IEnchantmentModifier, EnchantmentModifierDamage, InventoryPlayer, EnchantmentModifierLiving, 
-//            Item, WeightedRandom, EnchantmentData, EnumEnchantmentType, 
-//            DamageSource, EntityLiving
-
 public class EnchantmentHelper
 {
-
     private static final Random enchantmentRand = new Random();
     private static final EnchantmentModifierDamage enchantmentModifierDamage = new EnchantmentModifierDamage(null);
     private static final EnchantmentModifierLiving enchantmentModifierLiving = new EnchantmentModifierLiving(null);
@@ -23,22 +12,22 @@ public class EnchantmentHelper
     {
     }
 
-    private static int getEnchantmentLevel(int i, ItemStack itemstack)
+    public static int getEnchantmentLevel(int i, ItemStack itemstack)
     {
-        if(itemstack == null)
+        if (itemstack == null)
         {
             return 0;
         }
-        NBTTagList nbttaglist = itemstack.func_40714_p();
-        if(nbttaglist == null)
+        NBTTagList nbttaglist = itemstack.getEnchantmentTagList();
+        if (nbttaglist == null)
         {
             return 0;
         }
-        for(int j = 0; j < nbttaglist.tagCount(); j++)
+        for (int j = 0; j < nbttaglist.tagCount(); j++)
         {
             short word0 = ((NBTTagCompound)nbttaglist.tagAt(j)).getShort("id");
             short word1 = ((NBTTagCompound)nbttaglist.tagAt(j)).getShort("lvl");
-            if(word0 == i)
+            if (word0 == i)
             {
                 return word1;
             }
@@ -52,11 +41,11 @@ public class EnchantmentHelper
         int j = 0;
         ItemStack aitemstack1[] = aitemstack;
         int k = aitemstack1.length;
-        for(int l = 0; l < k; l++)
+        for (int l = 0; l < k; l++)
         {
             ItemStack itemstack = aitemstack1[l];
             int i1 = getEnchantmentLevel(i, itemstack);
-            if(i1 > j)
+            if (i1 > j)
             {
                 j = i1;
             }
@@ -67,37 +56,35 @@ public class EnchantmentHelper
 
     private static void applyEnchantmentModifier(IEnchantmentModifier ienchantmentmodifier, ItemStack itemstack)
     {
-        if(itemstack == null)
+        if (itemstack == null)
         {
             return;
         }
-        NBTTagList nbttaglist = itemstack.func_40714_p();
-        if(nbttaglist == null)
+        NBTTagList nbttaglist = itemstack.getEnchantmentTagList();
+        if (nbttaglist == null)
         {
             return;
         }
-        for(int i = 0; i < nbttaglist.tagCount(); i++)
+        for (int i = 0; i < nbttaglist.tagCount(); i++)
         {
             short word0 = ((NBTTagCompound)nbttaglist.tagAt(i)).getShort("id");
             short word1 = ((NBTTagCompound)nbttaglist.tagAt(i)).getShort("lvl");
-            if(Enchantment.enchantmentsList[word0] != null)
+            if (Enchantment.enchantmentsList[word0] != null)
             {
                 ienchantmentmodifier.calculateModifier(Enchantment.enchantmentsList[word0], word1);
             }
         }
-
     }
 
     private static void applyEnchantmentModifierArray(IEnchantmentModifier ienchantmentmodifier, ItemStack aitemstack[])
     {
         ItemStack aitemstack1[] = aitemstack;
         int i = aitemstack1.length;
-        for(int j = 0; j < i; j++)
+        for (int j = 0; j < i; j++)
         {
             ItemStack itemstack = aitemstack1[j];
             applyEnchantmentModifier(ienchantmentmodifier, itemstack);
         }
-
     }
 
     public static int getEnchantmentModifierDamage(InventoryPlayer inventoryplayer, DamageSource damagesource)
@@ -105,7 +92,7 @@ public class EnchantmentHelper
         enchantmentModifierDamage.damageModifier = 0;
         enchantmentModifierDamage.damageSource = damagesource;
         applyEnchantmentModifierArray(enchantmentModifierDamage, inventoryplayer.armorInventory);
-        if(enchantmentModifierDamage.damageModifier > 25)
+        if (enchantmentModifierDamage.damageModifier > 25)
         {
             enchantmentModifierDamage.damageModifier = 25;
         }
@@ -117,10 +104,11 @@ public class EnchantmentHelper
         enchantmentModifierLiving.livingModifier = 0;
         enchantmentModifierLiving.entityLiving = entityliving;
         applyEnchantmentModifier(enchantmentModifierLiving, inventoryplayer.getCurrentItem());
-        if(enchantmentModifierLiving.livingModifier > 0)
+        if (enchantmentModifierLiving.livingModifier > 0)
         {
             return 1 + enchantmentRand.nextInt(enchantmentModifierLiving.livingModifier);
-        } else
+        }
+        else
         {
             return 0;
         }
@@ -175,24 +163,25 @@ public class EnchantmentHelper
     {
         Item item = itemstack.getItem();
         int k = item.getItemEnchantability();
-        if(k <= 0)
+        if (k <= 0)
         {
             return 0;
         }
-        if(j > 30)
+        if (j > 30)
         {
             j = 30;
         }
-        j = 1 + random.nextInt((j >> 1) + 1) + random.nextInt(j + 1);
+        j = 1 + (j >> 1) + random.nextInt(j + 1);
         int l = random.nextInt(5) + j;
-        if(i == 0)
+        if (i == 0)
         {
             return (l >> 1) + 1;
         }
-        if(i == 1)
+        if (i == 1)
         {
             return (l * 2) / 3 + 1;
-        } else
+        }
+        else
         {
             return l;
         }
@@ -202,7 +191,7 @@ public class EnchantmentHelper
     {
         Item item = itemstack.getItem();
         int j = item.getItemEnchantability();
-        if(j <= 0)
+        if (j <= 0)
         {
             return null;
         }
@@ -212,19 +201,19 @@ public class EnchantmentHelper
         int l = (int)((float)k * (1.0F + f) + 0.5F);
         ArrayList arraylist = null;
         Map map = mapEnchantmentData(l, itemstack);
-        if(map != null && !map.isEmpty())
+        if (map != null && !map.isEmpty())
         {
             EnchantmentData enchantmentdata = (EnchantmentData)WeightedRandom.func_35733_a(random, map.values());
-            if(enchantmentdata != null)
+            if (enchantmentdata != null)
             {
                 arraylist = new ArrayList();
                 arraylist.add(enchantmentdata);
-                for(int i1 = l >> 1; random.nextInt(50) <= i1; i1 >>= 1)
+                for (int i1 = l >> 1; random.nextInt(50) <= i1; i1 >>= 1)
                 {
                     Iterator iterator = map.keySet().iterator();
                     do
                     {
-                        if(!iterator.hasNext())
+                        if (!iterator.hasNext())
                         {
                             break;
                         }
@@ -233,30 +222,31 @@ public class EnchantmentHelper
                         Iterator iterator1 = arraylist.iterator();
                         do
                         {
-                            if(!iterator1.hasNext())
+                            if (!iterator1.hasNext())
                             {
                                 break;
                             }
                             EnchantmentData enchantmentdata2 = (EnchantmentData)iterator1.next();
-                            if(enchantmentdata2.field_40264_a.canApplyTogether(Enchantment.enchantmentsList[integer.intValue()]))
+                            if (enchantmentdata2.enchantmentobj.canApplyTogether(Enchantment.enchantmentsList[integer.intValue()]))
                             {
                                 continue;
                             }
                             flag = false;
                             break;
-                        } while(true);
-                        if(!flag)
+                        }
+                        while (true);
+                        if (!flag)
                         {
                             iterator.remove();
                         }
-                    } while(true);
-                    if(!map.isEmpty())
+                    }
+                    while (true);
+                    if (!map.isEmpty())
                     {
                         EnchantmentData enchantmentdata1 = (EnchantmentData)WeightedRandom.func_35733_a(random, map.values());
                         arraylist.add(enchantmentdata1);
                     }
                 }
-
             }
         }
         return arraylist;
@@ -268,29 +258,27 @@ public class EnchantmentHelper
         HashMap hashmap = null;
         Enchantment aenchantment[] = Enchantment.enchantmentsList;
         int j = aenchantment.length;
-        for(int k = 0; k < j; k++)
+        for (int k = 0; k < j; k++)
         {
             Enchantment enchantment = aenchantment[k];
-            if(enchantment == null || !enchantment.type.canEnchantItem(item))
+            if (enchantment == null || !enchantment.type.canEnchantItem(item))
             {
                 continue;
             }
-            for(int l = enchantment.getMinLevel(); l <= enchantment.getMaxLevel(); l++)
+            for (int l = enchantment.getMinLevel(); l <= enchantment.getMaxLevel(); l++)
             {
-                if(i < enchantment.getMinEnchantability(l) || i > enchantment.getMaxEnchantability(l))
+                if (i < enchantment.getMinEnchantability(l) || i > enchantment.getMaxEnchantability(l))
                 {
                     continue;
                 }
-                if(hashmap == null)
+                if (hashmap == null)
                 {
                     hashmap = new HashMap();
                 }
                 hashmap.put(Integer.valueOf(enchantment.effectId), new EnchantmentData(enchantment, l));
             }
-
         }
 
         return hashmap;
     }
-
 }

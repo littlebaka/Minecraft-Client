@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, WorldProvider, 
-//            EntityPlayer, ChunkCoordinates, EnumStatus, Direction, 
-//            Item, IBlockAccess
-
 public class BlockBed extends Block
 {
-
-    public static final int headBlockToFootBlockMap[][] = {
+    public static final int headBlockToFootBlockMap[][] =
+    {
         {
             0, 1
         }, {
@@ -34,23 +25,23 @@ public class BlockBed extends Block
 
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return true;
         }
         int l = world.getBlockMetadata(i, j, k);
-        if(!isBlockFootOfBed(l))
+        if (!isBlockFootOfBed(l))
         {
             int i1 = getDirectionFromMetadata(l);
             i += headBlockToFootBlockMap[i1][0];
             k += headBlockToFootBlockMap[i1][1];
-            if(world.getBlockId(i, j, k) != blockID)
+            if (world.getBlockId(i, j, k) != blockID)
             {
                 return true;
             }
             l = world.getBlockMetadata(i, j, k);
         }
-        if(!world.worldProvider.canRespawnHere())
+        if (!world.worldProvider.canRespawnHere())
         {
             double d = (double)i + 0.5D;
             double d1 = (double)j + 0.5D;
@@ -59,7 +50,7 @@ public class BlockBed extends Block
             int j1 = getDirectionFromMetadata(l);
             i += headBlockToFootBlockMap[j1][0];
             k += headBlockToFootBlockMap[j1][1];
-            if(world.getBlockId(i, j, k) == blockID)
+            if (world.getBlockId(i, j, k) == blockID)
             {
                 world.setBlockWithNotify(i, j, k, 0);
                 d = (d + (double)i + 0.5D) / 2D;
@@ -69,46 +60,48 @@ public class BlockBed extends Block
             world.newExplosion(null, (float)i + 0.5F, (float)j + 0.5F, (float)k + 0.5F, 5F, true);
             return true;
         }
-        if(isBedOccupied(l))
+        if (isBedOccupied(l))
         {
             EntityPlayer entityplayer1 = null;
             Iterator iterator = world.playerEntities.iterator();
             do
             {
-                if(!iterator.hasNext())
+                if (!iterator.hasNext())
                 {
                     break;
                 }
                 EntityPlayer entityplayer2 = (EntityPlayer)iterator.next();
-                if(entityplayer2.isPlayerSleeping())
+                if (entityplayer2.isPlayerSleeping())
                 {
                     ChunkCoordinates chunkcoordinates = entityplayer2.bedChunkCoordinates;
-                    if(chunkcoordinates.posX == i && chunkcoordinates.posY == j && chunkcoordinates.posZ == k)
+                    if (chunkcoordinates.posX == i && chunkcoordinates.posY == j && chunkcoordinates.posZ == k)
                     {
                         entityplayer1 = entityplayer2;
                     }
                 }
-            } while(true);
-            if(entityplayer1 == null)
+            }
+            while (true);
+            if (entityplayer1 == null)
             {
                 setBedOccupied(world, i, j, k, false);
-            } else
+            }
+            else
             {
                 entityplayer.addChatMessage("tile.bed.occupied");
                 return true;
             }
         }
         EnumStatus enumstatus = entityplayer.sleepInBedAt(i, j, k);
-        if(enumstatus == EnumStatus.OK)
+        if (enumstatus == EnumStatus.OK)
         {
             setBedOccupied(world, i, j, k, true);
             return true;
         }
-        if(enumstatus == EnumStatus.NOT_POSSIBLE_NOW)
+        if (enumstatus == EnumStatus.NOT_POSSIBLE_NOW)
         {
             entityplayer.addChatMessage("tile.bed.noSleep");
-        } else
-        if(enumstatus == EnumStatus.NOT_SAFE)
+        }
+        else if (enumstatus == EnumStatus.NOT_SAFE)
         {
             entityplayer.addChatMessage("tile.bed.notSafe");
         }
@@ -117,34 +110,36 @@ public class BlockBed extends Block
 
     public int getBlockTextureFromSideAndMetadata(int i, int j)
     {
-        if(i == 0)
+        if (i == 0)
         {
             return Block.planks.blockIndexInTexture;
         }
         int k = getDirectionFromMetadata(j);
         int l = Direction.bedDirection[k][i];
-        if(isBlockFootOfBed(j))
+        if (isBlockFootOfBed(j))
         {
-            if(l == 2)
+            if (l == 2)
             {
                 return blockIndexInTexture + 2 + 16;
             }
-            if(l == 5 || l == 4)
+            if (l == 5 || l == 4)
             {
                 return blockIndexInTexture + 1 + 16;
-            } else
+            }
+            else
             {
                 return blockIndexInTexture + 1;
             }
         }
-        if(l == 3)
+        if (l == 3)
         {
             return (blockIndexInTexture - 1) + 16;
         }
-        if(l == 5 || l == 4)
+        if (l == 5 || l == 4)
         {
             return blockIndexInTexture + 16;
-        } else
+        }
+        else
         {
             return blockIndexInTexture;
         }
@@ -174,17 +169,17 @@ public class BlockBed extends Block
     {
         int i1 = world.getBlockMetadata(i, j, k);
         int j1 = getDirectionFromMetadata(i1);
-        if(isBlockFootOfBed(i1))
+        if (isBlockFootOfBed(i1))
         {
-            if(world.getBlockId(i - headBlockToFootBlockMap[j1][0], j, k - headBlockToFootBlockMap[j1][1]) != blockID)
+            if (world.getBlockId(i - headBlockToFootBlockMap[j1][0], j, k - headBlockToFootBlockMap[j1][1]) != blockID)
             {
                 world.setBlockWithNotify(i, j, k, 0);
             }
-        } else
-        if(world.getBlockId(i + headBlockToFootBlockMap[j1][0], j, k + headBlockToFootBlockMap[j1][1]) != blockID)
+        }
+        else if (world.getBlockId(i + headBlockToFootBlockMap[j1][0], j, k + headBlockToFootBlockMap[j1][1]) != blockID)
         {
             world.setBlockWithNotify(i, j, k, 0);
-            if(!world.multiplayerWorld)
+            if (!world.multiplayerWorld)
             {
                 dropBlockAsItem(world, i, j, k, i1, 0);
             }
@@ -193,10 +188,11 @@ public class BlockBed extends Block
 
     public int idDropped(int i, Random random, int j)
     {
-        if(isBlockFootOfBed(i))
+        if (isBlockFootOfBed(i))
         {
             return 0;
-        } else
+        }
+        else
         {
             return Item.bed.shiftedIndex;
         }
@@ -225,10 +221,11 @@ public class BlockBed extends Block
     public static void setBedOccupied(World world, int i, int j, int k, boolean flag)
     {
         int l = world.getBlockMetadata(i, j, k);
-        if(flag)
+        if (flag)
         {
             l |= 4;
-        } else
+        }
+        else
         {
             l &= -5;
         }
@@ -239,31 +236,30 @@ public class BlockBed extends Block
     {
         int i1 = world.getBlockMetadata(i, j, k);
         int j1 = getDirectionFromMetadata(i1);
-        for(int k1 = 0; k1 <= 1; k1++)
+        for (int k1 = 0; k1 <= 1; k1++)
         {
             int l1 = i - headBlockToFootBlockMap[j1][0] * k1 - 1;
             int i2 = k - headBlockToFootBlockMap[j1][1] * k1 - 1;
             int j2 = l1 + 2;
             int k2 = i2 + 2;
-            for(int l2 = l1; l2 <= j2; l2++)
+            for (int l2 = l1; l2 <= j2; l2++)
             {
-                for(int i3 = i2; i3 <= k2; i3++)
+                for (int i3 = i2; i3 <= k2; i3++)
                 {
-                    if(!world.isBlockNormalCube(l2, j - 1, i3) || !world.isAirBlock(l2, j, i3) || !world.isAirBlock(l2, j + 1, i3))
+                    if (!world.isBlockNormalCube(l2, j - 1, i3) || !world.isAirBlock(l2, j, i3) || !world.isAirBlock(l2, j + 1, i3))
                     {
                         continue;
                     }
-                    if(l > 0)
+                    if (l > 0)
                     {
                         l--;
-                    } else
+                    }
+                    else
                     {
                         return new ChunkCoordinates(l2, j, i3);
                     }
                 }
-
             }
-
         }
 
         return null;
@@ -271,7 +267,7 @@ public class BlockBed extends Block
 
     public void dropBlockAsItemWithChance(World world, int i, int j, int k, int l, float f, int i1)
     {
-        if(!isBlockFootOfBed(l))
+        if (!isBlockFootOfBed(l))
         {
             super.dropBlockAsItemWithChance(world, i, j, k, l, f, 0);
         }
@@ -281,5 +277,4 @@ public class BlockBed extends Block
     {
         return 1;
     }
-
 }

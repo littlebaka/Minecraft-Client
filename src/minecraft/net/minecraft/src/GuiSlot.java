@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
@@ -9,12 +5,8 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiButton, Tessellator, RenderEngine
-
 public abstract class GuiSlot
 {
-
     private final Minecraft mc;
     private final int width;
     private final int height;
@@ -60,7 +52,7 @@ public abstract class GuiSlot
     {
         field_27262_q = flag;
         field_27261_r = i;
-        if(!flag)
+        if (!flag)
         {
             field_27261_r = 0;
         }
@@ -99,10 +91,11 @@ public abstract class GuiSlot
         int l = width / 2 + 110;
         int i1 = ((j - top - field_27261_r) + (int)amountScrolled) - 4;
         int j1 = i1 / slotHeight;
-        if(i >= k && i <= l && j1 >= 0 && i1 >= 0 && j1 < getSize())
+        if (i >= k && i <= l && j1 >= 0 && i1 >= 0 && j1 < getSize())
         {
             return j1;
-        } else
+        }
+        else
         {
             return -1;
         }
@@ -117,15 +110,15 @@ public abstract class GuiSlot
     private void bindAmountScrolled()
     {
         int i = getContentHeight() - (bottom - top - 4);
-        if(i < 0)
+        if (i < 0)
         {
             i /= 2;
         }
-        if(amountScrolled < 0.0F)
+        if (amountScrolled < 0.0F)
         {
             amountScrolled = 0.0F;
         }
-        if(amountScrolled > (float)i)
+        if (amountScrolled > (float)i)
         {
             amountScrolled = i;
         }
@@ -133,17 +126,17 @@ public abstract class GuiSlot
 
     public void actionPerformed(GuiButton guibutton)
     {
-        if(!guibutton.enabled)
+        if (!guibutton.enabled)
         {
             return;
         }
-        if(guibutton.id == scrollUpButtonID)
+        if (guibutton.id == scrollUpButtonID)
         {
             amountScrolled -= (slotHeight * 2) / 3;
             initialClickY = -2F;
             bindAmountScrolled();
-        } else
-        if(guibutton.id == scrollDownButtonID)
+        }
+        else if (guibutton.id == scrollDownButtonID)
         {
             amountScrolled += (slotHeight * 2) / 3;
             initialClickY = -2F;
@@ -159,90 +152,95 @@ public abstract class GuiSlot
         int k = getSize();
         int l = width / 2 + 124;
         int i1 = l + 6;
-        if(Mouse.isButtonDown(0))
+        if (Mouse.isButtonDown(0))
         {
-            if(initialClickY == -1F)
+            if (initialClickY == -1F)
             {
                 boolean flag = true;
-                if(j >= top && j <= bottom)
+                if (j >= top && j <= bottom)
                 {
                     int k1 = width / 2 - 110;
                     int l1 = width / 2 + 110;
                     int j2 = ((j - top - field_27261_r) + (int)amountScrolled) - 4;
                     int l2 = j2 / slotHeight;
-                    if(i >= k1 && i <= l1 && l2 >= 0 && j2 >= 0 && l2 < k)
+                    if (i >= k1 && i <= l1 && l2 >= 0 && j2 >= 0 && l2 < k)
                     {
                         boolean flag1 = l2 == selectedElement && System.currentTimeMillis() - lastClicked < 250L;
                         elementClicked(l2, flag1);
                         selectedElement = l2;
                         lastClicked = System.currentTimeMillis();
-                    } else
-                    if(i >= k1 && i <= l1 && j2 < 0)
+                    }
+                    else if (i >= k1 && i <= l1 && j2 < 0)
                     {
                         func_27255_a(i - k1, ((j - top) + (int)amountScrolled) - 4);
                         flag = false;
                     }
-                    if(i >= l && i <= i1)
+                    if (i >= l && i <= i1)
                     {
                         scrollMultiplier = -1F;
                         int j3 = getContentHeight() - (bottom - top - 4);
-                        if(j3 < 1)
+                        if (j3 < 1)
                         {
                             j3 = 1;
                         }
                         int i4 = (int)((float)((bottom - top) * (bottom - top)) / (float)getContentHeight());
-                        if(i4 < 32)
+                        if (i4 < 32)
                         {
                             i4 = 32;
                         }
-                        if(i4 > bottom - top - 8)
+                        if (i4 > bottom - top - 8)
                         {
                             i4 = bottom - top - 8;
                         }
                         scrollMultiplier /= (float)(bottom - top - i4) / (float)j3;
-                    } else
+                    }
+                    else
                     {
                         scrollMultiplier = 1.0F;
                     }
-                    if(flag)
+                    if (flag)
                     {
                         initialClickY = j;
-                    } else
+                    }
+                    else
                     {
                         initialClickY = -2F;
                     }
-                } else
+                }
+                else
                 {
                     initialClickY = -2F;
                 }
-            } else
-            if(initialClickY >= 0.0F)
+            }
+            else if (initialClickY >= 0.0F)
             {
                 amountScrolled -= ((float)j - initialClickY) * scrollMultiplier;
                 initialClickY = j;
             }
-        } else
+        }
+        else
         {
             do
             {
-                if(!Mouse.next())
+                if (!Mouse.next())
                 {
                     break;
                 }
                 int j1 = Mouse.getEventDWheel();
-                if(j1 != 0)
+                if (j1 != 0)
                 {
-                    if(j1 > 0)
+                    if (j1 > 0)
                     {
                         j1 = -1;
-                    } else
-                    if(j1 < 0)
+                    }
+                    else if (j1 < 0)
                     {
                         j1 = 1;
                     }
                     amountScrolled += (j1 * slotHeight) / 2;
                 }
-            } while(true);
+            }
+            while (true);
             initialClickY = -1F;
         }
         bindAmountScrolled();
@@ -261,19 +259,19 @@ public abstract class GuiSlot
         tessellator.draw();
         int i2 = width / 2 - 92 - 16;
         int k2 = (top + 4) - (int)amountScrolled;
-        if(field_27262_q)
+        if (field_27262_q)
         {
             func_27260_a(i2, k2, tessellator);
         }
-        for(int i3 = 0; i3 < k; i3++)
+        for (int i3 = 0; i3 < k; i3++)
         {
             int k3 = k2 + i3 * slotHeight + field_27261_r;
             int j4 = slotHeight - 4;
-            if(k3 > bottom || k3 + j4 < top)
+            if (k3 > bottom || k3 + j4 < top)
             {
                 continue;
             }
-            if(field_25123_p && isSelected(i3))
+            if (field_25123_p && isSelected(i3))
             {
                 int l4 = width / 2 - 110;
                 int j5 = width / 2 + 110;
@@ -322,19 +320,19 @@ public abstract class GuiSlot
         tessellator.addVertexWithUV(left, bottom - byte0, 0.0D, 0.0D, 0.0D);
         tessellator.draw();
         int l3 = getContentHeight() - (bottom - top - 4);
-        if(l3 > 0)
+        if (l3 > 0)
         {
             int k4 = ((bottom - top) * (bottom - top)) / getContentHeight();
-            if(k4 < 32)
+            if (k4 < 32)
             {
                 k4 = 32;
             }
-            if(k4 > bottom - top - 8)
+            if (k4 > bottom - top - 8)
             {
                 k4 = bottom - top - 8;
             }
             int i5 = ((int)amountScrolled * (bottom - top - k4)) / l3 + top;
-            if(i5 < top)
+            if (i5 < top)
             {
                 i5 = top;
             }

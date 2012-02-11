@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ModelBiped, ModelRenderer
 
 public class ModelEnderman extends ModelBiped
 {
-
     public boolean isCarrying;
     public boolean isAttacking;
 
@@ -58,39 +49,39 @@ public class ModelEnderman extends ModelBiped
         bipedRightLeg.rotateAngleX *= 0.5D;
         bipedLeftLeg.rotateAngleX *= 0.5D;
         float f7 = 0.4F;
-        if(bipedRightArm.rotateAngleX > f7)
+        if (bipedRightArm.rotateAngleX > f7)
         {
             bipedRightArm.rotateAngleX = f7;
         }
-        if(bipedLeftArm.rotateAngleX > f7)
+        if (bipedLeftArm.rotateAngleX > f7)
         {
             bipedLeftArm.rotateAngleX = f7;
         }
-        if(bipedRightArm.rotateAngleX < -f7)
+        if (bipedRightArm.rotateAngleX < -f7)
         {
             bipedRightArm.rotateAngleX = -f7;
         }
-        if(bipedLeftArm.rotateAngleX < -f7)
+        if (bipedLeftArm.rotateAngleX < -f7)
         {
             bipedLeftArm.rotateAngleX = -f7;
         }
-        if(bipedRightLeg.rotateAngleX > f7)
+        if (bipedRightLeg.rotateAngleX > f7)
         {
             bipedRightLeg.rotateAngleX = f7;
         }
-        if(bipedLeftLeg.rotateAngleX > f7)
+        if (bipedLeftLeg.rotateAngleX > f7)
         {
             bipedLeftLeg.rotateAngleX = f7;
         }
-        if(bipedRightLeg.rotateAngleX < -f7)
+        if (bipedRightLeg.rotateAngleX < -f7)
         {
             bipedRightLeg.rotateAngleX = -f7;
         }
-        if(bipedLeftLeg.rotateAngleX < -f7)
+        if (bipedLeftLeg.rotateAngleX < -f7)
         {
             bipedLeftLeg.rotateAngleX = -f7;
         }
-        if(isCarrying)
+        if (isCarrying)
         {
             bipedRightArm.rotateAngleX = -0.5F;
             bipedLeftArm.rotateAngleX = -0.5F;
@@ -111,7 +102,7 @@ public class ModelEnderman extends ModelBiped
         bipedHeadwear.rotateAngleX = bipedHead.rotateAngleX;
         bipedHeadwear.rotateAngleY = bipedHead.rotateAngleY;
         bipedHeadwear.rotateAngleZ = bipedHead.rotateAngleZ;
-        if(isAttacking)
+        if (isAttacking)
         {
             float f8 = 1.0F;
             bipedHead.rotationPointY -= f8 * 5F;

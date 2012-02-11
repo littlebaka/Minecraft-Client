@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            IInventory, ItemStack, IInvBasic, EntityPlayer
-
 public class InventoryBasic
     implements IInventory
 {
-
     private String inventoryTitle;
     private int slotsCount;
     private ItemStack inventoryContents[];
@@ -32,9 +24,9 @@ public class InventoryBasic
 
     public ItemStack decrStackSize(int i, int j)
     {
-        if(inventoryContents[i] != null)
+        if (inventoryContents[i] != null)
         {
-            if(inventoryContents[i].stackSize <= j)
+            if (inventoryContents[i].stackSize <= j)
             {
                 ItemStack itemstack = inventoryContents[i];
                 inventoryContents[i] = null;
@@ -42,13 +34,14 @@ public class InventoryBasic
                 return itemstack;
             }
             ItemStack itemstack1 = inventoryContents[i].splitStack(j);
-            if(inventoryContents[i].stackSize == 0)
+            if (inventoryContents[i].stackSize == 0)
             {
                 inventoryContents[i] = null;
             }
             onInventoryChanged();
             return itemstack1;
-        } else
+        }
+        else
         {
             return null;
         }
@@ -57,7 +50,7 @@ public class InventoryBasic
     public void setInventorySlotContents(int i, ItemStack itemstack)
     {
         inventoryContents[i] = itemstack;
-        if(itemstack != null && itemstack.stackSize > getInventoryStackLimit())
+        if (itemstack != null && itemstack.stackSize > getInventoryStackLimit())
         {
             itemstack.stackSize = getInventoryStackLimit();
         }
@@ -81,13 +74,12 @@ public class InventoryBasic
 
     public void onInventoryChanged()
     {
-        if(field_20073_d != null)
+        if (field_20073_d != null)
         {
-            for(int i = 0; i < field_20073_d.size(); i++)
+            for (int i = 0; i < field_20073_d.size(); i++)
             {
                 ((IInvBasic)field_20073_d.get(i)).func_20134_a(this);
             }
-
         }
     }
 

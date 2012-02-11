@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, AxisAlignedBB, World, 
-//            Entity
-
 public class BlockFarmland extends Block
 {
-
     protected BlockFarmland(int i)
     {
         super(i, Material.ground);
@@ -39,14 +30,15 @@ public class BlockFarmland extends Block
 
     public int getBlockTextureFromSideAndMetadata(int i, int j)
     {
-        if(i == 1 && j > 0)
+        if (i == 1 && j > 0)
         {
             return blockIndexInTexture - 1;
         }
-        if(i == 1)
+        if (i == 1)
         {
             return blockIndexInTexture;
-        } else
+        }
+        else
         {
             return 2;
         }
@@ -54,26 +46,27 @@ public class BlockFarmland extends Block
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if(isWaterNearby(world, i, j, k) || world.canLightningStrikeAt(i, j + 1, k))
+        if (isWaterNearby(world, i, j, k) || world.canLightningStrikeAt(i, j + 1, k))
         {
             world.setBlockMetadataWithNotify(i, j, k, 7);
-        } else
+        }
+        else
         {
             int l = world.getBlockMetadata(i, j, k);
-            if(l > 0)
+            if (l > 0)
             {
                 world.setBlockMetadataWithNotify(i, j, k, l - 1);
-            } else
-            if(!isCropsNearby(world, i, j, k))
+            }
+            else if (!isCropsNearby(world, i, j, k))
             {
                 world.setBlockWithNotify(i, j, k, Block.dirt.blockID);
             }
         }
     }
 
-    public void onEntityWalking(World world, int i, int j, int k, Entity entity)
+    public void func_43001_a(World world, int i, int j, int k, Entity entity, float f)
     {
-        if(world.rand.nextInt(4) == 0)
+        if (world.rand.nextFloat() < f - 0.5F)
         {
             world.setBlockWithNotify(i, j, k, Block.dirt.blockID);
         }
@@ -82,17 +75,16 @@ public class BlockFarmland extends Block
     private boolean isCropsNearby(World world, int i, int j, int k)
     {
         int l = 0;
-        for(int i1 = i - l; i1 <= i + l; i1++)
+        for (int i1 = i - l; i1 <= i + l; i1++)
         {
-            for(int j1 = k - l; j1 <= k + l; j1++)
+            for (int j1 = k - l; j1 <= k + l; j1++)
             {
                 int k1 = world.getBlockId(i1, j + 1, j1);
-                if(k1 == Block.crops.blockID || k1 == Block.melonStem.blockID || k1 == Block.pumpkinStem.blockID)
+                if (k1 == Block.crops.blockID || k1 == Block.melonStem.blockID || k1 == Block.pumpkinStem.blockID)
                 {
                     return true;
                 }
             }
-
         }
 
         return false;
@@ -100,20 +92,18 @@ public class BlockFarmland extends Block
 
     private boolean isWaterNearby(World world, int i, int j, int k)
     {
-        for(int l = i - 4; l <= i + 4; l++)
+        for (int l = i - 4; l <= i + 4; l++)
         {
-            for(int i1 = j; i1 <= j + 1; i1++)
+            for (int i1 = j; i1 <= j + 1; i1++)
             {
-                for(int j1 = k - 4; j1 <= k + 4; j1++)
+                for (int j1 = k - 4; j1 <= k + 4; j1++)
                 {
-                    if(world.getBlockMaterial(l, i1, j1) == Material.water)
+                    if (world.getBlockMaterial(l, i1, j1) == Material.water)
                     {
                         return true;
                     }
                 }
-
             }
-
         }
 
         return false;
@@ -123,7 +113,7 @@ public class BlockFarmland extends Block
     {
         super.onNeighborBlockChange(world, i, j, k, l);
         Material material = world.getBlockMaterial(i, j + 1, k);
-        if(material.isSolid())
+        if (material.isSolid())
         {
             world.setBlockWithNotify(i, j, k, Block.dirt.blockID);
         }

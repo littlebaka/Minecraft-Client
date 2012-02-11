@@ -1,22 +1,12 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, IBlockAccess, World, 
-//            AxisAlignedBB, EntityPlayer, Vec3D, MovingObjectPosition
 
 public class BlockTrapDoor extends Block
 {
-
     protected BlockTrapDoor(int i, Material material)
     {
         super(i, material);
         blockIndexInTexture = 84;
-        if(material == Material.iron)
+        if (material == Material.iron)
         {
             blockIndexInTexture++;
         }
@@ -67,21 +57,21 @@ public class BlockTrapDoor extends Block
     {
         float f = 0.1875F;
         setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
-        if(isTrapdoorOpen(i))
+        if (isTrapdoorOpen(i))
         {
-            if((i & 3) == 0)
+            if ((i & 3) == 0)
             {
                 setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
             }
-            if((i & 3) == 1)
+            if ((i & 3) == 1)
             {
                 setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
             }
-            if((i & 3) == 2)
+            if ((i & 3) == 2)
             {
                 setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
-            if((i & 3) == 3)
+            if ((i & 3) == 3)
             {
                 setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
             }
@@ -95,10 +85,11 @@ public class BlockTrapDoor extends Block
 
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        if(blockMaterial == Material.iron)
+        if (blockMaterial == Material.iron)
         {
             return true;
-        } else
+        }
+        else
         {
             int l = world.getBlockMetadata(i, j, k);
             world.setBlockMetadataWithNotify(i, j, k, l ^ 4);
@@ -111,10 +102,11 @@ public class BlockTrapDoor extends Block
     {
         int l = world.getBlockMetadata(i, j, k);
         boolean flag1 = (l & 4) > 0;
-        if(flag1 == flag)
+        if (flag1 == flag)
         {
             return;
-        } else
+        }
+        else
         {
             world.setBlockMetadataWithNotify(i, j, k, l ^ 4);
             world.playAuxSFXAtEntity(null, 1003, i, j, k, 0);
@@ -124,41 +116,38 @@ public class BlockTrapDoor extends Block
 
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return;
         }
         int i1 = world.getBlockMetadata(i, j, k);
         int j1 = i;
         int k1 = k;
-        if((i1 & 3) == 0)
+        if ((i1 & 3) == 0)
         {
             k1++;
         }
-        if((i1 & 3) == 1)
+        if ((i1 & 3) == 1)
         {
             k1--;
         }
-        if((i1 & 3) == 2)
+        if ((i1 & 3) == 2)
         {
             j1++;
         }
-        if((i1 & 3) == 3)
+        if ((i1 & 3) == 3)
         {
             j1--;
         }
-        if(!func_41052_f(world.getBlockId(j1, j, k1)))
+        if (!func_41052_f(world.getBlockId(j1, j, k1)))
         {
             world.setBlockWithNotify(i, j, k, 0);
             dropBlockAsItem(world, i, j, k, i1, 0);
         }
-        if(l > 0)
+        boolean flag = world.isBlockIndirectlyGettingPowered(i, j, k);
+        if (flag || l > 0 && Block.blocksList[l].canProvidePower() || l == 0)
         {
-            boolean flag = world.isBlockIndirectlyGettingPowered(i, j, k);
-            if(flag || Block.blocksList[l].canProvidePower())
-            {
-                onPoweredBlockChange(world, i, j, k, flag);
-            }
+            onPoweredBlockChange(world, i, j, k, flag);
         }
     }
 
@@ -171,19 +160,19 @@ public class BlockTrapDoor extends Block
     public void onBlockPlaced(World world, int i, int j, int k, int l)
     {
         byte byte0 = 0;
-        if(l == 2)
+        if (l == 2)
         {
             byte0 = 0;
         }
-        if(l == 3)
+        if (l == 3)
         {
             byte0 = 1;
         }
-        if(l == 4)
+        if (l == 4)
         {
             byte0 = 2;
         }
-        if(l == 5)
+        if (l == 5)
         {
             byte0 = 3;
         }
@@ -192,27 +181,27 @@ public class BlockTrapDoor extends Block
 
     public boolean canPlaceBlockOnSide(World world, int i, int j, int k, int l)
     {
-        if(l == 0)
+        if (l == 0)
         {
             return false;
         }
-        if(l == 1)
+        if (l == 1)
         {
             return false;
         }
-        if(l == 2)
+        if (l == 2)
         {
             k++;
         }
-        if(l == 3)
+        if (l == 3)
         {
             k--;
         }
-        if(l == 4)
+        if (l == 4)
         {
             i++;
         }
-        if(l == 5)
+        if (l == 5)
         {
             i--;
         }
@@ -226,10 +215,11 @@ public class BlockTrapDoor extends Block
 
     private static boolean func_41052_f(int i)
     {
-        if(i <= 0)
+        if (i <= 0)
         {
             return false;
-        } else
+        }
+        else
         {
             Block block = Block.blocksList[i];
             return block != null && block.blockMaterial.getIsOpaque() && block.renderAsNormalBlock() || block == Block.glowStone;

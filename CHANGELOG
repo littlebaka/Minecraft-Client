@@ -1,3 +1,7 @@
+== v5.6 ==
++ Updated to client 1.1 & server 1.1
++ Run Artistic Style source beautifier on decompiled source code
+
 == v5.0 ==
 + Updated to client 1.0.0 & server 1.0.1
 

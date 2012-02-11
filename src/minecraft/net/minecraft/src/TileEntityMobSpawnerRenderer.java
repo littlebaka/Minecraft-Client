@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            TileEntitySpecialRenderer, TileEntityMobSpawner, Entity, EntityList, 
-//            RenderManager, TileEntity
-
 public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer
 {
-
     private Map entityHashMap;
 
     public TileEntityMobSpawnerRenderer()
@@ -22,18 +13,18 @@ public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer
         entityHashMap = new HashMap();
     }
 
-    public void renderTileEntityMobSpawner(TileEntityMobSpawner tileentitymobspawner, double d, double d1, double d2, 
+    public void renderTileEntityMobSpawner(TileEntityMobSpawner tileentitymobspawner, double d, double d1, double d2,
             float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)d + 0.5F, (float)d1, (float)d2 + 0.5F);
         Entity entity = (Entity)entityHashMap.get(tileentitymobspawner.getMobID());
-        if(entity == null)
+        if (entity == null)
         {
             entity = EntityList.createEntityInWorld(tileentitymobspawner.getMobID(), null);
             entityHashMap.put(tileentitymobspawner.getMobID(), entity);
         }
-        if(entity != null)
+        if (entity != null)
         {
             entity.setWorld(tileentitymobspawner.worldObj);
             float f1 = 0.4375F;
@@ -48,7 +39,7 @@ public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
-    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, 
+    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2,
             float f)
     {
         renderTileEntityMobSpawner((TileEntityMobSpawner)tileentity, d, d1, d2, f);

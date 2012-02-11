@@ -1,19 +1,8 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            IBlockAccess, World, Chunk, WorldProvider, 
-//            EnumSkyBlock, Block, Material, TileEntity, 
-//            WorldChunkManager
 
 public class ChunkCache
     implements IBlockAccess
 {
-
     private int chunkX;
     private int chunkZ;
     private Chunk chunkArray[][];
@@ -27,38 +16,37 @@ public class ChunkCache
         int k1 = l >> 4;
         int l1 = j1 >> 4;
         chunkArray = new Chunk[(k1 - chunkX) + 1][(l1 - chunkZ) + 1];
-        for(int i2 = chunkX; i2 <= k1; i2++)
+        for (int i2 = chunkX; i2 <= k1; i2++)
         {
-            for(int j2 = chunkZ; j2 <= l1; j2++)
+            for (int j2 = chunkZ; j2 <= l1; j2++)
             {
                 chunkArray[i2 - chunkX][j2 - chunkZ] = world.getChunkFromChunkCoords(i2, j2);
             }
-
         }
-
     }
 
     public int getBlockId(int i, int j, int k)
     {
-        if(j < 0)
+        if (j < 0)
         {
             return 0;
         }
-        if(j >= worldObj.field_35472_c)
+        if (j >= worldObj.worldHeight)
         {
             return 0;
         }
         int l = (i >> 4) - chunkX;
         int i1 = (k >> 4) - chunkZ;
-        if(l < 0 || l >= chunkArray.length || i1 < 0 || i1 >= chunkArray[l].length)
+        if (l < 0 || l >= chunkArray.length || i1 < 0 || i1 >= chunkArray[l].length)
         {
             return 0;
         }
         Chunk chunk = chunkArray[l][i1];
-        if(chunk == null)
+        if (chunk == null)
         {
             return 0;
-        } else
+        }
+        else
         {
             return chunk.getBlockID(i & 0xf, j, k & 0xf);
         }
@@ -74,7 +62,7 @@ public class ChunkCache
     public float getBrightness(int i, int j, int k, int l)
     {
         int i1 = getLightValue(i, j, k);
-        if(i1 < l)
+        if (i1 < l)
         {
             i1 = l;
         }
@@ -85,7 +73,7 @@ public class ChunkCache
     {
         int i1 = getSkyBlockTypeBrightness(EnumSkyBlock.Sky, i, j, k);
         int j1 = getSkyBlockTypeBrightness(EnumSkyBlock.Block, i, j, k);
-        if(j1 < l)
+        if (j1 < l)
         {
             j1 = l;
         }
@@ -104,52 +92,53 @@ public class ChunkCache
 
     public int getLightValueExt(int i, int j, int k, boolean flag)
     {
-        if(i < 0xfe363c80 || k < 0xfe363c80 || i >= 0x1c9c380 || k > 0x1c9c380)
+        if (i < 0xfe363c80 || k < 0xfe363c80 || i >= 0x1c9c380 || k > 0x1c9c380)
         {
             return 15;
         }
-        if(flag)
+        if (flag)
         {
             int l = getBlockId(i, j, k);
-            if(l == Block.stairSingle.blockID || l == Block.tilledField.blockID || l == Block.stairCompactPlanks.blockID || l == Block.stairCompactCobblestone.blockID)
+            if (l == Block.stairSingle.blockID || l == Block.tilledField.blockID || l == Block.stairCompactPlanks.blockID || l == Block.stairCompactCobblestone.blockID)
             {
                 int k1 = getLightValueExt(i, j + 1, k, false);
                 int i2 = getLightValueExt(i + 1, j, k, false);
                 int j2 = getLightValueExt(i - 1, j, k, false);
                 int k2 = getLightValueExt(i, j, k + 1, false);
                 int l2 = getLightValueExt(i, j, k - 1, false);
-                if(i2 > k1)
+                if (i2 > k1)
                 {
                     k1 = i2;
                 }
-                if(j2 > k1)
+                if (j2 > k1)
                 {
                     k1 = j2;
                 }
-                if(k2 > k1)
+                if (k2 > k1)
                 {
                     k1 = k2;
                 }
-                if(l2 > k1)
+                if (l2 > k1)
                 {
                     k1 = l2;
                 }
                 return k1;
             }
         }
-        if(j < 0)
+        if (j < 0)
         {
             return 0;
         }
-        if(j >= worldObj.field_35472_c)
+        if (j >= worldObj.worldHeight)
         {
             int i1 = 15 - worldObj.skylightSubtracted;
-            if(i1 < 0)
+            if (i1 < 0)
             {
                 i1 = 0;
             }
             return i1;
-        } else
+        }
+        else
         {
             int j1 = (i >> 4) - chunkX;
             int l1 = (k >> 4) - chunkZ;
@@ -159,14 +148,15 @@ public class ChunkCache
 
     public int getBlockMetadata(int i, int j, int k)
     {
-        if(j < 0)
+        if (j < 0)
         {
             return 0;
         }
-        if(j >= worldObj.field_35472_c)
+        if (j >= worldObj.worldHeight)
         {
             return 0;
-        } else
+        }
+        else
         {
             int l = (i >> 4) - chunkX;
             int i1 = (k >> 4) - chunkZ;
@@ -177,10 +167,11 @@ public class ChunkCache
     public Material getBlockMaterial(int i, int j, int k)
     {
         int l = getBlockId(i, j, k);
-        if(l == 0)
+        if (l == 0)
         {
             return Material.air;
-        } else
+        }
+        else
         {
             return Block.blocksList[l].blockMaterial;
         }
@@ -194,10 +185,11 @@ public class ChunkCache
     public boolean isBlockOpaqueCube(int i, int j, int k)
     {
         Block block = Block.blocksList[getBlockId(i, j, k)];
-        if(block == null)
+        if (block == null)
         {
             return false;
-        } else
+        }
+        else
         {
             return block.isOpaqueCube();
         }
@@ -206,10 +198,11 @@ public class ChunkCache
     public boolean isBlockNormalCube(int i, int j, int k)
     {
         Block block = Block.blocksList[getBlockId(i, j, k)];
-        if(block == null)
+        if (block == null)
         {
             return false;
-        } else
+        }
+        else
         {
             return block.blockMaterial.getIsSolid() && block.renderAsNormalBlock();
         }
@@ -223,43 +216,44 @@ public class ChunkCache
 
     public int getSkyBlockTypeBrightness(EnumSkyBlock enumskyblock, int i, int j, int k)
     {
-        if(j < 0)
+        if (j < 0)
         {
             j = 0;
         }
-        if(j >= worldObj.field_35472_c)
+        if (j >= worldObj.worldHeight)
         {
-            j = worldObj.field_35472_c - 1;
+            j = worldObj.worldHeight - 1;
         }
-        if(j < 0 || j >= worldObj.field_35472_c || i < 0xfe363c80 || k < 0xfe363c80 || i >= 0x1c9c380 || k > 0x1c9c380)
+        if (j < 0 || j >= worldObj.worldHeight || i < 0xfe363c80 || k < 0xfe363c80 || i >= 0x1c9c380 || k > 0x1c9c380)
         {
             return enumskyblock.defaultLightValue;
         }
-        if(Block.useNeighborBrightness[getBlockId(i, j, k)])
+        if (Block.useNeighborBrightness[getBlockId(i, j, k)])
         {
             int l = getSpecialBlockBrightness(enumskyblock, i, j + 1, k);
             int j1 = getSpecialBlockBrightness(enumskyblock, i + 1, j, k);
             int l1 = getSpecialBlockBrightness(enumskyblock, i - 1, j, k);
             int i2 = getSpecialBlockBrightness(enumskyblock, i, j, k + 1);
             int j2 = getSpecialBlockBrightness(enumskyblock, i, j, k - 1);
-            if(j1 > l)
+            if (j1 > l)
             {
                 l = j1;
             }
-            if(l1 > l)
+            if (l1 > l)
             {
                 l = l1;
             }
-            if(i2 > l)
+            if (i2 > l)
             {
                 l = i2;
             }
-            if(j2 > l)
+            if (j2 > l)
             {
                 l = j2;
             }
             return l;
-        } else
+        }
+        else
         {
             int i1 = (i >> 4) - chunkX;
             int k1 = (k >> 4) - chunkZ;
@@ -269,18 +263,19 @@ public class ChunkCache
 
     public int getSpecialBlockBrightness(EnumSkyBlock enumskyblock, int i, int j, int k)
     {
-        if(j < 0)
+        if (j < 0)
         {
             j = 0;
         }
-        if(j >= worldObj.field_35472_c)
+        if (j >= worldObj.worldHeight)
         {
-            j = worldObj.field_35472_c - 1;
+            j = worldObj.worldHeight - 1;
         }
-        if(j < 0 || j >= worldObj.field_35472_c || i < 0xfe363c80 || k < 0xfe363c80 || i >= 0x1c9c380 || k > 0x1c9c380)
+        if (j < 0 || j >= worldObj.worldHeight || i < 0xfe363c80 || k < 0xfe363c80 || i >= 0x1c9c380 || k > 0x1c9c380)
         {
             return enumskyblock.defaultLightValue;
-        } else
+        }
+        else
         {
             int l = (i >> 4) - chunkX;
             int i1 = (k >> 4) - chunkZ;
@@ -288,8 +283,8 @@ public class ChunkCache
         }
     }
 
-    public int func_35452_b()
+    public int getWorldHeight()
     {
-        return worldObj.field_35472_c;
+        return worldObj.worldHeight;
     }
 }

@@ -1,15 +1,8 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ModelQuadruped, ModelRenderer
 
 public class ModelSheep1 extends ModelQuadruped
 {
+    private float field_44016_o;
 
     public ModelSheep1()
     {
@@ -33,5 +26,18 @@ public class ModelSheep1 extends ModelQuadruped
         leg4 = new ModelRenderer(this, 0, 16);
         leg4.addBox(-2F, 0.0F, -2F, 4, 6, 4, f);
         leg4.setRotationPoint(3F, 12F, -5F);
+    }
+
+    public void setLivingAnimations(EntityLiving entityliving, float f, float f1, float f2)
+    {
+        super.setLivingAnimations(entityliving, f, f1, f2);
+        head.rotationPointY = 6F + ((EntitySheep)entityliving).func_44003_c(f2) * 9F;
+        field_44016_o = ((EntitySheep)entityliving).func_44002_d(f2);
+    }
+
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
+    {
+        super.setRotationAngles(f, f1, f2, f3, f4, f5);
+        head.rotateAngleX = field_44016_o;
     }
 }

@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.awt.image.BufferedImage;
@@ -16,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 
 public class ScreenShotHelper
 {
-
     private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
     private static ByteBuffer buffer;
     private static byte pixelData[];
@@ -33,11 +28,11 @@ public class ScreenShotHelper
         {
             File file1 = new File(file, "screenshots");
             file1.mkdir();
-            if(buffer == null || buffer.capacity() < i * j)
+            if (buffer == null || buffer.capacity() < i * j)
             {
                 buffer = BufferUtils.createByteBuffer(i * j * 3);
             }
-            if(imageData == null || imageData.length < i * j * 3)
+            if (imageData == null || imageData.length < i * j * 3)
             {
                 pixelData = new byte[i * j * 3];
                 imageData = new int[i * j];
@@ -49,17 +44,18 @@ public class ScreenShotHelper
             buffer.clear();
             String s1 = (new StringBuilder()).append("").append(dateFormat.format(new Date())).toString();
             File file2;
-            if(s == null)
+            if (s == null)
             {
-                for(int k = 1; (file2 = new File(file1, (new StringBuilder()).append(s1).append(k != 1 ? (new StringBuilder()).append("_").append(k).toString() : "").append(".png").toString())).exists(); k++) { }
-            } else
+                for (int k = 1; (file2 = new File(file1, (new StringBuilder()).append(s1).append(k != 1 ? (new StringBuilder()).append("_").append(k).toString() : "").append(".png").toString())).exists(); k++) { }
+            }
+            else
             {
                 file2 = new File(file1, s);
             }
             buffer.get(pixelData);
-            for(int l = 0; l < i; l++)
+            for (int l = 0; l < i; l++)
             {
-                for(int i1 = 0; i1 < j; i1++)
+                for (int i1 = 0; i1 < j; i1++)
                 {
                     int j1 = l + (j - i1 - 1) * i;
                     int k1 = pixelData[j1 * 3 + 0] & 0xff;
@@ -68,7 +64,6 @@ public class ScreenShotHelper
                     int j2 = 0xff000000 | k1 << 16 | l1 << 8 | i2;
                     imageData[l + i1 * i] = j2;
                 }
-
             }
 
             BufferedImage bufferedimage = new BufferedImage(i, j, 1);
@@ -76,11 +71,10 @@ public class ScreenShotHelper
             ImageIO.write(bufferedimage, "png", file2);
             return (new StringBuilder()).append("Saved screenshot as ").append(file2.getName()).toString();
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
             return (new StringBuilder()).append("Failed to save: ").append(exception).toString();
         }
     }
-
 }

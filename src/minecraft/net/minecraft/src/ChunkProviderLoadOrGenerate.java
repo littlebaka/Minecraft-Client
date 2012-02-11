@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.IOException;
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            IChunkProvider, Chunk, World, IChunkLoader, 
-//            IProgressUpdate, EnumCreatureType, ChunkPosition
-
 public class ChunkProviderLoadOrGenerate
     implements IChunkProvider
 {
-
     private Chunk blankChunk;
     private IChunkProvider chunkProvider;
     private IChunkLoader chunkLoader;
@@ -40,14 +31,15 @@ public class ChunkProviderLoadOrGenerate
 
     public boolean chunkExists(int i, int j)
     {
-        if(!canChunkExist(i, j))
+        if (!canChunkExist(i, j))
         {
             return false;
         }
-        if(i == lastQueriedChunkXPos && j == lastQueriedChunkZPos && lastQueriedChunk != null)
+        if (i == lastQueriedChunkXPos && j == lastQueriedChunkZPos && lastQueriedChunk != null)
         {
             return true;
-        } else
+        }
+        else
         {
             int k = i & 0x1f;
             int l = j & 0x1f;
@@ -63,40 +55,41 @@ public class ChunkProviderLoadOrGenerate
 
     public Chunk provideChunk(int i, int j)
     {
-        if(i == lastQueriedChunkXPos && j == lastQueriedChunkZPos && lastQueriedChunk != null)
+        if (i == lastQueriedChunkXPos && j == lastQueriedChunkZPos && lastQueriedChunk != null)
         {
             return lastQueriedChunk;
         }
-        if(!worldObj.findingSpawnPoint && !canChunkExist(i, j))
+        if (!worldObj.findingSpawnPoint && !canChunkExist(i, j))
         {
             return blankChunk;
         }
         int k = i & 0x1f;
         int l = j & 0x1f;
         int i1 = k + l * 32;
-        if(!chunkExists(i, j))
+        if (!chunkExists(i, j))
         {
-            if(chunks[i1] != null)
+            if (chunks[i1] != null)
             {
                 chunks[i1].onChunkUnload();
                 saveChunk(chunks[i1]);
                 saveExtraChunkData(chunks[i1]);
             }
             Chunk chunk = func_542_c(i, j);
-            if(chunk == null)
+            if (chunk == null)
             {
-                if(chunkProvider == null)
+                if (chunkProvider == null)
                 {
                     chunk = blankChunk;
-                } else
+                }
+                else
                 {
                     chunk = chunkProvider.provideChunk(i, j);
-                    chunk.func_25124_i();
+                    chunk.removeUnknownBlocks();
                 }
             }
             chunks[i1] = chunk;
             chunk.func_4143_d();
-            if(chunks[i1] != null)
+            if (chunks[i1] != null)
             {
                 chunks[i1].onChunkLoad();
             }
@@ -110,20 +103,20 @@ public class ChunkProviderLoadOrGenerate
 
     private Chunk func_542_c(int i, int j)
     {
-        if(chunkLoader == null)
+        if (chunkLoader == null)
         {
             return blankChunk;
         }
         try
         {
             Chunk chunk = chunkLoader.loadChunk(worldObj, i, j);
-            if(chunk != null)
+            if (chunk != null)
             {
                 chunk.lastSaveTime = worldObj.getWorldTime();
             }
             return chunk;
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -132,7 +125,7 @@ public class ChunkProviderLoadOrGenerate
 
     private void saveExtraChunkData(Chunk chunk)
     {
-        if(chunkLoader == null)
+        if (chunkLoader == null)
         {
             return;
         }
@@ -140,7 +133,7 @@ public class ChunkProviderLoadOrGenerate
         {
             chunkLoader.saveExtraChunkData(worldObj, chunk);
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
@@ -148,7 +141,7 @@ public class ChunkProviderLoadOrGenerate
 
     private void saveChunk(Chunk chunk)
     {
-        if(chunkLoader == null)
+        if (chunkLoader == null)
         {
             return;
         }
@@ -157,7 +150,7 @@ public class ChunkProviderLoadOrGenerate
             chunk.lastSaveTime = worldObj.getWorldTime();
             chunkLoader.saveChunk(worldObj, chunk);
         }
-        catch(IOException ioexception)
+        catch (IOException ioexception)
         {
             ioexception.printStackTrace();
         }
@@ -166,10 +159,10 @@ public class ChunkProviderLoadOrGenerate
     public void populate(IChunkProvider ichunkprovider, int i, int j)
     {
         Chunk chunk = provideChunk(i, j);
-        if(!chunk.isTerrainPopulated)
+        if (!chunk.isTerrainPopulated)
         {
             chunk.isTerrainPopulated = true;
-            if(chunkProvider != null)
+            if (chunkProvider != null)
             {
                 chunkProvider.populate(ichunkprovider, i, j);
                 chunk.setChunkModified();
@@ -181,47 +174,46 @@ public class ChunkProviderLoadOrGenerate
     {
         int i = 0;
         int j = 0;
-        if(iprogressupdate != null)
+        if (iprogressupdate != null)
         {
-            for(int k = 0; k < chunks.length; k++)
+            for (int k = 0; k < chunks.length; k++)
             {
-                if(chunks[k] != null && chunks[k].needsSaving(flag))
+                if (chunks[k] != null && chunks[k].needsSaving(flag))
                 {
                     j++;
                 }
             }
-
         }
         int l = 0;
-        for(int i1 = 0; i1 < chunks.length; i1++)
+        for (int i1 = 0; i1 < chunks.length; i1++)
         {
-            if(chunks[i1] == null)
+            if (chunks[i1] == null)
             {
                 continue;
             }
-            if(flag && !chunks[i1].neverSave)
+            if (flag && !chunks[i1].neverSave)
             {
                 saveExtraChunkData(chunks[i1]);
             }
-            if(!chunks[i1].needsSaving(flag))
+            if (!chunks[i1].needsSaving(flag))
             {
                 continue;
             }
             saveChunk(chunks[i1]);
             chunks[i1].isModified = false;
-            if(++i == 2 && !flag)
+            if (++i == 2 && !flag)
             {
                 return false;
             }
-            if(iprogressupdate != null && ++l % 10 == 0)
+            if (iprogressupdate != null && ++l % 10 == 0)
             {
                 iprogressupdate.setLoadingProgress((l * 100) / j);
             }
         }
 
-        if(flag)
+        if (flag)
         {
-            if(chunkLoader == null)
+            if (chunkLoader == null)
             {
                 return true;
             }
@@ -232,7 +224,7 @@ public class ChunkProviderLoadOrGenerate
 
     public boolean unload100OldestChunks()
     {
-        if(chunkLoader != null)
+        if (chunkLoader != null)
         {
             chunkLoader.func_814_a();
         }

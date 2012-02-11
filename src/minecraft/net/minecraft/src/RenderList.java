@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.nio.IntBuffer;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GLAllocation
-
 public class RenderList
 {
-
     private int field_1242_a;
     private int field_1241_b;
     private int field_1240_c;
@@ -30,7 +22,7 @@ public class RenderList
         field_1234_i = false;
     }
 
-    public void func_861_a(int i, int j, int k, double d, double d1, 
+    public void func_861_a(int i, int j, int k, double d, double d1,
             double d2)
     {
         field_1235_h = true;
@@ -45,10 +37,11 @@ public class RenderList
 
     public boolean func_862_a(int i, int j, int k)
     {
-        if(!field_1235_h)
+        if (!field_1235_h)
         {
             return false;
-        } else
+        }
+        else
         {
             return i == field_1242_a && j == field_1241_b && k == field_1240_c;
         }
@@ -57,7 +50,7 @@ public class RenderList
     public void func_858_a(int i)
     {
         field_1236_g.put(i);
-        if(field_1236_g.remaining() == 0)
+        if (field_1236_g.remaining() == 0)
         {
             func_860_a();
         }
@@ -65,16 +58,16 @@ public class RenderList
 
     public void func_860_a()
     {
-        if(!field_1235_h)
+        if (!field_1235_h)
         {
             return;
         }
-        if(!field_1234_i)
+        if (!field_1234_i)
         {
             field_1236_g.flip();
             field_1234_i = true;
         }
-        if(field_1236_g.remaining() > 0)
+        if (field_1236_g.remaining() > 0)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef((float)((double)field_1242_a - field_1239_d), (float)((double)field_1241_b - field_1238_e), (float)((double)field_1240_c - field_1237_f));

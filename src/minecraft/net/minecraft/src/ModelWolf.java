@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            ModelBase, ModelRenderer, EntityWolf, MathHelper, 
-//            Entity, EntityLiving
-
 public class ModelWolf extends ModelBase
 {
-
     public ModelRenderer wolfHeadMain;
     public ModelRenderer wolfBody;
     public ModelRenderer wolfLeg1;
@@ -59,7 +50,7 @@ public class ModelWolf extends ModelBase
     {
         super.render(entity, f, f1, f2, f3, f4, f5);
         setRotationAngles(f, f1, f2, f3, f4, f5);
-        if(field_40301_k)
+        if (field_40301_k)
         {
             float f6 = 2.0F;
             GL11.glPushMatrix();
@@ -77,7 +68,8 @@ public class ModelWolf extends ModelBase
             wolfTail.renderWithRotation(f5);
             wolfMane.render(f5);
             GL11.glPopMatrix();
-        } else
+        }
+        else
         {
             wolfHeadMain.renderWithRotation(f5);
             wolfBody.render(f5);
@@ -93,14 +85,15 @@ public class ModelWolf extends ModelBase
     public void setLivingAnimations(EntityLiving entityliving, float f, float f1, float f2)
     {
         EntityWolf entitywolf = (EntityWolf)entityliving;
-        if(entitywolf.isWolfAngry())
+        if (entitywolf.isAngry())
         {
             wolfTail.rotateAngleY = 0.0F;
-        } else
+        }
+        else
         {
             wolfTail.rotateAngleY = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
         }
-        if(entitywolf.isWolfSitting())
+        if (entitywolf.isSitting())
         {
             wolfMane.setRotationPoint(-1F, 16F, -3F);
             wolfMane.rotateAngleX = 1.256637F;
@@ -116,7 +109,8 @@ public class ModelWolf extends ModelBase
             wolfLeg3.setRotationPoint(-2.49F, 17F, -4F);
             wolfLeg4.rotateAngleX = 5.811947F;
             wolfLeg4.setRotationPoint(0.51F, 17F, -4F);
-        } else
+        }
+        else
         {
             wolfBody.setRotationPoint(0.0F, 14F, 2.0F);
             wolfBody.rotateAngleX = 1.570796F;
@@ -137,7 +131,7 @@ public class ModelWolf extends ModelBase
         wolfMane.rotateAngleZ = entitywolf.getShakeAngle(f2, -0.08F);
         wolfBody.rotateAngleZ = entitywolf.getShakeAngle(f2, -0.16F);
         wolfTail.rotateAngleZ = entitywolf.getShakeAngle(f2, -0.2F);
-        if(entitywolf.getWolfShaking())
+        if (entitywolf.getWolfShaking())
         {
             float f4 = entitywolf.getEntityBrightness(f2) * entitywolf.getShadingWhileShaking(f2);
             GL11.glColor3f(f4, f4, f4);

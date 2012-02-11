@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            IntHashMap
-
 public class KeyBinding
 {
-
     public static List keybindArray = new ArrayList();
     public static IntHashMap hash = new IntHashMap();
     public String keyDescription;
@@ -22,7 +14,7 @@ public class KeyBinding
     public static void onTick(int i)
     {
         KeyBinding keybinding = (KeyBinding)hash.lookup(i);
-        if(keybinding != null)
+        if (keybinding != null)
         {
             keybinding.pressTime++;
         }
@@ -31,7 +23,7 @@ public class KeyBinding
     public static void setKeyBindState(int i, boolean flag)
     {
         KeyBinding keybinding = (KeyBinding)hash.lookup(i);
-        if(keybinding != null)
+        if (keybinding != null)
         {
             keybinding.pressed = flag;
         }
@@ -40,22 +32,20 @@ public class KeyBinding
     public static void unPressAllKeys()
     {
         KeyBinding keybinding;
-        for(Iterator iterator = keybindArray.iterator(); iterator.hasNext(); keybinding.unpressKey())
+        for (Iterator iterator = keybindArray.iterator(); iterator.hasNext(); keybinding.unpressKey())
         {
             keybinding = (KeyBinding)iterator.next();
         }
-
     }
 
     public static void resetKeyBindingArrayAndHash()
     {
         hash.clearMap();
         KeyBinding keybinding;
-        for(Iterator iterator = keybindArray.iterator(); iterator.hasNext(); hash.addKey(keybinding.keyCode, keybinding))
+        for (Iterator iterator = keybindArray.iterator(); iterator.hasNext(); hash.addKey(keybinding.keyCode, keybinding))
         {
             keybinding = (KeyBinding)iterator.next();
         }
-
     }
 
     public KeyBinding(String s, int i)
@@ -69,10 +59,11 @@ public class KeyBinding
 
     public boolean isPressed()
     {
-        if(pressTime == 0)
+        if (pressTime == 0)
         {
             return false;
-        } else
+        }
+        else
         {
             pressTime--;
             return true;
@@ -84,5 +75,4 @@ public class KeyBinding
         pressTime = 0;
         pressed = false;
     }
-
 }

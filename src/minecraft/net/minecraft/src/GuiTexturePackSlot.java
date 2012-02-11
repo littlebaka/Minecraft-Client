@@ -1,21 +1,12 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiSlot, GuiTexturePacks, TexturePackList, TexturePackBase, 
-//            RenderEngine, Tessellator
-
 class GuiTexturePackSlot extends GuiSlot
 {
-
-    final GuiTexturePacks parentTexturePackGui; /* synthetic field */
+    final GuiTexturePacks parentTexturePackGui;
 
     public GuiTexturePackSlot(GuiTexturePacks guitexturepacks)
     {
@@ -37,7 +28,7 @@ class GuiTexturePackSlot extends GuiSlot
             GuiTexturePacks.func_22122_d(parentTexturePackGui).texturePackList.setTexturePack((TexturePackBase)list.get(i));
             GuiTexturePacks.func_22117_e(parentTexturePackGui).renderEngine.refreshTextures();
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             GuiTexturePacks.func_35307_f(parentTexturePackGui).texturePackList.setTexturePack((TexturePackBase)list.get(0));
             GuiTexturePacks.func_35308_g(parentTexturePackGui).renderEngine.refreshTextures();

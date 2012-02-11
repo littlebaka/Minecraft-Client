@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.text.DecimalFormat;
 
-// Referenced classes of package net.minecraft.src:
-//            IStatType, StatBase
-
-class StatTypeDistance
+final class StatTypeDistance
     implements IStatType
 {
-
     StatTypeDistance()
     {
     }
@@ -22,14 +14,15 @@ class StatTypeDistance
         int j = i;
         double d = (double)j / 100D;
         double d1 = d / 1000D;
-        if(d1 > 0.5D)
+        if (d1 > 0.5D)
         {
             return (new StringBuilder()).append(StatBase.getDecimalFormat().format(d1)).append(" km").toString();
         }
-        if(d > 0.5D)
+        if (d > 0.5D)
         {
             return (new StringBuilder()).append(StatBase.getDecimalFormat().format(d)).append(" m").toString();
-        } else
+        }
+        else
         {
             return (new StringBuilder()).append(i).append(" cm").toString();
         }

@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.nio.*;
 import org.lwjgl.opengl.*;
 
-// Referenced classes of package net.minecraft.src:
-//            GLAllocation, OpenGlHelper
-
 public class Tessellator
 {
-
     private static boolean convertQuadsToTriangles = false;
     private static boolean tryVBO = false;
     private ByteBuffer byteBuffer;
@@ -66,7 +58,7 @@ public class Tessellator
         shortBuffer = byteBuffer.asShortBuffer();
         rawBuffer = new int[i];
         useVBO = tryVBO && GLContext.getCapabilities().GL_ARB_vertex_buffer_object;
-        if(useVBO)
+        if (useVBO)
         {
             vertexBuffers = GLAllocation.createDirectIntBuffer(vboCount);
             ARBVertexBufferObject.glGenBuffersARB(vertexBuffers);
@@ -75,42 +67,44 @@ public class Tessellator
 
     public int draw()
     {
-        if(!isDrawing)
+        if (!isDrawing)
         {
             throw new IllegalStateException("Not tesselating!");
         }
         isDrawing = false;
-        if(vertexCount > 0)
+        if (vertexCount > 0)
         {
             intBuffer.clear();
             intBuffer.put(rawBuffer, 0, rawBufferIndex);
             byteBuffer.position(0);
             byteBuffer.limit(rawBufferIndex * 4);
-            if(useVBO)
+            if (useVBO)
             {
                 vboIndex = (vboIndex + 1) % vboCount;
                 ARBVertexBufferObject.glBindBufferARB(34962 /*GL_ARRAY_BUFFER_ARB*/, vertexBuffers.get(vboIndex));
                 ARBVertexBufferObject.glBufferDataARB(34962 /*GL_ARRAY_BUFFER_ARB*/, byteBuffer, 35040 /*GL_STREAM_DRAW_ARB*/);
             }
-            if(hasTexture)
+            if (hasTexture)
             {
-                if(useVBO)
+                if (useVBO)
                 {
                     GL11.glTexCoordPointer(2, 5126 /*GL_FLOAT*/, 32, 12L);
-                } else
+                }
+                else
                 {
                     floatBuffer.position(3);
                     GL11.glTexCoordPointer(2, 32, floatBuffer);
                 }
                 GL11.glEnableClientState(32888 /*GL_TEXTURE_COORD_ARRAY_EXT*/);
             }
-            if(hasBrightness)
+            if (hasBrightness)
             {
                 OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapEnabled);
-                if(useVBO)
+                if (useVBO)
                 {
                     GL11.glTexCoordPointer(2, 5122 /*GL_SHORT*/, 32, 28L);
-                } else
+                }
+                else
                 {
                     shortBuffer.position(14);
                     GL11.glTexCoordPointer(2, 32, shortBuffer);
@@ -118,62 +112,66 @@ public class Tessellator
                 GL11.glEnableClientState(32888 /*GL_TEXTURE_COORD_ARRAY_EXT*/);
                 OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapDisabled);
             }
-            if(hasColor)
+            if (hasColor)
             {
-                if(useVBO)
+                if (useVBO)
                 {
                     GL11.glColorPointer(4, 5121 /*GL_UNSIGNED_BYTE*/, 32, 20L);
-                } else
+                }
+                else
                 {
                     byteBuffer.position(20);
                     GL11.glColorPointer(4, true, 32, byteBuffer);
                 }
                 GL11.glEnableClientState(32886 /*GL_COLOR_ARRAY_EXT*/);
             }
-            if(hasNormals)
+            if (hasNormals)
             {
-                if(useVBO)
+                if (useVBO)
                 {
                     GL11.glNormalPointer(5121 /*GL_UNSIGNED_BYTE*/, 32, 24L);
-                } else
+                }
+                else
                 {
                     byteBuffer.position(24);
                     GL11.glNormalPointer(32, byteBuffer);
                 }
                 GL11.glEnableClientState(32885 /*GL_NORMAL_ARRAY_EXT*/);
             }
-            if(useVBO)
+            if (useVBO)
             {
                 GL11.glVertexPointer(3, 5126 /*GL_FLOAT*/, 32, 0L);
-            } else
+            }
+            else
             {
                 floatBuffer.position(0);
                 GL11.glVertexPointer(3, 32, floatBuffer);
             }
             GL11.glEnableClientState(32884 /*GL_VERTEX_ARRAY_EXT*/);
-            if(drawMode == 7 && convertQuadsToTriangles)
+            if (drawMode == 7 && convertQuadsToTriangles)
             {
                 GL11.glDrawArrays(4, 0, vertexCount);
-            } else
+            }
+            else
             {
                 GL11.glDrawArrays(drawMode, 0, vertexCount);
             }
             GL11.glDisableClientState(32884 /*GL_VERTEX_ARRAY_EXT*/);
-            if(hasTexture)
+            if (hasTexture)
             {
                 GL11.glDisableClientState(32888 /*GL_TEXTURE_COORD_ARRAY_EXT*/);
             }
-            if(hasBrightness)
+            if (hasBrightness)
             {
                 OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapEnabled);
                 GL11.glDisableClientState(32888 /*GL_TEXTURE_COORD_ARRAY_EXT*/);
                 OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapDisabled);
             }
-            if(hasColor)
+            if (hasColor)
             {
                 GL11.glDisableClientState(32886 /*GL_COLOR_ARRAY_EXT*/);
             }
-            if(hasNormals)
+            if (hasNormals)
             {
                 GL11.glDisableClientState(32885 /*GL_NORMAL_ARRAY_EXT*/);
             }
@@ -198,10 +196,11 @@ public class Tessellator
 
     public void startDrawing(int i)
     {
-        if(isDrawing)
+        if (isDrawing)
         {
             throw new IllegalStateException("Already tesselating!");
-        } else
+        }
+        else
         {
             isDrawing = true;
             reset();
@@ -245,47 +244,48 @@ public class Tessellator
 
     public void setColorRGBA(int i, int j, int k, int l)
     {
-        if(isColorDisabled)
+        if (isColorDisabled)
         {
             return;
         }
-        if(i > 255)
+        if (i > 255)
         {
             i = 255;
         }
-        if(j > 255)
+        if (j > 255)
         {
             j = 255;
         }
-        if(k > 255)
+        if (k > 255)
         {
             k = 255;
         }
-        if(l > 255)
+        if (l > 255)
         {
             l = 255;
         }
-        if(i < 0)
+        if (i < 0)
         {
             i = 0;
         }
-        if(j < 0)
+        if (j < 0)
         {
             j = 0;
         }
-        if(k < 0)
+        if (k < 0)
         {
             k = 0;
         }
-        if(l < 0)
+        if (l < 0)
         {
             l = 0;
         }
         hasColor = true;
-        if(ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
+        if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
         {
             color = l << 24 | k << 16 | j << 8 | i;
-        } else
+        }
+        else
         {
             color = i << 24 | j << 16 | k << 8 | l;
         }
@@ -300,21 +300,21 @@ public class Tessellator
     public void addVertex(double d, double d1, double d2)
     {
         addedVertices++;
-        if(drawMode == 7 && convertQuadsToTriangles && addedVertices % 4 == 0)
+        if (drawMode == 7 && convertQuadsToTriangles && addedVertices % 4 == 0)
         {
-            for(int i = 0; i < 2; i++)
+            for (int i = 0; i < 2; i++)
             {
                 int j = 8 * (3 - i);
-                if(hasTexture)
+                if (hasTexture)
                 {
                     rawBuffer[rawBufferIndex + 3] = rawBuffer[(rawBufferIndex - j) + 3];
                     rawBuffer[rawBufferIndex + 4] = rawBuffer[(rawBufferIndex - j) + 4];
                 }
-                if(hasBrightness)
+                if (hasBrightness)
                 {
                     rawBuffer[rawBufferIndex + 7] = rawBuffer[(rawBufferIndex - j) + 7];
                 }
-                if(hasColor)
+                if (hasColor)
                 {
                     rawBuffer[rawBufferIndex + 5] = rawBuffer[(rawBufferIndex - j) + 5];
                 }
@@ -324,22 +324,21 @@ public class Tessellator
                 vertexCount++;
                 rawBufferIndex += 8;
             }
-
         }
-        if(hasTexture)
+        if (hasTexture)
         {
             rawBuffer[rawBufferIndex + 3] = Float.floatToRawIntBits((float)textureU);
             rawBuffer[rawBufferIndex + 4] = Float.floatToRawIntBits((float)textureV);
         }
-        if(hasBrightness)
+        if (hasBrightness)
         {
             rawBuffer[rawBufferIndex + 7] = brightness;
         }
-        if(hasColor)
+        if (hasColor)
         {
             rawBuffer[rawBufferIndex + 5] = color;
         }
-        if(hasNormals)
+        if (hasNormals)
         {
             rawBuffer[rawBufferIndex + 6] = normal;
         }
@@ -348,7 +347,7 @@ public class Tessellator
         rawBuffer[rawBufferIndex + 2] = Float.floatToRawIntBits((float)(d2 + zOffset));
         rawBufferIndex += 8;
         vertexCount++;
-        if(vertexCount % 4 == 0 && rawBufferIndex >= bufferSize - 32)
+        if (vertexCount % 4 == 0 && rawBufferIndex >= bufferSize - 32)
         {
             draw();
             isDrawing = true;
@@ -382,7 +381,7 @@ public class Tessellator
         byte byte0 = (byte)(int)(f * 127F);
         byte byte1 = (byte)(int)(f1 * 127F);
         byte byte2 = (byte)(int)(f2 * 127F);
-        normal = byte0 | byte1 << 8 | byte2 << 16;
+        normal = byte0 & 0xff | (byte1 & 0xff) << 8 | (byte2 & 0xff) << 16;
     }
 
     public void setTranslationD(double d, double d1, double d2)
@@ -398,5 +397,4 @@ public class Tessellator
         yOffset += f1;
         zOffset += f2;
     }
-
 }

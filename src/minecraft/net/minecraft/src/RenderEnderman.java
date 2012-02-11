@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            RenderLiving, ModelEnderman, EntityEnderman, OpenGlHelper, 
-//            Block, RenderBlocks, EntityLiving, Entity
-
 public class RenderEnderman extends RenderLiving
 {
-
     private ModelEnderman endermanModel;
     private Random rnd;
 
@@ -25,12 +16,12 @@ public class RenderEnderman extends RenderLiving
         setRenderPassModel(endermanModel);
     }
 
-    public void renderEnderman(EntityEnderman entityenderman, double d, double d1, double d2, 
+    public void renderEnderman(EntityEnderman entityenderman, double d, double d1, double d2,
             float f, float f1)
     {
         endermanModel.isCarrying = entityenderman.getCarried() > 0;
         endermanModel.isAttacking = entityenderman.isAttacking;
-        if(entityenderman.isAttacking)
+        if (entityenderman.isAttacking)
         {
             double d3 = 0.02D;
             d += rnd.nextGaussian() * d3;
@@ -42,7 +33,7 @@ public class RenderEnderman extends RenderLiving
     protected void renderCarrying(EntityEnderman entityenderman, float f)
     {
         super.renderEquippedItems(entityenderman, f);
-        if(entityenderman.getCarried() > 0)
+        if (entityenderman.getCarried() > 0)
         {
             GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
             GL11.glPushMatrix();
@@ -59,7 +50,7 @@ public class RenderEnderman extends RenderLiving
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             loadTexture("/terrain.png");
-            renderBlocks.renderBlockOnInventory(Block.blocksList[entityenderman.getCarried()], entityenderman.getCarryingData(), 1.0F);
+            renderBlocks.renderBlockAsItem(Block.blocksList[entityenderman.getCarried()], entityenderman.getCarryingData(), 1.0F);
             GL11.glPopMatrix();
             GL11.glDisable(32826 /*GL_RESCALE_NORMAL_EXT*/);
         }
@@ -67,10 +58,11 @@ public class RenderEnderman extends RenderLiving
 
     protected int renderEyes(EntityEnderman entityenderman, int i, float f)
     {
-        if(i != 0)
+        if (i != 0)
         {
             return -1;
-        } else
+        }
+        else
         {
             loadTexture("/mob/enderman_eyes.png");
             float f1 = 1.0F;
@@ -99,13 +91,13 @@ public class RenderEnderman extends RenderLiving
         renderCarrying((EntityEnderman)entityliving, f);
     }
 
-    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, 
+    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2,
             float f, float f1)
     {
         renderEnderman((EntityEnderman)entityliving, d, d1, d2, f, f1);
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         renderEnderman((EntityEnderman)entity, d, d1, d2, f, f1);

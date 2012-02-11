@@ -1,22 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityMob, DataWatcher, NBTTagCompound, World, 
-//            EntityPlayer, InventoryPlayer, ItemStack, Block, 
-//            Vec3D, AxisAlignedBB, DamageSource, MathHelper, 
-//            Entity, Material, Item, EntityDamageSourceIndirect, 
-//            BlockGrass, BlockFlower, BlockMycelium
-
 public class EntityEnderman extends EntityMob
 {
-
     private static boolean canCarryBlocks[];
     public boolean isAttacking;
     private int teleportDelay;
@@ -64,16 +52,17 @@ public class EntityEnderman extends EntityMob
     protected Entity findPlayerToAttack()
     {
         EntityPlayer entityplayer = worldObj.getClosestVulnerablePlayerToEntity(this, 64D);
-        if(entityplayer != null)
+        if (entityplayer != null)
         {
-            if(shouldAttackPlayer(entityplayer))
+            if (shouldAttackPlayer(entityplayer))
             {
-                if(field_35185_e++ == 5)
+                if (field_35185_e++ == 5)
                 {
                     field_35185_e = 0;
                     return entityplayer;
                 }
-            } else
+            }
+            else
             {
                 field_35185_e = 0;
             }
@@ -94,7 +83,7 @@ public class EntityEnderman extends EntityMob
     private boolean shouldAttackPlayer(EntityPlayer entityplayer)
     {
         ItemStack itemstack = entityplayer.inventory.armorInventory[3];
-        if(itemstack != null && itemstack.itemID == Block.pumpkin.blockID)
+        if (itemstack != null && itemstack.itemID == Block.pumpkin.blockID)
         {
             return false;
         }
@@ -103,10 +92,11 @@ public class EntityEnderman extends EntityMob
         double d = vec3d1.lengthVector();
         vec3d1 = vec3d1.normalize();
         double d1 = vec3d.dotProduct(vec3d1);
-        if(d1 > 1.0D - 0.025000000000000001D / d)
+        if (d1 > 1.0D - 0.025000000000000001D / d)
         {
             return entityplayer.canEntityBeSeen(this);
-        } else
+        }
+        else
         {
             return false;
         }
@@ -114,87 +104,88 @@ public class EntityEnderman extends EntityMob
 
     public void onLivingUpdate()
     {
-        if(isWet())
+        if (isWet())
         {
             attackEntityFrom(DamageSource.drown, 1);
         }
         isAttacking = entityToAttack != null;
         moveSpeed = entityToAttack == null ? 0.3F : 6.5F;
-        if(!worldObj.multiplayerWorld)
+        if (!worldObj.multiplayerWorld)
         {
-            if(getCarried() == 0)
+            if (getCarried() == 0)
             {
-                if(rand.nextInt(20) == 0)
+                if (rand.nextInt(20) == 0)
                 {
                     int i = MathHelper.floor_double((posX - 2D) + rand.nextDouble() * 4D);
                     int l = MathHelper.floor_double(posY + rand.nextDouble() * 3D);
                     int j1 = MathHelper.floor_double((posZ - 2D) + rand.nextDouble() * 4D);
                     int l1 = worldObj.getBlockId(i, l, j1);
-                    if(canCarryBlocks[l1])
+                    if (canCarryBlocks[l1])
                     {
                         setCarried(worldObj.getBlockId(i, l, j1));
                         setCarryingData(worldObj.getBlockMetadata(i, l, j1));
                         worldObj.setBlockWithNotify(i, l, j1, 0);
                     }
                 }
-            } else
-            if(rand.nextInt(2000) == 0)
+            }
+            else if (rand.nextInt(2000) == 0)
             {
                 int j = MathHelper.floor_double((posX - 1.0D) + rand.nextDouble() * 2D);
                 int i1 = MathHelper.floor_double(posY + rand.nextDouble() * 2D);
                 int k1 = MathHelper.floor_double((posZ - 1.0D) + rand.nextDouble() * 2D);
                 int i2 = worldObj.getBlockId(j, i1, k1);
                 int j2 = worldObj.getBlockId(j, i1 - 1, k1);
-                if(i2 == 0 && j2 > 0 && Block.blocksList[j2].renderAsNormalBlock())
+                if (i2 == 0 && j2 > 0 && Block.blocksList[j2].renderAsNormalBlock())
                 {
                     worldObj.setBlockAndMetadataWithNotify(j, i1, k1, getCarried(), getCarryingData());
                     setCarried(0);
                 }
             }
         }
-        for(int k = 0; k < 2; k++)
+        for (int k = 0; k < 2; k++)
         {
             worldObj.spawnParticle("portal", posX + (rand.nextDouble() - 0.5D) * (double)width, (posY + rand.nextDouble() * (double)height) - 0.25D, posZ + (rand.nextDouble() - 0.5D) * (double)width, (rand.nextDouble() - 0.5D) * 2D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2D);
         }
 
-        if(worldObj.isDaytime() && !worldObj.multiplayerWorld)
+        if (worldObj.isDaytime() && !worldObj.multiplayerWorld)
         {
             float f = getEntityBrightness(1.0F);
-            if(f > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30F < (f - 0.4F) * 2.0F)
+            if (f > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30F < (f - 0.4F) * 2.0F)
             {
                 entityToAttack = null;
                 teleportRandomly();
             }
         }
-        if(isWet())
+        if (isWet())
         {
             entityToAttack = null;
             teleportRandomly();
         }
         isJumping = false;
-        if(entityToAttack != null)
+        if (entityToAttack != null)
         {
             faceEntity(entityToAttack, 100F, 100F);
         }
-        if(!worldObj.multiplayerWorld && isEntityAlive())
+        if (!worldObj.multiplayerWorld && isEntityAlive())
         {
-            if(entityToAttack != null)
+            if (entityToAttack != null)
             {
-                if((entityToAttack instanceof EntityPlayer) && shouldAttackPlayer((EntityPlayer)entityToAttack))
+                if ((entityToAttack instanceof EntityPlayer) && shouldAttackPlayer((EntityPlayer)entityToAttack))
                 {
                     moveStrafing = moveForward = 0.0F;
                     moveSpeed = 0.0F;
-                    if(entityToAttack.getDistanceSqToEntity(this) < 16D)
+                    if (entityToAttack.getDistanceSqToEntity(this) < 16D)
                     {
                         teleportRandomly();
                     }
                     teleportDelay = 0;
-                } else
-                if(entityToAttack.getDistanceSqToEntity(this) > 256D && teleportDelay++ >= 30 && teleportToEntity(entityToAttack))
+                }
+                else if (entityToAttack.getDistanceSqToEntity(this) > 256D && teleportDelay++ >= 30 && teleportToEntity(entityToAttack))
                 {
                     teleportDelay = 0;
                 }
-            } else
+            }
+            else
             {
                 teleportDelay = 0;
             }
@@ -233,38 +224,39 @@ public class EntityEnderman extends EntityMob
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
-        if(worldObj.blockExists(i, j, k))
+        if (worldObj.blockExists(i, j, k))
         {
             boolean flag1;
-            for(flag1 = false; !flag1 && j > 0;)
+            for (flag1 = false; !flag1 && j > 0;)
             {
                 int i1 = worldObj.getBlockId(i, j - 1, k);
-                if(i1 == 0 || !Block.blocksList[i1].blockMaterial.getIsSolid())
+                if (i1 == 0 || !Block.blocksList[i1].blockMaterial.getIsSolid())
                 {
                     posY--;
                     j--;
-                } else
+                }
+                else
                 {
                     flag1 = true;
                 }
             }
 
-            if(flag1)
+            if (flag1)
             {
                 setPosition(posX, posY, posZ);
-                if(worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.getIsAnyLiquid(boundingBox))
+                if (worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.getIsAnyLiquid(boundingBox))
                 {
                     flag = true;
                 }
             }
         }
-        if(!flag)
+        if (!flag)
         {
             setPosition(d3, d4, d5);
             return false;
         }
         int l = 128;
-        for(int j1 = 0; j1 < l; j1++)
+        for (int j1 = 0; j1 < l; j1++)
         {
             double d6 = (double)j1 / ((double)l - 1.0D);
             float f = (rand.nextFloat() - 0.5F) * 0.2F;
@@ -304,14 +296,13 @@ public class EntityEnderman extends EntityMob
     protected void dropFewItems(boolean flag, int i)
     {
         int j = getDropItemId();
-        if(j > 0)
+        if (j > 0)
         {
             int k = rand.nextInt(2 + i);
-            for(int l = 0; l < k; l++)
+            for (int l = 0; l < k; l++)
             {
                 dropItem(j, 1);
             }
-
         }
     }
 
@@ -337,24 +328,25 @@ public class EntityEnderman extends EntityMob
 
     public boolean attackEntityFrom(DamageSource damagesource, int i)
     {
-        if(damagesource instanceof EntityDamageSourceIndirect)
+        if (damagesource instanceof EntityDamageSourceIndirect)
         {
-            for(int j = 0; j < 64; j++)
+            for (int j = 0; j < 64; j++)
             {
-                if(teleportRandomly())
+                if (teleportRandomly())
                 {
                     return true;
                 }
             }
 
             return false;
-        } else
+        }
+        else
         {
             return super.attackEntityFrom(damagesource, i);
         }
     }
 
-    static 
+    static
     {
         canCarryBlocks = new boolean[256];
         canCarryBlocks[Block.grass.blockID] = true;

@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            RenderLiving, ModelSpider, OpenGlHelper, EntitySpider, 
-//            EntityLiving
-
 public class RenderSpider extends RenderLiving
 {
-
     public RenderSpider()
     {
         super(new ModelSpider(), 1.0F);
@@ -26,10 +17,11 @@ public class RenderSpider extends RenderLiving
 
     protected int setSpiderEyeBrightness(EntitySpider entityspider, int i, float f)
     {
-        if(i != 0)
+        if (i != 0)
         {
             return -1;
-        } else
+        }
+        else
         {
             loadTexture("/mob/spider_eyes.png");
             float f1 = 1.0F;

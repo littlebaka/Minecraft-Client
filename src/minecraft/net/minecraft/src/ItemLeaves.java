@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ItemBlock, Block, BlockLeaves, ColorizerFoliage
 
 public class ItemLeaves extends ItemBlock
 {
-
     public ItemLeaves(int i)
     {
         super(i);
@@ -18,7 +9,7 @@ public class ItemLeaves extends ItemBlock
         setHasSubtypes(true);
     }
 
-    public int getPlacedBlockMetadata(int i)
+    public int getMetadata(int i)
     {
         return i | 4;
     }
@@ -28,16 +19,17 @@ public class ItemLeaves extends ItemBlock
         return Block.leaves.getBlockTextureFromSideAndMetadata(0, i);
     }
 
-    public int getColorFromDamage(int i)
+    public int getColorFromDamage(int i, int j)
     {
-        if((i & 1) == 1)
+        if ((i & 1) == 1)
         {
             return ColorizerFoliage.getFoliageColorPine();
         }
-        if((i & 2) == 2)
+        if ((i & 2) == 2)
         {
             return ColorizerFoliage.getFoliageColorBirch();
-        } else
+        }
+        else
         {
             return ColorizerFoliage.getFoliageColorBasic();
         }

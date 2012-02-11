@@ -1,43 +1,33 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            RenderLiving, ModelDragon, EntityDragon, MathHelper, 
-//            ModelBase, EntityEnderCrystal, Tessellator, RenderHelper, 
-//            OpenGlHelper, EntityLiving, Entity
-
 public class RenderDragon extends RenderLiving
 {
-
-    public static EntityDragon field_41038_a;
+    public static EntityDragon entityDragon;
     private static int field_40284_d = 0;
-    protected ModelDragon field_40285_c;
+    protected ModelDragon modelDragon;
 
     public RenderDragon()
     {
         super(new ModelDragon(0.0F), 0.5F);
-        field_40285_c = (ModelDragon)mainModel;
+        modelDragon = (ModelDragon)mainModel;
         setRenderPassModel(mainModel);
     }
 
-    protected void func_40282_a(EntityDragon entitydragon, float f, float f1, float f2)
+    protected void rotateDragonBody(EntityDragon entitydragon, float f, float f1, float f2)
     {
         float f3 = (float)entitydragon.func_40160_a(7, f2)[0];
         float f4 = (float)(entitydragon.func_40160_a(5, f2)[1] - entitydragon.func_40160_a(10, f2)[1]);
         GL11.glRotatef(-f3, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(f4 * 10F, 1.0F, 0.0F, 0.0F);
         GL11.glTranslatef(0.0F, 0.0F, 1.0F);
-        if(entitydragon.deathTime > 0)
+        if (entitydragon.deathTime > 0)
         {
             float f5 = ((((float)entitydragon.deathTime + f2) - 1.0F) / 20F) * 1.6F;
             f5 = MathHelper.sqrt_float(f5);
-            if(f5 > 1.0F)
+            if (f5 > 1.0F)
             {
                 f5 = 1.0F;
             }
@@ -47,7 +37,7 @@ public class RenderDragon extends RenderLiving
 
     protected void func_40280_a(EntityDragon entitydragon, float f, float f1, float f2, float f3, float f4, float f5)
     {
-        if(entitydragon.field_40178_aA > 0)
+        if (entitydragon.field_40178_aA > 0)
         {
             float f6 = (float)entitydragon.field_40178_aA / 200F;
             GL11.glDepthFunc(515);
@@ -60,7 +50,7 @@ public class RenderDragon extends RenderLiving
         }
         loadDownloadableImageTexture(entitydragon.skinUrl, entitydragon.getEntityTexture());
         mainModel.render(entitydragon, f, f1, f2, f3, f4, f5);
-        if(entitydragon.hurtTime > 0)
+        if (entitydragon.hurtTime > 0)
         {
             GL11.glDepthFunc(514);
             GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
@@ -74,24 +64,24 @@ public class RenderDragon extends RenderLiving
         }
     }
 
-    public void func_40281_a(EntityDragon entitydragon, double d, double d1, double d2, 
+    public void renderDragon(EntityDragon entitydragon, double d, double d1, double d2,
             float f, float f1)
     {
-        field_41038_a = entitydragon;
-        if(field_40284_d != 4)
+        entityDragon = entitydragon;
+        if (field_40284_d != 4)
         {
             mainModel = new ModelDragon(0.0F);
             field_40284_d = 4;
         }
         super.doRenderLiving(entitydragon, d, d1, d2, f, f1);
-        if(entitydragon.field_41013_bH != null)
+        if (entitydragon.healingEnderCrystal != null)
         {
-            float f2 = (float)entitydragon.field_41013_bH.field_41032_a + f1;
+            float f2 = (float)entitydragon.healingEnderCrystal.field_41032_a + f1;
             float f3 = MathHelper.sin(f2 * 0.2F) / 2.0F + 0.5F;
             f3 = (f3 * f3 + f3) * 0.2F;
-            float f4 = (float)(entitydragon.field_41013_bH.posX - entitydragon.posX - (entitydragon.prevPosX - entitydragon.posX) * (double)(1.0F - f1));
-            float f5 = (float)(((double)f3 + entitydragon.field_41013_bH.posY) - 1.0D - entitydragon.posY - (entitydragon.prevPosY - entitydragon.posY) * (double)(1.0F - f1));
-            float f6 = (float)(entitydragon.field_41013_bH.posZ - entitydragon.posZ - (entitydragon.prevPosZ - entitydragon.posZ) * (double)(1.0F - f1));
+            float f4 = (float)(entitydragon.healingEnderCrystal.posX - entitydragon.posX - (entitydragon.prevPosX - entitydragon.posX) * (double)(1.0F - f1));
+            float f5 = (float)(((double)f3 + entitydragon.healingEnderCrystal.posY) - 1.0D - entitydragon.posY - (entitydragon.prevPosY - entitydragon.posY) * (double)(1.0F - f1));
+            float f6 = (float)(entitydragon.healingEnderCrystal.posZ - entitydragon.posZ - (entitydragon.prevPosZ - entitydragon.posZ) * (double)(1.0F - f1));
             float f7 = MathHelper.sqrt_float(f4 * f4 + f6 * f6);
             float f8 = MathHelper.sqrt_float(f4 * f4 + f5 * f5 + f6 * f6);
             GL11.glPushMatrix();
@@ -107,7 +97,7 @@ public class RenderDragon extends RenderLiving
             float f10 = MathHelper.sqrt_float(f4 * f4 + f5 * f5 + f6 * f6) / 32F - ((float)entitydragon.ticksExisted + f1) * 0.01F;
             tessellator.startDrawing(5);
             int i = 8;
-            for(int j = 0; j <= i; j++)
+            for (int j = 0; j <= i; j++)
             {
                 float f11 = MathHelper.sin(((float)(j % i) * 3.141593F * 2.0F) / (float)i) * 0.75F;
                 float f12 = MathHelper.cos(((float)(j % i) * 3.141593F * 2.0F) / (float)i) * 0.75F;
@@ -126,16 +116,16 @@ public class RenderDragon extends RenderLiving
         }
     }
 
-    protected void func_40279_a(EntityDragon entitydragon, float f)
+    protected void renderDragonDying(EntityDragon entitydragon, float f)
     {
         super.renderEquippedItems(entitydragon, f);
         Tessellator tessellator = Tessellator.instance;
-        if(entitydragon.field_40178_aA > 0)
+        if (entitydragon.field_40178_aA > 0)
         {
             RenderHelper.disableStandardItemLighting();
             float f1 = ((float)entitydragon.field_40178_aA + f) / 200F;
             float f2 = 0.0F;
-            if(f1 > 0.8F)
+            if (f1 > 0.8F)
             {
                 f2 = (f1 - 0.8F) / 0.2F;
             }
@@ -149,7 +139,7 @@ public class RenderDragon extends RenderLiving
             GL11.glDepthMask(false);
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, -1F, -2F);
-            for(int i = 0; (float)i < ((f1 + f1 * f1) / 2.0F) * 60F; i++)
+            for (int i = 0; (float)i < ((f1 + f1 * f1) / 2.0F) * 60F; i++)
             {
                 GL11.glRotatef(random.nextFloat() * 360F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(random.nextFloat() * 360F, 0.0F, 1.0F, 0.0F);
@@ -184,14 +174,15 @@ public class RenderDragon extends RenderLiving
 
     protected int func_40283_a(EntityDragon entitydragon, int i, float f)
     {
-        if(i == 1)
+        if (i == 1)
         {
             GL11.glDepthFunc(515);
         }
-        if(i != 0)
+        if (i != 0)
         {
             return -1;
-        } else
+        }
+        else
         {
             loadTexture("/mob/enderdragon/ender_eyes.png");
             float f1 = 1.0F;
@@ -218,29 +209,28 @@ public class RenderDragon extends RenderLiving
 
     protected void renderEquippedItems(EntityLiving entityliving, float f)
     {
-        func_40279_a((EntityDragon)entityliving, f);
+        renderDragonDying((EntityDragon)entityliving, f);
     }
 
     protected void rotateCorpse(EntityLiving entityliving, float f, float f1, float f2)
     {
-        func_40282_a((EntityDragon)entityliving, f, f1, f2);
+        rotateDragonBody((EntityDragon)entityliving, f, f1, f2);
     }
 
-    protected void func_40270_a(EntityLiving entityliving, float f, float f1, float f2, float f3, float f4, float f5)
+    protected void renderModel(EntityLiving entityliving, float f, float f1, float f2, float f3, float f4, float f5)
     {
         func_40280_a((EntityDragon)entityliving, f, f1, f2, f3, f4, f5);
     }
 
-    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, 
+    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2,
             float f, float f1)
     {
-        func_40281_a((EntityDragon)entityliving, d, d1, d2, f, f1);
+        renderDragon((EntityDragon)entityliving, d, d1, d2, f, f1);
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
-        func_40281_a((EntityDragon)entity, d, d1, d2, f, f1);
+        renderDragon((EntityDragon)entity, d, d1, d2, f, f1);
     }
-
 }

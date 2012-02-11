@@ -1,13 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 class StructureNetherBridgePieceWeight
 {
-
     public Class field_40699_a;
     public final int field_40697_b;
     public int field_40698_c;

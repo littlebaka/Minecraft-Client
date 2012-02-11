@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Render, Tessellator, RenderManager, EntityFireball, 
-//            Entity
-
 public class RenderFireball extends Render
 {
-
     private float field_40269_a;
 
     public RenderFireball(float f)
@@ -20,7 +11,7 @@ public class RenderFireball extends Render
         field_40269_a = f;
     }
 
-    public void doRenderFireball(EntityFireball entityfireball, double d, double d1, double d2, 
+    public void doRenderFireball(EntityFireball entityfireball, double d, double d1, double d2,
             float f, float f1)
     {
         GL11.glPushMatrix();
@@ -51,7 +42,7 @@ public class RenderFireball extends Render
         GL11.glPopMatrix();
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         doRenderFireball((EntityFireball)entity, d, d1, d2, f, f1);

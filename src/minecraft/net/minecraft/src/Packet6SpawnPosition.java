@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, NetHandler
-
 public class Packet6SpawnPosition extends Packet
 {
-
     public int xPosition;
     public int yPosition;
     public int zPosition;
@@ -21,7 +13,7 @@ public class Packet6SpawnPosition extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
         xPosition = datainputstream.readInt();
         yPosition = datainputstream.readInt();
@@ -29,7 +21,7 @@ public class Packet6SpawnPosition extends Packet
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         dataoutputstream.writeInt(xPosition);
         dataoutputstream.writeInt(yPosition);

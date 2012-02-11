@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, AxisAlignedBB, 
-//            Vec3D, MovingObjectPosition
-
 public class BlockTorch extends Block
 {
-
     protected BlockTorch(int i, int j)
     {
         super(i, j, Material.circuits);
@@ -39,12 +30,13 @@ public class BlockTorch extends Block
         return 2;
     }
 
-    private boolean func_31032_h(World world, int i, int j, int k)
+    private boolean canPlaceTorchOn(World world, int i, int j, int k)
     {
-        if(world.func_41082_b(i, j, k, true))
+        if (world.func_41082_b(i, j, k, true))
         {
             return true;
-        } else
+        }
+        else
         {
             int l = world.getBlockId(i, j, k);
             return l == Block.fence.blockID || l == Block.netherFence.blockID;
@@ -53,45 +45,45 @@ public class BlockTorch extends Block
 
     public boolean canPlaceBlockAt(World world, int i, int j, int k)
     {
-        if(world.func_41082_b(i - 1, j, k, true))
+        if (world.func_41082_b(i - 1, j, k, true))
         {
             return true;
         }
-        if(world.func_41082_b(i + 1, j, k, true))
+        if (world.func_41082_b(i + 1, j, k, true))
         {
             return true;
         }
-        if(world.func_41082_b(i, j, k - 1, true))
+        if (world.func_41082_b(i, j, k - 1, true))
         {
             return true;
         }
-        if(world.func_41082_b(i, j, k + 1, true))
+        if (world.func_41082_b(i, j, k + 1, true))
         {
             return true;
         }
-        return func_31032_h(world, i, j - 1, k);
+        return canPlaceTorchOn(world, i, j - 1, k);
     }
 
     public void onBlockPlaced(World world, int i, int j, int k, int l)
     {
         int i1 = world.getBlockMetadata(i, j, k);
-        if(l == 1 && func_31032_h(world, i, j - 1, k))
+        if (l == 1 && canPlaceTorchOn(world, i, j - 1, k))
         {
             i1 = 5;
         }
-        if(l == 2 && world.func_41082_b(i, j, k + 1, true))
+        if (l == 2 && world.func_41082_b(i, j, k + 1, true))
         {
             i1 = 4;
         }
-        if(l == 3 && world.func_41082_b(i, j, k - 1, true))
+        if (l == 3 && world.func_41082_b(i, j, k - 1, true))
         {
             i1 = 3;
         }
-        if(l == 4 && world.func_41082_b(i + 1, j, k, true))
+        if (l == 4 && world.func_41082_b(i + 1, j, k, true))
         {
             i1 = 2;
         }
-        if(l == 5 && world.func_41082_b(i - 1, j, k, true))
+        if (l == 5 && world.func_41082_b(i - 1, j, k, true))
         {
             i1 = 1;
         }
@@ -101,7 +93,7 @@ public class BlockTorch extends Block
     public void updateTick(World world, int i, int j, int k, Random random)
     {
         super.updateTick(world, i, j, k, random);
-        if(world.getBlockMetadata(i, j, k) == 0)
+        if (world.getBlockMetadata(i, j, k) == 0)
         {
             onBlockAdded(world, i, j, k);
         }
@@ -109,23 +101,23 @@ public class BlockTorch extends Block
 
     public void onBlockAdded(World world, int i, int j, int k)
     {
-        if(world.func_41082_b(i - 1, j, k, true))
+        if (world.func_41082_b(i - 1, j, k, true))
         {
             world.setBlockMetadataWithNotify(i, j, k, 1);
-        } else
-        if(world.func_41082_b(i + 1, j, k, true))
+        }
+        else if (world.func_41082_b(i + 1, j, k, true))
         {
             world.setBlockMetadataWithNotify(i, j, k, 2);
-        } else
-        if(world.func_41082_b(i, j, k - 1, true))
+        }
+        else if (world.func_41082_b(i, j, k - 1, true))
         {
             world.setBlockMetadataWithNotify(i, j, k, 3);
-        } else
-        if(world.func_41082_b(i, j, k + 1, true))
+        }
+        else if (world.func_41082_b(i, j, k + 1, true))
         {
             world.setBlockMetadataWithNotify(i, j, k, 4);
-        } else
-        if(func_31032_h(world, i, j - 1, k))
+        }
+        else if (canPlaceTorchOn(world, i, j - 1, k))
         {
             world.setBlockMetadataWithNotify(i, j, k, 5);
         }
@@ -134,31 +126,31 @@ public class BlockTorch extends Block
 
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
-        if(dropTorchIfCantStay(world, i, j, k))
+        if (dropTorchIfCantStay(world, i, j, k))
         {
             int i1 = world.getBlockMetadata(i, j, k);
             boolean flag = false;
-            if(!world.func_41082_b(i - 1, j, k, true) && i1 == 1)
+            if (!world.func_41082_b(i - 1, j, k, true) && i1 == 1)
             {
                 flag = true;
             }
-            if(!world.func_41082_b(i + 1, j, k, true) && i1 == 2)
+            if (!world.func_41082_b(i + 1, j, k, true) && i1 == 2)
             {
                 flag = true;
             }
-            if(!world.func_41082_b(i, j, k - 1, true) && i1 == 3)
+            if (!world.func_41082_b(i, j, k - 1, true) && i1 == 3)
             {
                 flag = true;
             }
-            if(!world.func_41082_b(i, j, k + 1, true) && i1 == 4)
+            if (!world.func_41082_b(i, j, k + 1, true) && i1 == 4)
             {
                 flag = true;
             }
-            if(!func_31032_h(world, i, j - 1, k) && i1 == 5)
+            if (!canPlaceTorchOn(world, i, j - 1, k) && i1 == 5)
             {
                 flag = true;
             }
-            if(flag)
+            if (flag)
             {
                 dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
                 world.setBlockWithNotify(i, j, k, 0);
@@ -168,15 +160,16 @@ public class BlockTorch extends Block
 
     private boolean dropTorchIfCantStay(World world, int i, int j, int k)
     {
-        if(!canPlaceBlockAt(world, i, j, k))
+        if (!canPlaceBlockAt(world, i, j, k))
         {
-            if(world.getBlockId(i, j, k) == blockID)
+            if (world.getBlockId(i, j, k) == blockID)
             {
                 dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
                 world.setBlockWithNotify(i, j, k, 0);
             }
             return false;
-        } else
+        }
+        else
         {
             return true;
         }
@@ -186,22 +179,23 @@ public class BlockTorch extends Block
     {
         int l = world.getBlockMetadata(i, j, k) & 7;
         float f = 0.15F;
-        if(l == 1)
+        if (l == 1)
         {
             setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
-        } else
-        if(l == 2)
+        }
+        else if (l == 2)
         {
             setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
-        } else
-        if(l == 3)
+        }
+        else if (l == 3)
         {
             setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
-        } else
-        if(l == 4)
+        }
+        else if (l == 4)
         {
             setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
-        } else
+        }
+        else
         {
             float f1 = 0.1F;
             setBlockBounds(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, 0.6F, 0.5F + f1);
@@ -217,26 +211,27 @@ public class BlockTorch extends Block
         double d2 = (float)k + 0.5F;
         double d3 = 0.2199999988079071D;
         double d4 = 0.27000001072883606D;
-        if(l == 1)
+        if (l == 1)
         {
             world.spawnParticle("smoke", d - d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
             world.spawnParticle("flame", d - d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 2)
+        }
+        else if (l == 2)
         {
             world.spawnParticle("smoke", d + d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
             world.spawnParticle("flame", d + d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 3)
+        }
+        else if (l == 3)
         {
             world.spawnParticle("smoke", d, d1 + d3, d2 - d4, 0.0D, 0.0D, 0.0D);
             world.spawnParticle("flame", d, d1 + d3, d2 - d4, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 4)
+        }
+        else if (l == 4)
         {
             world.spawnParticle("smoke", d, d1 + d3, d2 + d4, 0.0D, 0.0D, 0.0D);
             world.spawnParticle("flame", d, d1 + d3, d2 + d4, 0.0D, 0.0D, 0.0D);
-        } else
+        }
+        else
         {
             world.spawnParticle("smoke", d, d1, d2, 0.0D, 0.0D, 0.0D);
             world.spawnParticle("flame", d, d1, d2, 0.0D, 0.0D, 0.0D);

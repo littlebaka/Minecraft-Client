@@ -1,18 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            NBTTagCompound, WorldSettings, EntityPlayer
-
 public class WorldInfo
 {
-
     private long randomSeed;
+    private EnumWorldType field_46134_b;
     private int spawnX;
     private int spawnY;
     private int spawnZ;
@@ -33,13 +26,24 @@ public class WorldInfo
 
     public WorldInfo(NBTTagCompound nbttagcompound)
     {
+        field_46134_b = EnumWorldType.DEFAULT;
         hardcore = false;
         randomSeed = nbttagcompound.getLong("RandomSeed");
+        if (nbttagcompound.hasKey("generatorName"))
+        {
+            String s = nbttagcompound.getString("generatorName");
+            field_46134_b = EnumWorldType.func_46135_a(s);
+            if (field_46134_b == null)
+            {
+                field_46134_b = EnumWorldType.DEFAULT;
+            }
+        }
         gameType = nbttagcompound.getInteger("GameType");
-        if(nbttagcompound.hasKey("MapFeatures"))
+        if (nbttagcompound.hasKey("MapFeatures"))
         {
             mapFeaturesEnabled = nbttagcompound.getBoolean("MapFeatures");
-        } else
+        }
+        else
         {
             mapFeaturesEnabled = true;
         }
@@ -56,7 +60,7 @@ public class WorldInfo
         thunderTime = nbttagcompound.getInteger("thunderTime");
         thundering = nbttagcompound.getBoolean("thundering");
         hardcore = nbttagcompound.getBoolean("hardcore");
-        if(nbttagcompound.hasKey("Player"))
+        if (nbttagcompound.hasKey("Player"))
         {
             playerTag = nbttagcompound.getCompoundTag("Player");
             dimension = playerTag.getInteger("Dimension");
@@ -65,18 +69,22 @@ public class WorldInfo
 
     public WorldInfo(WorldSettings worldsettings, String s)
     {
+        field_46134_b = EnumWorldType.DEFAULT;
         hardcore = false;
         randomSeed = worldsettings.getSeed();
         gameType = worldsettings.getGameType();
         mapFeaturesEnabled = worldsettings.isMapFeaturesEnabled();
         levelName = s;
         hardcore = worldsettings.getHardcoreEnabled();
+        field_46134_b = worldsettings.func_46107_e();
     }
 
     public WorldInfo(WorldInfo worldinfo)
     {
+        field_46134_b = EnumWorldType.DEFAULT;
         hardcore = false;
         randomSeed = worldinfo.randomSeed;
+        field_46134_b = worldinfo.field_46134_b;
         gameType = worldinfo.gameType;
         mapFeaturesEnabled = worldinfo.mapFeaturesEnabled;
         spawnX = worldinfo.spawnX;
@@ -108,11 +116,11 @@ public class WorldInfo
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         EntityPlayer entityplayer = null;
         NBTTagCompound nbttagcompound1 = null;
-        if(list.size() > 0)
+        if (list.size() > 0)
         {
             entityplayer = (EntityPlayer)list.get(0);
         }
-        if(entityplayer != null)
+        if (entityplayer != null)
         {
             nbttagcompound1 = new NBTTagCompound();
             entityplayer.writeToNBT(nbttagcompound1);
@@ -124,6 +132,7 @@ public class WorldInfo
     private void updateTagCompound(NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1)
     {
         nbttagcompound.setLong("RandomSeed", randomSeed);
+        nbttagcompound.setString("generatorName", field_46134_b.name());
         nbttagcompound.setInteger("GameType", gameType);
         nbttagcompound.setBoolean("MapFeatures", mapFeaturesEnabled);
         nbttagcompound.setInteger("SpawnX", spawnX);
@@ -139,7 +148,7 @@ public class WorldInfo
         nbttagcompound.setInteger("thunderTime", thunderTime);
         nbttagcompound.setBoolean("thundering", thundering);
         nbttagcompound.setBoolean("hardcore", hardcore);
-        if(nbttagcompound1 != null)
+        if (nbttagcompound1 != null)
         {
             nbttagcompound.setCompoundTag("Player", nbttagcompound1);
         }
@@ -300,5 +309,10 @@ public class WorldInfo
     public boolean isHardcoreModeEnabled()
     {
         return hardcore;
+    }
+
+    public EnumWorldType func_46133_t()
+    {
+        return field_46134_b;
     }
 }

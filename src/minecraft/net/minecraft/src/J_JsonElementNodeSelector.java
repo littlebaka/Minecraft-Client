@@ -1,26 +1,17 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            J_LeafFunctor, J_JsonNode
-
-class J_JsonElementNodeSelector extends J_LeafFunctor
+final class J_JsonElementNodeSelector extends J_LeafFunctor
 {
-
-    final int index; /* synthetic field */
+    final int index;
 
     J_JsonElementNodeSelector(int i)
     {
         index = i;
-//        super();
     }
 
-    public boolean matchsNode_(List list)
+    public boolean matchesNode_(List list)
     {
         return list.size() > index;
     }
@@ -45,8 +36,8 @@ class J_JsonElementNodeSelector extends J_LeafFunctor
         return typeSafeApplyTo_((List)obj);
     }
 
-    public boolean matchsNode(Object obj)
+    public boolean matchesNode(Object obj)
     {
-        return matchsNode_((List)obj);
+        return matchesNode_((List)obj);
     }
 }

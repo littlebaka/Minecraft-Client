@@ -1,22 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            TileEntitySign, TileEntitySignRenderer, TileEntityMobSpawner, TileEntityMobSpawnerRenderer, 
-//            TileEntityPiston, TileEntityRendererPiston, TileEntityChest, TileEntityChestRenderer, 
-//            TileEntityEnchantmentTable, RenderEnchantmentTable, TileEntityEndPortal, RenderEndPortal, 
-//            TileEntitySpecialRenderer, TileEntity, EntityLiving, World, 
-//            OpenGlHelper, FontRenderer, RenderEngine
-
 public class TileEntityRenderer
 {
-
     private Map specialRendererMap;
     public static TileEntityRenderer instance = new TileEntityRenderer();
     private FontRenderer fontRenderer;
@@ -42,17 +30,16 @@ public class TileEntityRenderer
         specialRendererMap.put(net.minecraft.src.TileEntityEnchantmentTable.class, new RenderEnchantmentTable());
         specialRendererMap.put(net.minecraft.src.TileEntityEndPortal.class, new RenderEndPortal());
         TileEntitySpecialRenderer tileentityspecialrenderer;
-        for(Iterator iterator = specialRendererMap.values().iterator(); iterator.hasNext(); tileentityspecialrenderer.setTileEntityRenderer(this))
+        for (Iterator iterator = specialRendererMap.values().iterator(); iterator.hasNext(); tileentityspecialrenderer.setTileEntityRenderer(this))
         {
             tileentityspecialrenderer = (TileEntitySpecialRenderer)iterator.next();
         }
-
     }
 
     public TileEntitySpecialRenderer getSpecialRendererForClass(Class class1)
     {
         TileEntitySpecialRenderer tileentityspecialrenderer = (TileEntitySpecialRenderer)specialRendererMap.get(class1);
-        if(tileentityspecialrenderer == null && class1 != (net.minecraft.src.TileEntity.class))
+        if (tileentityspecialrenderer == null && class1 != (net.minecraft.src.TileEntity.class))
         {
             tileentityspecialrenderer = getSpecialRendererForClass(class1.getSuperclass());
             specialRendererMap.put(class1, tileentityspecialrenderer);
@@ -67,10 +54,11 @@ public class TileEntityRenderer
 
     public TileEntitySpecialRenderer getSpecialRendererForEntity(TileEntity tileentity)
     {
-        if(tileentity == null)
+        if (tileentity == null)
         {
             return null;
-        } else
+        }
+        else
         {
             return getSpecialRendererForClass(tileentity.getClass());
         }
@@ -78,7 +66,7 @@ public class TileEntityRenderer
 
     public void cacheActiveRenderInfo(World world, RenderEngine renderengine, FontRenderer fontrenderer, EntityLiving entityliving, float f)
     {
-        if(worldObj != world)
+        if (worldObj != world)
         {
             func_31072_a(world);
         }
@@ -98,7 +86,7 @@ public class TileEntityRenderer
 
     public void renderTileEntity(TileEntity tileentity, float f)
     {
-        if(tileentity.getDistanceFrom(playerX, playerY, playerZ) < 4096D)
+        if (tileentity.getDistanceFrom(playerX, playerY, playerZ) < 4096D)
         {
             int i = worldObj.getLightBrightnessForSkyBlocks(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, 0);
             int j = i % 0x10000;
@@ -109,11 +97,11 @@ public class TileEntityRenderer
         }
     }
 
-    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, 
+    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2,
             float f)
     {
         TileEntitySpecialRenderer tileentityspecialrenderer = getSpecialRendererForEntity(tileentity);
-        if(tileentityspecialrenderer != null)
+        if (tileentityspecialrenderer != null)
         {
             tileentityspecialrenderer.renderTileEntityAt(tileentity, d, d1, d2, f);
         }
@@ -125,21 +113,21 @@ public class TileEntityRenderer
         Iterator iterator = specialRendererMap.values().iterator();
         do
         {
-            if(!iterator.hasNext())
+            if (!iterator.hasNext())
             {
                 break;
             }
             TileEntitySpecialRenderer tileentityspecialrenderer = (TileEntitySpecialRenderer)iterator.next();
-            if(tileentityspecialrenderer != null)
+            if (tileentityspecialrenderer != null)
             {
                 tileentityspecialrenderer.func_31069_a(world);
             }
-        } while(true);
+        }
+        while (true);
     }
 
     public FontRenderer getFontRenderer()
     {
         return fontRenderer;
     }
-
 }

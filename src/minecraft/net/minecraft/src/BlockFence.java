@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, AxisAlignedBB, IBlockAccess, 
-//            World
 
 public class BlockFence extends Block
 {
-
     public BlockFence(int i, int j)
     {
         super(i, j, Material.wood);
@@ -37,19 +27,19 @@ public class BlockFence extends Block
         float f1 = 0.625F;
         float f2 = 0.375F;
         float f3 = 0.625F;
-        if(flag)
+        if (flag)
         {
             f2 = 0.0F;
         }
-        if(flag1)
+        if (flag1)
         {
             f3 = 1.0F;
         }
-        if(flag2)
+        if (flag2)
         {
             f = 0.0F;
         }
-        if(flag3)
+        if (flag3)
         {
             f1 = 1.0F;
         }
@@ -66,19 +56,19 @@ public class BlockFence extends Block
         float f1 = 0.625F;
         float f2 = 0.375F;
         float f3 = 0.625F;
-        if(flag)
+        if (flag)
         {
             f2 = 0.0F;
         }
-        if(flag1)
+        if (flag1)
         {
             f3 = 1.0F;
         }
-        if(flag2)
+        if (flag2)
         {
             f = 0.0F;
         }
-        if(flag3)
+        if (flag3)
         {
             f1 = 1.0F;
         }
@@ -103,15 +93,16 @@ public class BlockFence extends Block
     public boolean isFenceAt(IBlockAccess iblockaccess, int i, int j, int k)
     {
         int l = iblockaccess.getBlockId(i, j, k);
-        if(l == blockID || l == Block.fenceGate.blockID)
+        if (l == blockID || l == Block.fenceGate.blockID)
         {
             return true;
         }
         Block block = Block.blocksList[l];
-        if(block != null && block.blockMaterial.getIsOpaque() && block.renderAsNormalBlock())
+        if (block != null && block.blockMaterial.getIsOpaque() && block.renderAsNormalBlock())
         {
             return block.blockMaterial != Material.pumpkin;
-        } else
+        }
+        else
         {
             return false;
         }

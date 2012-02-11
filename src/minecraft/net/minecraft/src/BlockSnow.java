@@ -1,19 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, AxisAlignedBB, 
-//            IBlockAccess, Item, EntityItem, ItemStack, 
-//            StatList, EntityPlayer, EnumSkyBlock
-
 public class BlockSnow extends Block
 {
-
     protected BlockSnow(int i, int j)
     {
         super(i, j, Material.snow);
@@ -24,10 +14,11 @@ public class BlockSnow extends Block
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k)
     {
         int l = world.getBlockMetadata(i, j, k) & 7;
-        if(l >= 3)
+        if (l >= 3)
         {
             return AxisAlignedBB.getBoundingBoxFromPool((double)i + minX, (double)j + minY, (double)k + minZ, (double)i + maxX, (float)j + 0.5F, (double)k + maxZ);
-        } else
+        }
+        else
         {
             return null;
         }
@@ -53,10 +44,11 @@ public class BlockSnow extends Block
     public boolean canPlaceBlockAt(World world, int i, int j, int k)
     {
         int l = world.getBlockId(i, j - 1, k);
-        if(l == 0 || !Block.blocksList[l].isOpaqueCube())
+        if (l == 0 || l != Block.leaves.blockID && !Block.blocksList[l].isOpaqueCube())
         {
             return false;
-        } else
+        }
+        else
         {
             return world.getBlockMaterial(i, j - 1, k).getIsSolid();
         }
@@ -69,12 +61,13 @@ public class BlockSnow extends Block
 
     private boolean func_314_h(World world, int i, int j, int k)
     {
-        if(!canPlaceBlockAt(world, i, j, k))
+        if (!canPlaceBlockAt(world, i, j, k))
         {
             dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
             world.setBlockWithNotify(i, j, k, 0);
             return false;
-        } else
+        }
+        else
         {
             return true;
         }
@@ -89,7 +82,7 @@ public class BlockSnow extends Block
         double d2 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
         EntityItem entityitem = new EntityItem(world, (double)i + d, (double)j + d1, (double)k + d2, new ItemStack(i1, 1, 0));
         entityitem.delayBeforeCanPickup = 10;
-        world.entityJoinedWorld(entityitem);
+        world.spawnEntityInWorld(entityitem);
         world.setBlockWithNotify(i, j, k, 0);
         entityplayer.addStat(StatList.mineBlockStatArray[blockID], 1);
     }
@@ -106,7 +99,7 @@ public class BlockSnow extends Block
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if(world.getSavedLightValue(EnumSkyBlock.Block, i, j, k) > 11)
+        if (world.getSavedLightValue(EnumSkyBlock.Block, i, j, k) > 11)
         {
             dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
             world.setBlockWithNotify(i, j, k, 0);
@@ -115,10 +108,11 @@ public class BlockSnow extends Block
 
     public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
     {
-        if(l == 1)
+        if (l == 1)
         {
             return true;
-        } else
+        }
+        else
         {
             return super.shouldSideBeRendered(iblockaccess, i, j, k, l);
         }

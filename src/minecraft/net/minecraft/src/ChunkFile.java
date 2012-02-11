@@ -1,20 +1,12 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// Referenced classes of package net.minecraft.src:
-//            ChunkFilePattern
-
 class ChunkFile
     implements Comparable
 {
-
     private final File chunkFile;
     private final int xChunk;
     private final int yChunk;
@@ -23,11 +15,12 @@ class ChunkFile
     {
         chunkFile = file;
         Matcher matcher = ChunkFilePattern.dataFilenamePattern.matcher(file.getName());
-        if(matcher.matches())
+        if (matcher.matches())
         {
             xChunk = Integer.parseInt(matcher.group(1), 36);
             yChunk = Integer.parseInt(matcher.group(2), 36);
-        } else
+        }
+        else
         {
             xChunk = 0;
             yChunk = 0;
@@ -38,12 +31,13 @@ class ChunkFile
     {
         int i = xChunk >> 5;
         int j = chunkfile.xChunk >> 5;
-        if(i == j)
+        if (i == j)
         {
             int k = yChunk >> 5;
             int l = chunkfile.yChunk >> 5;
             return k - l;
-        } else
+        }
+        else
         {
             return i - j;
         }

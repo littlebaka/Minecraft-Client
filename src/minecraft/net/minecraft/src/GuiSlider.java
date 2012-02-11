@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiButton, GameSettings, EnumOptions
-
 public class GuiSlider extends GuiButton
 {
-
     public float sliderValue;
     public boolean dragging;
     private EnumOptions idFloat;
@@ -34,18 +26,18 @@ public class GuiSlider extends GuiButton
 
     protected void mouseDragged(Minecraft minecraft, int i, int j)
     {
-        if(!drawButton)
+        if (!drawButton)
         {
             return;
         }
-        if(dragging)
+        if (dragging)
         {
             sliderValue = (float)(i - (xPosition + 4)) / (float)(width - 8);
-            if(sliderValue < 0.0F)
+            if (sliderValue < 0.0F)
             {
                 sliderValue = 0.0F;
             }
-            if(sliderValue > 1.0F)
+            if (sliderValue > 1.0F)
             {
                 sliderValue = 1.0F;
             }
@@ -59,14 +51,14 @@ public class GuiSlider extends GuiButton
 
     public boolean mousePressed(Minecraft minecraft, int i, int j)
     {
-        if(super.mousePressed(minecraft, i, j))
+        if (super.mousePressed(minecraft, i, j))
         {
             sliderValue = (float)(i - (xPosition + 4)) / (float)(width - 8);
-            if(sliderValue < 0.0F)
+            if (sliderValue < 0.0F)
             {
                 sliderValue = 0.0F;
             }
-            if(sliderValue > 1.0F)
+            if (sliderValue > 1.0F)
             {
                 sliderValue = 1.0F;
             }
@@ -74,7 +66,8 @@ public class GuiSlider extends GuiButton
             displayString = minecraft.gameSettings.getKeyBinding(idFloat);
             dragging = true;
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

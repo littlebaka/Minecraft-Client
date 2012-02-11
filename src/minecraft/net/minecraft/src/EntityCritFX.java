@@ -1,26 +1,17 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, World, Tessellator
 
 public class EntityCritFX extends EntityFX
 {
-
     private boolean field_35136_ay;
     float field_35137_a;
 
-    public EntityCritFX(World world, double d, double d1, double d2, 
+    public EntityCritFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         this(world, d, d1, d2, d3, d4, d5, 1.0F);
     }
 
-    public EntityCritFX(World world, double d, double d1, double d2, 
+    public EntityCritFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5, float f)
     {
         super(world, d, d1, d2, 0.0D, 0.0D, 0.0D);
@@ -38,22 +29,22 @@ public class EntityCritFX extends EntityFX
         particleMaxAge = (int)(6D / (Math.random() * 0.80000000000000004D + 0.59999999999999998D));
         particleMaxAge *= f;
         noClip = false;
-        func_40099_c(65);
+        setParticleTextureIndex(65);
         onUpdate();
     }
 
     public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5)
     {
-        if(!field_35136_ay)
+        if (!field_35136_ay)
         {
             return;
         }
         float f6 = (((float)particleAge + f) / (float)particleMaxAge) * 32F;
-        if(f6 < 0.0F)
+        if (f6 < 0.0F)
         {
             f6 = 0.0F;
         }
-        if(f6 > 1.0F)
+        if (f6 > 1.0F)
         {
             f6 = 1.0F;
         }
@@ -66,7 +57,7 @@ public class EntityCritFX extends EntityFX
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
-        if(particleAge++ >= particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
             setEntityDead();
         }
@@ -77,7 +68,7 @@ public class EntityCritFX extends EntityFX
         motionY *= 0.69999998807907104D;
         motionZ *= 0.69999998807907104D;
         motionY -= 0.019999999552965164D;
-        if(onGround)
+        if (onGround)
         {
             motionX *= 0.69999998807907104D;
             motionZ *= 0.69999998807907104D;

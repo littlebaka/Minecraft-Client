@@ -1,19 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            RenderLiving, EntityLiving, ModelBiped, ModelRenderer, 
-//            ItemStack, Block, RenderBlocks, Item, 
-//            RenderManager, ItemRenderer, ItemPotion
-
 public class RenderBiped extends RenderLiving
 {
-
     protected ModelBiped modelBipedMain;
     protected float field_40296_d;
 
@@ -34,12 +24,12 @@ public class RenderBiped extends RenderLiving
     {
         super.renderEquippedItems(entityliving, f);
         ItemStack itemstack = entityliving.getHeldItem();
-        if(itemstack != null)
+        if (itemstack != null)
         {
             GL11.glPushMatrix();
             modelBipedMain.bipedRightArm.postRender(0.0625F);
             GL11.glTranslatef(-0.0625F, 0.4375F, 0.0625F);
-            if(itemstack.itemID < 256 && RenderBlocks.renderItemIn3d(Block.blocksList[itemstack.itemID].getRenderType()))
+            if (itemstack.itemID < 256 && RenderBlocks.renderItemIn3d(Block.blocksList[itemstack.itemID].getRenderType()))
             {
                 float f1 = 0.5F;
                 GL11.glTranslatef(0.0F, 0.1875F, -0.3125F);
@@ -47,8 +37,8 @@ public class RenderBiped extends RenderLiving
                 GL11.glRotatef(20F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(f1, -f1, f1);
-            } else
-            if(itemstack.itemID == Item.bow.shiftedIndex)
+            }
+            else if (itemstack.itemID == Item.bow.shiftedIndex)
             {
                 float f2 = 0.625F;
                 GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
@@ -56,15 +46,16 @@ public class RenderBiped extends RenderLiving
                 GL11.glScalef(f2, -f2, f2);
                 GL11.glRotatef(-100F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45F, 0.0F, 1.0F, 0.0F);
-            } else
-            if(Item.itemsList[itemstack.itemID].isFull3D())
+            }
+            else if (Item.itemsList[itemstack.itemID].isFull3D())
             {
                 float f3 = 0.625F;
                 GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
                 GL11.glScalef(f3, -f3, f3);
                 GL11.glRotatef(-100F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45F, 0.0F, 1.0F, 0.0F);
-            } else
+            }
+            else
             {
                 float f4 = 0.375F;
                 GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
@@ -74,7 +65,7 @@ public class RenderBiped extends RenderLiving
                 GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
             }
             renderManager.itemRenderer.renderItem(entityliving, itemstack, 0);
-            if(itemstack.itemID == Item.potion.shiftedIndex)
+            if (itemstack.getItem().func_46058_c())
             {
                 renderManager.itemRenderer.renderItem(entityliving, itemstack, 1);
             }

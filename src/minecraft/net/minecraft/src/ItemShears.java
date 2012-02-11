@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Item, Block, BlockLeaves, BlockTallGrass, 
-//            ItemStack, EntityLiving
 
 public class ItemShears extends Item
 {
-
     public ItemShears(int i)
     {
         super(i);
@@ -21,11 +11,12 @@ public class ItemShears extends Item
 
     public boolean onBlockDestroyed(ItemStack itemstack, int i, int j, int k, int l, EntityLiving entityliving)
     {
-        if(i == Block.leaves.blockID || i == Block.web.blockID || i == Block.tallGrass.blockID || i == Block.vine.blockID)
+        if (i == Block.leaves.blockID || i == Block.web.blockID || i == Block.tallGrass.blockID || i == Block.vine.blockID)
         {
             itemstack.damageItem(1, entityliving);
             return true;
-        } else
+        }
+        else
         {
             return super.onBlockDestroyed(itemstack, i, j, k, l, entityliving);
         }
@@ -38,14 +29,15 @@ public class ItemShears extends Item
 
     public float getStrVsBlock(ItemStack itemstack, Block block)
     {
-        if(block.blockID == Block.web.blockID || block.blockID == Block.leaves.blockID)
+        if (block.blockID == Block.web.blockID || block.blockID == Block.leaves.blockID)
         {
             return 15F;
         }
-        if(block.blockID == Block.cloth.blockID)
+        if (block.blockID == Block.cloth.blockID)
         {
             return 5F;
-        } else
+        }
+        else
         {
             return super.getStrVsBlock(itemstack, block);
         }

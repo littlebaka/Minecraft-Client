@@ -1,33 +1,24 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            ISaveFormat, SaveFormatComparator, WorldInfo, CompressedStreamTools, 
-//            NBTTagCompound, SaveHandler, ISaveHandler, IProgressUpdate
-
 public class SaveFormatOld
     implements ISaveFormat
 {
-
     protected final File savesDirectory;
 
     public SaveFormatOld(File file)
     {
-        if(!file.exists())
+        if (!file.exists())
         {
             file.mkdirs();
         }
         savesDirectory = file;
     }
 
-    public String func_22178_a()
+    public String getFormatName()
     {
         return "Old Format";
     }
@@ -35,11 +26,11 @@ public class SaveFormatOld
     public List getSaveList()
     {
         ArrayList arraylist = new ArrayList();
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             String s = (new StringBuilder()).append("World").append(i + 1).toString();
             WorldInfo worldinfo = getWorldInfo(s);
-            if(worldinfo != null)
+            if (worldinfo != null)
             {
                 arraylist.add(new SaveFormatComparator(s, "", worldinfo.getLastTimePlayed(), worldinfo.getSizeOnDisk(), worldinfo.getGameType(), false, worldinfo.isHardcoreModeEnabled()));
             }
@@ -55,12 +46,12 @@ public class SaveFormatOld
     public WorldInfo getWorldInfo(String s)
     {
         File file = new File(savesDirectory, s);
-        if(!file.exists())
+        if (!file.exists())
         {
             return null;
         }
         File file1 = new File(file, "level.dat");
-        if(file1.exists())
+        if (file1.exists())
         {
             try
             {
@@ -68,13 +59,13 @@ public class SaveFormatOld
                 NBTTagCompound nbttagcompound2 = nbttagcompound.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound2);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 exception.printStackTrace();
             }
         }
         file1 = new File(file, "level.dat_old");
-        if(file1.exists())
+        if (file1.exists())
         {
             try
             {
@@ -82,7 +73,7 @@ public class SaveFormatOld
                 NBTTagCompound nbttagcompound3 = nbttagcompound1.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound3);
             }
-            catch(Exception exception1)
+            catch (Exception exception1)
             {
                 exception1.printStackTrace();
             }
@@ -93,12 +84,12 @@ public class SaveFormatOld
     public void renameWorld(String s, String s1)
     {
         File file = new File(savesDirectory, s);
-        if(!file.exists())
+        if (!file.exists())
         {
             return;
         }
         File file1 = new File(file, "level.dat");
-        if(file1.exists())
+        if (file1.exists())
         {
             try
             {
@@ -107,7 +98,7 @@ public class SaveFormatOld
                 nbttagcompound1.setString("LevelName", s1);
                 CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound, new FileOutputStream(file1));
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 exception.printStackTrace();
             }
@@ -117,10 +108,11 @@ public class SaveFormatOld
     public void deleteWorldDirectory(String s)
     {
         File file = new File(savesDirectory, s);
-        if(!file.exists())
+        if (!file.exists())
         {
             return;
-        } else
+        }
+        else
         {
             deleteFiles(file.listFiles());
             file.delete();
@@ -130,16 +122,15 @@ public class SaveFormatOld
 
     protected static void deleteFiles(File afile[])
     {
-        for(int i = 0; i < afile.length; i++)
+        for (int i = 0; i < afile.length; i++)
         {
-            if(afile[i].isDirectory())
+            if (afile[i].isDirectory())
             {
                 System.out.println((new StringBuilder()).append("Deleting ").append(afile[i]).toString());
                 deleteFiles(afile[i].listFiles());
             }
             afile[i].delete();
         }
-
     }
 
     public ISaveHandler getSaveLoader(String s, boolean flag)

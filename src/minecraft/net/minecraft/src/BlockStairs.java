@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, World, EntityLiving, MathHelper, 
-//            IBlockAccess, AxisAlignedBB, EntityPlayer, Entity, 
-//            Vec3D
-
 public class BlockStairs extends Block
 {
-
     private Block modelBlock;
 
     protected BlockStairs(int i, Block block)
@@ -60,28 +50,28 @@ public class BlockStairs extends Block
     public void getCollidingBoundingBoxes(World world, int i, int j, int k, AxisAlignedBB axisalignedbb, ArrayList arraylist)
     {
         int l = world.getBlockMetadata(i, j, k);
-        if(l == 0)
+        if (l == 0)
         {
             setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 0.5F, 1.0F);
             super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
             setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-        } else
-        if(l == 1)
+        }
+        else if (l == 1)
         {
             setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
             super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
             setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
             super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-        } else
-        if(l == 2)
+        }
+        else if (l == 2)
         {
             setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 0.5F);
             super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
             setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
             super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
-        } else
-        if(l == 3)
+        }
+        else if (l == 3)
         {
             setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
             super.getCollidingBoundingBoxes(world, i, j, k, axisalignedbb, arraylist);
@@ -200,19 +190,19 @@ public class BlockStairs extends Block
     public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
     {
         int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
-        if(l == 0)
+        if (l == 0)
         {
             world.setBlockMetadataWithNotify(i, j, k, 2);
         }
-        if(l == 1)
+        if (l == 1)
         {
             world.setBlockMetadataWithNotify(i, j, k, 1);
         }
-        if(l == 2)
+        if (l == 2)
         {
             world.setBlockMetadataWithNotify(i, j, k, 3);
         }
-        if(l == 3)
+        if (l == 3)
         {
             world.setBlockMetadataWithNotify(i, j, k, 0);
         }

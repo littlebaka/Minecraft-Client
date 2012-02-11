@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
@@ -9,12 +5,11 @@ import java.util.List;
 
 public class IntCache
 {
-
     private static int intCacheSize = 256;
-    private static List field_35271_b = new ArrayList();
-    private static List field_35272_c = new ArrayList();
-    private static List field_35269_d = new ArrayList();
-    private static List field_35270_e = new ArrayList();
+    private static List freeSmallArrays = new ArrayList();
+    private static List inUseSmallArrays = new ArrayList();
+    private static List freeLargeArrays = new ArrayList();
+    private static List inUseLargeArrays = new ArrayList();
 
     public IntCache()
     {
@@ -22,56 +17,57 @@ public class IntCache
 
     public static int[] getIntCache(int i)
     {
-        if(i <= 256)
+        if (i <= 256)
         {
-            if(field_35271_b.size() == 0)
+            if (freeSmallArrays.size() == 0)
             {
                 int ai[] = new int[256];
-                field_35272_c.add(ai);
+                inUseSmallArrays.add(ai);
                 return ai;
-            } else
+            }
+            else
             {
-                int ai1[] = (int[])field_35271_b.remove(field_35271_b.size() - 1);
-                field_35272_c.add(ai1);
+                int ai1[] = (int[])freeSmallArrays.remove(freeSmallArrays.size() - 1);
+                inUseSmallArrays.add(ai1);
                 return ai1;
             }
         }
-        if(i > intCacheSize)
+        if (i > intCacheSize)
         {
             intCacheSize = i;
-            field_35269_d.clear();
-            field_35270_e.clear();
+            freeLargeArrays.clear();
+            inUseLargeArrays.clear();
             int ai2[] = new int[intCacheSize];
-            field_35270_e.add(ai2);
+            inUseLargeArrays.add(ai2);
             return ai2;
         }
-        if(field_35269_d.size() == 0)
+        if (freeLargeArrays.size() == 0)
         {
             int ai3[] = new int[intCacheSize];
-            field_35270_e.add(ai3);
+            inUseLargeArrays.add(ai3);
             return ai3;
-        } else
+        }
+        else
         {
-            int ai4[] = (int[])field_35269_d.remove(field_35269_d.size() - 1);
-            field_35270_e.add(ai4);
+            int ai4[] = (int[])freeLargeArrays.remove(freeLargeArrays.size() - 1);
+            inUseLargeArrays.add(ai4);
             return ai4;
         }
     }
 
-    public static void func_35268_a()
+    public static void resetIntCache()
     {
-        if(field_35269_d.size() > 0)
+        if (freeLargeArrays.size() > 0)
         {
-            field_35269_d.remove(field_35269_d.size() - 1);
+            freeLargeArrays.remove(freeLargeArrays.size() - 1);
         }
-        if(field_35271_b.size() > 0)
+        if (freeSmallArrays.size() > 0)
         {
-            field_35271_b.remove(field_35271_b.size() - 1);
+            freeSmallArrays.remove(freeSmallArrays.size() - 1);
         }
-        field_35269_d.addAll(field_35270_e);
-        field_35271_b.addAll(field_35272_c);
-        field_35270_e.clear();
-        field_35272_c.clear();
+        freeLargeArrays.addAll(inUseLargeArrays);
+        freeSmallArrays.addAll(inUseSmallArrays);
+        inUseLargeArrays.clear();
+        inUseSmallArrays.clear();
     }
-
 }

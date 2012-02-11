@@ -1,12 +1,7 @@
 package net.minecraft.src;
 
-
-// Referenced classes of package net.minecraft.src:
-//            IInventory, ItemStack
-
 public class Slot
 {
-
     private final int slotIndex;
     public final IInventory inventory;
     public int slotNumber;

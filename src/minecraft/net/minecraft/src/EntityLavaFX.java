@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, World, Tessellator
-
 public class EntityLavaFX extends EntityFX
 {
-
     private float lavaParticleScale;
 
     public EntityLavaFX(World world, double d, double d1, double d2)
@@ -26,17 +18,17 @@ public class EntityLavaFX extends EntityFX
         lavaParticleScale = particleScale;
         particleMaxAge = (int)(16D / (Math.random() * 0.80000000000000004D + 0.20000000000000001D));
         noClip = false;
-        func_40099_c(49);
+        setParticleTextureIndex(49);
     }
 
     public int getEntityBrightnessForRender(float f)
     {
         float f1 = ((float)particleAge + f) / (float)particleMaxAge;
-        if(f1 < 0.0F)
+        if (f1 < 0.0F)
         {
             f1 = 0.0F;
         }
-        if(f1 > 1.0F)
+        if (f1 > 1.0F)
         {
             f1 = 1.0F;
         }
@@ -63,12 +55,12 @@ public class EntityLavaFX extends EntityFX
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
-        if(particleAge++ >= particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
             setEntityDead();
         }
         float f = (float)particleAge / (float)particleMaxAge;
-        if(rand.nextFloat() > f)
+        if (rand.nextFloat() > f)
         {
             worldObj.spawnParticle("smoke", posX, posY, posZ, motionX, motionY, motionZ);
         }
@@ -77,7 +69,7 @@ public class EntityLavaFX extends EntityFX
         motionX *= 0.99900001287460327D;
         motionY *= 0.99900001287460327D;
         motionZ *= 0.99900001287460327D;
-        if(onGround)
+        if (onGround)
         {
             motionX *= 0.69999998807907104D;
             motionZ *= 0.69999998807907104D;

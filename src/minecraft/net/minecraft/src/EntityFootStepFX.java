@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, MathHelper, World, RenderEngine, 
-//            Tessellator
-
 public class EntityFootStepFX extends EntityFX
 {
-
     private int field_27018_a;
     private int field_27020_o;
     private RenderEngine currentFootSteps;
@@ -32,7 +23,7 @@ public class EntityFootStepFX extends EntityFX
         float f6 = ((float)field_27018_a + f) / (float)field_27020_o;
         f6 *= f6;
         float f7 = 2.0F - f6 * 2.0F;
-        if(f7 > 1.0F)
+        if (f7 > 1.0F)
         {
             f7 = 1.0F;
         }
@@ -60,7 +51,7 @@ public class EntityFootStepFX extends EntityFX
     public void onUpdate()
     {
         field_27018_a++;
-        if(field_27018_a == field_27020_o)
+        if (field_27018_a == field_27020_o)
         {
             setEntityDead();
         }

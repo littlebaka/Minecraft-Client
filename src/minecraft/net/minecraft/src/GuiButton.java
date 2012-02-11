@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Gui, RenderEngine
-
 public class GuiButton extends Gui
 {
-
     protected int width;
     protected int height;
     public int xPosition;
@@ -44,11 +36,11 @@ public class GuiButton extends Gui
     protected int getHoverState(boolean flag)
     {
         byte byte0 = 1;
-        if(!enabled)
+        if (!enabled)
         {
             byte0 = 0;
-        } else
-        if(flag)
+        }
+        else if (flag)
         {
             byte0 = 2;
         }
@@ -57,7 +49,7 @@ public class GuiButton extends Gui
 
     public void drawButton(Minecraft minecraft, int i, int j)
     {
-        if(!drawButton)
+        if (!drawButton)
         {
             return;
         }
@@ -69,14 +61,15 @@ public class GuiButton extends Gui
         drawTexturedModalRect(xPosition, yPosition, 0, 46 + k * 20, width / 2, height);
         drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + k * 20, width / 2, height);
         mouseDragged(minecraft, i, j);
-        if(!enabled)
+        if (!enabled)
         {
             drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, 0xffa0a0a0);
-        } else
-        if(flag)
+        }
+        else if (flag)
         {
             drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, 0xffffa0);
-        } else
+        }
+        else
         {
             drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, 0xe0e0e0);
         }

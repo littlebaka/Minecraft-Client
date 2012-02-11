@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
@@ -9,12 +5,8 @@ import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            RegionFile
-
 public class RegionFileCache
 {
-
     private static final Map regionsByFilename = new HashMap();
 
     private RegionFileCache()
@@ -26,19 +18,19 @@ public class RegionFileCache
         File file1 = new File(file, "region");
         File file2 = new File(file1, (new StringBuilder()).append("r.").append(i >> 5).append(".").append(j >> 5).append(".mcr").toString());
         Reference reference = (Reference)regionsByFilename.get(file2);
-        if(reference != null)
+        if (reference != null)
         {
             RegionFile regionfile = (RegionFile)reference.get();
-            if(regionfile != null)
+            if (regionfile != null)
             {
                 return regionfile;
             }
         }
-        if(!file1.exists())
+        if (!file1.exists())
         {
             file1.mkdirs();
         }
-        if(regionsByFilename.size() >= 256)
+        if (regionsByFilename.size() >= 256)
         {
             clearRegionFileReferences();
         }
@@ -52,7 +44,7 @@ public class RegionFileCache
         Iterator iterator = regionsByFilename.values().iterator();
         do
         {
-            if(!iterator.hasNext())
+            if (!iterator.hasNext())
             {
                 break;
             }
@@ -60,16 +52,17 @@ public class RegionFileCache
             try
             {
                 RegionFile regionfile = (RegionFile)reference.get();
-                if(regionfile != null)
+                if (regionfile != null)
                 {
                     regionfile.close();
                 }
             }
-            catch(IOException ioexception)
+            catch (IOException ioexception)
             {
                 ioexception.printStackTrace();
             }
-        } while(true);
+        }
+        while (true);
         regionsByFilename.clear();
     }
 
@@ -84,5 +77,4 @@ public class RegionFileCache
         RegionFile regionfile = createOrLoadRegionFile(file, i, j);
         return regionfile.getChunkDataOutputStream(i & 0x1f, j & 0x1f);
     }
-
 }

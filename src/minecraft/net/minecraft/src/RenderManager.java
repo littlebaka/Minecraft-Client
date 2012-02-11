@@ -1,42 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            EntitySpider, RenderSpider, EntityCaveSpider, EntityPig, 
-//            RenderPig, ModelPig, EntitySheep, RenderSheep, 
-//            ModelSheep2, ModelSheep1, EntityCow, RenderCow, 
-//            ModelCow, EntityMooshroom, RenderMooshroom, EntityWolf, 
-//            RenderWolf, ModelWolf, EntityChicken, RenderChicken, 
-//            ModelChicken, EntitySilverfish, RenderSilverfish, EntityCreeper, 
-//            RenderCreeper, EntityEnderman, RenderEnderman, EntitySnowman, 
-//            RenderSnowMan, EntitySkeleton, RenderBiped, ModelSkeleton, 
-//            EntityBlaze, RenderBlaze, EntityZombie, ModelZombie, 
-//            EntitySlime, RenderSlime, ModelSlime, EntityMagmaCube, 
-//            RenderMagmaCube, EntityPlayer, RenderPlayer, EntityGiantZombie, 
-//            RenderGiantZombie, EntityGhast, RenderGhast, EntitySquid, 
-//            RenderSquid, ModelSquid, EntityVillager, RenderVillager, 
-//            EntityLiving, RenderLiving, ModelBiped, EntityDragon, 
-//            RenderDragon, EntityEnderCrystal, RenderEnderCrystal, Entity, 
-//            RenderEntity, EntityPainting, RenderPainting, EntityArrow, 
-//            RenderArrow, EntitySnowball, RenderSnowball, Item, 
-//            EntityEnderPearl, EntityEnderEye, EntityEgg, EntityPotion, 
-//            EntityFireball, RenderFireball, EntitySmallFireball, EntityItem, 
-//            RenderItem, EntityXPOrb, RenderXPOrb, EntityTNTPrimed, 
-//            RenderTNTPrimed, EntityFallingSand, RenderFallingSand, EntityMinecart, 
-//            RenderMinecart, EntityBoat, RenderBoat, EntityFishHook, 
-//            RenderFish, EntityLightningBolt, RenderLightningBolt, Render, 
-//            MathHelper, World, Block, GameSettings, 
-//            OpenGlHelper, FontRenderer, RenderEngine, ItemRenderer
-
 public class RenderManager
 {
-
     private Map entityRenderMap;
     public static RenderManager instance = new RenderManager();
     private FontRenderer fontRenderer;
@@ -100,22 +68,17 @@ public class RenderManager
         entityRenderMap.put(net.minecraft.src.EntityBoat.class, new RenderBoat());
         entityRenderMap.put(net.minecraft.src.EntityFishHook.class, new RenderFish());
         entityRenderMap.put(net.minecraft.src.EntityLightningBolt.class, new RenderLightningBolt());
-        //nouveau //TODO
-        entityRenderMap.put(net.minecraft.src.EntityDSplashFX.class, new RenderDSplashFX());
-        entityRenderMap.put(net.minecraft.src.EntityDummy.class, new RenderDummy());
-        //fin
         Render render;
-        for(Iterator iterator = entityRenderMap.values().iterator(); iterator.hasNext(); render.setRenderManager(this))
+        for (Iterator iterator = entityRenderMap.values().iterator(); iterator.hasNext(); render.setRenderManager(this))
         {
             render = (Render)iterator.next();
         }
-
     }
 
     public Render getEntityClassRenderObject(Class class1)
     {
         Render render = (Render)entityRenderMap.get(class1);
-        if(render == null && class1 != (net.minecraft.src.Entity.class))
+        if (render == null && class1 != (net.minecraft.src.Entity.class))
         {
             render = getEntityClassRenderObject(class1.getSuperclass());
             entityRenderMap.put(class1, render);
@@ -135,22 +98,23 @@ public class RenderManager
         options = gamesettings;
         livingPlayer = entityliving;
         fontRenderer = fontrenderer;
-        if(entityliving.isPlayerSleeping())
+        if (entityliving.isPlayerSleeping())
         {
             int i = world.getBlockId(MathHelper.floor_double(entityliving.posX), MathHelper.floor_double(entityliving.posY), MathHelper.floor_double(entityliving.posZ));
-            if(i == Block.bed.blockID)
+            if (i == Block.bed.blockID)
             {
                 int j = world.getBlockMetadata(MathHelper.floor_double(entityliving.posX), MathHelper.floor_double(entityliving.posY), MathHelper.floor_double(entityliving.posZ));
                 int k = j & 3;
                 playerViewY = k * 90 + 180;
                 playerViewX = 0.0F;
             }
-        } else
+        }
+        else
         {
             playerViewY = entityliving.prevRotationYaw + (entityliving.rotationYaw - entityliving.prevRotationYaw) * f;
             playerViewX = entityliving.prevRotationPitch + (entityliving.rotationPitch - entityliving.prevRotationPitch) * f;
         }
-        if(gamesettings.thirdPersonView == 2)
+        if (gamesettings.thirdPersonView == 2)
         {
             playerViewY += 180F;
         }
@@ -166,6 +130,10 @@ public class RenderManager
         double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)f;
         float f1 = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * f;
         int i = entity.getEntityBrightnessForRender(f);
+        if (entity.isBurning())
+        {
+            i = 0xf000f0;
+        }
         int j = i % 0x10000;
         int k = i / 0x10000;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapEnabled, (float)j / 1.0F, (float)k / 1.0F);
@@ -173,11 +141,11 @@ public class RenderManager
         renderEntityWithPosYaw(entity, d - renderPosX, d1 - renderPosY, d2 - renderPosZ, f1, f);
     }
 
-    public void renderEntityWithPosYaw(Entity entity, double d, double d1, double d2, 
+    public void renderEntityWithPosYaw(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         Render render = getEntityRenderObject(entity);
-        if(render != null)
+        if (render != null)
         {
             render.doRender(entity, d, d1, d2, f, f1);
             render.doRenderShadowAndFire(entity, d, d1, d2, f, f1);
@@ -201,5 +169,4 @@ public class RenderManager
     {
         return fontRenderer;
     }
-
 }

@@ -1,24 +1,20 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityMob, World, MathHelper, Item, 
-//            EnumCreatureAttribute
-
 public class EntityZombie extends EntityMob
 {
-
     public EntityZombie(World world)
     {
         super(world);
         texture = "/mob/zombie.png";
         moveSpeed = 0.5F;
         attackStrength = 4;
+        field_46019_bU.func_46118_a(1, new EntityAISwimming(this));
+        field_46019_bU.func_46118_a(2, new EntityAIAttackOnCollide(this, world, 16F));
+        field_46019_bU.func_46118_a(3, new EntityAIWander(this));
+        field_46019_bU.func_46118_a(4, new EntityAIWatchClosest(this, world, 8F));
+        field_46019_bU.func_46118_a(4, new EntityAILookIdle(this));
     }
 
     public int getMaxHealth()
@@ -26,19 +22,24 @@ public class EntityZombie extends EntityMob
         return 20;
     }
 
-    protected int func_40119_ar()
+    public int getTotalArmorValue()
     {
         return 2;
     }
 
+    protected boolean func_46006_aR()
+    {
+        return false;
+    }
+
     public void onLivingUpdate()
     {
-        if(worldObj.isDaytime() && !worldObj.multiplayerWorld)
+        if (worldObj.isDaytime() && !worldObj.multiplayerWorld)
         {
             float f = getEntityBrightness(1.0F);
-            if(f > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30F < (f - 0.4F) * 2.0F)
+            if (f > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30F < (f - 0.4F) * 2.0F)
             {
-                func_40046_d(8);
+                setFire(8);
             }
         }
         super.onLivingUpdate();
@@ -64,7 +65,7 @@ public class EntityZombie extends EntityMob
         return Item.rottenFlesh.shiftedIndex;
     }
 
-    public EnumCreatureAttribute func_40124_t()
+    public EnumCreatureAttribute getCreatureAttribute()
     {
         return EnumCreatureAttribute.UNDEAD;
     }

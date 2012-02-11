@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Block, World, TileEntity, Material
 
 public abstract class BlockContainer extends Block
 {
-
     protected BlockContainer(int i, Material material)
     {
         super(i, material);
@@ -41,9 +32,9 @@ public abstract class BlockContainer extends Block
     {
         super.powerBlock(world, i, j, k, l, i1);
         TileEntity tileentity = world.getBlockTileEntity(i, j, k);
-        if(tileentity != null)
+        if (tileentity != null)
         {
-            tileentity.func_35143_b(l, i1);
+            tileentity.onTileEntityPowered(l, i1);
         }
     }
 }

@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.awt.*;
@@ -12,12 +8,8 @@ import java.util.Date;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            UnexpectedThrowable, CanvasMojangLogo, CanvasCrashReport
-
 public class PanelCrashReport extends Panel
 {
-
     public PanelCrashReport(UnexpectedThrowable unexpectedthrowable)
     {
         setBackground(new Color(0x2e3444));
@@ -31,7 +23,7 @@ public class PanelCrashReport extends Panel
         {
             s2 = (new StringBuilder()).append(s2).append("Generated ").append((new SimpleDateFormat()).format(new Date())).append("\n").toString();
             s2 = (new StringBuilder()).append(s2).append("\n").toString();
-            s2 = (new StringBuilder()).append(s2).append("Minecraft: Minecraft 1.0.0\n").toString();
+            s2 = (new StringBuilder()).append(s2).append("Minecraft: Minecraft 1.1\n").toString();
             s2 = (new StringBuilder()).append(s2).append("OS: ").append(System.getProperty("os.name")).append(" (").append(System.getProperty("os.arch")).append(") version ").append(System.getProperty("os.version")).append("\n").toString();
             s2 = (new StringBuilder()).append(s2).append("Java: ").append(System.getProperty("java.version")).append(", ").append(System.getProperty("java.vendor")).append("\n").toString();
             s2 = (new StringBuilder()).append(s2).append("VM: ").append(System.getProperty("java.vm.name")).append(" (").append(System.getProperty("java.vm.info")).append("), ").append(System.getProperty("java.vm.vendor")).append("\n").toString();
@@ -39,7 +31,7 @@ public class PanelCrashReport extends Panel
             s1 = GL11.glGetString(7936 /*GL_VENDOR*/);
             s2 = (new StringBuilder()).append(s2).append("OpenGL: ").append(GL11.glGetString(7937 /*GL_RENDERER*/)).append(" version ").append(GL11.glGetString(7938 /*GL_VERSION*/)).append(", ").append(GL11.glGetString(7936 /*GL_VENDOR*/)).append("\n").toString();
         }
-        catch(Throwable throwable)
+        catch (Throwable throwable)
         {
             s2 = (new StringBuilder()).append(s2).append("[failed to get system properties (").append(throwable).append(")]\n").toString();
         }
@@ -48,26 +40,27 @@ public class PanelCrashReport extends Panel
         String s3 = "";
         s3 = (new StringBuilder()).append(s3).append("\n").toString();
         s3 = (new StringBuilder()).append(s3).append("\n").toString();
-        if(s.contains("Pixel format not accelerated"))
+        if (s.contains("Pixel format not accelerated"))
         {
             s3 = (new StringBuilder()).append(s3).append("      Bad video card drivers!      \n").toString();
             s3 = (new StringBuilder()).append(s3).append("      -----------------------      \n").toString();
             s3 = (new StringBuilder()).append(s3).append("\n").toString();
             s3 = (new StringBuilder()).append(s3).append("Minecraft was unable to start because it failed to find an accelerated OpenGL mode.\n").toString();
             s3 = (new StringBuilder()).append(s3).append("This can usually be fixed by updating the video card drivers.\n").toString();
-            if(s1.toLowerCase().contains("nvidia"))
+            if (s1.toLowerCase().contains("nvidia"))
             {
                 s3 = (new StringBuilder()).append(s3).append("\n").toString();
                 s3 = (new StringBuilder()).append(s3).append("You might be able to find drivers for your video card here:\n").toString();
                 s3 = (new StringBuilder()).append(s3).append("  http://www.nvidia.com/\n").toString();
-            } else
-            if(s1.toLowerCase().contains("ati"))
+            }
+            else if (s1.toLowerCase().contains("ati"))
             {
                 s3 = (new StringBuilder()).append(s3).append("\n").toString();
                 s3 = (new StringBuilder()).append(s3).append("You might be able to find drivers for your video card here:\n").toString();
                 s3 = (new StringBuilder()).append(s3).append("  http://www.amd.com/\n").toString();
             }
-        } else
+        }
+        else
         {
             s3 = (new StringBuilder()).append(s3).append("      Minecraft has crashed!      \n").toString();
             s3 = (new StringBuilder()).append(s3).append("      ----------------------      \n").toString();

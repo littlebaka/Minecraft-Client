@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiSlotStats, StatList, StatCrafting, GuiStats, 
-//            StatFileWriter, SorterStatsBlock, Tessellator
-
 class GuiSlotStatsBlock extends GuiSlotStats
 {
-
-    final GuiStats field_27274_a; /* synthetic field */
+    final GuiStats field_27274_a;
 
     public GuiSlotStatsBlock(GuiStats guistats)
     {
@@ -23,54 +14,58 @@ class GuiSlotStatsBlock extends GuiSlotStats
         Iterator iterator = StatList.objectMineStats.iterator();
         do
         {
-            if(!iterator.hasNext())
+            if (!iterator.hasNext())
             {
                 break;
             }
             StatCrafting statcrafting = (StatCrafting)iterator.next();
             boolean flag = false;
             int i = statcrafting.func_25072_b();
-            if(GuiStats.getStatsFileWriter(guistats).writeStat(statcrafting) > 0)
-            {
-                flag = true;
-            } else
-            if(StatList.objectUseStats[i] != null && GuiStats.getStatsFileWriter(guistats).writeStat(StatList.objectUseStats[i]) > 0)
-            {
-                flag = true;
-            } else
-            if(StatList.objectCraftStats[i] != null && GuiStats.getStatsFileWriter(guistats).writeStat(StatList.objectCraftStats[i]) > 0)
+            if (GuiStats.getStatsFileWriter(guistats).writeStat(statcrafting) > 0)
             {
                 flag = true;
             }
-            if(flag)
+            else if (StatList.objectUseStats[i] != null && GuiStats.getStatsFileWriter(guistats).writeStat(StatList.objectUseStats[i]) > 0)
+            {
+                flag = true;
+            }
+            else if (StatList.objectCraftStats[i] != null && GuiStats.getStatsFileWriter(guistats).writeStat(StatList.objectCraftStats[i]) > 0)
+            {
+                flag = true;
+            }
+            if (flag)
             {
                 field_27273_c.add(statcrafting);
             }
-        } while(true);
+        }
+        while (true);
         field_27272_d = new SorterStatsBlock(this, guistats);
     }
 
     protected void func_27260_a(int i, int j, Tessellator tessellator)
     {
         super.func_27260_a(i, j, tessellator);
-        if(field_27268_b == 0)
+        if (field_27268_b == 0)
         {
             GuiStats.drawSprite(field_27274_a, ((i + 115) - 18) + 1, j + 1 + 1, 18, 18);
-        } else
+        }
+        else
         {
             GuiStats.drawSprite(field_27274_a, (i + 115) - 18, j + 1, 18, 18);
         }
-        if(field_27268_b == 1)
+        if (field_27268_b == 1)
         {
             GuiStats.drawSprite(field_27274_a, ((i + 165) - 18) + 1, j + 1 + 1, 36, 18);
-        } else
+        }
+        else
         {
             GuiStats.drawSprite(field_27274_a, (i + 165) - 18, j + 1, 36, 18);
         }
-        if(field_27268_b == 2)
+        if (field_27268_b == 2)
         {
             GuiStats.drawSprite(field_27274_a, ((i + 215) - 18) + 1, j + 1 + 1, 54, 18);
-        } else
+        }
+        else
         {
             GuiStats.drawSprite(field_27274_a, (i + 215) - 18, j + 1, 54, 18);
         }
@@ -88,14 +83,15 @@ class GuiSlotStatsBlock extends GuiSlotStats
 
     protected String func_27263_a(int i)
     {
-        if(i == 0)
+        if (i == 0)
         {
             return "stat.crafted";
         }
-        if(i == 1)
+        if (i == 1)
         {
             return "stat.used";
-        } else
+        }
+        else
         {
             return "stat.mined";
         }

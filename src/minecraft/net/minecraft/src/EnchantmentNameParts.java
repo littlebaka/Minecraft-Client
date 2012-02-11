@@ -1,14 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
 public class EnchantmentNameParts
 {
-
     public static final EnchantmentNameParts field_40253_a = new EnchantmentNameParts();
     private Random field_40251_b;
     private String field_40252_c[];
@@ -23,9 +18,9 @@ public class EnchantmentNameParts
     {
         int i = field_40251_b.nextInt(2) + 3;
         String s = "";
-        for(int j = 0; j < i; j++)
+        for (int j = 0; j < i; j++)
         {
-            if(j > 0)
+            if (j > 0)
             {
                 s = (new StringBuilder()).append(s).append(" ").toString();
             }
@@ -39,5 +34,4 @@ public class EnchantmentNameParts
     {
         field_40251_b.setSeed(l);
     }
-
 }

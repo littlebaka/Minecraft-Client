@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentStronghold, ComponentStrongholdStairs2, StructureBoundingBox, StructureComponent, 
-//            StructureStrongholdPieces, Block, EnumDoor, World
-
 public class ComponentStrongholdPrison extends ComponentStronghold
 {
-
     protected final EnumDoor field_35064_a;
 
     public ComponentStrongholdPrison(int i, Random random, StructureBoundingBox structureboundingbox, int j)
@@ -32,10 +23,11 @@ public class ComponentStrongholdPrison extends ComponentStronghold
     public static ComponentStrongholdPrison func_35063_a(List list, Random random, int i, int j, int k, int l, int i1)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, -1, -1, 0, 9, 5, 11, l);
-        if(!canStrongholdGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (!canStrongholdGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return new ComponentStrongholdPrison(i1, random, structureboundingbox, l);
         }
@@ -43,10 +35,11 @@ public class ComponentStrongholdPrison extends ComponentStronghold
 
     public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox)
     {
-        if(isLiquidInStructureBoundingBox(world, structureboundingbox))
+        if (isLiquidInStructureBoundingBox(world, structureboundingbox))
         {
             return false;
-        } else
+        }
+        else
         {
             fillWithRandomizedBlocks(world, structureboundingbox, 0, 0, 0, 8, 4, 10, true, random, StructureStrongholdPieces.getStrongholdStones());
             placeDoor(world, random, structureboundingbox, field_35064_a, 1, 1, 0);
@@ -59,10 +52,10 @@ public class ComponentStrongholdPrison extends ComponentStronghold
             fillWithBlocks(world, structureboundingbox, 5, 1, 5, 7, 3, 5, Block.fenceIron.blockID, Block.fenceIron.blockID, false);
             placeBlockAtCurrentPosition(world, Block.fenceIron.blockID, 0, 4, 3, 2, structureboundingbox);
             placeBlockAtCurrentPosition(world, Block.fenceIron.blockID, 0, 4, 3, 8, structureboundingbox);
-            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, func_35009_c(Block.doorSteel.blockID, 3), 4, 1, 2, structureboundingbox);
-            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, func_35009_c(Block.doorSteel.blockID, 3) + 8, 4, 2, 2, structureboundingbox);
-            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, func_35009_c(Block.doorSteel.blockID, 3), 4, 1, 8, structureboundingbox);
-            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, func_35009_c(Block.doorSteel.blockID, 3) + 8, 4, 2, 8, structureboundingbox);
+            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, getMetadataWithOffset(Block.doorSteel.blockID, 3), 4, 1, 2, structureboundingbox);
+            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, getMetadataWithOffset(Block.doorSteel.blockID, 3) + 8, 4, 2, 2, structureboundingbox);
+            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, getMetadataWithOffset(Block.doorSteel.blockID, 3), 4, 1, 8, structureboundingbox);
+            placeBlockAtCurrentPosition(world, Block.doorSteel.blockID, getMetadataWithOffset(Block.doorSteel.blockID, 3) + 8, 4, 2, 8, structureboundingbox);
             return true;
         }
     }

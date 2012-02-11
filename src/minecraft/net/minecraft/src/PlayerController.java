@@ -1,19 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, World, ItemStack, EntityPlayer, 
-//            InventoryPlayer, PlayerControllerCreative, EntityPlayerSP, WorldProvider, 
-//            Container, Entity
-
 public abstract class PlayerController
 {
-
     protected final Minecraft mc;
     public boolean isInTestMode;
 
@@ -29,25 +19,25 @@ public abstract class PlayerController
 
     public abstract void clickBlock(int i, int j, int k, int l);
 
-    public boolean sendBlockRemoved(int i, int j, int k, int l)
+    public boolean onPlayerDestroyBlock(int i, int j, int k, int l)
     {
         World world = mc.theWorld;
         Block block = Block.blocksList[world.getBlockId(i, j, k)];
-        if(block == null)
+        if (block == null)
         {
             return false;
         }
         world.playAuxSFX(2001, i, j, k, block.blockID + world.getBlockMetadata(i, j, k) * 256);
         int i1 = world.getBlockMetadata(i, j, k);
         boolean flag = world.setBlockWithNotify(i, j, k, 0);
-        if(block != null && flag)
+        if (block != null && flag)
         {
             block.onBlockDestroyedByPlayer(world, i, j, k, i1);
         }
         return flag;
     }
 
-    public abstract void sendBlockRemoving(int i, int j, int k, int l);
+    public abstract void onPlayerDamageBlock(int i, int j, int k, int l);
 
     public abstract void resetBlockRemoving();
 
@@ -61,15 +51,16 @@ public abstract class PlayerController
     {
         int i = itemstack.stackSize;
         ItemStack itemstack1 = itemstack.useItemRightClick(world, entityplayer);
-        if(itemstack1 != itemstack || itemstack1 != null && itemstack1.stackSize != i)
+        if (itemstack1 != itemstack || itemstack1 != null && itemstack1.stackSize != i)
         {
             entityplayer.inventory.mainInventory[entityplayer.inventory.currentItem] = itemstack1;
-            if(itemstack1.stackSize == 0)
+            if (itemstack1.stackSize == 0)
             {
                 entityplayer.inventory.mainInventory[entityplayer.inventory.currentItem] = null;
             }
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -87,10 +78,10 @@ public abstract class PlayerController
 
     public void func_6473_b(EntityPlayer entityplayer)
     {
-        PlayerControllerCreative.func_35645_e(entityplayer);
+        PlayerControllerCreative.disableAbilities(entityplayer);
     }
 
-    public abstract boolean sendPlaceBlock(EntityPlayer entityplayer, World world, ItemStack itemstack, int i, int j, int k, int l);
+    public abstract boolean onPlayerRightClick(EntityPlayer entityplayer, World world, ItemStack itemstack, int i, int j, int k, int l);
 
     public EntityPlayer createPlayer(World world)
     {

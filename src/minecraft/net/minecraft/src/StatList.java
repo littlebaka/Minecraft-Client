@@ -1,30 +1,19 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, CraftingManager, IRecipe, ItemStack, 
-//            FurnaceRecipes, StatBase, Item, StatCollector, 
-//            StatCrafting, BlockFlower, BlockGrass, StatBasic, 
-//            AchievementList
-
 public class StatList
 {
-
     protected static Map oneShotStats = new HashMap();
     public static List field_25188_a = new ArrayList();
     public static List generalStats = new ArrayList();
     public static List itemStats = new ArrayList();
     public static List objectMineStats = new ArrayList();
-    public static StatBase startGameStat = (new StatBasic(1000, StatCollector.translateToLocal("stat.startGame"))).initIndependentStat().registerStat();
-    public static StatBase createWorldStat = (new StatBasic(1001, StatCollector.translateToLocal("stat.createWorld"))).initIndependentStat().registerStat();
-    public static StatBase loadWorldStat = (new StatBasic(1002, StatCollector.translateToLocal("stat.loadWorld"))).initIndependentStat().registerStat();
-    public static StatBase joinMultiplayerStat = (new StatBasic(1003, StatCollector.translateToLocal("stat.joinMultiplayer"))).initIndependentStat().registerStat();
-    public static StatBase leaveGameStat = (new StatBasic(1004, StatCollector.translateToLocal("stat.leaveGame"))).initIndependentStat().registerStat();
+    public static StatBase startGameStat = (new StatBasic(1000, "stat.startGame")).initIndependentStat().registerStat();
+    public static StatBase createWorldStat = (new StatBasic(1001, "stat.createWorld")).initIndependentStat().registerStat();
+    public static StatBase loadWorldStat = (new StatBasic(1002, "stat.loadWorld")).initIndependentStat().registerStat();
+    public static StatBase joinMultiplayerStat = (new StatBasic(1003, "stat.joinMultiplayer")).initIndependentStat().registerStat();
+    public static StatBase leaveGameStat = (new StatBasic(1004, "stat.leaveGame")).initIndependentStat().registerStat();
     public static StatBase minutesPlayedStat;
     public static StatBase distanceWalkedStat;
     public static StatBase distanceSwumStat;
@@ -35,14 +24,14 @@ public class StatList
     public static StatBase distanceByMinecartStat;
     public static StatBase distanceByBoatStat;
     public static StatBase distanceByPigStat;
-    public static StatBase jumpStat = (new StatBasic(2010, StatCollector.translateToLocal("stat.jump"))).initIndependentStat().registerStat();
-    public static StatBase dropStat = (new StatBasic(2011, StatCollector.translateToLocal("stat.drop"))).initIndependentStat().registerStat();
-    public static StatBase damageDealtStat = (new StatBasic(2020, StatCollector.translateToLocal("stat.damageDealt"))).registerStat();
-    public static StatBase damageTakenStat = (new StatBasic(2021, StatCollector.translateToLocal("stat.damageTaken"))).registerStat();
-    public static StatBase deathsStat = (new StatBasic(2022, StatCollector.translateToLocal("stat.deaths"))).registerStat();
-    public static StatBase mobKillsStat = (new StatBasic(2023, StatCollector.translateToLocal("stat.mobKills"))).registerStat();
-    public static StatBase playerKillsStat = (new StatBasic(2024, StatCollector.translateToLocal("stat.playerKills"))).registerStat();
-    public static StatBase fishCaughtStat = (new StatBasic(2025, StatCollector.translateToLocal("stat.fishCaught"))).registerStat();
+    public static StatBase jumpStat = (new StatBasic(2010, "stat.jump")).initIndependentStat().registerStat();
+    public static StatBase dropStat = (new StatBasic(2011, "stat.drop")).initIndependentStat().registerStat();
+    public static StatBase damageDealtStat = (new StatBasic(2020, "stat.damageDealt")).registerStat();
+    public static StatBase damageTakenStat = (new StatBasic(2021, "stat.damageTaken")).registerStat();
+    public static StatBase deathsStat = (new StatBasic(2022, "stat.deaths")).registerStat();
+    public static StatBase mobKillsStat = (new StatBasic(2023, "stat.mobKills")).registerStat();
+    public static StatBase playerKillsStat = (new StatBasic(2024, "stat.playerKills")).registerStat();
+    public static StatBase fishCaughtStat = (new StatBasic(2025, "stat.fishCaught")).registerStat();
     public static StatBase mineBlockStatArray[] = initMinableStats("stat.mineBlock", 0x1000000);
     public static StatBase objectCraftStats[];
     public static StatBase objectUseStats[];
@@ -76,19 +65,19 @@ public class StatList
 
     public static void initCraftableStats()
     {
-        if(!blockStatsInitialized || !itemStatsInitialized)
+        if (!blockStatsInitialized || !itemStatsInitialized)
         {
             return;
         }
         HashSet hashset = new HashSet();
         IRecipe irecipe;
-        for(Iterator iterator = CraftingManager.getInstance().getRecipeList().iterator(); iterator.hasNext(); hashset.add(Integer.valueOf(irecipe.getRecipeOutput().itemID)))
+        for (Iterator iterator = CraftingManager.getInstance().getRecipeList().iterator(); iterator.hasNext(); hashset.add(Integer.valueOf(irecipe.getRecipeOutput().itemID)))
         {
             irecipe = (IRecipe)iterator.next();
         }
 
         ItemStack itemstack;
-        for(Iterator iterator1 = FurnaceRecipes.smelting().getSmeltingList().values().iterator(); iterator1.hasNext(); hashset.add(Integer.valueOf(itemstack.itemID)))
+        for (Iterator iterator1 = FurnaceRecipes.smelting().getSmeltingList().values().iterator(); iterator1.hasNext(); hashset.add(Integer.valueOf(itemstack.itemID)))
         {
             itemstack = (ItemStack)iterator1.next();
         }
@@ -97,32 +86,35 @@ public class StatList
         Iterator iterator2 = hashset.iterator();
         do
         {
-            if(!iterator2.hasNext())
+            if (!iterator2.hasNext())
             {
                 break;
             }
             Integer integer = (Integer)iterator2.next();
-            if(Item.itemsList[integer.intValue()] != null)
+            if (Item.itemsList[integer.intValue()] != null)
             {
-                String s = StatCollector.translateToLocalFormatted("stat.craftItem", new Object[] {
-                    Item.itemsList[integer.intValue()].getStatName()
-                });
+                String s = StatCollector.translateToLocalFormatted("stat.craftItem", new Object[]
+                        {
+                            Item.itemsList[integer.intValue()].getStatName()
+                        });
                 objectCraftStats[integer.intValue()] = (new StatCrafting(0x1010000 + integer.intValue(), s, integer.intValue())).registerStat();
             }
-        } while(true);
+        }
+        while (true);
         replaceAllSimilarBlocks(objectCraftStats);
     }
 
     private static StatBase[] initMinableStats(String s, int i)
     {
         StatBase astatbase[] = new StatBase[256];
-        for(int j = 0; j < 256; j++)
+        for (int j = 0; j < 256; j++)
         {
-            if(Block.blocksList[j] != null && Block.blocksList[j].getEnableStats())
+            if (Block.blocksList[j] != null && Block.blocksList[j].getEnableStats())
             {
-                String s1 = StatCollector.translateToLocalFormatted(s, new Object[] {
-                    Block.blocksList[j].translateBlockName()
-                });
+                String s1 = StatCollector.translateToLocalFormatted(s, new Object[]
+                        {
+                            Block.blocksList[j].translateBlockName()
+                        });
                 astatbase[j] = (new StatCrafting(i + j, s1, j)).registerStat();
                 objectMineStats.add((StatCrafting)astatbase[j]);
             }
@@ -134,21 +126,22 @@ public class StatList
 
     private static StatBase[] initUsableStats(StatBase astatbase[], String s, int i, int j, int k)
     {
-        if(astatbase == null)
+        if (astatbase == null)
         {
             astatbase = new StatBase[32000];
         }
-        for(int l = j; l < k; l++)
+        for (int l = j; l < k; l++)
         {
-            if(Item.itemsList[l] == null)
+            if (Item.itemsList[l] == null)
             {
                 continue;
             }
-            String s1 = StatCollector.translateToLocalFormatted(s, new Object[] {
-                Item.itemsList[l].getStatName()
-            });
+            String s1 = StatCollector.translateToLocalFormatted(s, new Object[]
+                    {
+                        Item.itemsList[l].getStatName()
+                    });
             astatbase[l] = (new StatCrafting(i + l, s1, l)).registerStat();
-            if(l >= Block.blocksList.length)
+            if (l >= Block.blocksList.length)
             {
                 itemStats.add((StatCrafting)astatbase[l]);
             }
@@ -160,17 +153,18 @@ public class StatList
 
     private static StatBase[] func_25149_b(StatBase astatbase[], String s, int i, int j, int k)
     {
-        if(astatbase == null)
+        if (astatbase == null)
         {
             astatbase = new StatBase[32000];
         }
-        for(int l = j; l < k; l++)
+        for (int l = j; l < k; l++)
         {
-            if(Item.itemsList[l] != null && Item.itemsList[l].isDamageable())
+            if (Item.itemsList[l] != null && Item.itemsList[l].isDamageable())
             {
-                String s1 = StatCollector.translateToLocalFormatted(s, new Object[] {
-                    Item.itemsList[l].getStatName()
-                });
+                String s1 = StatCollector.translateToLocalFormatted(s, new Object[]
+                        {
+                            Item.itemsList[l].getStatName()
+                        });
                 astatbase[l] = (new StatCrafting(i + l, s1, l)).registerStat();
             }
         }
@@ -196,11 +190,12 @@ public class StatList
 
     private static void replaceSimilarBlocks(StatBase astatbase[], int i, int j)
     {
-        if(astatbase[i] != null && astatbase[j] == null)
+        if (astatbase[i] != null && astatbase[j] == null)
         {
             astatbase[j] = astatbase[i];
             return;
-        } else
+        }
+        else
         {
             field_25188_a.remove(astatbase[i]);
             objectMineStats.remove(astatbase[i]);
@@ -210,23 +205,23 @@ public class StatList
         }
     }
 
-    public static StatBase func_27361_a(int i)
+    public static StatBase getOneShotStat(int i)
     {
         return (StatBase)oneShotStats.get(Integer.valueOf(i));
     }
 
-    static 
+    static
     {
-        minutesPlayedStat = (new StatBasic(1100, StatCollector.translateToLocal("stat.playOneMinute"), StatBase.timeStatType)).initIndependentStat().registerStat();
-        distanceWalkedStat = (new StatBasic(2000, StatCollector.translateToLocal("stat.walkOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceSwumStat = (new StatBasic(2001, StatCollector.translateToLocal("stat.swimOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceFallenStat = (new StatBasic(2002, StatCollector.translateToLocal("stat.fallOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceClimbedStat = (new StatBasic(2003, StatCollector.translateToLocal("stat.climbOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceFlownStat = (new StatBasic(2004, StatCollector.translateToLocal("stat.flyOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceDoveStat = (new StatBasic(2005, StatCollector.translateToLocal("stat.diveOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceByMinecartStat = (new StatBasic(2006, StatCollector.translateToLocal("stat.minecartOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceByBoatStat = (new StatBasic(2007, StatCollector.translateToLocal("stat.boatOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
-        distanceByPigStat = (new StatBasic(2008, StatCollector.translateToLocal("stat.pigOneCm"), StatBase.distanceStatType)).initIndependentStat().registerStat();
+        minutesPlayedStat = (new StatBasic(1100, "stat.playOneMinute", StatBase.timeStatType)).initIndependentStat().registerStat();
+        distanceWalkedStat = (new StatBasic(2000, "stat.walkOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceSwumStat = (new StatBasic(2001, "stat.swimOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceFallenStat = (new StatBasic(2002, "stat.fallOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceClimbedStat = (new StatBasic(2003, "stat.climbOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceFlownStat = (new StatBasic(2004, "stat.flyOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceDoveStat = (new StatBasic(2005, "stat.diveOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceByMinecartStat = (new StatBasic(2006, "stat.minecartOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceByBoatStat = (new StatBasic(2007, "stat.boatOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
+        distanceByPigStat = (new StatBasic(2008, "stat.pigOneCm", StatBase.distanceStatType)).initIndependentStat().registerStat();
         AchievementList.func_27374_a();
     }
 }

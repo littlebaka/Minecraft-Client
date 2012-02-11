@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.IOException;
@@ -10,11 +6,10 @@ import net.minecraft.client.Minecraft;
 
 public abstract class TexturePackBase
 {
-
     public String texturePackFileName;
     public String firstDescriptionLine;
     public String secondDescriptionLine;
-    public String field_6488_d;
+    public String texturePackID;
 
     public TexturePackBase()
     {
@@ -29,7 +24,7 @@ public abstract class TexturePackBase
     }
 
     public void func_6485_a(Minecraft minecraft)
-        throws IOException
+    throws IOException
     {
     }
 

@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Render, RenderBlocks, EntityXPOrb, Tessellator, 
-//            OpenGlHelper, MathHelper, RenderManager, Entity
-
 public class RenderXPOrb extends Render
 {
-
     private RenderBlocks field_35439_b;
     public boolean field_35440_a;
 
@@ -21,10 +12,10 @@ public class RenderXPOrb extends Render
         field_35439_b = new RenderBlocks();
         field_35440_a = true;
         shadowSize = 0.15F;
-        field_194_c = 0.75F;
+        shadowOpaque = 0.75F;
     }
 
-    public void func_35438_a(EntityXPOrb entityxporb, double d, double d1, double d2, 
+    public void func_35438_a(EntityXPOrb entityxporb, double d, double d1, double d2,
             float f, float f1)
     {
         GL11.glPushMatrix();
@@ -39,14 +30,14 @@ public class RenderXPOrb extends Render
         float f6 = 1.0F;
         float f7 = 0.5F;
         float f8 = 0.25F;
-        int f9a = entityxporb.getEntityBrightnessForRender(f1);
-        float f10 = f9a % 0x10000;
-        int j = f9a / 0x10000;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapEnabled, (float)f10 / 1.0F, (float)j / 1.0F);
+        float f9 = entityxporb.getEntityBrightnessForRender(f1);
+        float f10 = f9 % 0x10000;
+        float ja = f9 / 0x10000;
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapEnabled, (float)f10 / 1.0F, (float)ja / 1.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        float f9 = 255F;
+        f9 = 255F;
         f10 = ((float)entityxporb.xpColor + f1) / 2.0F;
-        j = (int)((MathHelper.sin(f10 + 0.0F) + 1.0F) * 0.5F * f9);
+        int j = (int)((MathHelper.sin(f10 + 0.0F) + 1.0F) * 0.5F * f9);
         int k = (int)f9;
         int l = (int)((MathHelper.sin(f10 + 4.18879F) + 1.0F) * 0.1F * f9);
         int i1 = j << 16 | k << 8 | l;
@@ -67,7 +58,7 @@ public class RenderXPOrb extends Render
         GL11.glPopMatrix();
     }
 
-    public void doRender(Entity entity, double d, double d1, double d2, 
+    public void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         func_35438_a((EntityXPOrb)entity, d, d1, d2, f, f1);

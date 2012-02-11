@@ -1,35 +1,24 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            ModelBiped, RenderBlocks, RenderManager, RenderEngine, 
-//            Block, BlockFire, Entity, Tessellator, 
-//            AxisAlignedBB, EntityLiving, EntityAnimal, MathHelper, 
-//            World, GameSettings, ModelBase, FontRenderer
-
 public abstract class Render
 {
-
     protected RenderManager renderManager;
     private ModelBase modelBase;
     protected RenderBlocks renderBlocks;
     protected float shadowSize;
-    protected float field_194_c;
+    protected float shadowOpaque;
 
     public Render()
     {
         modelBase = new ModelBiped();
         renderBlocks = new RenderBlocks();
         shadowSize = 0.0F;
-        field_194_c = 1.0F;
+        shadowOpaque = 1.0F;
     }
 
-    public abstract void doRender(Entity entity, double d, double d1, double d2, 
+    public abstract void doRender(Entity entity, double d, double d1, double d2,
             float f, float f1);
 
     protected void loadTexture(String s)
@@ -42,17 +31,18 @@ public abstract class Render
     {
         RenderEngine renderengine = renderManager.renderEngine;
         int i = renderengine.getTextureForDownloadableImage(s, s1);
-        if(i >= 0)
+        if (i >= 0)
         {
             renderengine.bindTexture(i);
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
     }
 
-    private void renderEntityOnFire(Entity entity, double d, double d1, double d2, 
+    private void renderEntityOnFire(Entity entity, double d, double d1, double d2,
             float f)
     {
         GL11.glDisable(2896 /*GL_LIGHTING*/);
@@ -79,26 +69,27 @@ public abstract class Render
         float f14 = 0.0F;
         int l = 0;
         tessellator.startDrawingQuads();
-        while(f12 > 0.0F) 
+        while (f12 > 0.0F)
         {
             float f2;
             float f4;
             float f6;
             float f8;
-            if(l % 2 == 0)
+            if (l % 2 == 0)
             {
                 f2 = (float)j / 256F;
                 f4 = ((float)j + 15.99F) / 256F;
                 f6 = (float)k / 256F;
                 f8 = ((float)k + 15.99F) / 256F;
-            } else
+            }
+            else
             {
                 f2 = (float)j / 256F;
                 f4 = ((float)j + 15.99F) / 256F;
                 f6 = (float)(k + 16) / 256F;
                 f8 = ((float)(k + 16) + 15.99F) / 256F;
             }
-            if((l / 2) % 2 == 0)
+            if ((l / 2) % 2 == 0)
             {
                 float f15 = f4;
                 f4 = f2;
@@ -119,7 +110,7 @@ public abstract class Render
         GL11.glEnable(2896 /*GL_LIGHTING*/);
     }
 
-    private void renderShadow(Entity entity, double d, double d1, double d2, 
+    private void renderShadow(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
         GL11.glEnable(3042 /*GL_BLEND*/);
@@ -129,14 +120,14 @@ public abstract class Render
         World world = getWorldFromRenderManager();
         GL11.glDepthMask(false);
         float f2 = shadowSize;
-        if(entity instanceof EntityLiving)
+        if (entity instanceof EntityLiving)
         {
             EntityLiving entityliving = (EntityLiving)entity;
             f2 *= entityliving.func_35159_aC();
-            if(entityliving instanceof EntityAnimal)
+            if (entityliving instanceof EntityAnimal)
             {
                 EntityAnimal entityanimal = (EntityAnimal)entityliving;
-                if(entityanimal.func_40127_l())
+                if (entityanimal.isChild())
                 {
                     f2 *= 0.5F;
                 }
@@ -156,21 +147,19 @@ public abstract class Render
         double d8 = d2 - d5;
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        for(int k1 = i; k1 <= j; k1++)
+        for (int k1 = i; k1 <= j; k1++)
         {
-            for(int l1 = k; l1 <= l; l1++)
+            for (int l1 = k; l1 <= l; l1++)
             {
-                for(int i2 = i1; i2 <= j1; i2++)
+                for (int i2 = i1; i2 <= j1; i2++)
                 {
                     int j2 = world.getBlockId(k1, l1 - 1, i2);
-                    if(j2 > 0 && world.getBlockLightValue(k1, l1, i2) > 3)
+                    if (j2 > 0 && world.getBlockLightValue(k1, l1, i2) > 3)
                     {
                         renderShadowOnBlock(Block.blocksList[j2], d, d1 + (double)entity.getShadowSize(), d2, k1, l1, i2, f, f2, d6, d7 + (double)entity.getShadowSize(), d8);
                     }
                 }
-
             }
-
         }
 
         tessellator.draw();
@@ -184,21 +173,21 @@ public abstract class Render
         return renderManager.worldObj;
     }
 
-    private void renderShadowOnBlock(Block block, double d, double d1, double d2, 
-            int i, int j, int k, float f, float f1, double d3, 
+    private void renderShadowOnBlock(Block block, double d, double d1, double d2,
+            int i, int j, int k, float f, float f1, double d3,
             double d4, double d5)
     {
         Tessellator tessellator = Tessellator.instance;
-        if(!block.renderAsNormalBlock())
+        if (!block.renderAsNormalBlock())
         {
             return;
         }
         double d6 = ((double)f - (d1 - ((double)j + d4)) / 2D) * 0.5D * (double)getWorldFromRenderManager().getLightBrightness(i, j, k);
-        if(d6 < 0.0D)
+        if (d6 < 0.0D)
         {
             return;
         }
-        if(d6 > 1.0D)
+        if (d6 > 1.0D)
         {
             d6 = 1.0D;
         }
@@ -296,19 +285,19 @@ public abstract class Render
         renderManager = rendermanager;
     }
 
-    public void doRenderShadowAndFire(Entity entity, double d, double d1, double d2, 
+    public void doRenderShadowAndFire(Entity entity, double d, double d1, double d2,
             float f, float f1)
     {
-        if(renderManager.options.fancyGraphics && shadowSize > 0.0F)
+        if (renderManager.options.fancyGraphics && shadowSize > 0.0F)
         {
             double d3 = renderManager.getDistanceToCamera(entity.posX, entity.posY, entity.posZ);
-            float f2 = (float)((1.0D - d3 / 256D) * (double)field_194_c);
-            if(f2 > 0.0F)
+            float f2 = (float)((1.0D - d3 / 256D) * (double)shadowOpaque);
+            if (f2 > 0.0F)
             {
                 renderShadow(entity, d, d1, d2, f2, f1);
             }
         }
-        if(entity.isBurning())
+        if (entity.isBurning())
         {
             renderEntityOnFire(entity, d, d1, d2, f1);
         }

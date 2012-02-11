@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.awt.image.BufferedImage;
@@ -10,12 +6,8 @@ import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            TexturePackBase, RenderEngine
-
 public class TexturePackDefault extends TexturePackBase
 {
-
     private int texturePackName;
     private BufferedImage texturePackThumbnail;
 
@@ -28,7 +20,7 @@ public class TexturePackDefault extends TexturePackBase
         {
             texturePackThumbnail = ImageIO.read((net.minecraft.src.TexturePackDefault.class).getResource("/pack.png"));
         }
-        catch(IOException ioexception)
+        catch (IOException ioexception)
         {
             ioexception.printStackTrace();
         }
@@ -36,7 +28,7 @@ public class TexturePackDefault extends TexturePackBase
 
     public void func_6484_b(Minecraft minecraft)
     {
-        if(texturePackThumbnail != null)
+        if (texturePackThumbnail != null)
         {
             minecraft.renderEngine.deleteTexture(texturePackName);
         }
@@ -44,14 +36,15 @@ public class TexturePackDefault extends TexturePackBase
 
     public void bindThumbnailTexture(Minecraft minecraft)
     {
-        if(texturePackThumbnail != null && texturePackName < 0)
+        if (texturePackThumbnail != null && texturePackName < 0)
         {
             texturePackName = minecraft.renderEngine.allocateAndSetupTexture(texturePackThumbnail);
         }
-        if(texturePackThumbnail != null)
+        if (texturePackThumbnail != null)
         {
             minecraft.renderEngine.bindTexture(texturePackName);
-        } else
+        }
+        else
         {
             GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, minecraft.renderEngine.getTexture("/gui/unknown_pack.png"));
         }

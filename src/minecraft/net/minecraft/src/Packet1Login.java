@@ -1,20 +1,13 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, NetHandler
-
 public class Packet1Login extends Packet
 {
-
     public int protocolVersion;
     public String username;
     public long mapSeed;
+    public EnumWorldType field_46032_d;
     public int serverMode;
     public byte worldType;
     public byte difficultySetting;
@@ -32,11 +25,17 @@ public class Packet1Login extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
         protocolVersion = datainputstream.readInt();
         username = readString(datainputstream, 16);
         mapSeed = datainputstream.readLong();
+        String s = readString(datainputstream, 16);
+        field_46032_d = EnumWorldType.func_46135_a(s);
+        if (field_46032_d == null)
+        {
+            field_46032_d = EnumWorldType.DEFAULT;
+        }
         serverMode = datainputstream.readInt();
         worldType = datainputstream.readByte();
         difficultySetting = datainputstream.readByte();
@@ -45,11 +44,19 @@ public class Packet1Login extends Packet
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         dataoutputstream.writeInt(protocolVersion);
         writeString(username, dataoutputstream);
         dataoutputstream.writeLong(mapSeed);
+        if (field_46032_d == null)
+        {
+            writeString("", dataoutputstream);
+        }
+        else
+        {
+            writeString(field_46032_d.name(), dataoutputstream);
+        }
         dataoutputstream.writeInt(serverMode);
         dataoutputstream.writeByte(worldType);
         dataoutputstream.writeByte(difficultySetting);
@@ -64,6 +71,11 @@ public class Packet1Login extends Packet
 
     public int getPacketSize()
     {
-        return 4 + username.length() + 4 + 7 + 4;
+        int i = 0;
+        if (field_46032_d != null)
+        {
+            i = field_46032_d.name().length();
+        }
+        return 4 + username.length() + 4 + 7 + 4 + i;
     }
 }

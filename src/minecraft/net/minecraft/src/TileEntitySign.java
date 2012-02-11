@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            TileEntity, NBTTagCompound
 
 public class TileEntitySign extends TileEntity
 {
-
-    public String signText[] = {
+    public String signText[] =
+    {
         "", "", "", ""
     };
     public int lineBeingEdited;
@@ -36,14 +28,13 @@ public class TileEntitySign extends TileEntity
     {
         isEditable = false;
         super.readFromNBT(nbttagcompound);
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             signText[i] = nbttagcompound.getString((new StringBuilder()).append("Text").append(i + 1).toString());
-            if(signText[i].length() > 15)
+            if (signText[i].length() > 15)
             {
                 signText[i] = signText[i].substring(0, 15);
             }
         }
-
     }
 }

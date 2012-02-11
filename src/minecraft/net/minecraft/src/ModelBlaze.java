@@ -1,23 +1,14 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ModelBase, ModelRenderer, MathHelper, Entity
 
 public class ModelBlaze extends ModelBase
 {
-
     private ModelRenderer field_40323_a[];
     private ModelRenderer field_40322_b;
 
     public ModelBlaze()
     {
         field_40323_a = new ModelRenderer[12];
-        for(int i = 0; i < field_40323_a.length; i++)
+        for (int i = 0; i < field_40323_a.length; i++)
         {
             field_40323_a[i] = new ModelRenderer(this, 0, 16);
             field_40323_a[i].addBox(0.0F, 0.0F, 0.0F, 2, 8, 2);
@@ -36,17 +27,16 @@ public class ModelBlaze extends ModelBase
     {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         field_40322_b.render(f5);
-        for(int i = 0; i < field_40323_a.length; i++)
+        for (int i = 0; i < field_40323_a.length; i++)
         {
             field_40323_a[i].render(f5);
         }
-
     }
 
     public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
     {
         float f6 = f2 * 3.141593F * -0.1F;
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             field_40323_a[i].rotationPointY = -2F + MathHelper.cos(((float)(i * 2) + f2) * 0.25F);
             field_40323_a[i].rotationPointX = MathHelper.cos(f6) * 9F;
@@ -55,7 +45,7 @@ public class ModelBlaze extends ModelBase
         }
 
         f6 = 0.7853982F + f2 * 3.141593F * 0.03F;
-        for(int j = 4; j < 8; j++)
+        for (int j = 4; j < 8; j++)
         {
             field_40323_a[j].rotationPointY = 2.0F + MathHelper.cos(((float)(j * 2) + f2) * 0.25F);
             field_40323_a[j].rotationPointX = MathHelper.cos(f6) * 7F;
@@ -64,7 +54,7 @@ public class ModelBlaze extends ModelBase
         }
 
         f6 = 0.4712389F + f2 * 3.141593F * -0.05F;
-        for(int k = 8; k < 12; k++)
+        for (int k = 8; k < 12; k++)
         {
             field_40323_a[k].rotationPointY = 11F + MathHelper.cos(((float)k * 1.5F + f2) * 0.5F);
             field_40323_a[k].rotationPointX = MathHelper.cos(f6) * 5F;

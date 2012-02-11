@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, IBlockAccess, World
-
 public class BlockLockedChest extends Block
 {
-
     protected BlockLockedChest(int i)
     {
         super(i, Material.wood);
@@ -20,11 +12,11 @@ public class BlockLockedChest extends Block
 
     public int getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l)
     {
-        if(l == 1)
+        if (l == 1)
         {
             return blockIndexInTexture - 1;
         }
-        if(l == 0)
+        if (l == 0)
         {
             return blockIndexInTexture - 1;
         }
@@ -33,19 +25,19 @@ public class BlockLockedChest extends Block
         int k1 = iblockaccess.getBlockId(i - 1, j, k);
         int l1 = iblockaccess.getBlockId(i + 1, j, k);
         byte byte0 = 3;
-        if(Block.opaqueCubeLookup[i1] && !Block.opaqueCubeLookup[j1])
+        if (Block.opaqueCubeLookup[i1] && !Block.opaqueCubeLookup[j1])
         {
             byte0 = 3;
         }
-        if(Block.opaqueCubeLookup[j1] && !Block.opaqueCubeLookup[i1])
+        if (Block.opaqueCubeLookup[j1] && !Block.opaqueCubeLookup[i1])
         {
             byte0 = 2;
         }
-        if(Block.opaqueCubeLookup[k1] && !Block.opaqueCubeLookup[l1])
+        if (Block.opaqueCubeLookup[k1] && !Block.opaqueCubeLookup[l1])
         {
             byte0 = 5;
         }
-        if(Block.opaqueCubeLookup[l1] && !Block.opaqueCubeLookup[k1])
+        if (Block.opaqueCubeLookup[l1] && !Block.opaqueCubeLookup[k1])
         {
             byte0 = 4;
         }
@@ -54,18 +46,19 @@ public class BlockLockedChest extends Block
 
     public int getBlockTextureFromSide(int i)
     {
-        if(i == 1)
+        if (i == 1)
         {
             return blockIndexInTexture - 1;
         }
-        if(i == 0)
+        if (i == 0)
         {
             return blockIndexInTexture - 1;
         }
-        if(i == 3)
+        if (i == 3)
         {
             return blockIndexInTexture + 1;
-        } else
+        }
+        else
         {
             return blockIndexInTexture;
         }

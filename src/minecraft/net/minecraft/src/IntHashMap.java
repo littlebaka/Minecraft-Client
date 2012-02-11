@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.HashSet;
 import java.util.Set;
 
-// Referenced classes of package net.minecraft.src:
-//            IntHashMapEntry
-
 public class IntHashMap
 {
-
     private transient IntHashMapEntry slots[];
     private transient int count;
     private int threshold;
@@ -41,9 +33,9 @@ public class IntHashMap
     public Object lookup(int i)
     {
         int j = computeHash(i);
-        for(IntHashMapEntry inthashmapentry = slots[getSlotIndex(j, slots.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.nextEntry)
+        for (IntHashMapEntry inthashmapentry = slots[getSlotIndex(j, slots.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.nextEntry)
         {
-            if(inthashmapentry.hashEntry == i)
+            if (inthashmapentry.hashEntry == i)
             {
                 return inthashmapentry.valueEntry;
             }
@@ -60,9 +52,9 @@ public class IntHashMap
     final IntHashMapEntry lookupEntry(int i)
     {
         int j = computeHash(i);
-        for(IntHashMapEntry inthashmapentry = slots[getSlotIndex(j, slots.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.nextEntry)
+        for (IntHashMapEntry inthashmapentry = slots[getSlotIndex(j, slots.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.nextEntry)
         {
-            if(inthashmapentry.hashEntry == i)
+            if (inthashmapentry.hashEntry == i)
             {
                 return inthashmapentry;
             }
@@ -76,9 +68,9 @@ public class IntHashMap
         keySet.add(Integer.valueOf(i));
         int j = computeHash(i);
         int k = getSlotIndex(j, slots.length);
-        for(IntHashMapEntry inthashmapentry = slots[k]; inthashmapentry != null; inthashmapentry = inthashmapentry.nextEntry)
+        for (IntHashMapEntry inthashmapentry = slots[k]; inthashmapentry != null; inthashmapentry = inthashmapentry.nextEntry)
         {
-            if(inthashmapentry.hashEntry == i)
+            if (inthashmapentry.hashEntry == i)
             {
                 inthashmapentry.valueEntry = obj;
             }
@@ -92,11 +84,12 @@ public class IntHashMap
     {
         IntHashMapEntry ainthashmapentry[] = slots;
         int j = ainthashmapentry.length;
-        if(j == 0x40000000)
+        if (j == 0x40000000)
         {
             threshold = 0x7fffffff;
             return;
-        } else
+        }
+        else
         {
             IntHashMapEntry ainthashmapentry1[] = new IntHashMapEntry[i];
             copyTo(ainthashmapentry1);
@@ -110,10 +103,10 @@ public class IntHashMap
     {
         IntHashMapEntry ainthashmapentry1[] = slots;
         int i = ainthashmapentry.length;
-        for(int j = 0; j < ainthashmapentry1.length; j++)
+        for (int j = 0; j < ainthashmapentry1.length; j++)
         {
             IntHashMapEntry inthashmapentry = ainthashmapentry1[j];
-            if(inthashmapentry == null)
+            if (inthashmapentry == null)
             {
                 continue;
             }
@@ -125,9 +118,9 @@ public class IntHashMap
                 inthashmapentry.nextEntry = ainthashmapentry[k];
                 ainthashmapentry[k] = inthashmapentry;
                 inthashmapentry = inthashmapentry1;
-            } while(inthashmapentry != null);
+            }
+            while (inthashmapentry != null);
         }
-
     }
 
     public Object removeObject(int i)
@@ -144,17 +137,18 @@ public class IntHashMap
         IntHashMapEntry inthashmapentry = slots[k];
         IntHashMapEntry inthashmapentry1;
         IntHashMapEntry inthashmapentry2;
-        for(inthashmapentry1 = inthashmapentry; inthashmapentry1 != null; inthashmapentry1 = inthashmapentry2)
+        for (inthashmapentry1 = inthashmapentry; inthashmapentry1 != null; inthashmapentry1 = inthashmapentry2)
         {
             inthashmapentry2 = inthashmapentry1.nextEntry;
-            if(inthashmapentry1.hashEntry == i)
+            if (inthashmapentry1.hashEntry == i)
             {
                 versionStamp++;
                 count--;
-                if(inthashmapentry == inthashmapentry1)
+                if (inthashmapentry == inthashmapentry1)
                 {
                     slots[k] = inthashmapentry2;
-                } else
+                }
+                else
                 {
                     inthashmapentry.nextEntry = inthashmapentry2;
                 }
@@ -170,7 +164,7 @@ public class IntHashMap
     {
         versionStamp++;
         IntHashMapEntry ainthashmapentry[] = slots;
-        for(int i = 0; i < ainthashmapentry.length; i++)
+        for (int i = 0; i < ainthashmapentry.length; i++)
         {
             ainthashmapentry[i] = null;
         }
@@ -182,7 +176,7 @@ public class IntHashMap
     {
         IntHashMapEntry inthashmapentry = slots[k];
         slots[k] = new IntHashMapEntry(i, j, obj, inthashmapentry);
-        if(count++ >= threshold)
+        if (count++ >= threshold)
         {
             grow(2 * slots.length);
         }

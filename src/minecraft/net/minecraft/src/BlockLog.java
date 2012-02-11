@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, Material, World, BlockLeaves, 
-//            EntityPlayer
-
 public class BlockLog extends Block
 {
-
     protected BlockLog(int i)
     {
         super(i, Material.wood);
@@ -38,44 +29,41 @@ public class BlockLog extends Block
     {
         byte byte0 = 4;
         int l = byte0 + 1;
-        if(world.checkChunksExist(i - l, j - l, k - l, i + l, j + l, k + l))
+        if (world.checkChunksExist(i - l, j - l, k - l, i + l, j + l, k + l))
         {
-            for(int i1 = -byte0; i1 <= byte0; i1++)
+            for (int i1 = -byte0; i1 <= byte0; i1++)
             {
-                for(int j1 = -byte0; j1 <= byte0; j1++)
+                for (int j1 = -byte0; j1 <= byte0; j1++)
                 {
-                    for(int k1 = -byte0; k1 <= byte0; k1++)
+                    for (int k1 = -byte0; k1 <= byte0; k1++)
                     {
                         int l1 = world.getBlockId(i + i1, j + j1, k + k1);
-                        if(l1 != Block.leaves.blockID)
+                        if (l1 != Block.leaves.blockID)
                         {
                             continue;
                         }
                         int i2 = world.getBlockMetadata(i + i1, j + j1, k + k1);
-                        if((i2 & 8) == 0)
+                        if ((i2 & 8) == 0)
                         {
                             world.setBlockMetadata(i + i1, j + j1, k + k1, i2 | 8);
                         }
                     }
-
                 }
-
             }
-
         }
     }
 
     public int getBlockTextureFromSideAndMetadata(int i, int j)
     {
-        if(i == 1)
+        if (i == 1)
         {
             return 21;
         }
-        if(i == 0)
+        if (i == 0)
         {
             return 21;
         }
-        if(j == 1)
+        if (j == 1)
         {
             return 116;
         }

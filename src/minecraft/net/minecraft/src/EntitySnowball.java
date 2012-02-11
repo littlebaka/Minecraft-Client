@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            EntityThrowable, MovingObjectPosition, EntityBlaze, DamageSource, 
-//            Entity, World, EntityLiving
 
 public class EntitySnowball extends EntityThrowable
 {
-
     public EntitySnowball(World world)
     {
         super(world);
@@ -27,23 +17,23 @@ public class EntitySnowball extends EntityThrowable
         super(world, d, d1, d2);
     }
 
-    protected void func_40078_a(MovingObjectPosition movingobjectposition)
+    protected void onThrowableCollision(MovingObjectPosition movingobjectposition)
     {
-        if(movingobjectposition.entityHit != null)
+        if (movingobjectposition.entityHit != null)
         {
             byte byte0 = 0;
-            if(movingobjectposition.entityHit instanceof EntityBlaze)
+            if (movingobjectposition.entityHit instanceof EntityBlaze)
             {
                 byte0 = 3;
             }
-            if(!movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, field_40083_c), byte0));
+            if (!movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, throwingEntity), byte0));
         }
-        for(int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++)
         {
             worldObj.spawnParticle("snowballpoof", posX, posY, posZ, 0.0D, 0.0D, 0.0D);
         }
 
-        if(!worldObj.multiplayerWorld)
+        if (!worldObj.multiplayerWorld)
         {
             setEntityDead();
         }

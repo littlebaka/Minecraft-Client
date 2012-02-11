@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Item, EnumToolMaterial, ItemStack, Block, 
-//            EntityLiving, Entity
 
 public class ItemTool extends Item
 {
-
     private Block blocksEffectiveAgainst[];
     protected float efficiencyOnProperMaterial;
     private int damageVsEntity;
@@ -31,9 +21,9 @@ public class ItemTool extends Item
 
     public float getStrVsBlock(ItemStack itemstack, Block block)
     {
-        for(int i = 0; i < blocksEffectiveAgainst.length; i++)
+        for (int i = 0; i < blocksEffectiveAgainst.length; i++)
         {
-            if(blocksEffectiveAgainst[i] == block)
+            if (blocksEffectiveAgainst[i] == block)
             {
                 return efficiencyOnProperMaterial;
             }

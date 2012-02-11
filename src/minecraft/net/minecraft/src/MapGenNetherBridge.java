@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            MapGenStructure, SpawnListEntry, EntityBlaze, EntityPigZombie, 
-//            EntityMagmaCube, World, StructureNetherBridgeStart, StructureStart
-
 public class MapGenNetherBridge extends MapGenStructure
 {
-
     private List field_40486_a;
 
     public MapGenNetherBridge()
@@ -34,11 +25,11 @@ public class MapGenNetherBridge extends MapGenStructure
         int l = j >> 4;
         rand.setSeed((long)(k ^ l << 4) ^ worldObj.getWorldSeed());
         rand.nextInt();
-        if(rand.nextInt(3) != 0)
+        if (rand.nextInt(3) != 0)
         {
             return false;
         }
-        if(i != (k << 4) + 4 + rand.nextInt(8))
+        if (i != (k << 4) + 4 + rand.nextInt(8))
         {
             return false;
         }

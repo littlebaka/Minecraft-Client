@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
@@ -9,12 +5,8 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Gui, Particle, RenderEngine
-
 public class GuiParticle extends Gui
 {
-
     private List particles;
     private Minecraft mc;
 
@@ -26,23 +18,22 @@ public class GuiParticle extends Gui
 
     public void update()
     {
-        for(int i = 0; i < particles.size(); i++)
+        for (int i = 0; i < particles.size(); i++)
         {
             Particle particle = (Particle)particles.get(i);
             particle.preUpdate();
             particle.update(this);
-            if(particle.isDead)
+            if (particle.isDead)
             {
                 particles.remove(i--);
             }
         }
-
     }
 
     public void draw(float f)
     {
         mc.renderEngine.bindTexture(mc.renderEngine.getTexture("/gui/particles.png"));
-        for(int i = 0; i < particles.size(); i++)
+        for (int i = 0; i < particles.size(); i++)
         {
             Particle particle = (Particle)particles.get(i);
             int j = (int)((particle.prevPosX + (particle.posX - particle.prevPosX) * (double)f) - 4D);
@@ -54,6 +45,5 @@ public class GuiParticle extends Gui
             GL11.glColor4f(f2, f3, f4, f1);
             drawTexturedModalRect(j, k, 40, 0, 8, 8);
         }
-
     }
 }

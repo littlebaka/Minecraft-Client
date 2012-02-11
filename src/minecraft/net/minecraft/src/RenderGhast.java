@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            RenderLiving, ModelGhast, EntityGhast, EntityLiving
-
 public class RenderGhast extends RenderLiving
 {
-
     public RenderGhast()
     {
         super(new ModelGhast(), 0.5F);
@@ -21,7 +13,7 @@ public class RenderGhast extends RenderLiving
     {
         EntityGhast entityghast1 = entityghast;
         float f1 = ((float)entityghast1.prevAttackCounter + (float)(entityghast1.attackCounter - entityghast1.prevAttackCounter) * f) / 20F;
-        if(f1 < 0.0F)
+        if (f1 < 0.0F)
         {
             f1 = 0.0F;
         }

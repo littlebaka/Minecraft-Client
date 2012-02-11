@@ -1,25 +1,17 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, MathHelper, World, Material
-
 public class EntitySuspendFX extends EntityFX
 {
-
-    public EntitySuspendFX(World world, double d, double d1, double d2, 
+    public EntitySuspendFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         super(world, d, d1 - 0.125D, d2, d3, d4, d5);
         particleRed = 0.4F;
         particleGreen = 0.4F;
         particleBlue = 0.7F;
-        func_40099_c(0);
+        setParticleTextureIndex(0);
         setSize(0.01F, 0.01F);
         particleScale = particleScale * (rand.nextFloat() * 0.6F + 0.2F);
         motionX = d3 * 0.0D;
@@ -34,11 +26,11 @@ public class EntitySuspendFX extends EntityFX
         prevPosY = posY;
         prevPosZ = posZ;
         moveEntity(motionX, motionY, motionZ);
-        if(worldObj.getBlockMaterial(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) != Material.water)
+        if (worldObj.getBlockMaterial(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) != Material.water)
         {
             setEntityDead();
         }
-        if(particleMaxAge-- <= 0)
+        if (particleMaxAge-- <= 0)
         {
             setEntityDead();
         }

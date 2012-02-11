@@ -1,22 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-// Referenced classes of package net.minecraft.src:
-//            NBTTagCompound, World, Block, TileEntityFurnace, 
-//            TileEntityChest, TileEntityRecordPlayer, TileEntityDispenser, TileEntitySign, 
-//            TileEntityMobSpawner, TileEntityNote, TileEntityPiston, TileEntityBrewingStand, 
-//            TileEntityEnchantmentTable, TileEntityEndPortal
-
 public class TileEntity
 {
-
     private static Map nameToClassMap = new HashMap();
     private static Map classToNameMap = new HashMap();
     public World worldObj;
@@ -25,7 +14,7 @@ public class TileEntity
     public int zCoord;
     protected boolean tileEntityInvalid;
     public int blockMetadata;
-    public Block field_35146_o;
+    public Block blockType;
 
     public TileEntity()
     {
@@ -34,10 +23,11 @@ public class TileEntity
 
     private static void addMapping(Class class1, String s)
     {
-        if(classToNameMap.containsKey(s))
+        if (classToNameMap.containsKey(s))
         {
             throw new IllegalArgumentException((new StringBuilder()).append("Duplicate id: ").append(s).toString());
-        } else
+        }
+        else
         {
             nameToClassMap.put(s, class1);
             classToNameMap.put(class1, s);
@@ -55,10 +45,11 @@ public class TileEntity
     public void writeToNBT(NBTTagCompound nbttagcompound)
     {
         String s = (String)classToNameMap.get(getClass());
-        if(s == null)
+        if (s == null)
         {
             throw new RuntimeException((new StringBuilder()).append(getClass()).append(" is missing a mapping! This is a bug!").toString());
-        } else
+        }
+        else
         {
             nbttagcompound.setString("id", s);
             nbttagcompound.setInteger("x", xCoord);
@@ -78,19 +69,20 @@ public class TileEntity
         try
         {
             Class class1 = (Class)nameToClassMap.get(nbttagcompound.getString("id"));
-            if(class1 != null)
+            if (class1 != null)
             {
                 tileentity = (TileEntity)class1.newInstance();
             }
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             exception.printStackTrace();
         }
-        if(tileentity != null)
+        if (tileentity != null)
         {
             tileentity.readFromNBT(nbttagcompound);
-        } else
+        }
+        else
         {
             System.out.println((new StringBuilder()).append("Skipping TileEntity with id ").append(nbttagcompound.getString("id")).toString());
         }
@@ -99,7 +91,7 @@ public class TileEntity
 
     public int getBlockMetadata()
     {
-        if(blockMetadata == -1)
+        if (blockMetadata == -1)
         {
             blockMetadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
         }
@@ -108,7 +100,7 @@ public class TileEntity
 
     public void onInventoryChanged()
     {
-        if(worldObj != null)
+        if (worldObj != null)
         {
             blockMetadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
             worldObj.updateTileEntityChunkAndDoNothing(xCoord, yCoord, zCoord, this);
@@ -125,11 +117,11 @@ public class TileEntity
 
     public Block getBlockType()
     {
-        if(field_35146_o == null)
+        if (blockType == null)
         {
-            field_35146_o = Block.blocksList[worldObj.getBlockId(xCoord, yCoord, zCoord)];
+            blockType = Block.blocksList[worldObj.getBlockId(xCoord, yCoord, zCoord)];
         }
-        return field_35146_o;
+        return blockType;
     }
 
     public boolean isInvalid()
@@ -147,13 +139,13 @@ public class TileEntity
         tileEntityInvalid = false;
     }
 
-    public void func_35143_b(int i, int j)
+    public void onTileEntityPowered(int i, int j)
     {
     }
 
-    public void func_35144_b()
+    public void updateContainingBlockInfo()
     {
-        field_35146_o = null;
+        blockType = null;
         blockMetadata = -1;
     }
 
@@ -163,13 +155,13 @@ public class TileEntity
         {
             return Class.forName(s);
         }
-        catch(ClassNotFoundException classnotfoundexception)
+        catch (ClassNotFoundException classnotfoundexception)
         {
             throw new NoClassDefFoundError(classnotfoundexception.getMessage());
         }
     }
 
-    static 
+    static
     {
         addMapping(net.minecraft.src.TileEntityFurnace.class, "Furnace");
         addMapping(net.minecraft.src.TileEntityChest.class, "Chest");

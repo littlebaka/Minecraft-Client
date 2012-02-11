@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            NBTBase
-
 public class NBTTagList extends NBTBase
 {
-
     private List tagList;
     private byte tagType;
 
@@ -29,37 +21,36 @@ public class NBTTagList extends NBTBase
     }
 
     void writeTagContents(DataOutput dataoutput)
-        throws IOException
+    throws IOException
     {
-        if(tagList.size() > 0)
+        if (tagList.size() > 0)
         {
             tagType = ((NBTBase)tagList.get(0)).getType();
-        } else
+        }
+        else
         {
             tagType = 1;
         }
         dataoutput.writeByte(tagType);
         dataoutput.writeInt(tagList.size());
-        for(int i = 0; i < tagList.size(); i++)
+        for (int i = 0; i < tagList.size(); i++)
         {
             ((NBTBase)tagList.get(i)).writeTagContents(dataoutput);
         }
-
     }
 
     void readTagContents(DataInput datainput)
-        throws IOException
+    throws IOException
     {
         tagType = datainput.readByte();
         int i = datainput.readInt();
         tagList = new ArrayList();
-        for(int j = 0; j < i; j++)
+        for (int j = 0; j < i; j++)
         {
             NBTBase nbtbase = NBTBase.createTagOfType(tagType, null);
             nbtbase.readTagContents(datainput);
             tagList.add(nbtbase);
         }
-
     }
 
     public byte getType()
@@ -88,15 +79,15 @@ public class NBTTagList extends NBTBase
         return tagList.size();
     }
 
-    public NBTBase func_40195_b()
+    public NBTBase cloneTag()
     {
         NBTTagList nbttaglist = new NBTTagList(getKey());
         nbttaglist.tagType = tagType;
         NBTBase nbtbase1;
-        for(Iterator iterator = tagList.iterator(); iterator.hasNext(); nbttaglist.tagList.add(nbtbase1))
+        for (Iterator iterator = tagList.iterator(); iterator.hasNext(); nbttaglist.tagList.add(nbtbase1))
         {
             NBTBase nbtbase = (NBTBase)iterator.next();
-            nbtbase1 = nbtbase.func_40195_b();
+            nbtbase1 = nbtbase.cloneTag();
         }
 
         return nbttaglist;
@@ -104,10 +95,10 @@ public class NBTTagList extends NBTBase
 
     public boolean equals(Object obj)
     {
-        if(super.equals(obj))
+        if (super.equals(obj))
         {
             NBTTagList nbttaglist = (NBTTagList)obj;
-            if(tagType == nbttaglist.tagType)
+            if (tagType == nbttaglist.tagType)
             {
                 return tagList.equals(nbttaglist.tagList);
             }

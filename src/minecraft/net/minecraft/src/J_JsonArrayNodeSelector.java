@@ -1,22 +1,14 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            J_LeafFunctor, EnumJsonNodeType, J_JsonNode
-
-class J_JsonArrayNodeSelector extends J_LeafFunctor
+final class J_JsonArrayNodeSelector extends J_LeafFunctor
 {
-
     J_JsonArrayNodeSelector()
     {
     }
 
-    public boolean matchsNode_(J_JsonNode j_jsonnode)
+    public boolean matchesNode_(J_JsonNode j_jsonnode)
     {
         return EnumJsonNodeType.ARRAY == j_jsonnode.getType();
     }
@@ -41,8 +33,8 @@ class J_JsonArrayNodeSelector extends J_LeafFunctor
         return typeSafeApplyTo((J_JsonNode)obj);
     }
 
-    public boolean matchsNode(Object obj)
+    public boolean matchesNode(Object obj)
     {
-        return matchsNode_((J_JsonNode)obj);
+        return matchesNode_((J_JsonNode)obj);
     }
 }

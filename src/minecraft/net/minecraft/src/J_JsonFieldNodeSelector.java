@@ -1,23 +1,14 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Map;
 
-// Referenced classes of package net.minecraft.src:
-//            J_LeafFunctor, J_JsonStringNode, J_JsonNode
-
-class J_JsonFieldNodeSelector extends J_LeafFunctor
+final class J_JsonFieldNodeSelector extends J_LeafFunctor
 {
-
-    final J_JsonStringNode field_27066_a; /* synthetic field */
+    final J_JsonStringNode field_27066_a;
 
     J_JsonFieldNodeSelector(J_JsonStringNode j_jsonstringnode)
     {
         field_27066_a = j_jsonstringnode;
-//        super();
     }
 
     public boolean func_27065_a(Map map)
@@ -45,7 +36,7 @@ class J_JsonFieldNodeSelector extends J_LeafFunctor
         return func_27064_b((Map)obj);
     }
 
-    public boolean matchsNode(Object obj)
+    public boolean matchesNode(Object obj)
     {
         return func_27065_a((Map)obj);
     }

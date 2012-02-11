@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
@@ -11,13 +7,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Gui, GuiButton, SoundManager, GuiParticle, 
-//            Tessellator, RenderEngine, FontRenderer
-
 public class GuiScreen extends Gui
 {
-
     protected Minecraft mc;
     public int width;
     public int height;
@@ -36,17 +27,16 @@ public class GuiScreen extends Gui
 
     public void drawScreen(int i, int j, float f)
     {
-        for(int k = 0; k < controlList.size(); k++)
+        for (int k = 0; k < controlList.size(); k++)
         {
             GuiButton guibutton = (GuiButton)controlList.get(k);
             guibutton.drawButton(mc, i, j);
         }
-
     }
 
     protected void keyTyped(char c, int i)
     {
-        if(i == 1)
+        if (i == 1)
         {
             mc.displayGuiScreen(null);
             mc.setIngameFocus();
@@ -58,37 +48,36 @@ public class GuiScreen extends Gui
         try
         {
             java.awt.datatransfer.Transferable transferable = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-            if(transferable != null && transferable.isDataFlavorSupported(java.awt.datatransfer.DataFlavor.stringFlavor))
+            if (transferable != null && transferable.isDataFlavorSupported(java.awt.datatransfer.DataFlavor.stringFlavor))
             {
                 String s = (String)transferable.getTransferData(java.awt.datatransfer.DataFlavor.stringFlavor);
                 return s;
             }
         }
-        catch(Exception exception) { }
+        catch (Exception exception) { }
         return null;
     }
 
     protected void mouseClicked(int i, int j, int k)
     {
-        if(k == 0)
+        if (k == 0)
         {
-            for(int l = 0; l < controlList.size(); l++)
+            for (int l = 0; l < controlList.size(); l++)
             {
                 GuiButton guibutton = (GuiButton)controlList.get(l);
-                if(guibutton.mousePressed(mc, i, j))
+                if (guibutton.mousePressed(mc, i, j))
                 {
                     selectedButton = guibutton;
                     mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
                     actionPerformed(guibutton);
                 }
             }
-
         }
     }
 
     protected void mouseMovedOrUp(int i, int j, int k)
     {
-        if(selectedButton != null && k == 0)
+        if (selectedButton != null && k == 0)
         {
             selectedButton.mouseReleased(i, j);
             selectedButton = null;
@@ -116,18 +105,19 @@ public class GuiScreen extends Gui
 
     public void handleInput()
     {
-        for(; Mouse.next(); handleMouseInput()) { }
-        for(; Keyboard.next(); handleKeyboardInput()) { }
+        for (; Mouse.next(); handleMouseInput()) { }
+        for (; Keyboard.next(); handleKeyboardInput()) { }
     }
 
     public void handleMouseInput()
     {
-        if(Mouse.getEventButtonState())
+        if (Mouse.getEventButtonState())
         {
             int i = (Mouse.getEventX() * width) / mc.displayWidth;
             int k = height - (Mouse.getEventY() * height) / mc.displayHeight - 1;
             mouseClicked(i, k, Mouse.getEventButton());
-        } else
+        }
+        else
         {
             int j = (Mouse.getEventX() * width) / mc.displayWidth;
             int l = height - (Mouse.getEventY() * height) / mc.displayHeight - 1;
@@ -137,9 +127,9 @@ public class GuiScreen extends Gui
 
     public void handleKeyboardInput()
     {
-        if(Keyboard.getEventKeyState())
+        if (Keyboard.getEventKeyState())
         {
-            if(Keyboard.getEventKey() == 87)
+            if (Keyboard.getEventKey() == 87)
             {
                 mc.toggleFullscreen();
                 return;
@@ -163,10 +153,11 @@ public class GuiScreen extends Gui
 
     public void drawWorldBackground(int i)
     {
-        if(mc.theWorld != null)
+        if (mc.theWorld != null)
         {
             drawGradientRect(0, 0, width, height, 0xc0101010, 0xd0101010);
-        } else
+        }
+        else
         {
             drawBackground(i);
         }

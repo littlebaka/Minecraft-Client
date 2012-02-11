@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Item, Block, World, ItemStack, 
-//            EntityPlayer, Material, StepSound
 
 public class ItemBlock extends Item
 {
-
     private int blockID;
 
     public ItemBlock(int i)
@@ -29,55 +19,55 @@ public class ItemBlock extends Item
     public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l)
     {
         int i1 = world.getBlockId(i, j, k);
-        if(i1 == Block.snow.blockID)
+        if (i1 == Block.snow.blockID)
         {
             l = 0;
-        } else
-        if(i1 != Block.vine.blockID)
+        }
+        else if (i1 != Block.vine.blockID)
         {
-            if(l == 0)
+            if (l == 0)
             {
                 j--;
             }
-            if(l == 1)
+            if (l == 1)
             {
                 j++;
             }
-            if(l == 2)
+            if (l == 2)
             {
                 k--;
             }
-            if(l == 3)
+            if (l == 3)
             {
                 k++;
             }
-            if(l == 4)
+            if (l == 4)
             {
                 i--;
             }
-            if(l == 5)
+            if (l == 5)
             {
                 i++;
             }
         }
-        if(itemstack.stackSize == 0)
+        if (itemstack.stackSize == 0)
         {
             return false;
         }
-        if(!entityplayer.func_35190_e(i, j, k))
+        if (!entityplayer.canPlayerEdit(i, j, k))
         {
             return false;
         }
-        if(j == world.field_35472_c - 1 && Block.blocksList[blockID].blockMaterial.isSolid())
+        if (j == world.worldHeight - 1 && Block.blocksList[blockID].blockMaterial.isSolid())
         {
             return false;
         }
-        if(world.canBlockBePlacedAt(blockID, i, j, k, false, l))
+        if (world.canBlockBePlacedAt(blockID, i, j, k, false, l))
         {
             Block block = Block.blocksList[blockID];
-            if(world.setBlockAndMetadataWithNotify(i, j, k, blockID, getPlacedBlockMetadata(itemstack.getItemDamage())))
+            if (world.setBlockAndMetadataWithNotify(i, j, k, blockID, getMetadata(itemstack.getItemDamage())))
             {
-                if(world.getBlockId(i, j, k) == blockID)
+                if (world.getBlockId(i, j, k) == blockID)
                 {
                     Block.blocksList[blockID].onBlockPlaced(world, i, j, k, l);
                     Block.blocksList[blockID].onBlockPlacedBy(world, i, j, k, entityplayer);
@@ -86,7 +76,8 @@ public class ItemBlock extends Item
                 itemstack.stackSize--;
             }
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

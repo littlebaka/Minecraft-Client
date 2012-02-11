@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.PrintStream;
 
-// Referenced classes of package net.minecraft.src:
-//            Potion, EntityLiving
-
 public class PotionEffect
 {
-
     private int potionID;
     private int duration;
     private int amplifier;
@@ -32,16 +24,16 @@ public class PotionEffect
 
     public void combine(PotionEffect potioneffect)
     {
-        if(potionID != potioneffect.potionID)
+        if (potionID != potioneffect.potionID)
         {
             System.err.println("This method should only be called for matching effects!");
         }
-        if(potioneffect.amplifier > amplifier)
+        if (potioneffect.amplifier > amplifier)
         {
             amplifier = potioneffect.amplifier;
             duration = potioneffect.duration;
-        } else
-        if(potioneffect.amplifier == amplifier && duration < potioneffect.duration)
+        }
+        else if (potioneffect.amplifier == amplifier && duration < potioneffect.duration)
         {
             duration = potioneffect.duration;
         }
@@ -64,9 +56,9 @@ public class PotionEffect
 
     public boolean onUpdate(EntityLiving entityliving)
     {
-        if(duration > 0)
+        if (duration > 0)
         {
-            if(Potion.potionTypes[potionID].isReady(duration, amplifier))
+            if (Potion.potionTypes[potionID].isReady(duration, amplifier))
             {
                 performEffect(entityliving);
             }
@@ -82,15 +74,15 @@ public class PotionEffect
 
     public void performEffect(EntityLiving entityliving)
     {
-        if(duration > 0)
+        if (duration > 0)
         {
             Potion.potionTypes[potionID].performEffect(entityliving, amplifier);
         }
     }
 
-    public String func_40468_d()
+    public String getEffectName()
     {
-        return Potion.potionTypes[potionID].func_40623_c();
+        return Potion.potionTypes[potionID].getName();
     }
 
     public int hashCode()
@@ -101,17 +93,19 @@ public class PotionEffect
     public String toString()
     {
         String s = "";
-        if(getAmplifier() > 0)
+        if (getAmplifier() > 0)
         {
-            s = (new StringBuilder()).append(func_40468_d()).append(" x ").append(getAmplifier() + 1).append(", Duration: ").append(getDuration()).toString();
-        } else
-        {
-            s = (new StringBuilder()).append(func_40468_d()).append(", Duration: ").append(getDuration()).toString();
+            s = (new StringBuilder()).append(getEffectName()).append(" x ").append(getAmplifier() + 1).append(", Duration: ").append(getDuration()).toString();
         }
-        if(Potion.potionTypes[potionID].func_40612_i())
+        else
+        {
+            s = (new StringBuilder()).append(getEffectName()).append(", Duration: ").append(getDuration()).toString();
+        }
+        if (Potion.potionTypes[potionID].func_40612_i())
         {
             return (new StringBuilder()).append("(").append(s).append(")").toString();
-        } else
+        }
+        else
         {
             return s;
         }
@@ -119,10 +113,11 @@ public class PotionEffect
 
     public boolean equals(Object obj)
     {
-        if(!(obj instanceof PotionEffect))
+        if (!(obj instanceof PotionEffect))
         {
             return false;
-        } else
+        }
+        else
         {
             PotionEffect potioneffect = (PotionEffect)obj;
             return potionID == potioneffect.potionID && amplifier == potioneffect.amplifier && duration == potioneffect.duration;

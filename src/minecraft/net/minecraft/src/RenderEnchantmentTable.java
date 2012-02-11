@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            TileEntitySpecialRenderer, ModelBook, TileEntityEnchantmentTable, MathHelper, 
-//            TileEntity
-
 public class RenderEnchantmentTable extends TileEntitySpecialRenderer
 {
-
     private ModelBook field_40450_a;
 
     public RenderEnchantmentTable()
@@ -20,7 +11,7 @@ public class RenderEnchantmentTable extends TileEntitySpecialRenderer
         field_40450_a = new ModelBook();
     }
 
-    public void func_40449_a(TileEntityEnchantmentTable tileentityenchantmenttable, double d, double d1, double d2, 
+    public void func_40449_a(TileEntityEnchantmentTable tileentityenchantmenttable, double d, double d1, double d2,
             float f)
     {
         GL11.glPushMatrix();
@@ -28,8 +19,8 @@ public class RenderEnchantmentTable extends TileEntitySpecialRenderer
         float f1 = (float)tileentityenchantmenttable.field_40068_a + f;
         GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(f1 * 0.1F) * 0.01F, 0.0F);
         float f2;
-        for(f2 = tileentityenchantmenttable.field_40069_h - tileentityenchantmenttable.field_40067_p; f2 >= 3.141593F; f2 -= 6.283185F) { }
-        for(; f2 < -3.141593F; f2 += 6.283185F) { }
+        for (f2 = tileentityenchantmenttable.field_40069_h - tileentityenchantmenttable.field_40067_p; f2 >= 3.141593F; f2 -= 6.283185F) { }
+        for (; f2 < -3.141593F; f2 += 6.283185F) { }
         float f3 = tileentityenchantmenttable.field_40067_p + f2 * f;
         GL11.glRotatef((-f3 * 180F) / 3.141593F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(80F, 0.0F, 0.0F, 1.0F);
@@ -38,19 +29,19 @@ public class RenderEnchantmentTable extends TileEntitySpecialRenderer
         float f5 = tileentityenchantmenttable.field_40065_c + (tileentityenchantmenttable.field_40063_b - tileentityenchantmenttable.field_40065_c) * f + 0.75F;
         f4 = (f4 - (float)MathHelper.func_40346_b(f4)) * 1.6F - 0.3F;
         f5 = (f5 - (float)MathHelper.func_40346_b(f5)) * 1.6F - 0.3F;
-        if(f4 < 0.0F)
+        if (f4 < 0.0F)
         {
             f4 = 0.0F;
         }
-        if(f5 < 0.0F)
+        if (f5 < 0.0F)
         {
             f5 = 0.0F;
         }
-        if(f4 > 1.0F)
+        if (f4 > 1.0F)
         {
             f4 = 1.0F;
         }
-        if(f5 > 1.0F)
+        if (f5 > 1.0F)
         {
             f5 = 1.0F;
         }
@@ -59,7 +50,7 @@ public class RenderEnchantmentTable extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
-    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, 
+    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2,
             float f)
     {
         func_40449_a((TileEntityEnchantmentTable)tileentity, d, d1, d2, f);

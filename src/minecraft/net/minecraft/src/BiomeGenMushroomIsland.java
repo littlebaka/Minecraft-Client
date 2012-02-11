@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            BiomeGenBase, BiomeDecorator, Block, BlockMycelium, 
-//            SpawnListEntry, EntityMooshroom
-
 public class BiomeGenMushroomIsland extends BiomeGenBase
 {
-
     public BiomeGenMushroomIsland(int i)
     {
         super(i);
@@ -20,7 +11,7 @@ public class BiomeGenMushroomIsland extends BiomeGenBase
         biomeDecorator.flowersPerChunk = -100;
         biomeDecorator.grassPerChunk = -100;
         biomeDecorator.mushroomsPerChunk = 1;
-        biomeDecorator.field_40718_J = 1;
+        biomeDecorator.bigMushroomsPerChunk = 1;
         topBlock = (byte)Block.mycelium.blockID;
         spawnableMonsterList.clear();
         spawnableCreatureList.clear();

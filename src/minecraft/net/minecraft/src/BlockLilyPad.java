@@ -1,17 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            BlockFlower, AxisAlignedBB, Block, World, 
-//            Material, IBlockAccess
 
 public class BlockLilyPad extends BlockFlower
 {
-
     protected BlockLilyPad(int i, int j)
     {
         super(i, j);
@@ -57,10 +47,11 @@ public class BlockLilyPad extends BlockFlower
 
     public boolean canBlockStay(World world, int i, int j, int k)
     {
-        if(j < 0 || j >= world.field_35472_c)
+        if (j < 0 || j >= world.worldHeight)
         {
             return false;
-        } else
+        }
+        else
         {
             return world.getBlockMaterial(i, j - 1, k) == Material.water && world.getBlockMetadata(i, j - 1, k) == 0;
         }

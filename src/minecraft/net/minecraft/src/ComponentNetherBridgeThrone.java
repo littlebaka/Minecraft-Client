@@ -1,19 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentNetherBridgePiece, StructureBoundingBox, StructureComponent, Block, 
-//            World, TileEntityMobSpawner
-
 public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
 {
-
     private boolean field_40027_a;
 
     public ComponentNetherBridgeThrone(int i, Random random, StructureBoundingBox structureboundingbox, int j)
@@ -30,10 +21,11 @@ public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
     public static ComponentNetherBridgeThrone func_40026_a(List list, Random random, int i, int j, int k, int l, int i1)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, -2, 0, 0, 7, 8, 9, l);
-        if(!func_40021_a(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (!func_40021_a(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return new ComponentNetherBridgeThrone(i1, random, structureboundingbox, l);
         }
@@ -59,29 +51,28 @@ public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
         fillWithBlocks(world, structureboundingbox, 6, 6, 3, 6, 6, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
         fillWithBlocks(world, structureboundingbox, 1, 6, 8, 5, 7, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
         fillWithBlocks(world, structureboundingbox, 2, 8, 8, 4, 8, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
-        if(!field_40027_a)
+        if (!field_40027_a)
         {
             int i = getYWithOffset(5);
             int k = getXWithOffset(3, 5);
             int i1 = getZWithOffset(3, 5);
-            if(structureboundingbox.isVecInside(k, i, i1))
+            if (structureboundingbox.isVecInside(k, i, i1))
             {
                 field_40027_a = true;
                 world.setBlockWithNotify(k, i, i1, Block.mobSpawner.blockID);
                 TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)world.getBlockTileEntity(k, i, i1);
-                if(tileentitymobspawner != null)
+                if (tileentitymobspawner != null)
                 {
                     tileentitymobspawner.setMobID("Blaze");
                 }
             }
         }
-        for(int j = 0; j <= 6; j++)
+        for (int j = 0; j <= 6; j++)
         {
-            for(int l = 0; l <= 6; l++)
+            for (int l = 0; l <= 6; l++)
             {
                 fillCurrentPositionBlocksDownwards(world, Block.netherBrick.blockID, 0, j, -1, l, structureboundingbox);
             }
-
         }
 
         return true;

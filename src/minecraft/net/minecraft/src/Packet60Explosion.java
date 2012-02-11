@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, ChunkPosition, NetHandler
-
 public class Packet60Explosion extends Packet
 {
-
     public double explosionX;
     public double explosionY;
     public double explosionZ;
@@ -24,7 +16,7 @@ public class Packet60Explosion extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
         explosionX = datainputstream.readDouble();
         explosionY = datainputstream.readDouble();
@@ -35,18 +27,17 @@ public class Packet60Explosion extends Packet
         int j = (int)explosionX;
         int k = (int)explosionY;
         int l = (int)explosionZ;
-        for(int i1 = 0; i1 < i; i1++)
+        for (int i1 = 0; i1 < i; i1++)
         {
             int j1 = datainputstream.readByte() + j;
             int k1 = datainputstream.readByte() + k;
             int l1 = datainputstream.readByte() + l;
             destroyedBlockPositions.add(new ChunkPosition(j1, k1, l1));
         }
-
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         dataoutputstream.writeDouble(explosionX);
         dataoutputstream.writeDouble(explosionY);
@@ -57,7 +48,7 @@ public class Packet60Explosion extends Packet
         int j = (int)explosionY;
         int k = (int)explosionZ;
         int j1;
-        for(Iterator iterator = destroyedBlockPositions.iterator(); iterator.hasNext(); dataoutputstream.writeByte(j1))
+        for (Iterator iterator = destroyedBlockPositions.iterator(); iterator.hasNext(); dataoutputstream.writeByte(j1))
         {
             ChunkPosition chunkposition = (ChunkPosition)iterator.next();
             int l = chunkposition.x - i;
@@ -66,7 +57,6 @@ public class Packet60Explosion extends Packet
             dataoutputstream.writeByte(l);
             dataoutputstream.writeByte(i1);
         }
-
     }
 
     public void processPacket(NetHandler nethandler)

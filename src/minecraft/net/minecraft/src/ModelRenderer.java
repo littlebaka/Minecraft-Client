@@ -1,20 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            ModelBase, TextureOffset, ModelBox, GLAllocation, 
-//            Tessellator
-
 public class ModelRenderer
 {
-
     public float textureWidth;
     public float textureHeight;
     private int textureOffsetX;
@@ -64,7 +55,7 @@ public class ModelRenderer
 
     public void addChild(ModelRenderer modelrenderer)
     {
-        if(childModels == null)
+        if (childModels == null)
         {
             childModels = new ArrayList();
         }
@@ -107,97 +98,95 @@ public class ModelRenderer
 
     public void render(float f)
     {
-        if(isHidden)
+        if (isHidden)
         {
             return;
         }
-        if(!showModel)
+        if (!showModel)
         {
             return;
         }
-        if(!compiled)
+        if (!compiled)
         {
             compileDisplayList(f);
         }
-        if(rotateAngleX != 0.0F || rotateAngleY != 0.0F || rotateAngleZ != 0.0F)
+        if (rotateAngleX != 0.0F || rotateAngleY != 0.0F || rotateAngleZ != 0.0F)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
-            if(rotateAngleZ != 0.0F)
+            if (rotateAngleZ != 0.0F)
             {
                 GL11.glRotatef(rotateAngleZ * 57.29578F, 0.0F, 0.0F, 1.0F);
             }
-            if(rotateAngleY != 0.0F)
+            if (rotateAngleY != 0.0F)
             {
                 GL11.glRotatef(rotateAngleY * 57.29578F, 0.0F, 1.0F, 0.0F);
             }
-            if(rotateAngleX != 0.0F)
+            if (rotateAngleX != 0.0F)
             {
                 GL11.glRotatef(rotateAngleX * 57.29578F, 1.0F, 0.0F, 0.0F);
             }
             GL11.glCallList(displayList);
-            if(childModels != null)
+            if (childModels != null)
             {
-                for(int i = 0; i < childModels.size(); i++)
+                for (int i = 0; i < childModels.size(); i++)
                 {
                     ((ModelRenderer)childModels.get(i)).render(f);
                 }
-
             }
             GL11.glPopMatrix();
-        } else
-        if(rotationPointX != 0.0F || rotationPointY != 0.0F || rotationPointZ != 0.0F)
+        }
+        else if (rotationPointX != 0.0F || rotationPointY != 0.0F || rotationPointZ != 0.0F)
         {
             GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
             GL11.glCallList(displayList);
-            if(childModels != null)
+            if (childModels != null)
             {
-                for(int j = 0; j < childModels.size(); j++)
+                for (int j = 0; j < childModels.size(); j++)
                 {
                     ((ModelRenderer)childModels.get(j)).render(f);
                 }
-
             }
             GL11.glTranslatef(-rotationPointX * f, -rotationPointY * f, -rotationPointZ * f);
-        } else
+        }
+        else
         {
             GL11.glCallList(displayList);
-            if(childModels != null)
+            if (childModels != null)
             {
-                for(int k = 0; k < childModels.size(); k++)
+                for (int k = 0; k < childModels.size(); k++)
                 {
                     ((ModelRenderer)childModels.get(k)).render(f);
                 }
-
             }
         }
     }
 
     public void renderWithRotation(float f)
     {
-        if(isHidden)
+        if (isHidden)
         {
             return;
         }
-        if(!showModel)
+        if (!showModel)
         {
             return;
         }
-        if(!compiled)
+        if (!compiled)
         {
             compileDisplayList(f);
         }
         GL11.glPushMatrix();
         GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
-        if(rotateAngleY != 0.0F)
+        if (rotateAngleY != 0.0F)
         {
             GL11.glRotatef(rotateAngleY * 57.29578F, 0.0F, 1.0F, 0.0F);
         }
-        if(rotateAngleX != 0.0F)
+        if (rotateAngleX != 0.0F)
         {
             GL11.glRotatef(rotateAngleX * 57.29578F, 1.0F, 0.0F, 0.0F);
         }
-        if(rotateAngleZ != 0.0F)
+        if (rotateAngleZ != 0.0F)
         {
             GL11.glRotatef(rotateAngleZ * 57.29578F, 0.0F, 0.0F, 1.0F);
         }
@@ -207,35 +196,35 @@ public class ModelRenderer
 
     public void postRender(float f)
     {
-        if(isHidden)
+        if (isHidden)
         {
             return;
         }
-        if(!showModel)
+        if (!showModel)
         {
             return;
         }
-        if(!compiled)
+        if (!compiled)
         {
             compileDisplayList(f);
         }
-        if(rotateAngleX != 0.0F || rotateAngleY != 0.0F || rotateAngleZ != 0.0F)
+        if (rotateAngleX != 0.0F || rotateAngleY != 0.0F || rotateAngleZ != 0.0F)
         {
             GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
-            if(rotateAngleZ != 0.0F)
+            if (rotateAngleZ != 0.0F)
             {
                 GL11.glRotatef(rotateAngleZ * 57.29578F, 0.0F, 0.0F, 1.0F);
             }
-            if(rotateAngleY != 0.0F)
+            if (rotateAngleY != 0.0F)
             {
                 GL11.glRotatef(rotateAngleY * 57.29578F, 0.0F, 1.0F, 0.0F);
             }
-            if(rotateAngleX != 0.0F)
+            if (rotateAngleX != 0.0F)
             {
                 GL11.glRotatef(rotateAngleX * 57.29578F, 1.0F, 0.0F, 0.0F);
             }
-        } else
-        if(rotationPointX != 0.0F || rotationPointY != 0.0F || rotationPointZ != 0.0F)
+        }
+        else if (rotationPointX != 0.0F || rotationPointY != 0.0F || rotationPointZ != 0.0F)
         {
             GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
         }
@@ -246,7 +235,7 @@ public class ModelRenderer
         displayList = GLAllocation.generateDisplayLists(1);
         GL11.glNewList(displayList, 4864 /*GL_COMPILE*/);
         Tessellator tessellator = Tessellator.instance;
-        for(int i = 0; i < cubeList.size(); i++)
+        for (int i = 0; i < cubeList.size(); i++)
         {
             ((ModelBox)cubeList.get(i)).func_40670_a(tessellator, f);
         }

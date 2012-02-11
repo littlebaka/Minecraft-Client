@@ -7,10 +7,12 @@ Created on Fri Apr  8 16:36:26 2011
 @version: v0.1
 """
 
+import sys
+import re
+import shutil
 
-import sys, re
 
-constant_map = {
+CONSTANT_MAP = {
     1024: 'GL_FRONT_LEFT',
     1025: 'GL_FRONT_RIGHT',
     1026: 'GL_BACK_LEFT',
@@ -1520,26 +1522,37 @@ constant_map = {
     37157: 'GL_MAX_FRAGMENT_INPUT_COMPONENTS',
     37158: 'GL_CONTEXT_PROFILE_MASK'}
 
-constant_regex = re.compile(r'(?<![.\w])\d+(?![.\w])(?! /\*GL_)')
+_CONSTANT_REGEX = re.compile(r'(?<![.\w])\d+(?![.\w])(?! /\*GL_)')
 
-def expand_constant(match):
+
+def main():
+    if len(sys.argv) > 1:
+        for arg in sys.argv[1:]:
+            annotate_file(arg)
+
+
+def _expand_constant(match):
     constant = match.group(0)
-    try:
-        if int(constant) not in constant_map: return constant
-    except Exception as e:
+    if int(constant) not in CONSTANT_MAP:
         return constant
     constant = int(constant)
-    return '%d /*%s*/' % (constant, constant_map[constant])
+    return '%d /*%s*/' % (constant, CONSTANT_MAP[constant])
+
 
 def annotate_constants(code):
-    return constant_regex.sub(expand_constant, code)
+    return _CONSTANT_REGEX.sub(_expand_constant, code)
+
 
 def annotate_file(filename):
-    code = open(filename,'r').read()
+    tmp_file = filename + '.tmp'
+    with open(filename, 'r') as fh:
+        code = fh.read()
     if 'import org.lwjgl.opengl.' in code:
         code = annotate_constants(code)
-        open(filename,'w').write(code)
+        with open(tmp_file, 'w') as fh:
+            fh.write(code)
+        shutil.move(tmp_file, filename)
 
-if __name__ == '__main__' and len(sys.argv) > 1:
-    for arg in sys.argv[1:]:
-        annotate_file(arg)
+
+if __name__ == '__main__':
+    main()

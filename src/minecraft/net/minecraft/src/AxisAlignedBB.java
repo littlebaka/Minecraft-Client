@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            Vec3D, MovingObjectPosition
-
 public class AxisAlignedBB
 {
-
     private static List boundingBoxes = new ArrayList();
     private static int numBoundingBoxesInUse = 0;
     public double minX;
@@ -22,7 +14,7 @@ public class AxisAlignedBB
     public double maxY;
     public double maxZ;
 
-    public static AxisAlignedBB getBoundingBox(double d, double d1, double d2, double d3, 
+    public static AxisAlignedBB getBoundingBox(double d, double d1, double d2, double d3,
             double d4, double d5)
     {
         return new AxisAlignedBB(d, d1, d2, d3, d4, d5);
@@ -39,10 +31,10 @@ public class AxisAlignedBB
         numBoundingBoxesInUse = 0;
     }
 
-    public static AxisAlignedBB getBoundingBoxFromPool(double d, double d1, double d2, double d3, 
+    public static AxisAlignedBB getBoundingBoxFromPool(double d, double d1, double d2, double d3,
             double d4, double d5)
     {
-        if(numBoundingBoxesInUse >= boundingBoxes.size())
+        if (numBoundingBoxesInUse >= boundingBoxes.size())
         {
             boundingBoxes.add(getBoundingBox(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D));
         }
@@ -78,27 +70,27 @@ public class AxisAlignedBB
         double d6 = maxX;
         double d7 = maxY;
         double d8 = maxZ;
-        if(d < 0.0D)
+        if (d < 0.0D)
         {
             d3 += d;
         }
-        if(d > 0.0D)
+        if (d > 0.0D)
         {
             d6 += d;
         }
-        if(d1 < 0.0D)
+        if (d1 < 0.0D)
         {
             d4 += d1;
         }
-        if(d1 > 0.0D)
+        if (d1 > 0.0D)
         {
             d7 += d1;
         }
-        if(d2 < 0.0D)
+        if (d2 < 0.0D)
         {
             d5 += d2;
         }
-        if(d2 > 0.0D)
+        if (d2 > 0.0D)
         {
             d8 += d2;
         }
@@ -123,26 +115,26 @@ public class AxisAlignedBB
 
     public double calculateXOffset(AxisAlignedBB axisalignedbb, double d)
     {
-        if(axisalignedbb.maxY <= minY || axisalignedbb.minY >= maxY)
+        if (axisalignedbb.maxY <= minY || axisalignedbb.minY >= maxY)
         {
             return d;
         }
-        if(axisalignedbb.maxZ <= minZ || axisalignedbb.minZ >= maxZ)
+        if (axisalignedbb.maxZ <= minZ || axisalignedbb.minZ >= maxZ)
         {
             return d;
         }
-        if(d > 0.0D && axisalignedbb.maxX <= minX)
+        if (d > 0.0D && axisalignedbb.maxX <= minX)
         {
             double d1 = minX - axisalignedbb.maxX;
-            if(d1 < d)
+            if (d1 < d)
             {
                 d = d1;
             }
         }
-        if(d < 0.0D && axisalignedbb.minX >= maxX)
+        if (d < 0.0D && axisalignedbb.minX >= maxX)
         {
             double d2 = maxX - axisalignedbb.minX;
-            if(d2 > d)
+            if (d2 > d)
             {
                 d = d2;
             }
@@ -152,26 +144,26 @@ public class AxisAlignedBB
 
     public double calculateYOffset(AxisAlignedBB axisalignedbb, double d)
     {
-        if(axisalignedbb.maxX <= minX || axisalignedbb.minX >= maxX)
+        if (axisalignedbb.maxX <= minX || axisalignedbb.minX >= maxX)
         {
             return d;
         }
-        if(axisalignedbb.maxZ <= minZ || axisalignedbb.minZ >= maxZ)
+        if (axisalignedbb.maxZ <= minZ || axisalignedbb.minZ >= maxZ)
         {
             return d;
         }
-        if(d > 0.0D && axisalignedbb.maxY <= minY)
+        if (d > 0.0D && axisalignedbb.maxY <= minY)
         {
             double d1 = minY - axisalignedbb.maxY;
-            if(d1 < d)
+            if (d1 < d)
             {
                 d = d1;
             }
         }
-        if(d < 0.0D && axisalignedbb.minY >= maxY)
+        if (d < 0.0D && axisalignedbb.minY >= maxY)
         {
             double d2 = maxY - axisalignedbb.minY;
-            if(d2 > d)
+            if (d2 > d)
             {
                 d = d2;
             }
@@ -181,26 +173,26 @@ public class AxisAlignedBB
 
     public double calculateZOffset(AxisAlignedBB axisalignedbb, double d)
     {
-        if(axisalignedbb.maxX <= minX || axisalignedbb.minX >= maxX)
+        if (axisalignedbb.maxX <= minX || axisalignedbb.minX >= maxX)
         {
             return d;
         }
-        if(axisalignedbb.maxY <= minY || axisalignedbb.minY >= maxY)
+        if (axisalignedbb.maxY <= minY || axisalignedbb.minY >= maxY)
         {
             return d;
         }
-        if(d > 0.0D && axisalignedbb.maxZ <= minZ)
+        if (d > 0.0D && axisalignedbb.maxZ <= minZ)
         {
             double d1 = minZ - axisalignedbb.maxZ;
-            if(d1 < d)
+            if (d1 < d)
             {
                 d = d1;
             }
         }
-        if(d < 0.0D && axisalignedbb.minZ >= maxZ)
+        if (d < 0.0D && axisalignedbb.minZ >= maxZ)
         {
             double d2 = maxZ - axisalignedbb.minZ;
-            if(d2 > d)
+            if (d2 > d)
             {
                 d = d2;
             }
@@ -210,11 +202,11 @@ public class AxisAlignedBB
 
     public boolean intersectsWith(AxisAlignedBB axisalignedbb)
     {
-        if(axisalignedbb.maxX <= minX || axisalignedbb.minX >= maxX)
+        if (axisalignedbb.maxX <= minX || axisalignedbb.minX >= maxX)
         {
             return false;
         }
-        if(axisalignedbb.maxY <= minY || axisalignedbb.minY >= maxY)
+        if (axisalignedbb.maxY <= minY || axisalignedbb.minY >= maxY)
         {
             return false;
         }
@@ -234,11 +226,11 @@ public class AxisAlignedBB
 
     public boolean isVecInside(Vec3D vec3d)
     {
-        if(vec3d.xCoord <= minX || vec3d.xCoord >= maxX)
+        if (vec3d.xCoord <= minX || vec3d.xCoord >= maxX)
         {
             return false;
         }
-        if(vec3d.yCoord <= minY || vec3d.yCoord >= maxY)
+        if (vec3d.yCoord <= minY || vec3d.yCoord >= maxY)
         {
             return false;
         }
@@ -269,7 +261,7 @@ public class AxisAlignedBB
         return getBoundingBoxFromPool(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    public MovingObjectPosition func_1169_a(Vec3D vec3d, Vec3D vec3d1)
+    public MovingObjectPosition calculateIntercept(Vec3D vec3d, Vec3D vec3d1)
     {
         Vec3D vec3d2 = vec3d.getIntermediateWithXValue(vec3d1, minX);
         Vec3D vec3d3 = vec3d.getIntermediateWithXValue(vec3d1, maxX);
@@ -277,81 +269,81 @@ public class AxisAlignedBB
         Vec3D vec3d5 = vec3d.getIntermediateWithYValue(vec3d1, maxY);
         Vec3D vec3d6 = vec3d.getIntermediateWithZValue(vec3d1, minZ);
         Vec3D vec3d7 = vec3d.getIntermediateWithZValue(vec3d1, maxZ);
-        if(!isVecInYZ(vec3d2))
+        if (!isVecInYZ(vec3d2))
         {
             vec3d2 = null;
         }
-        if(!isVecInYZ(vec3d3))
+        if (!isVecInYZ(vec3d3))
         {
             vec3d3 = null;
         }
-        if(!isVecInXZ(vec3d4))
+        if (!isVecInXZ(vec3d4))
         {
             vec3d4 = null;
         }
-        if(!isVecInXZ(vec3d5))
+        if (!isVecInXZ(vec3d5))
         {
             vec3d5 = null;
         }
-        if(!isVecInXY(vec3d6))
+        if (!isVecInXY(vec3d6))
         {
             vec3d6 = null;
         }
-        if(!isVecInXY(vec3d7))
+        if (!isVecInXY(vec3d7))
         {
             vec3d7 = null;
         }
         Vec3D vec3d8 = null;
-        if(vec3d2 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d2) < vec3d.squareDistanceTo(vec3d8)))
+        if (vec3d2 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d2) < vec3d.squareDistanceTo(vec3d8)))
         {
             vec3d8 = vec3d2;
         }
-        if(vec3d3 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d3) < vec3d.squareDistanceTo(vec3d8)))
+        if (vec3d3 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d3) < vec3d.squareDistanceTo(vec3d8)))
         {
             vec3d8 = vec3d3;
         }
-        if(vec3d4 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d4) < vec3d.squareDistanceTo(vec3d8)))
+        if (vec3d4 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d4) < vec3d.squareDistanceTo(vec3d8)))
         {
             vec3d8 = vec3d4;
         }
-        if(vec3d5 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d5) < vec3d.squareDistanceTo(vec3d8)))
+        if (vec3d5 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d5) < vec3d.squareDistanceTo(vec3d8)))
         {
             vec3d8 = vec3d5;
         }
-        if(vec3d6 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d6) < vec3d.squareDistanceTo(vec3d8)))
+        if (vec3d6 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d6) < vec3d.squareDistanceTo(vec3d8)))
         {
             vec3d8 = vec3d6;
         }
-        if(vec3d7 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d7) < vec3d.squareDistanceTo(vec3d8)))
+        if (vec3d7 != null && (vec3d8 == null || vec3d.squareDistanceTo(vec3d7) < vec3d.squareDistanceTo(vec3d8)))
         {
             vec3d8 = vec3d7;
         }
-        if(vec3d8 == null)
+        if (vec3d8 == null)
         {
             return null;
         }
         byte byte0 = -1;
-        if(vec3d8 == vec3d2)
+        if (vec3d8 == vec3d2)
         {
             byte0 = 4;
         }
-        if(vec3d8 == vec3d3)
+        if (vec3d8 == vec3d3)
         {
             byte0 = 5;
         }
-        if(vec3d8 == vec3d4)
+        if (vec3d8 == vec3d4)
         {
             byte0 = 0;
         }
-        if(vec3d8 == vec3d5)
+        if (vec3d8 == vec3d5)
         {
             byte0 = 1;
         }
-        if(vec3d8 == vec3d6)
+        if (vec3d8 == vec3d6)
         {
             byte0 = 2;
         }
-        if(vec3d8 == vec3d7)
+        if (vec3d8 == vec3d7)
         {
             byte0 = 3;
         }
@@ -360,10 +352,11 @@ public class AxisAlignedBB
 
     private boolean isVecInYZ(Vec3D vec3d)
     {
-        if(vec3d == null)
+        if (vec3d == null)
         {
             return false;
-        } else
+        }
+        else
         {
             return vec3d.yCoord >= minY && vec3d.yCoord <= maxY && vec3d.zCoord >= minZ && vec3d.zCoord <= maxZ;
         }
@@ -371,10 +364,11 @@ public class AxisAlignedBB
 
     private boolean isVecInXZ(Vec3D vec3d)
     {
-        if(vec3d == null)
+        if (vec3d == null)
         {
             return false;
-        } else
+        }
+        else
         {
             return vec3d.xCoord >= minX && vec3d.xCoord <= maxX && vec3d.zCoord >= minZ && vec3d.zCoord <= maxZ;
         }
@@ -382,10 +376,11 @@ public class AxisAlignedBB
 
     private boolean isVecInXY(Vec3D vec3d)
     {
-        if(vec3d == null)
+        if (vec3d == null)
         {
             return false;
-        } else
+        }
+        else
         {
             return vec3d.xCoord >= minX && vec3d.xCoord <= maxX && vec3d.yCoord >= minY && vec3d.yCoord <= maxY;
         }
@@ -405,5 +400,4 @@ public class AxisAlignedBB
     {
         return (new StringBuilder()).append("box[").append(minX).append(", ").append(minY).append(", ").append(minZ).append(" -> ").append(maxX).append(", ").append(maxY).append(", ").append(maxZ).append("]").toString();
     }
-
 }

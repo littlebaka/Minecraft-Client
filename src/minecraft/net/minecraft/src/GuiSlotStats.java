@@ -1,27 +1,17 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiSlot, GuiStats, SoundManager, StatCrafting, 
-//            StatFileWriter, FontRenderer, StringTranslate, Item, 
-//            Tessellator
-
 abstract class GuiSlotStats extends GuiSlot
 {
-
     protected int field_27268_b;
     protected List field_27273_c;
     protected Comparator field_27272_d;
     protected int field_27271_e;
     protected int field_27270_f;
-    final GuiStats field_27269_g; /* synthetic field */
+    final GuiStats field_27269_g;
 
     protected GuiSlotStats(GuiStats guistats)
     {
@@ -50,44 +40,47 @@ abstract class GuiSlotStats extends GuiSlot
 
     protected void func_27260_a(int i, int j, Tessellator tessellator)
     {
-        if(!Mouse.isButtonDown(0))
+        if (!Mouse.isButtonDown(0))
         {
             field_27268_b = -1;
         }
-        if(field_27268_b == 0)
+        if (field_27268_b == 0)
         {
             GuiStats.drawSprite(field_27269_g, (i + 115) - 18, j + 1, 0, 0);
-        } else
+        }
+        else
         {
             GuiStats.drawSprite(field_27269_g, (i + 115) - 18, j + 1, 0, 18);
         }
-        if(field_27268_b == 1)
+        if (field_27268_b == 1)
         {
             GuiStats.drawSprite(field_27269_g, (i + 165) - 18, j + 1, 0, 0);
-        } else
+        }
+        else
         {
             GuiStats.drawSprite(field_27269_g, (i + 165) - 18, j + 1, 0, 18);
         }
-        if(field_27268_b == 2)
+        if (field_27268_b == 2)
         {
             GuiStats.drawSprite(field_27269_g, (i + 215) - 18, j + 1, 0, 0);
-        } else
+        }
+        else
         {
             GuiStats.drawSprite(field_27269_g, (i + 215) - 18, j + 1, 0, 18);
         }
-        if(field_27271_e != -1)
+        if (field_27271_e != -1)
         {
             char c = 'O';
             byte byte0 = 18;
-            if(field_27271_e == 1)
+            if (field_27271_e == 1)
             {
                 c = '\201';
-            } else
-            if(field_27271_e == 2)
+            }
+            else if (field_27271_e == 2)
             {
                 c = '\263';
             }
-            if(field_27270_f == 1)
+            if (field_27270_f == 1)
             {
                 byte0 = 36;
             }
@@ -98,19 +91,19 @@ abstract class GuiSlotStats extends GuiSlot
     protected void func_27255_a(int i, int j)
     {
         field_27268_b = -1;
-        if(i >= 79 && i < 115)
+        if (i >= 79 && i < 115)
         {
             field_27268_b = 0;
-        } else
-        if(i >= 129 && i < 165)
+        }
+        else if (i >= 129 && i < 165)
         {
             field_27268_b = 1;
-        } else
-        if(i >= 179 && i < 215)
+        }
+        else if (i >= 179 && i < 215)
         {
             field_27268_b = 2;
         }
-        if(field_27268_b >= 0)
+        if (field_27268_b >= 0)
         {
             func_27266_c(field_27268_b);
             GuiStats.getMinecraft2(field_27269_g).sndManager.playSoundFX("random.click", 1.0F, 1.0F);
@@ -131,11 +124,12 @@ abstract class GuiSlotStats extends GuiSlot
 
     protected void func_27265_a(StatCrafting statcrafting, int i, int j, boolean flag)
     {
-        if(statcrafting != null)
+        if (statcrafting != null)
         {
             String s = statcrafting.func_27084_a(GuiStats.getStatsFileWriter(field_27269_g).writeStat(statcrafting));
             field_27269_g.drawString(GuiStats.getFontRenderer4(field_27269_g), s, i - GuiStats.getFontRenderer5(field_27269_g).getStringWidth(s), j + 5, flag ? 0xffffff : 0x909090);
-        } else
+        }
+        else
         {
             String s1 = "-";
             field_27269_g.drawString(GuiStats.getFontRenderer6(field_27269_g), s1, i - GuiStats.getFontRenderer7(field_27269_g).getStringWidth(s1), j + 5, flag ? 0xffffff : 0x909090);
@@ -144,40 +138,42 @@ abstract class GuiSlotStats extends GuiSlot
 
     protected void func_27257_b(int i, int j)
     {
-        if(j < top || j > bottom)
+        if (j < top || j > bottom)
         {
             return;
         }
         int k = func_27256_c(i, j);
         int l = field_27269_g.width / 2 - 92 - 16;
-        if(k >= 0)
+        if (k >= 0)
         {
-            if(i < l + 40 || i > l + 40 + 20)
+            if (i < l + 40 || i > l + 40 + 20)
             {
                 return;
             }
             StatCrafting statcrafting = func_27264_b(k);
             func_27267_a(statcrafting, i, j);
-        } else
+        }
+        else
         {
             String s = "";
-            if(i >= (l + 115) - 18 && i <= l + 115)
+            if (i >= (l + 115) - 18 && i <= l + 115)
             {
                 s = func_27263_a(0);
-            } else
-            if(i >= (l + 165) - 18 && i <= l + 165)
+            }
+            else if (i >= (l + 165) - 18 && i <= l + 165)
             {
                 s = func_27263_a(1);
-            } else
-            if(i >= (l + 215) - 18 && i <= l + 215)
+            }
+            else if (i >= (l + 215) - 18 && i <= l + 215)
             {
                 s = func_27263_a(2);
-            } else
+            }
+            else
             {
                 return;
             }
             s = (new StringBuilder()).append("").append(StringTranslate.getInstance().translateKey(s)).toString().trim();
-            if(s.length() > 0)
+            if (s.length() > 0)
             {
                 int i1 = i + 12;
                 int j1 = j - 12;
@@ -190,13 +186,13 @@ abstract class GuiSlotStats extends GuiSlot
 
     protected void func_27267_a(StatCrafting statcrafting, int i, int j)
     {
-        if(statcrafting == null)
+        if (statcrafting == null)
         {
             return;
         }
         Item item = Item.itemsList[statcrafting.func_25072_b()];
         String s = (new StringBuilder()).append("").append(StringTranslate.getInstance().translateNamedKey(item.getItemName())).toString().trim();
-        if(s.length() > 0)
+        if (s.length() > 0)
         {
             int k = i + 12;
             int l = j - 12;
@@ -208,15 +204,16 @@ abstract class GuiSlotStats extends GuiSlot
 
     protected void func_27266_c(int i)
     {
-        if(i != field_27271_e)
+        if (i != field_27271_e)
         {
             field_27271_e = i;
             field_27270_f = -1;
-        } else
-        if(field_27270_f == -1)
+        }
+        else if (field_27270_f == -1)
         {
             field_27270_f = 1;
-        } else
+        }
+        else
         {
             field_27271_e = -1;
             field_27270_f = 0;

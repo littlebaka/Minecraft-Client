@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, NetHandler
-
 public class Packet255KickDisconnect extends Packet
 {
-
     public String reason;
 
     public Packet255KickDisconnect()
@@ -24,13 +16,13 @@ public class Packet255KickDisconnect extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
-        reason = readString(datainputstream, 100);
+        reason = readString(datainputstream, 256);
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         writeString(reason, dataoutputstream);
     }

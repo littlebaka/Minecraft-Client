@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Tessellator, FontRenderer
-
 public class Gui
 {
-
     protected float zLevel;
 
     public Gui()
@@ -19,9 +11,9 @@ public class Gui
         zLevel = 0.0F;
     }
 
-    protected void func_27100_a(int i, int j, int k, int l)
+    protected void drawHorizontalLine(int i, int j, int k, int l)
     {
-        if(j < i)
+        if (j < i)
         {
             int i1 = i;
             i = j;
@@ -30,9 +22,9 @@ public class Gui
         drawRect(i, k, j + 1, k + 1, l);
     }
 
-    protected void func_27099_b(int i, int j, int k, int l)
+    protected void drawVerticalLine(int i, int j, int k, int l)
     {
-        if(k < j)
+        if (k < j)
         {
             int i1 = j;
             j = k;
@@ -43,13 +35,13 @@ public class Gui
 
     protected void drawRect(int i, int j, int k, int l, int i1)
     {
-        if(i < k)
+        if (i < k)
         {
             int j1 = i;
             i = k;
             k = j1;
         }
-        if(j < l)
+        if (j < l)
         {
             int k1 = j;
             j = l;

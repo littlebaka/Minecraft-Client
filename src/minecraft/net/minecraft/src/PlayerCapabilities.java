@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            NBTTagCompound
 
 public class PlayerCapabilities
 {
-
     public boolean disableDamage;
     public boolean isFlying;
     public boolean allowFlying;
@@ -24,7 +15,7 @@ public class PlayerCapabilities
         depleteBuckets = false;
     }
 
-    public void func_40601_a(NBTTagCompound nbttagcompound)
+    public void writeCapabilitiesToNBT(NBTTagCompound nbttagcompound)
     {
         NBTTagCompound nbttagcompound1 = new NBTTagCompound();
         nbttagcompound1.setBoolean("invulnerable", disableDamage);
@@ -34,9 +25,9 @@ public class PlayerCapabilities
         nbttagcompound.setTag("abilities", nbttagcompound1);
     }
 
-    public void func_40600_b(NBTTagCompound nbttagcompound)
+    public void readCapabilitiesFromNBT(NBTTagCompound nbttagcompound)
     {
-        if(nbttagcompound.hasKey("abilities"))
+        if (nbttagcompound.hasKey("abilities"))
         {
             NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("abilities");
             disableDamage = nbttagcompound1.getBoolean("invulnerable");

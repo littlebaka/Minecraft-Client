@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            Chunk, IProgressUpdate, EnumCreatureType, World, 
-//            ChunkPosition
-
 public interface IChunkProvider
 {
-
     public abstract boolean chunkExists(int i, int j);
 
     public abstract Chunk provideChunk(int i, int j);

@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            NBTBase, NBTTagByte, NBTTagShort, NBTTagInt, 
-//            NBTTagLong, NBTTagFloat, NBTTagDouble, NBTTagString, 
-//            NBTTagByteArray, NBTTagList
-
 public class NBTTagCompound extends NBTBase
 {
-
     private Map tagMap;
 
     public NBTTagCompound()
@@ -30,10 +20,10 @@ public class NBTTagCompound extends NBTBase
     }
 
     void writeTagContents(DataOutput dataoutput)
-        throws IOException
+    throws IOException
     {
         NBTBase nbtbase;
-        for(Iterator iterator = tagMap.values().iterator(); iterator.hasNext(); NBTBase.writeTag(nbtbase, dataoutput))
+        for (Iterator iterator = tagMap.values().iterator(); iterator.hasNext(); NBTBase.writeTag(nbtbase, dataoutput))
         {
             nbtbase = (NBTBase)iterator.next();
         }
@@ -42,14 +32,14 @@ public class NBTTagCompound extends NBTBase
     }
 
     void readTagContents(DataInput datainput)
-        throws IOException
+    throws IOException
     {
         tagMap.clear();
         NBTBase nbtbase;
-        for(; (nbtbase = NBTBase.readTag(datainput)).getType() != 0; tagMap.put(nbtbase.getKey(), nbtbase)) { }
+        for (; (nbtbase = NBTBase.readTag(datainput)).getType() != 0; tagMap.put(nbtbase.getKey(), nbtbase)) { }
     }
 
-    public Collection func_28110_c()
+    public Collection getTags()
     {
         return tagMap.values();
     }
@@ -114,7 +104,7 @@ public class NBTTagCompound extends NBTBase
         setByte(s, ((byte)(flag ? 1 : 0)));
     }
 
-    public NBTBase func_40196_b(String s)
+    public NBTBase getTag(String s)
     {
         return (NBTBase)tagMap.get(s);
     }
@@ -126,10 +116,11 @@ public class NBTTagCompound extends NBTBase
 
     public byte getByte(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return 0;
-        } else
+        }
+        else
         {
             return ((NBTTagByte)tagMap.get(s)).byteValue;
         }
@@ -137,10 +128,11 @@ public class NBTTagCompound extends NBTBase
 
     public short getShort(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return 0;
-        } else
+        }
+        else
         {
             return ((NBTTagShort)tagMap.get(s)).shortValue;
         }
@@ -148,10 +140,11 @@ public class NBTTagCompound extends NBTBase
 
     public int getInteger(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return 0;
-        } else
+        }
+        else
         {
             return ((NBTTagInt)tagMap.get(s)).intValue;
         }
@@ -159,10 +152,11 @@ public class NBTTagCompound extends NBTBase
 
     public long getLong(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return 0L;
-        } else
+        }
+        else
         {
             return ((NBTTagLong)tagMap.get(s)).longValue;
         }
@@ -170,10 +164,11 @@ public class NBTTagCompound extends NBTBase
 
     public float getFloat(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return 0.0F;
-        } else
+        }
+        else
         {
             return ((NBTTagFloat)tagMap.get(s)).floatValue;
         }
@@ -181,10 +176,11 @@ public class NBTTagCompound extends NBTBase
 
     public double getDouble(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return 0.0D;
-        } else
+        }
+        else
         {
             return ((NBTTagDouble)tagMap.get(s)).doubleValue;
         }
@@ -192,10 +188,11 @@ public class NBTTagCompound extends NBTBase
 
     public String getString(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return "";
-        } else
+        }
+        else
         {
             return ((NBTTagString)tagMap.get(s)).stringValue;
         }
@@ -203,10 +200,11 @@ public class NBTTagCompound extends NBTBase
 
     public byte[] getByteArray(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return new byte[0];
-        } else
+        }
+        else
         {
             return ((NBTTagByteArray)tagMap.get(s)).byteArray;
         }
@@ -214,10 +212,11 @@ public class NBTTagCompound extends NBTBase
 
     public NBTTagCompound getCompoundTag(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return new NBTTagCompound(s);
-        } else
+        }
+        else
         {
             return (NBTTagCompound)tagMap.get(s);
         }
@@ -225,10 +224,11 @@ public class NBTTagCompound extends NBTBase
 
     public NBTTagList getTagList(String s)
     {
-        if(!tagMap.containsKey(s))
+        if (!tagMap.containsKey(s))
         {
             return new NBTTagList(s);
-        } else
+        }
+        else
         {
             return (NBTTagList)tagMap.get(s);
         }
@@ -244,11 +244,11 @@ public class NBTTagCompound extends NBTBase
         return (new StringBuilder()).append("").append(tagMap.size()).append(" entries").toString();
     }
 
-    public NBTBase func_40195_b()
+    public NBTBase cloneTag()
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound(getKey());
         String s;
-        for(Iterator iterator = tagMap.keySet().iterator(); iterator.hasNext(); nbttagcompound.setTag(s, ((NBTBase)tagMap.get(s)).func_40195_b()))
+        for (Iterator iterator = tagMap.keySet().iterator(); iterator.hasNext(); nbttagcompound.setTag(s, ((NBTBase)tagMap.get(s)).cloneTag()))
         {
             s = (String)iterator.next();
         }
@@ -258,11 +258,12 @@ public class NBTTagCompound extends NBTBase
 
     public boolean equals(Object obj)
     {
-        if(super.equals(obj))
+        if (super.equals(obj))
         {
             NBTTagCompound nbttagcompound = (NBTTagCompound)obj;
             return tagMap.entrySet().equals(nbttagcompound.tagMap.entrySet());
-        } else
+        }
+        else
         {
             return false;
         }

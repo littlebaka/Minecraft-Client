@@ -1,21 +1,13 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, World, Tessellator
-
 public class EntityHugeExplodeFX extends EntityFX
 {
-
     private int field_35139_a;
     private int field_35138_ay;
 
-    public EntityHugeExplodeFX(World world, double d, double d1, double d2, 
+    public EntityHugeExplodeFX(World world, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         super(world, d, d1, d2, 0.0D, 0.0D, 0.0D);
@@ -30,7 +22,7 @@ public class EntityHugeExplodeFX extends EntityFX
 
     public void onUpdate()
     {
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
             double d = posX + (rand.nextDouble() - rand.nextDouble()) * 4D;
             double d1 = posY + (rand.nextDouble() - rand.nextDouble()) * 4D;
@@ -39,7 +31,7 @@ public class EntityHugeExplodeFX extends EntityFX
         }
 
         field_35139_a++;
-        if(field_35139_a == field_35138_ay)
+        if (field_35139_a == field_35138_ay)
         {
             setEntityDead();
         }

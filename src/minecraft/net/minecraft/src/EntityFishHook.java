@@ -1,21 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Entity, EntityPlayer, MathHelper, AxisAlignedBB, 
-//            World, ItemStack, Item, Vec3D, 
-//            MovingObjectPosition, DamageSource, Material, NBTTagCompound, 
-//            EntityItem, StatList
-
 public class EntityFishHook extends Entity
 {
-
     private int xTile;
     private int yTile;
     private int zTile;
@@ -100,7 +89,7 @@ public class EntityFishHook extends Entity
         return d < d1 * d1;
     }
 
-    public void calculateVelocity(double d, double d1, double d2, float f, 
+    public void calculateVelocity(double d, double d1, double d2, float f,
             float f1)
     {
         float f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
@@ -122,7 +111,7 @@ public class EntityFishHook extends Entity
         ticksInGround = 0;
     }
 
-    public void setPositionAndRotation2(double d, double d1, double d2, float f, 
+    public void setPositionAndRotation2(double d, double d1, double d2, float f,
             float f1, int i)
     {
         fishX = d;
@@ -146,14 +135,14 @@ public class EntityFishHook extends Entity
     public void onUpdate()
     {
         super.onUpdate();
-        if(fishPosRotationIncrements > 0)
+        if (fishPosRotationIncrements > 0)
         {
             double d = posX + (fishX - posX) / (double)fishPosRotationIncrements;
             double d1 = posY + (fishY - posY) / (double)fishPosRotationIncrements;
             double d2 = posZ + (fishZ - posZ) / (double)fishPosRotationIncrements;
             double d4;
-            for(d4 = fishYaw - (double)rotationYaw; d4 < -180D; d4 += 360D) { }
-            for(; d4 >= 180D; d4 -= 360D) { }
+            for (d4 = fishYaw - (double)rotationYaw; d4 < -180D; d4 += 360D) { }
+            for (; d4 >= 180D; d4 -= 360D) { }
             rotationYaw += d4 / (double)fishPosRotationIncrements;
             rotationPitch += (fishPitch - (double)rotationPitch) / (double)fishPosRotationIncrements;
             fishPosRotationIncrements--;
@@ -161,21 +150,22 @@ public class EntityFishHook extends Entity
             setRotation(rotationYaw, rotationPitch);
             return;
         }
-        if(!worldObj.multiplayerWorld)
+        if (!worldObj.multiplayerWorld)
         {
             ItemStack itemstack = angler.getCurrentEquippedItem();
-            if(angler.isDead || !angler.isEntityAlive() || itemstack == null || itemstack.getItem() != Item.fishingRod || getDistanceSqToEntity(angler) > 1024D)
+            if (angler.isDead || !angler.isEntityAlive() || itemstack == null || itemstack.getItem() != Item.fishingRod || getDistanceSqToEntity(angler) > 1024D)
             {
                 setEntityDead();
                 angler.fishEntity = null;
                 return;
             }
-            if(bobber != null)
+            if (bobber != null)
             {
-                if(bobber.isDead)
+                if (bobber.isDead)
                 {
                     bobber = null;
-                } else
+                }
+                else
                 {
                     posX = bobber.posX;
                     posY = bobber.boundingBox.minY + (double)bobber.height * 0.80000000000000004D;
@@ -184,14 +174,14 @@ public class EntityFishHook extends Entity
                 }
             }
         }
-        if(shake > 0)
+        if (shake > 0)
         {
             shake--;
         }
-        if(inGround)
+        if (inGround)
         {
             int i = worldObj.getBlockId(xTile, yTile, zTile);
-            if(i != inTile)
+            if (i != inTile)
             {
                 inGround = false;
                 motionX *= rand.nextFloat() * 0.2F;
@@ -199,16 +189,18 @@ public class EntityFishHook extends Entity
                 motionZ *= rand.nextFloat() * 0.2F;
                 ticksInGround = 0;
                 ticksInAir = 0;
-            } else
+            }
+            else
             {
                 ticksInGround++;
-                if(ticksInGround == 1200)
+                if (ticksInGround == 1200)
                 {
                     setEntityDead();
                 }
                 return;
             }
-        } else
+        }
+        else
         {
             ticksInAir++;
         }
@@ -217,125 +209,126 @@ public class EntityFishHook extends Entity
         MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
         vec3d = Vec3D.createVector(posX, posY, posZ);
         vec3d1 = Vec3D.createVector(posX + motionX, posY + motionY, posZ + motionZ);
-        if(movingobjectposition != null)
+        if (movingobjectposition != null)
         {
             vec3d1 = Vec3D.createVector(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
         }
         Entity entity = null;
         List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
         double d3 = 0.0D;
-        for(int j = 0; j < list.size(); j++)
+        for (int j = 0; j < list.size(); j++)
         {
             Entity entity1 = (Entity)list.get(j);
-            if(!entity1.canBeCollidedWith() || entity1 == angler && ticksInAir < 5)
+            if (!entity1.canBeCollidedWith() || entity1 == angler && ticksInAir < 5)
             {
                 continue;
             }
             float f2 = 0.3F;
             AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f2, f2, f2);
-            MovingObjectPosition movingobjectposition1 = axisalignedbb.func_1169_a(vec3d, vec3d1);
-            if(movingobjectposition1 == null)
+            MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
+            if (movingobjectposition1 == null)
             {
                 continue;
             }
             double d6 = vec3d.distanceTo(movingobjectposition1.hitVec);
-            if(d6 < d3 || d3 == 0.0D)
+            if (d6 < d3 || d3 == 0.0D)
             {
                 entity = entity1;
                 d3 = d6;
             }
         }
 
-        if(entity != null)
+        if (entity != null)
         {
             movingobjectposition = new MovingObjectPosition(entity);
         }
-        if(movingobjectposition != null)
+        if (movingobjectposition != null)
         {
-            if(movingobjectposition.entityHit != null)
+            if (movingobjectposition.entityHit != null)
             {
-                if(movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, angler), 0))
+                if (movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, angler), 0))
                 {
                     bobber = movingobjectposition.entityHit;
                 }
-            } else
+            }
+            else
             {
                 inGround = true;
             }
         }
-        if(inGround)
+        if (inGround)
         {
             return;
         }
         moveEntity(motionX, motionY, motionZ);
         float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
         rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
-        for(rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
-        for(; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
-        for(; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
-        for(; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
+        for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
+        for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
+        for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
+        for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
         rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
         rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
         float f1 = 0.92F;
-        if(onGround || isCollidedHorizontally)
+        if (onGround || isCollidedHorizontally)
         {
             f1 = 0.5F;
         }
         int k = 5;
         double d5 = 0.0D;
-        for(int l = 0; l < k; l++)
+        for (int l = 0; l < k; l++)
         {
             double d8 = ((boundingBox.minY + ((boundingBox.maxY - boundingBox.minY) * (double)(l + 0)) / (double)k) - 0.125D) + 0.125D;
             double d9 = ((boundingBox.minY + ((boundingBox.maxY - boundingBox.minY) * (double)(l + 1)) / (double)k) - 0.125D) + 0.125D;
             AxisAlignedBB axisalignedbb1 = AxisAlignedBB.getBoundingBoxFromPool(boundingBox.minX, d8, boundingBox.minZ, boundingBox.maxX, d9, boundingBox.maxZ);
-            if(worldObj.isAABBInMaterial(axisalignedbb1, Material.water))
+            if (worldObj.isAABBInMaterial(axisalignedbb1, Material.water))
             {
                 d5 += 1.0D / (double)k;
             }
         }
 
-        if(d5 > 0.0D)
+        if (d5 > 0.0D)
         {
-            if(ticksCatchable > 0)
+            if (ticksCatchable > 0)
             {
                 ticksCatchable--;
-            } else
+            }
+            else
             {
                 char c = '\u01F4';
-                if(worldObj.canLightningStrikeAt(MathHelper.floor_double(posX), MathHelper.floor_double(posY) + 1, MathHelper.floor_double(posZ)))
+                if (worldObj.canLightningStrikeAt(MathHelper.floor_double(posX), MathHelper.floor_double(posY) + 1, MathHelper.floor_double(posZ)))
                 {
                     c = '\u012C';
                 }
-                if(rand.nextInt(c) == 0)
+                if (rand.nextInt(c) == 0)
                 {
                     ticksCatchable = rand.nextInt(30) + 10;
                     motionY -= 0.20000000298023224D;
                     worldObj.playSoundAtEntity(this, "random.splash", 0.25F, 1.0F + (rand.nextFloat() - rand.nextFloat()) * 0.4F);
                     float f3 = MathHelper.floor_double(boundingBox.minY);
-                    for(int i1 = 0; (float)i1 < 1.0F + width * 20F; i1++)
+                    for (int i1 = 0; (float)i1 < 1.0F + width * 20F; i1++)
                     {
                         float f4 = (rand.nextFloat() * 2.0F - 1.0F) * width;
                         float f6 = (rand.nextFloat() * 2.0F - 1.0F) * width;
                         worldObj.spawnParticle("bubble", posX + (double)f4, f3 + 1.0F, posZ + (double)f6, motionX, motionY - (double)(rand.nextFloat() * 0.2F), motionZ);
                     }
 
-                    for(int j1 = 0; (float)j1 < 1.0F + width * 20F; j1++)
+                    for (int j1 = 0; (float)j1 < 1.0F + width * 20F; j1++)
                     {
                         float f5 = (rand.nextFloat() * 2.0F - 1.0F) * width;
                         float f7 = (rand.nextFloat() * 2.0F - 1.0F) * width;
                         worldObj.spawnParticle("splash", posX + (double)f5, f3 + 1.0F, posZ + (double)f7, motionX, motionY, motionZ);
                     }
-
                 }
             }
         }
-        if(ticksCatchable > 0)
+        if (ticksCatchable > 0)
         {
             motionY -= (double)(rand.nextFloat() * rand.nextFloat() * rand.nextFloat()) * 0.20000000000000001D;
         }
         double d7 = d5 * 2D - 1.0D;
         motionY += 0.039999999105930328D * d7;
-        if(d5 > 0.0D)
+        if (d5 > 0.0D)
         {
             f1 = (float)((double)f1 * 0.90000000000000002D);
             motionY *= 0.80000000000000004D;
@@ -374,7 +367,7 @@ public class EntityFishHook extends Entity
     public int catchFish()
     {
         byte byte0 = 0;
-        if(bobber != null)
+        if (bobber != null)
         {
             double d = angler.posX - posX;
             double d2 = angler.posY - posY;
@@ -385,8 +378,8 @@ public class EntityFishHook extends Entity
             bobber.motionY += d2 * d8 + (double)MathHelper.sqrt_double(d6) * 0.080000000000000002D;
             bobber.motionZ += d4 * d8;
             byte0 = 3;
-        } else
-        if(ticksCatchable > 0)
+        }
+        else if (ticksCatchable > 0)
         {
             EntityItem entityitem = new EntityItem(worldObj, posX, posY, posZ, new ItemStack(Item.fishRaw));
             double d1 = angler.posX - posX;
@@ -397,11 +390,11 @@ public class EntityFishHook extends Entity
             entityitem.motionX = d1 * d9;
             entityitem.motionY = d3 * d9 + (double)MathHelper.sqrt_double(d7) * 0.080000000000000002D;
             entityitem.motionZ = d5 * d9;
-            worldObj.entityJoinedWorld(entityitem);
+            worldObj.spawnEntityInWorld(entityitem);
             angler.addStat(StatList.fishCaughtStat, 1);
             byte0 = 1;
         }
-        if(inGround)
+        if (inGround)
         {
             byte0 = 2;
         }

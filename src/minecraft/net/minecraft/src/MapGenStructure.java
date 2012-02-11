@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.*;
 
-// Referenced classes of package net.minecraft.src:
-//            MapGenBase, ChunkCoordIntPair, StructureStart, StructureBoundingBox, 
-//            StructureComponent, World, ChunkPosition, IChunkProvider
-
 public abstract class MapGenStructure extends MapGenBase
 {
-
     protected HashMap coordMap;
 
     public MapGenStructure()
@@ -27,12 +18,12 @@ public abstract class MapGenStructure extends MapGenBase
 
     protected void recursiveGenerate(World world, int i, int j, int k, int l, byte abyte0[])
     {
-        if(coordMap.containsKey(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(i, j))))
+        if (coordMap.containsKey(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(i, j))))
         {
             return;
         }
-        rand.nextInt();
-        if(canSpawnStructureAtCoords(i, j))
+        int i1 = rand.nextInt();
+        if (canSpawnStructureAtCoords(i, j))
         {
             StructureStart structurestart = getStructureStart(i, j);
             coordMap.put(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(i, j)), structurestart);
@@ -47,30 +38,31 @@ public abstract class MapGenStructure extends MapGenBase
         Iterator iterator = coordMap.values().iterator();
         do
         {
-            if(!iterator.hasNext())
+            if (!iterator.hasNext())
             {
                 break;
             }
             StructureStart structurestart = (StructureStart)iterator.next();
-            if(structurestart.isSizeableStructure() && structurestart.getBoundingBox().isInsideStructureBB(k, l, k + 15, l + 15))
+            if (structurestart.isSizeableStructure() && structurestart.getBoundingBox().isInsideStructureBB(k, l, k + 15, l + 15))
             {
                 structurestart.generateStructure(world, random, new StructureBoundingBox(k, l, k + 15, l + 15));
                 flag = true;
             }
-        } while(true);
+        }
+        while (true);
         return flag;
     }
 
     public boolean func_40483_a(int i, int j, int k)
     {
         Iterator iterator = coordMap.values().iterator();
-label0:
+        label0:
         do
         {
-            if(iterator.hasNext())
+            if (iterator.hasNext())
             {
                 StructureStart structurestart = (StructureStart)iterator.next();
-                if(!structurestart.isSizeableStructure() || !structurestart.getBoundingBox().isInsideStructureBB(i, k, i, k))
+                if (!structurestart.isSizeableStructure() || !structurestart.getBoundingBox().isInsideStructureBB(i, k, i, k))
                 {
                     continue;
                 }
@@ -78,18 +70,21 @@ label0:
                 StructureComponent structurecomponent;
                 do
                 {
-                    if(!iterator1.hasNext())
+                    if (!iterator1.hasNext())
                     {
                         continue label0;
                     }
                     structurecomponent = (StructureComponent)iterator1.next();
-                } while(!structurecomponent.getBoundingBox().isVecInside(i, j, k));
+                }
+                while (!structurecomponent.getBoundingBox().isVecInside(i, j, k));
                 break;
-            } else
+            }
+            else
             {
                 return false;
             }
-        } while(true);
+        }
+        while (true);
         return true;
     }
 
@@ -108,12 +103,12 @@ label0:
         Object obj = coordMap.values().iterator();
         do
         {
-            if(!((Iterator) (obj)).hasNext())
+            if (!((Iterator) (obj)).hasNext())
             {
                 break;
             }
             StructureStart structurestart = (StructureStart)((Iterator) (obj)).next();
-            if(structurestart.isSizeableStructure())
+            if (structurestart.isSizeableStructure())
             {
                 StructureComponent structurecomponent = (StructureComponent)structurestart.func_40560_b().get(0);
                 ChunkPosition chunkposition2 = structurecomponent.func_40008_a_();
@@ -121,25 +116,26 @@ label0:
                 int k1 = chunkposition2.y - j;
                 int j2 = chunkposition2.z - k;
                 double d1 = i1 + i1 * k1 * k1 + j2 * j2;
-                if(d1 < d)
+                if (d1 < d)
                 {
                     d = d1;
                     chunkposition = chunkposition2;
                 }
             }
-        } while(true);
-        if(chunkposition != null)
+        }
+        while (true);
+        if (chunkposition != null)
         {
             return chunkposition;
         }
         obj = func_40482_a();
-        if(obj != null)
+        if (obj != null)
         {
             ChunkPosition chunkposition1 = null;
             Iterator iterator = ((List) (obj)).iterator();
             do
             {
-                if(!iterator.hasNext())
+                if (!iterator.hasNext())
                 {
                     break;
                 }
@@ -148,14 +144,16 @@ label0:
                 int i2 = chunkposition3.y - j;
                 int k2 = chunkposition3.z - k;
                 double d2 = j1 + j1 * i2 * i2 + k2 * k2;
-                if(d2 < d)
+                if (d2 < d)
                 {
                     d = d2;
                     chunkposition1 = chunkposition3;
                 }
-            } while(true);
+            }
+            while (true);
             return chunkposition1;
-        } else
+        }
+        else
         {
             return null;
         }

@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.*;
 
-// Referenced classes of package net.minecraft.src:
-//            Packet, NetHandler
-
 public class Packet106Transaction extends Packet
 {
-
     public int windowId;
     public short shortWindowId;
     public boolean accepted;
@@ -33,7 +25,7 @@ public class Packet106Transaction extends Packet
     }
 
     public void readPacketData(DataInputStream datainputstream)
-        throws IOException
+    throws IOException
     {
         windowId = datainputstream.readByte();
         shortWindowId = datainputstream.readShort();
@@ -41,7 +33,7 @@ public class Packet106Transaction extends Packet
     }
 
     public void writePacketData(DataOutputStream dataoutputstream)
-        throws IOException
+    throws IOException
     {
         dataoutputstream.writeByte(windowId);
         dataoutputstream.writeShort(shortWindowId);

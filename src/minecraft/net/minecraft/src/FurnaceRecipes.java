@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.HashMap;
 import java.util.Map;
 
-// Referenced classes of package net.minecraft.src:
-//            Block, ItemStack, Item
-
 public class FurnaceRecipes
 {
-
     private static final FurnaceRecipes smeltingBase = new FurnaceRecipes();
     private Map smeltingList;
 
@@ -39,9 +31,6 @@ public class FurnaceRecipes
         addSmelting(Block.oreCoal.blockID, new ItemStack(Item.coal));
         addSmelting(Block.oreRedstone.blockID, new ItemStack(Item.redstone));
         addSmelting(Block.oreLapis.blockID, new ItemStack(Item.dyePowder, 1, 4));
-        // Nouveaux
-        addSmelting(Block.oreAdamantite.blockID, new ItemStack(Item.ingotAdamantite, 1, 4));
-        //Fin
     }
 
     public void addSmelting(int i, ItemStack itemstack)
@@ -58,5 +47,4 @@ public class FurnaceRecipes
     {
         return smeltingList;
     }
-
 }

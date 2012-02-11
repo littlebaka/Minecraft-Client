@@ -1,14 +1,8 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
 
 public class ChunkCoordinates
     implements Comparable
 {
-
     public int posX;
     public int posY;
     public int posZ;
@@ -33,10 +27,11 @@ public class ChunkCoordinates
 
     public boolean equals(Object obj)
     {
-        if(!(obj instanceof ChunkCoordinates))
+        if (!(obj instanceof ChunkCoordinates))
         {
             return false;
-        } else
+        }
+        else
         {
             ChunkCoordinates chunkcoordinates = (ChunkCoordinates)obj;
             return posX == chunkcoordinates.posX && posY == chunkcoordinates.posY && posZ == chunkcoordinates.posZ;
@@ -50,16 +45,18 @@ public class ChunkCoordinates
 
     public int compareChunkCoordinate(ChunkCoordinates chunkcoordinates)
     {
-        if(posY == chunkcoordinates.posY)
+        if (posY == chunkcoordinates.posY)
         {
-            if(posZ == chunkcoordinates.posZ)
+            if (posZ == chunkcoordinates.posZ)
             {
                 return posX - chunkcoordinates.posX;
-            } else
+            }
+            else
             {
                 return posZ - chunkcoordinates.posZ;
             }
-        } else
+        }
+        else
         {
             return posY - chunkcoordinates.posY;
         }

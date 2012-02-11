@@ -1,19 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityMob, DataWatcher, World, Entity, 
-//            MathHelper, Item, EnumCreatureAttribute, PotionEffect, 
-//            Potion, NBTTagCompound
-
 public class EntitySpider extends EntityMob
 {
-
     public EntitySpider(World world)
     {
         super(world);
@@ -36,7 +26,7 @@ public class EntitySpider extends EntityMob
     public void onUpdate()
     {
         super.onUpdate();
-        if(!worldObj.multiplayerWorld)
+        if (!worldObj.multiplayerWorld)
         {
             func_40148_a(isCollidedHorizontally);
         }
@@ -60,11 +50,12 @@ public class EntitySpider extends EntityMob
     protected Entity findPlayerToAttack()
     {
         float f = getEntityBrightness(1.0F);
-        if(f < 0.5F)
+        if (f < 0.5F)
         {
             double d = 16D;
             return worldObj.getClosestVulnerablePlayerToEntity(this, d);
-        } else
+        }
+        else
         {
             return null;
         }
@@ -88,14 +79,14 @@ public class EntitySpider extends EntityMob
     protected void attackEntity(Entity entity, float f)
     {
         float f1 = getEntityBrightness(1.0F);
-        if(f1 > 0.5F && rand.nextInt(100) == 0)
+        if (f1 > 0.5F && rand.nextInt(100) == 0)
         {
             entityToAttack = null;
             return;
         }
-        if(f > 2.0F && f < 6F && rand.nextInt(10) == 0)
+        if (f > 2.0F && f < 6F && rand.nextInt(10) == 0)
         {
-            if(onGround)
+            if (onGround)
             {
                 double d = entity.posX - posX;
                 double d1 = entity.posZ - posZ;
@@ -104,7 +95,8 @@ public class EntitySpider extends EntityMob
                 motionZ = (d1 / (double)f2) * 0.5D * 0.80000001192092896D + motionZ * 0.20000000298023224D;
                 motionY = 0.40000000596046448D;
             }
-        } else
+        }
+        else
         {
             super.attackEntity(entity, f);
         }
@@ -128,7 +120,7 @@ public class EntitySpider extends EntityMob
     protected void dropFewItems(boolean flag, int i)
     {
         super.dropFewItems(flag, i);
-        if(flag && (rand.nextInt(3) == 0 || rand.nextInt(1 + i) > 0))
+        if (flag && (rand.nextInt(3) == 0 || rand.nextInt(1 + i) > 0))
         {
             dropItem(Item.spiderEye.shiftedIndex, 1);
         }
@@ -148,17 +140,18 @@ public class EntitySpider extends EntityMob
         return 1.0F;
     }
 
-    public EnumCreatureAttribute func_40124_t()
+    public EnumCreatureAttribute getCreatureAttribute()
     {
         return EnumCreatureAttribute.ARTHROPOD;
     }
 
     public boolean func_40126_a(PotionEffect potioneffect)
     {
-        if(potioneffect.getPotionID() == Potion.potionPoison.id)
+        if (potioneffect.getPotionID() == Potion.poison.id)
         {
             return false;
-        } else
+        }
+        else
         {
             return super.func_40126_a(potioneffect);
         }
@@ -172,10 +165,11 @@ public class EntitySpider extends EntityMob
     public void func_40148_a(boolean flag)
     {
         byte byte0 = dataWatcher.getWatchableObjectByte(16);
-        if(flag)
+        if (flag)
         {
             byte0 |= 1;
-        } else
+        }
+        else
         {
             byte0 &= 0xfe;
         }

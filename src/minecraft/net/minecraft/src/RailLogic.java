@@ -1,30 +1,22 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// Referenced classes of package net.minecraft.src:
-//            World, Block, BlockRail, ChunkPosition
-
 class RailLogic
 {
-
     private World worldObj;
     private int trackX;
     private int trackY;
     private int trackZ;
     private final boolean isPoweredRail;
     private List connectedTracks;
-    final BlockRail rail; /* synthetic field */
+    final BlockRail rail;
 
     public RailLogic(BlockRail blockrail, World world, int i, int j, int k)
     {
         rail = blockrail;
-//        super();
+
         connectedTracks = new ArrayList();
         worldObj = world;
         trackX = i;
@@ -32,11 +24,12 @@ class RailLogic
         trackZ = k;
         int l = world.getBlockId(i, j, k);
         int i1 = world.getBlockMetadata(i, j, k);
-        if(BlockRail.isPoweredBlockRail((BlockRail)Block.blocksList[l]))
+        if (BlockRail.isPoweredBlockRail((BlockRail)Block.blocksList[l]))
         {
             isPoweredRail = true;
             i1 &= -9;
-        } else
+        }
+        else
         {
             isPoweredRail = false;
         }
@@ -46,52 +39,52 @@ class RailLogic
     private void setConnections(int i)
     {
         connectedTracks.clear();
-        if(i == 0)
+        if (i == 0)
         {
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ - 1));
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ + 1));
-        } else
-        if(i == 1)
+        }
+        else if (i == 1)
         {
             connectedTracks.add(new ChunkPosition(trackX - 1, trackY, trackZ));
             connectedTracks.add(new ChunkPosition(trackX + 1, trackY, trackZ));
-        } else
-        if(i == 2)
+        }
+        else if (i == 2)
         {
             connectedTracks.add(new ChunkPosition(trackX - 1, trackY, trackZ));
             connectedTracks.add(new ChunkPosition(trackX + 1, trackY + 1, trackZ));
-        } else
-        if(i == 3)
+        }
+        else if (i == 3)
         {
             connectedTracks.add(new ChunkPosition(trackX - 1, trackY + 1, trackZ));
             connectedTracks.add(new ChunkPosition(trackX + 1, trackY, trackZ));
-        } else
-        if(i == 4)
+        }
+        else if (i == 4)
         {
             connectedTracks.add(new ChunkPosition(trackX, trackY + 1, trackZ - 1));
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ + 1));
-        } else
-        if(i == 5)
+        }
+        else if (i == 5)
         {
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ - 1));
             connectedTracks.add(new ChunkPosition(trackX, trackY + 1, trackZ + 1));
-        } else
-        if(i == 6)
+        }
+        else if (i == 6)
         {
             connectedTracks.add(new ChunkPosition(trackX + 1, trackY, trackZ));
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ + 1));
-        } else
-        if(i == 7)
+        }
+        else if (i == 7)
         {
             connectedTracks.add(new ChunkPosition(trackX - 1, trackY, trackZ));
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ + 1));
-        } else
-        if(i == 8)
+        }
+        else if (i == 8)
         {
             connectedTracks.add(new ChunkPosition(trackX - 1, trackY, trackZ));
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ - 1));
-        } else
-        if(i == 9)
+        }
+        else if (i == 9)
         {
             connectedTracks.add(new ChunkPosition(trackX + 1, trackY, trackZ));
             connectedTracks.add(new ChunkPosition(trackX, trackY, trackZ - 1));
@@ -100,27 +93,27 @@ class RailLogic
 
     private void refreshConnectedTracks()
     {
-        for(int i = 0; i < connectedTracks.size(); i++)
+        for (int i = 0; i < connectedTracks.size(); i++)
         {
             RailLogic raillogic = getMinecartTrackLogic((ChunkPosition)connectedTracks.get(i));
-            if(raillogic == null || !raillogic.isConnectedTo(this))
+            if (raillogic == null || !raillogic.isConnectedTo(this))
             {
                 connectedTracks.remove(i--);
-            } else
+            }
+            else
             {
                 connectedTracks.set(i, new ChunkPosition(raillogic.trackX, raillogic.trackY, raillogic.trackZ));
             }
         }
-
     }
 
     private boolean isMinecartTrack(int i, int j, int k)
     {
-        if(BlockRail.isRailBlockAt(worldObj, i, j, k))
+        if (BlockRail.isRailBlockAt(worldObj, i, j, k))
         {
             return true;
         }
-        if(BlockRail.isRailBlockAt(worldObj, i, j + 1, k))
+        if (BlockRail.isRailBlockAt(worldObj, i, j + 1, k))
         {
             return true;
         }
@@ -129,18 +122,19 @@ class RailLogic
 
     private RailLogic getMinecartTrackLogic(ChunkPosition chunkposition)
     {
-        if(BlockRail.isRailBlockAt(worldObj, chunkposition.x, chunkposition.y, chunkposition.z))
+        if (BlockRail.isRailBlockAt(worldObj, chunkposition.x, chunkposition.y, chunkposition.z))
         {
             return new RailLogic(rail, worldObj, chunkposition.x, chunkposition.y, chunkposition.z);
         }
-        if(BlockRail.isRailBlockAt(worldObj, chunkposition.x, chunkposition.y + 1, chunkposition.z))
+        if (BlockRail.isRailBlockAt(worldObj, chunkposition.x, chunkposition.y + 1, chunkposition.z))
         {
             return new RailLogic(rail, worldObj, chunkposition.x, chunkposition.y + 1, chunkposition.z);
         }
-        if(BlockRail.isRailBlockAt(worldObj, chunkposition.x, chunkposition.y - 1, chunkposition.z))
+        if (BlockRail.isRailBlockAt(worldObj, chunkposition.x, chunkposition.y - 1, chunkposition.z))
         {
             return new RailLogic(rail, worldObj, chunkposition.x, chunkposition.y - 1, chunkposition.z);
-        } else
+        }
+        else
         {
             return null;
         }
@@ -148,10 +142,10 @@ class RailLogic
 
     private boolean isConnectedTo(RailLogic raillogic)
     {
-        for(int i = 0; i < connectedTracks.size(); i++)
+        for (int i = 0; i < connectedTracks.size(); i++)
         {
             ChunkPosition chunkposition = (ChunkPosition)connectedTracks.get(i);
-            if(chunkposition.x == raillogic.trackX && chunkposition.z == raillogic.trackZ)
+            if (chunkposition.x == raillogic.trackX && chunkposition.z == raillogic.trackZ)
             {
                 return true;
             }
@@ -162,10 +156,10 @@ class RailLogic
 
     private boolean isInTrack(int i, int j, int k)
     {
-        for(int l = 0; l < connectedTracks.size(); l++)
+        for (int l = 0; l < connectedTracks.size(); l++)
         {
             ChunkPosition chunkposition = (ChunkPosition)connectedTracks.get(l);
-            if(chunkposition.x == i && chunkposition.z == k)
+            if (chunkposition.x == i && chunkposition.z == k)
             {
                 return true;
             }
@@ -177,19 +171,19 @@ class RailLogic
     private int getAdjacentTracks()
     {
         int i = 0;
-        if(isMinecartTrack(trackX, trackY, trackZ - 1))
+        if (isMinecartTrack(trackX, trackY, trackZ - 1))
         {
             i++;
         }
-        if(isMinecartTrack(trackX, trackY, trackZ + 1))
+        if (isMinecartTrack(trackX, trackY, trackZ + 1))
         {
             i++;
         }
-        if(isMinecartTrack(trackX - 1, trackY, trackZ))
+        if (isMinecartTrack(trackX - 1, trackY, trackZ))
         {
             i++;
         }
-        if(isMinecartTrack(trackX + 1, trackY, trackZ))
+        if (isMinecartTrack(trackX + 1, trackY, trackZ))
         {
             i++;
         }
@@ -198,15 +192,15 @@ class RailLogic
 
     private boolean canConnectTo(RailLogic raillogic)
     {
-        if(isConnectedTo(raillogic))
+        if (isConnectedTo(raillogic))
         {
             return true;
         }
-        if(connectedTracks.size() == 2)
+        if (connectedTracks.size() == 2)
         {
             return false;
         }
-        if(connectedTracks.size() == 0)
+        if (connectedTracks.size() == 0)
         {
             return true;
         }
@@ -222,61 +216,61 @@ class RailLogic
         boolean flag2 = isInTrack(trackX - 1, trackY, trackZ);
         boolean flag3 = isInTrack(trackX + 1, trackY, trackZ);
         byte byte0 = -1;
-        if(flag || flag1)
+        if (flag || flag1)
         {
             byte0 = 0;
         }
-        if(flag2 || flag3)
+        if (flag2 || flag3)
         {
             byte0 = 1;
         }
-        if(!isPoweredRail)
+        if (!isPoweredRail)
         {
-            if(flag1 && flag3 && !flag && !flag2)
+            if (flag1 && flag3 && !flag && !flag2)
             {
                 byte0 = 6;
             }
-            if(flag1 && flag2 && !flag && !flag3)
+            if (flag1 && flag2 && !flag && !flag3)
             {
                 byte0 = 7;
             }
-            if(flag && flag2 && !flag1 && !flag3)
+            if (flag && flag2 && !flag1 && !flag3)
             {
                 byte0 = 8;
             }
-            if(flag && flag3 && !flag1 && !flag2)
+            if (flag && flag3 && !flag1 && !flag2)
             {
                 byte0 = 9;
             }
         }
-        if(byte0 == 0)
+        if (byte0 == 0)
         {
-            if(BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ - 1))
+            if (BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ - 1))
             {
                 byte0 = 4;
             }
-            if(BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ + 1))
+            if (BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ + 1))
             {
                 byte0 = 5;
             }
         }
-        if(byte0 == 1)
+        if (byte0 == 1)
         {
-            if(BlockRail.isRailBlockAt(worldObj, trackX + 1, trackY + 1, trackZ))
+            if (BlockRail.isRailBlockAt(worldObj, trackX + 1, trackY + 1, trackZ))
             {
                 byte0 = 2;
             }
-            if(BlockRail.isRailBlockAt(worldObj, trackX - 1, trackY + 1, trackZ))
+            if (BlockRail.isRailBlockAt(worldObj, trackX - 1, trackY + 1, trackZ))
             {
                 byte0 = 3;
             }
         }
-        if(byte0 < 0)
+        if (byte0 < 0)
         {
             byte0 = 0;
         }
         int i = byte0;
-        if(isPoweredRail)
+        if (isPoweredRail)
         {
             i = worldObj.getBlockMetadata(trackX, trackY, trackZ) & 8 | byte0;
         }
@@ -286,10 +280,11 @@ class RailLogic
     private boolean canConnectFrom(int i, int j, int k)
     {
         RailLogic raillogic = getMinecartTrackLogic(new ChunkPosition(i, j, k));
-        if(raillogic == null)
+        if (raillogic == null)
         {
             return false;
-        } else
+        }
+        else
         {
             raillogic.refreshConnectedTracks();
             return raillogic.canConnectTo(this);
@@ -303,133 +298,133 @@ class RailLogic
         boolean flag4 = canConnectFrom(trackX - 1, trackY, trackZ);
         boolean flag5 = canConnectFrom(trackX + 1, trackY, trackZ);
         byte byte0 = -1;
-        if((flag2 || flag3) && !flag4 && !flag5)
+        if ((flag2 || flag3) && !flag4 && !flag5)
         {
             byte0 = 0;
         }
-        if((flag4 || flag5) && !flag2 && !flag3)
+        if ((flag4 || flag5) && !flag2 && !flag3)
         {
             byte0 = 1;
         }
-        if(!isPoweredRail)
+        if (!isPoweredRail)
         {
-            if(flag3 && flag5 && !flag2 && !flag4)
+            if (flag3 && flag5 && !flag2 && !flag4)
             {
                 byte0 = 6;
             }
-            if(flag3 && flag4 && !flag2 && !flag5)
+            if (flag3 && flag4 && !flag2 && !flag5)
             {
                 byte0 = 7;
             }
-            if(flag2 && flag4 && !flag3 && !flag5)
+            if (flag2 && flag4 && !flag3 && !flag5)
             {
                 byte0 = 8;
             }
-            if(flag2 && flag5 && !flag3 && !flag4)
+            if (flag2 && flag5 && !flag3 && !flag4)
             {
                 byte0 = 9;
             }
         }
-        if(byte0 == -1)
+        if (byte0 == -1)
         {
-            if(flag2 || flag3)
+            if (flag2 || flag3)
             {
                 byte0 = 0;
             }
-            if(flag4 || flag5)
+            if (flag4 || flag5)
             {
                 byte0 = 1;
             }
-            if(!isPoweredRail)
+            if (!isPoweredRail)
             {
-                if(flag)
+                if (flag)
                 {
-                    if(flag3 && flag5)
+                    if (flag3 && flag5)
                     {
                         byte0 = 6;
                     }
-                    if(flag4 && flag3)
+                    if (flag4 && flag3)
                     {
                         byte0 = 7;
                     }
-                    if(flag5 && flag2)
+                    if (flag5 && flag2)
                     {
                         byte0 = 9;
                     }
-                    if(flag2 && flag4)
+                    if (flag2 && flag4)
                     {
                         byte0 = 8;
                     }
-                } else
+                }
+                else
                 {
-                    if(flag2 && flag4)
+                    if (flag2 && flag4)
                     {
                         byte0 = 8;
                     }
-                    if(flag5 && flag2)
+                    if (flag5 && flag2)
                     {
                         byte0 = 9;
                     }
-                    if(flag4 && flag3)
+                    if (flag4 && flag3)
                     {
                         byte0 = 7;
                     }
-                    if(flag3 && flag5)
+                    if (flag3 && flag5)
                     {
                         byte0 = 6;
                     }
                 }
             }
         }
-        if(byte0 == 0)
+        if (byte0 == 0)
         {
-            if(BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ - 1))
+            if (BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ - 1))
             {
                 byte0 = 4;
             }
-            if(BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ + 1))
+            if (BlockRail.isRailBlockAt(worldObj, trackX, trackY + 1, trackZ + 1))
             {
                 byte0 = 5;
             }
         }
-        if(byte0 == 1)
+        if (byte0 == 1)
         {
-            if(BlockRail.isRailBlockAt(worldObj, trackX + 1, trackY + 1, trackZ))
+            if (BlockRail.isRailBlockAt(worldObj, trackX + 1, trackY + 1, trackZ))
             {
                 byte0 = 2;
             }
-            if(BlockRail.isRailBlockAt(worldObj, trackX - 1, trackY + 1, trackZ))
+            if (BlockRail.isRailBlockAt(worldObj, trackX - 1, trackY + 1, trackZ))
             {
                 byte0 = 3;
             }
         }
-        if(byte0 < 0)
+        if (byte0 < 0)
         {
             byte0 = 0;
         }
         setConnections(byte0);
         int i = byte0;
-        if(isPoweredRail)
+        if (isPoweredRail)
         {
             i = worldObj.getBlockMetadata(trackX, trackY, trackZ) & 8 | byte0;
         }
-        if(flag1 || worldObj.getBlockMetadata(trackX, trackY, trackZ) != i)
+        if (flag1 || worldObj.getBlockMetadata(trackX, trackY, trackZ) != i)
         {
             worldObj.setBlockMetadataWithNotify(trackX, trackY, trackZ, i);
-            for(int j = 0; j < connectedTracks.size(); j++)
+            for (int j = 0; j < connectedTracks.size(); j++)
             {
                 RailLogic raillogic = getMinecartTrackLogic((ChunkPosition)connectedTracks.get(j));
-                if(raillogic == null)
+                if (raillogic == null)
                 {
                     continue;
                 }
                 raillogic.refreshConnectedTracks();
-                if(raillogic.canConnectTo(this))
+                if (raillogic.canConnectTo(this))
                 {
                     raillogic.connectToNeighbor(this);
                 }
             }
-
         }
     }
 

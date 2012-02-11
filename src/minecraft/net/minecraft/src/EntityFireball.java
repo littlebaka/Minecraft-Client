@@ -1,20 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            Entity, AxisAlignedBB, MathHelper, EntityLiving, 
-//            World, Vec3D, MovingObjectPosition, DamageSource, 
-//            NBTTagCompound
-
 public class EntityFireball extends Entity
 {
-
     private int xTile;
     private int yTile;
     private int zTile;
@@ -50,7 +40,7 @@ public class EntityFireball extends Entity
         return d < d1 * d1;
     }
 
-    public EntityFireball(World world, double d, double d1, double d2, 
+    public EntityFireball(World world, double d, double d1, double d2,
             double d3, double d4, double d5)
     {
         super(world);
@@ -96,15 +86,15 @@ public class EntityFireball extends Entity
     public void onUpdate()
     {
         super.onUpdate();
-        func_40046_d(1);
-        if(!worldObj.multiplayerWorld && (shootingEntity == null || shootingEntity.isDead))
+        setFire(1);
+        if (!worldObj.multiplayerWorld && (shootingEntity == null || shootingEntity.isDead))
         {
             setEntityDead();
         }
-        if(inGround)
+        if (inGround)
         {
             int i = worldObj.getBlockId(xTile, yTile, zTile);
-            if(i != inTile)
+            if (i != inTile)
             {
                 inGround = false;
                 motionX *= rand.nextFloat() * 0.2F;
@@ -112,16 +102,18 @@ public class EntityFireball extends Entity
                 motionZ *= rand.nextFloat() * 0.2F;
                 ticksAlive = 0;
                 ticksInAir = 0;
-            } else
+            }
+            else
             {
                 ticksAlive++;
-                if(ticksAlive == 1200)
+                if (ticksAlive == 1200)
                 {
                     setEntityDead();
                 }
                 return;
             }
-        } else
+        }
+        else
         {
             ticksInAir++;
         }
@@ -130,40 +122,40 @@ public class EntityFireball extends Entity
         MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
         vec3d = Vec3D.createVector(posX, posY, posZ);
         vec3d1 = Vec3D.createVector(posX + motionX, posY + motionY, posZ + motionZ);
-        if(movingobjectposition != null)
+        if (movingobjectposition != null)
         {
             vec3d1 = Vec3D.createVector(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
         }
         Entity entity = null;
         List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
         double d = 0.0D;
-        for(int j = 0; j < list.size(); j++)
+        for (int j = 0; j < list.size(); j++)
         {
             Entity entity1 = (Entity)list.get(j);
-            if(!entity1.canBeCollidedWith() || entity1.func_41004_h(shootingEntity) && ticksInAir < 25)
+            if (!entity1.canBeCollidedWith() || entity1.isEntityEqual(shootingEntity) && ticksInAir < 25)
             {
                 continue;
             }
             float f2 = 0.3F;
             AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f2, f2, f2);
-            MovingObjectPosition movingobjectposition1 = axisalignedbb.func_1169_a(vec3d, vec3d1);
-            if(movingobjectposition1 == null)
+            MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
+            if (movingobjectposition1 == null)
             {
                 continue;
             }
             double d1 = vec3d.distanceTo(movingobjectposition1.hitVec);
-            if(d1 < d || d == 0.0D)
+            if (d1 < d || d == 0.0D)
             {
                 entity = entity1;
                 d = d1;
             }
         }
 
-        if(entity != null)
+        if (entity != null)
         {
             movingobjectposition = new MovingObjectPosition(entity);
         }
-        if(movingobjectposition != null)
+        if (movingobjectposition != null)
         {
             func_40071_a(movingobjectposition);
         }
@@ -172,16 +164,16 @@ public class EntityFireball extends Entity
         posZ += motionZ;
         float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
         rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
-        for(rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
-        for(; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
-        for(; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
-        for(; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
+        for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
+        for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
+        for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
+        for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
         rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
         rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
         float f1 = 0.95F;
-        if(isInWater())
+        if (isInWater())
         {
-            for(int k = 0; k < 4; k++)
+            for (int k = 0; k < 4; k++)
             {
                 float f3 = 0.25F;
                 worldObj.spawnParticle("bubble", posX - motionX * (double)f3, posY - motionY * (double)f3, posZ - motionZ * (double)f3, motionX, motionY, motionZ);
@@ -201,11 +193,11 @@ public class EntityFireball extends Entity
 
     protected void func_40071_a(MovingObjectPosition movingobjectposition)
     {
-        if(!worldObj.multiplayerWorld)
+        if (!worldObj.multiplayerWorld)
         {
-            if(movingobjectposition.entityHit != null)
+            if (movingobjectposition.entityHit != null)
             {
-                if(!movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), 4));
+                if (!movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), 4));
             }
             worldObj.newExplosion(null, posX, posY, posZ, 1.0F, true);
             setEntityDead();
@@ -243,10 +235,10 @@ public class EntityFireball extends Entity
     public boolean attackEntityFrom(DamageSource damagesource, int i)
     {
         setBeenAttacked();
-        if(damagesource.getEntity() != null)
+        if (damagesource.getEntity() != null)
         {
             Vec3D vec3d = damagesource.getEntity().getLookVec();
-            if(vec3d != null)
+            if (vec3d != null)
             {
                 motionX = vec3d.xCoord;
                 motionY = vec3d.yCoord;
@@ -255,12 +247,13 @@ public class EntityFireball extends Entity
                 accelerationY = motionY * 0.10000000000000001D;
                 accelerationZ = motionZ * 0.10000000000000001D;
             }
-            if(damagesource.getEntity() instanceof EntityLiving)
+            if (damagesource.getEntity() instanceof EntityLiving)
             {
                 shootingEntity = (EntityLiving)damagesource.getEntity();
             }
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

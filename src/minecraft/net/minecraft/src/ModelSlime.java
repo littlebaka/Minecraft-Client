@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            ModelBase, ModelRenderer, Entity
 
 public class ModelSlime extends ModelBase
 {
-
     ModelRenderer slimeBodies;
     ModelRenderer slimeRightEye;
     ModelRenderer slimeLeftEye;
@@ -20,7 +11,7 @@ public class ModelSlime extends ModelBase
     {
         slimeBodies = new ModelRenderer(this, 0, i);
         slimeBodies.addBox(-4F, 16F, -4F, 8, 8, 8);
-        if(i > 0)
+        if (i > 0)
         {
             slimeBodies = new ModelRenderer(this, 0, i);
             slimeBodies.addBox(-3F, 17F, -3F, 6, 6, 6);
@@ -41,7 +32,7 @@ public class ModelSlime extends ModelBase
     {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         slimeBodies.render(f5);
-        if(slimeRightEye != null)
+        if (slimeRightEye != null)
         {
             slimeRightEye.render(f5);
             slimeLeftEye.render(f5);

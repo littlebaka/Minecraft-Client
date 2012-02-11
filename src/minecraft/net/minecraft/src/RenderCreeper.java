@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            RenderLiving, ModelCreeper, EntityCreeper, MathHelper, 
-//            ModelBase, EntityLiving
-
 public class RenderCreeper extends RenderLiving
 {
-
     private ModelBase field_27008_a;
 
     public RenderCreeper()
@@ -26,11 +17,11 @@ public class RenderCreeper extends RenderLiving
         EntityCreeper entitycreeper1 = entitycreeper;
         float f1 = entitycreeper1.setCreeperFlashTime(f);
         float f2 = 1.0F + MathHelper.sin(f1 * 100F) * f1 * 0.01F;
-        if(f1 < 0.0F)
+        if (f1 < 0.0F)
         {
             f1 = 0.0F;
         }
-        if(f1 > 1.0F)
+        if (f1 > 1.0F)
         {
             f1 = 1.0F;
         }
@@ -45,16 +36,16 @@ public class RenderCreeper extends RenderLiving
     {
         EntityCreeper entitycreeper1 = entitycreeper;
         float f2 = entitycreeper1.setCreeperFlashTime(f1);
-        if((int)(f2 * 10F) % 2 == 0)
+        if ((int)(f2 * 10F) % 2 == 0)
         {
             return 0;
         }
         int i = (int)(f2 * 0.2F * 255F);
-        if(i < 0)
+        if (i < 0)
         {
             i = 0;
         }
-        if(i > 255)
+        if (i > 255)
         {
             i = 255;
         }
@@ -66,9 +57,9 @@ public class RenderCreeper extends RenderLiving
 
     protected int func_27006_a(EntityCreeper entitycreeper, int i, float f)
     {
-        if(entitycreeper.getPowered())
+        if (entitycreeper.getPowered())
         {
-            if(i == 1)
+            if (i == 1)
             {
                 float f1 = (float)entitycreeper.ticksExisted + f;
                 loadTexture("/armor/power.png");
@@ -86,7 +77,7 @@ public class RenderCreeper extends RenderLiving
                 GL11.glBlendFunc(1, 1);
                 return 1;
             }
-            if(i == 2)
+            if (i == 2)
             {
                 GL11.glMatrixMode(5890 /*GL_TEXTURE*/);
                 GL11.glLoadIdentity();

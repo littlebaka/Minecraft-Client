@@ -1,25 +1,16 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            ComponentVillage, StructureBoundingBox, StructureComponent, Block, 
-//            MathHelper, World
-
 public class ComponentVillageField extends ComponentVillage
 {
-
-    private int field_35081_a;
+    private int averageGroundLevel;
 
     public ComponentVillageField(int i, Random random, StructureBoundingBox structureboundingbox, int j)
     {
         super(i);
-        field_35081_a = -1;
+        averageGroundLevel = -1;
         coordBaseMode = j;
         boundingBox = structureboundingbox;
     }
@@ -31,10 +22,11 @@ public class ComponentVillageField extends ComponentVillage
     public static ComponentVillageField func_35080_a(List list, Random random, int i, int j, int k, int l, int i1)
     {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(i, j, k, 0, 0, 0, 13, 4, 9, l);
-        if(!canVillageGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
+        if (!canVillageGoDeeper(structureboundingbox) || StructureComponent.getIntersectingStructureComponent(list, structureboundingbox) != null)
         {
             return null;
-        } else
+        }
+        else
         {
             return new ComponentVillageField(i1, random, structureboundingbox, l);
         }
@@ -42,14 +34,14 @@ public class ComponentVillageField extends ComponentVillage
 
     public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox)
     {
-        if(field_35081_a < 0)
+        if (averageGroundLevel < 0)
         {
-            field_35081_a = getAverageGroundLevel(world, structureboundingbox);
-            if(field_35081_a < 0)
+            averageGroundLevel = getAverageGroundLevel(world, structureboundingbox);
+            if (averageGroundLevel < 0)
             {
                 return true;
             }
-            boundingBox.offset(0, ((field_35081_a - boundingBox.maxY) + 4) - 1, 0);
+            boundingBox.offset(0, ((averageGroundLevel - boundingBox.maxY) + 4) - 1, 0);
         }
         fillWithBlocks(world, structureboundingbox, 0, 1, 0, 12, 4, 8, 0, 0, false);
         fillWithBlocks(world, structureboundingbox, 1, 0, 1, 2, 0, 7, Block.tilledField.blockID, Block.tilledField.blockID, false);
@@ -63,7 +55,7 @@ public class ComponentVillageField extends ComponentVillage
         fillWithBlocks(world, structureboundingbox, 1, 0, 8, 11, 0, 8, Block.wood.blockID, Block.wood.blockID, false);
         fillWithBlocks(world, structureboundingbox, 3, 0, 1, 3, 0, 7, Block.waterMoving.blockID, Block.waterMoving.blockID, false);
         fillWithBlocks(world, structureboundingbox, 9, 0, 1, 9, 0, 7, Block.waterMoving.blockID, Block.waterMoving.blockID, false);
-        for(int i = 1; i <= 7; i++)
+        for (int i = 1; i <= 7; i++)
         {
             placeBlockAtCurrentPosition(world, Block.crops.blockID, MathHelper.getRandomIntegerInRange(random, 2, 7), 1, 1, i, structureboundingbox);
             placeBlockAtCurrentPosition(world, Block.crops.blockID, MathHelper.getRandomIntegerInRange(random, 2, 7), 2, 1, i, structureboundingbox);
@@ -75,14 +67,13 @@ public class ComponentVillageField extends ComponentVillage
             placeBlockAtCurrentPosition(world, Block.crops.blockID, MathHelper.getRandomIntegerInRange(random, 2, 7), 11, 1, i, structureboundingbox);
         }
 
-        for(int j = 0; j < 9; j++)
+        for (int j = 0; j < 9; j++)
         {
-            for(int k = 0; k < 13; k++)
+            for (int k = 0; k < 13; k++)
             {
                 clearCurrentPositionBlocksUpwards(world, k, 4, j, structureboundingbox);
                 fillCurrentPositionBlocksDownwards(world, Block.dirt.blockID, 0, k, -1, j, structureboundingbox);
             }
-
         }
 
         return true;

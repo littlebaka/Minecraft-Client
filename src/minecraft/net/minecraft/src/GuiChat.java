@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, EntityPlayerSP, GuiIngame, ChatAllowedCharacters
-
 public class GuiChat extends GuiScreen
 {
-
     protected String message;
     private int updateCounter;
     private static final String allowedCharacters;
@@ -40,18 +32,18 @@ public class GuiChat extends GuiScreen
 
     protected void keyTyped(char c, int i)
     {
-        if(i == 1)
+        if (i == 1)
         {
             mc.displayGuiScreen(null);
             return;
         }
-        if(i == 28)
+        if (i == 28)
         {
             String s = message.trim();
-            if(s.length() > 0)
+            if (s.length() > 0)
             {
                 String s1 = message.trim();
-                if(!mc.lineIsCommand(s1))
+                if (!mc.lineIsCommand(s1))
                 {
                     mc.thePlayer.sendChatMessage(s1);
                 }
@@ -59,11 +51,11 @@ public class GuiChat extends GuiScreen
             mc.displayGuiScreen(null);
             return;
         }
-        if(i == 14 && message.length() > 0)
+        if (i == 14 && message.length() > 0)
         {
             message = message.substring(0, message.length() - 1);
         }
-        if(allowedCharacters.indexOf(c) >= 0 && message.length() < 100)
+        if ((allowedCharacters.indexOf(c) >= 0 || c > ' ') && message.length() < 100)
         {
             message += c;
         }
@@ -79,27 +71,27 @@ public class GuiChat extends GuiScreen
     protected void mouseClicked(int i, int j, int k)
     {
         super.mouseClicked(i, j, k);
-        if(k != 0)
+        if (k != 0)
         {
             return;
         }
-        if(mc.ingameGUI.field_933_a == null)
+        if (mc.ingameGUI.field_933_a == null)
         {
             return;
         }
-        if(message.length() > 0 && !message.endsWith(" "))
+        if (message.length() > 0 && !message.endsWith(" "))
         {
             message += " ";
         }
         message += mc.ingameGUI.field_933_a;
         byte byte0 = 100;
-        if(message.length() > byte0)
+        if (message.length() > byte0)
         {
             message = message.substring(0, byte0);
         }
     }
 
-    static 
+    static
     {
         allowedCharacters = ChatAllowedCharacters.allowedCharacters;
     }

@@ -1,21 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            BlockContainer, Material, Block, World, 
-//            IBlockAccess, TileEntityDispenser, EntityPlayer, ItemStack, 
-//            Item, EntityArrow, EntityEgg, EntitySnowball, 
-//            ItemPotion, EntityPotion, EntityItem, EntityLiving, 
-//            MathHelper, IInventory, TileEntity
-
 public class BlockDispenser extends BlockContainer
 {
-
     private Random random;
 
     protected BlockDispenser(int i)
@@ -43,7 +31,7 @@ public class BlockDispenser extends BlockContainer
 
     private void setDispenserDefaultDirection(World world, int i, int j, int k)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return;
         }
@@ -52,19 +40,19 @@ public class BlockDispenser extends BlockContainer
         int j1 = world.getBlockId(i - 1, j, k);
         int k1 = world.getBlockId(i + 1, j, k);
         byte byte0 = 3;
-        if(Block.opaqueCubeLookup[l] && !Block.opaqueCubeLookup[i1])
+        if (Block.opaqueCubeLookup[l] && !Block.opaqueCubeLookup[i1])
         {
             byte0 = 3;
         }
-        if(Block.opaqueCubeLookup[i1] && !Block.opaqueCubeLookup[l])
+        if (Block.opaqueCubeLookup[i1] && !Block.opaqueCubeLookup[l])
         {
             byte0 = 2;
         }
-        if(Block.opaqueCubeLookup[j1] && !Block.opaqueCubeLookup[k1])
+        if (Block.opaqueCubeLookup[j1] && !Block.opaqueCubeLookup[k1])
         {
             byte0 = 5;
         }
-        if(Block.opaqueCubeLookup[k1] && !Block.opaqueCubeLookup[j1])
+        if (Block.opaqueCubeLookup[k1] && !Block.opaqueCubeLookup[j1])
         {
             byte0 = 4;
         }
@@ -73,19 +61,20 @@ public class BlockDispenser extends BlockContainer
 
     public int getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l)
     {
-        if(l == 1)
+        if (l == 1)
         {
             return blockIndexInTexture + 17;
         }
-        if(l == 0)
+        if (l == 0)
         {
             return blockIndexInTexture + 17;
         }
         int i1 = iblockaccess.getBlockMetadata(i, j, k);
-        if(l != i1)
+        if (l != i1)
         {
             return blockIndexInTexture;
-        } else
+        }
+        else
         {
             return blockIndexInTexture + 1;
         }
@@ -93,18 +82,19 @@ public class BlockDispenser extends BlockContainer
 
     public int getBlockTextureFromSide(int i)
     {
-        if(i == 1)
+        if (i == 1)
         {
             return blockIndexInTexture + 17;
         }
-        if(i == 0)
+        if (i == 0)
         {
             return blockIndexInTexture + 17;
         }
-        if(i == 3)
+        if (i == 3)
         {
             return blockIndexInTexture + 1;
-        } else
+        }
+        else
         {
             return blockIndexInTexture;
         }
@@ -112,12 +102,12 @@ public class BlockDispenser extends BlockContainer
 
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        if(world.multiplayerWorld)
+        if (world.multiplayerWorld)
         {
             return true;
         }
         TileEntityDispenser tileentitydispenser = (TileEntityDispenser)world.getBlockTileEntity(i, j, k);
-        if(tileentitydispenser != null)
+        if (tileentitydispenser != null)
         {
             entityplayer.displayGUIDispenser(tileentitydispenser);
         }
@@ -129,62 +119,65 @@ public class BlockDispenser extends BlockContainer
         int l = world.getBlockMetadata(i, j, k);
         int i1 = 0;
         int j1 = 0;
-        if(l == 3)
+        if (l == 3)
         {
             j1 = 1;
-        } else
-        if(l == 2)
+        }
+        else if (l == 2)
         {
             j1 = -1;
-        } else
-        if(l == 5)
+        }
+        else if (l == 5)
         {
             i1 = 1;
-        } else
+        }
+        else
         {
             i1 = -1;
         }
         TileEntityDispenser tileentitydispenser = (TileEntityDispenser)world.getBlockTileEntity(i, j, k);
-        if(tileentitydispenser != null)
+        if (tileentitydispenser != null)
         {
             ItemStack itemstack = tileentitydispenser.getRandomStackFromInventory();
             double d = (double)i + (double)i1 * 0.59999999999999998D + 0.5D;
             double d1 = (double)j + 0.5D;
             double d2 = (double)k + (double)j1 * 0.59999999999999998D + 0.5D;
-            if(itemstack == null)
+            if (itemstack == null)
             {
                 world.playAuxSFX(1001, i, j, k, 0);
-            } else
+            }
+            else
             {
-                if(itemstack.itemID == Item.arrow.shiftedIndex)
+                if (itemstack.itemID == Item.arrow.shiftedIndex)
                 {
                     EntityArrow entityarrow = new EntityArrow(world, d, d1, d2);
                     entityarrow.setArrowHeading(i1, 0.10000000149011612D, j1, 1.1F, 6F);
                     entityarrow.doesArrowBelongToPlayer = true;
-                    world.entityJoinedWorld(entityarrow);
+                    world.spawnEntityInWorld(entityarrow);
                     world.playAuxSFX(1002, i, j, k, 0);
-                } else
-                if(itemstack.itemID == Item.egg.shiftedIndex)
+                }
+                else if (itemstack.itemID == Item.egg.shiftedIndex)
                 {
                     EntityEgg entityegg = new EntityEgg(world, d, d1, d2);
                     entityegg.setThrowableHeading(i1, 0.10000000149011612D, j1, 1.1F, 6F);
-                    world.entityJoinedWorld(entityegg);
+                    world.spawnEntityInWorld(entityegg);
                     world.playAuxSFX(1002, i, j, k, 0);
-                } else
-                if(itemstack.itemID == Item.snowball.shiftedIndex)
+                }
+                else if (itemstack.itemID == Item.snowball.shiftedIndex)
                 {
                     EntitySnowball entitysnowball = new EntitySnowball(world, d, d1, d2);
                     entitysnowball.setThrowableHeading(i1, 0.10000000149011612D, j1, 1.1F, 6F);
-                    world.entityJoinedWorld(entitysnowball);
+                    world.spawnEntityInWorld(entitysnowball);
                     world.playAuxSFX(1002, i, j, k, 0);
-                } else
-                if(itemstack.itemID == Item.potion.shiftedIndex && ItemPotion.func_40433_c(itemstack.getItemDamage()))
+                }
+                else if (itemstack.itemID == Item.potion.shiftedIndex && ItemPotion.isSplash(itemstack.getItemDamage()))
                 {
                     EntityPotion entitypotion = new EntityPotion(world, d, d1, d2, itemstack.getItemDamage());
                     entitypotion.setThrowableHeading(i1, 0.10000000149011612D, j1, 1.375F, 3F);
-                    world.entityJoinedWorld(entitypotion);
+                    world.spawnEntityInWorld(entitypotion);
                     world.playAuxSFX(1002, i, j, k, 0);
-                } else
+                }
+                else
                 {
                     EntityItem entityitem = new EntityItem(world, d, d1 - 0.29999999999999999D, d2, itemstack);
                     double d3 = random.nextDouble() * 0.10000000000000001D + 0.20000000000000001D;
@@ -194,7 +187,7 @@ public class BlockDispenser extends BlockContainer
                     entityitem.motionX += random.nextGaussian() * 0.0074999998323619366D * 6D;
                     entityitem.motionY += random.nextGaussian() * 0.0074999998323619366D * 6D;
                     entityitem.motionZ += random.nextGaussian() * 0.0074999998323619366D * 6D;
-                    world.entityJoinedWorld(entityitem);
+                    world.spawnEntityInWorld(entityitem);
                     world.playAuxSFX(1000, i, j, k, 0);
                 }
                 world.playAuxSFX(2000, i, j, k, i1 + 1 + (j1 + 1) * 3);
@@ -204,10 +197,10 @@ public class BlockDispenser extends BlockContainer
 
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
-        if(l > 0 && Block.blocksList[l].canProvidePower())
+        if (l > 0 && Block.blocksList[l].canProvidePower())
         {
             boolean flag = world.isBlockIndirectlyGettingPowered(i, j, k) || world.isBlockIndirectlyGettingPowered(i, j + 1, k);
-            if(flag)
+            if (flag)
             {
                 world.scheduleBlockUpdate(i, j, k, blockID, tickRate());
             }
@@ -216,7 +209,7 @@ public class BlockDispenser extends BlockContainer
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if(!world.multiplayerWorld && (world.isBlockIndirectlyGettingPowered(i, j, k) || world.isBlockIndirectlyGettingPowered(i, j + 1, k)))
+        if (!world.multiplayerWorld && (world.isBlockIndirectlyGettingPowered(i, j, k) || world.isBlockIndirectlyGettingPowered(i, j + 1, k)))
         {
             dispenseItem(world, i, j, k, random);
         }
@@ -230,19 +223,19 @@ public class BlockDispenser extends BlockContainer
     public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
     {
         int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
-        if(l == 0)
+        if (l == 0)
         {
             world.setBlockMetadataWithNotify(i, j, k, 2);
         }
-        if(l == 1)
+        if (l == 1)
         {
             world.setBlockMetadataWithNotify(i, j, k, 5);
         }
-        if(l == 2)
+        if (l == 2)
         {
             world.setBlockMetadataWithNotify(i, j, k, 3);
         }
-        if(l == 3)
+        if (l == 3)
         {
             world.setBlockMetadataWithNotify(i, j, k, 4);
         }
@@ -251,13 +244,13 @@ public class BlockDispenser extends BlockContainer
     public void onBlockRemoval(World world, int i, int j, int k)
     {
         TileEntityDispenser tileentitydispenser = (TileEntityDispenser)world.getBlockTileEntity(i, j, k);
-        if(tileentitydispenser != null)
+        if (tileentitydispenser != null)
         {
-label0:
-            for(int l = 0; l < tileentitydispenser.getSizeInventory(); l++)
+            label0:
+            for (int l = 0; l < tileentitydispenser.getSizeInventory(); l++)
             {
                 ItemStack itemstack = tileentitydispenser.getStackInSlot(l);
-                if(itemstack == null)
+                if (itemstack == null)
                 {
                     continue;
                 }
@@ -266,12 +259,12 @@ label0:
                 float f2 = random.nextFloat() * 0.8F + 0.1F;
                 do
                 {
-                    if(itemstack.stackSize <= 0)
+                    if (itemstack.stackSize <= 0)
                     {
                         continue label0;
                     }
                     int i1 = random.nextInt(21) + 10;
-                    if(i1 > itemstack.stackSize)
+                    if (i1 > itemstack.stackSize)
                     {
                         i1 = itemstack.stackSize;
                     }
@@ -281,10 +274,10 @@ label0:
                     entityitem.motionX = (float)random.nextGaussian() * f3;
                     entityitem.motionY = (float)random.nextGaussian() * f3 + 0.2F;
                     entityitem.motionZ = (float)random.nextGaussian() * f3;
-                    world.entityJoinedWorld(entityitem);
-                } while(true);
+                    world.spawnEntityInWorld(entityitem);
+                }
+                while (true);
             }
-
         }
         super.onBlockRemoval(world, i, j, k);
     }

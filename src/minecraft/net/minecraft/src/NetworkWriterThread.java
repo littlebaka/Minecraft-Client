@@ -1,19 +1,11 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-// Referenced classes of package net.minecraft.src:
-//            NetworkManager
-
 class NetworkWriterThread extends Thread
 {
-
-    final NetworkManager netManager; /* synthetic field */
+    final NetworkManager netManager;
 
     NetworkWriterThread(NetworkManager networkmanager, String s)
     {
@@ -23,25 +15,25 @@ class NetworkWriterThread extends Thread
 
     public void run()
     {
-        synchronized(NetworkManager.threadSyncObject)
+        synchronized (NetworkManager.threadSyncObject)
         {
             NetworkManager.numWriteThreads++;
         }
         try
         {
-            while(NetworkManager.isRunning(netManager)) 
+            while (NetworkManager.isRunning(netManager))
             {
-                while(NetworkManager.sendNetworkPacket(netManager)) ;
+                while (NetworkManager.sendNetworkPacket(netManager)) ;
                 try
                 {
-                    if(NetworkManager.getOutputStream(netManager) != null)
+                    if (NetworkManager.getOutputStream(netManager) != null)
                     {
                         NetworkManager.getOutputStream(netManager).flush();
                     }
                 }
-                catch(IOException ioexception)
+                catch (IOException ioexception)
                 {
-                    if(!NetworkManager.getIsTerminating(netManager))
+                    if (!NetworkManager.getIsTerminating(netManager))
                     {
                         NetworkManager.func_30005_a(netManager, ioexception);
                     }
@@ -51,12 +43,12 @@ class NetworkWriterThread extends Thread
                 {
                     sleep(2L);
                 }
-                catch(InterruptedException interruptedexception) { }
+                catch (InterruptedException interruptedexception) { }
             }
         }
         finally
         {
-            synchronized(NetworkManager.threadSyncObject)
+            synchronized (NetworkManager.threadSyncObject)
             {
                 NetworkManager.numWriteThreads--;
             }

@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.awt.Component;
@@ -10,12 +6,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 
-// Referenced classes of package net.minecraft.src:
-//            GLAllocation
-
 public class MouseHelper
 {
-
     private Component windowComponent;
     private Cursor cursor;
     public int deltaX;
@@ -34,7 +26,7 @@ public class MouseHelper
         {
             cursor = new Cursor(32, 32, 16, 16, 1, intbuffer1, intbuffer);
         }
-        catch(LWJGLException lwjglexception)
+        catch (LWJGLException lwjglexception)
         {
             lwjglexception.printStackTrace();
         }

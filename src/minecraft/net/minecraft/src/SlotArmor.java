@@ -1,19 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Slot, ItemStack, ItemArmor, Item, 
-//            Block, ContainerPlayer, IInventory
 
 class SlotArmor extends Slot
 {
-
-    final int armorType; /* synthetic field */
-    final ContainerPlayer inventory; /* synthetic field */
+    final int armorType;
+    final ContainerPlayer inventory;
 
     SlotArmor(ContainerPlayer containerplayer, IInventory iinventory, int i, int j, int k, int l)
     {
@@ -29,14 +19,15 @@ class SlotArmor extends Slot
 
     public boolean isItemValid(ItemStack itemstack)
     {
-        if(itemstack.getItem() instanceof ItemArmor)
+        if (itemstack.getItem() instanceof ItemArmor)
         {
             return ((ItemArmor)itemstack.getItem()).armorType == armorType;
         }
-        if(itemstack.getItem().shiftedIndex == Block.pumpkin.blockID)
+        if (itemstack.getItem().shiftedIndex == Block.pumpkin.blockID)
         {
             return armorType == 0;
-        } else
+        }
+        else
         {
             return false;
         }

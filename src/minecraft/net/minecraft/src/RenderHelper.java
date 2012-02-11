@@ -1,18 +1,10 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.nio.FloatBuffer;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            Vec3D, GLAllocation
-
 public class RenderHelper
 {
-
     private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
 
     public RenderHelper()
@@ -72,5 +64,4 @@ public class RenderHelper
         enableStandardItemLighting();
         GL11.glPopMatrix();
     }
-
 }

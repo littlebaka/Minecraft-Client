@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityFX, MathHelper, World, Material, 
-//            BlockFluid, Tessellator
-
 public class EntityRainFX extends EntityFX
 {
-
     public EntityRainFX(World world, double d, double d1, double d2)
     {
         super(world, d, d1, d2, 0.0D, 0.0D, 0.0D);
@@ -22,7 +13,7 @@ public class EntityRainFX extends EntityFX
         particleRed = 1.0F;
         particleGreen = 1.0F;
         particleBlue = 1.0F;
-        func_40099_c(19 + rand.nextInt(4));
+        setParticleTextureIndex(19 + rand.nextInt(4));
         setSize(0.01F, 0.01F);
         particleGravity = 0.06F;
         particleMaxAge = (int)(8D / (Math.random() * 0.80000000000000004D + 0.20000000000000001D));
@@ -43,13 +34,13 @@ public class EntityRainFX extends EntityFX
         motionX *= 0.98000001907348633D;
         motionY *= 0.98000001907348633D;
         motionZ *= 0.98000001907348633D;
-        if(particleMaxAge-- <= 0)
+        if (particleMaxAge-- <= 0)
         {
             setEntityDead();
         }
-        if(onGround)
+        if (onGround)
         {
-            if(Math.random() < 0.5D)
+            if (Math.random() < 0.5D)
             {
                 setEntityDead();
             }
@@ -57,10 +48,10 @@ public class EntityRainFX extends EntityFX
             motionZ *= 0.69999998807907104D;
         }
         Material material = worldObj.getBlockMaterial(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
-        if(material.getIsLiquid() || material.isSolid())
+        if (material.getIsLiquid() || material.isSolid())
         {
             double d = (float)(MathHelper.floor_double(posY) + 1) - BlockFluid.getFluidHeightPercent(worldObj.getBlockMetadata(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)));
-            if(posY < d)
+            if (posY < d)
             {
                 setEntityDead();
             }

@@ -1,16 +1,7 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
-
-
-// Referenced classes of package net.minecraft.src:
-//            Block, IBlockAccess, Material
 
 public class BlockLeavesBase extends Block
 {
-
     protected boolean graphicsLevel;
 
     protected BlockLeavesBase(int i, int j, Material material, boolean flag)
@@ -27,10 +18,11 @@ public class BlockLeavesBase extends Block
     public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
     {
         int i1 = iblockaccess.getBlockId(i, j, k);
-        if(!graphicsLevel && i1 == blockID)
+        if (!graphicsLevel && i1 == blockID)
         {
             return false;
-        } else
+        }
+        else
         {
             return super.shouldSideBeRendered(iblockaccess, i, j, k, l);
         }

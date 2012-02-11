@@ -1,17 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            NoiseGenerator
-
 public class NoiseGeneratorPerlin extends NoiseGenerator
 {
-
     private int permutations[];
     public double xCoord;
     public double yCoord;
@@ -28,12 +20,12 @@ public class NoiseGeneratorPerlin extends NoiseGenerator
         xCoord = random.nextDouble() * 256D;
         yCoord = random.nextDouble() * 256D;
         zCoord = random.nextDouble() * 256D;
-        for(int i = 0; i < 256; i++)
+        for (int i = 0; i < 256; i++)
         {
             permutations[i] = i;
         }
 
-        for(int j = 0; j < 256; j++)
+        for (int j = 0; j < 256; j++)
         {
             int k = random.nextInt(256 - j) + j;
             int l = permutations[j];
@@ -41,7 +33,6 @@ public class NoiseGeneratorPerlin extends NoiseGenerator
             permutations[k] = l;
             permutations[j + 256] = permutations[j];
         }
-
     }
 
     public final double lerp(double d, double d1, double d2)
@@ -65,11 +56,11 @@ public class NoiseGeneratorPerlin extends NoiseGenerator
         return ((j & 1) != 0 ? -d3 : d3) + ((j & 2) != 0 ? -d4 : d4);
     }
 
-    public void func_805_a(double ad[], double d, double d1, double d2, 
-            int i, int j, int k, double d3, double d4, 
+    public void func_805_a(double ad[], double d, double d1, double d2,
+            int i, int j, int k, double d3, double d4,
             double d5, double d6)
     {
-        if(j == 1)
+        if (j == 1)
         {
             boolean flag = false;
             boolean flag1 = false;
@@ -79,22 +70,22 @@ public class NoiseGeneratorPerlin extends NoiseGenerator
             double d10 = 0.0D;
             int j3 = 0;
             double d12 = 1.0D / d6;
-            for(int i4 = 0; i4 < i; i4++)
+            for (int i4 = 0; i4 < i; i4++)
             {
                 double d14 = d + (double)i4 * d3 + xCoord;
                 int j4 = (int)d14;
-                if(d14 < (double)j4)
+                if (d14 < (double)j4)
                 {
                     j4--;
                 }
                 int k4 = j4 & 0xff;
                 d14 -= j4;
                 double d17 = d14 * d14 * d14 * (d14 * (d14 * 6D - 15D) + 10D);
-                for(int l4 = 0; l4 < k; l4++)
+                for (int l4 = 0; l4 < k; l4++)
                 {
                     double d19 = d2 + (double)l4 * d5 + zCoord;
                     int j5 = (int)d19;
-                    if(d19 < (double)j5)
+                    if (d19 < (double)j5)
                     {
                         j5--;
                     }
@@ -110,7 +101,6 @@ public class NoiseGeneratorPerlin extends NoiseGenerator
                     double d23 = lerp(d21, d9, d11);
                     ad[j3++] += d23 * d12;
                 }
-
             }
 
             return;
@@ -128,40 +118,40 @@ public class NoiseGeneratorPerlin extends NoiseGenerator
         double d15 = 0.0D;
         double d16 = 0.0D;
         double d18 = 0.0D;
-        for(int i5 = 0; i5 < i; i5++)
+        for (int i5 = 0; i5 < i; i5++)
         {
             double d20 = d + (double)i5 * d3 + xCoord;
             int k5 = (int)d20;
-            if(d20 < (double)k5)
+            if (d20 < (double)k5)
             {
                 k5--;
             }
             int i6 = k5 & 0xff;
             d20 -= k5;
             double d22 = d20 * d20 * d20 * (d20 * (d20 * 6D - 15D) + 10D);
-            for(int j6 = 0; j6 < k; j6++)
+            for (int j6 = 0; j6 < k; j6++)
             {
                 double d24 = d2 + (double)j6 * d5 + zCoord;
                 int k6 = (int)d24;
-                if(d24 < (double)k6)
+                if (d24 < (double)k6)
                 {
                     k6--;
                 }
                 int l6 = k6 & 0xff;
                 d24 -= k6;
                 double d25 = d24 * d24 * d24 * (d24 * (d24 * 6D - 15D) + 10D);
-                for(int i7 = 0; i7 < j; i7++)
+                for (int i7 = 0; i7 < j; i7++)
                 {
                     double d26 = d1 + (double)i7 * d4 + yCoord;
                     int j7 = (int)d26;
-                    if(d26 < (double)j7)
+                    if (d26 < (double)j7)
                     {
                         j7--;
                     }
                     int k7 = j7 & 0xff;
                     d26 -= j7;
                     double d27 = d26 * d26 * d26 * (d26 * (d26 * 6D - 15D) + 10D);
-                    if(i7 == 0 || k7 != i2)
+                    if (i7 == 0 || k7 != i2)
                     {
                         i2 = k7;
                         int j2 = permutations[i6] + k7;
@@ -180,10 +170,7 @@ public class NoiseGeneratorPerlin extends NoiseGenerator
                     double d30 = lerp(d25, d28, d29);
                     ad[i1++] += d30 * d7;
                 }
-
             }
-
         }
-
     }
 }

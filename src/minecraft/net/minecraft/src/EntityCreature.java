@@ -1,18 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.Random;
 
-// Referenced classes of package net.minecraft.src:
-//            EntityLiving, Profiler, World, Entity, 
-//            AxisAlignedBB, MathHelper, PathEntity, Vec3D
-
 public abstract class EntityCreature extends EntityLiving
 {
-
     private PathEntity pathToEntity;
     protected Entity entityToAttack;
     protected boolean hasAttacked;
@@ -33,40 +24,42 @@ public abstract class EntityCreature extends EntityLiving
     protected void updateEntityActionState()
     {
         Profiler.startSection("ai");
-        if(fleeingTick > 0)
+        if (fleeingTick > 0)
         {
             fleeingTick--;
         }
         hasAttacked = isMovementCeased();
         float f = 16F;
-        if(entityToAttack == null)
+        if (entityToAttack == null)
         {
             entityToAttack = findPlayerToAttack();
-            if(entityToAttack != null)
+            if (entityToAttack != null)
             {
                 pathToEntity = worldObj.getPathToEntity(this, entityToAttack, f);
             }
-        } else
-        if(!entityToAttack.isEntityAlive())
+        }
+        else if (!entityToAttack.isEntityAlive())
         {
             entityToAttack = null;
-        } else
+        }
+        else
         {
             float f1 = entityToAttack.getDistanceToEntity(this);
-            if(canEntityBeSeen(entityToAttack))
+            if (canEntityBeSeen(entityToAttack))
             {
                 attackEntity(entityToAttack, f1);
-            } else
+            }
+            else
             {
                 attackBlockedEntity(entityToAttack, f1);
             }
         }
         Profiler.endSection();
-        if(!hasAttacked && entityToAttack != null && (pathToEntity == null || rand.nextInt(20) == 0))
+        if (!hasAttacked && entityToAttack != null && (pathToEntity == null || rand.nextInt(20) == 0))
         {
             pathToEntity = worldObj.getPathToEntity(this, entityToAttack, f);
-        } else
-        if(!hasAttacked && (pathToEntity == null && rand.nextInt(180) == 0 || rand.nextInt(120) == 0 || fleeingTick > 0) && entityAge < 100)
+        }
+        else if (!hasAttacked && (pathToEntity == null && rand.nextInt(180) == 0 || rand.nextInt(120) == 0 || fleeingTick > 0) && entityAge < 100)
         {
             updateWanderPath();
         }
@@ -74,7 +67,7 @@ public abstract class EntityCreature extends EntityLiving
         boolean flag = isInWater();
         boolean flag1 = handleLavaMovement();
         rotationPitch = 0.0F;
-        if(pathToEntity == null || rand.nextInt(100) == 0)
+        if (pathToEntity == null || rand.nextInt(100) == 0)
         {
             super.updateEntityActionState();
             pathToEntity = null;
@@ -82,21 +75,22 @@ public abstract class EntityCreature extends EntityLiving
         }
         Profiler.startSection("followpath");
         Vec3D vec3d = pathToEntity.getPosition(this);
-        for(double d = width * 2.0F; vec3d != null && vec3d.squareDistanceTo(posX, vec3d.yCoord, posZ) < d * d;)
+        for (double d = width * 2.0F; vec3d != null && vec3d.squareDistanceTo(posX, vec3d.yCoord, posZ) < d * d;)
         {
             pathToEntity.incrementPathIndex();
-            if(pathToEntity.isFinished())
+            if (pathToEntity.isFinished())
             {
                 vec3d = null;
                 pathToEntity = null;
-            } else
+            }
+            else
             {
                 vec3d = pathToEntity.getPosition(this);
             }
         }
 
         isJumping = false;
-        if(vec3d != null)
+        if (vec3d != null)
         {
             double d1 = vec3d.xCoord - posX;
             double d2 = vec3d.zCoord - posZ;
@@ -104,18 +98,18 @@ public abstract class EntityCreature extends EntityLiving
             float f2 = (float)((Math.atan2(d2, d1) * 180D) / 3.1415927410125732D) - 90F;
             float f3 = f2 - rotationYaw;
             moveForward = moveSpeed;
-            for(; f3 < -180F; f3 += 360F) { }
-            for(; f3 >= 180F; f3 -= 360F) { }
-            if(f3 > 30F)
+            for (; f3 < -180F; f3 += 360F) { }
+            for (; f3 >= 180F; f3 -= 360F) { }
+            if (f3 > 30F)
             {
                 f3 = 30F;
             }
-            if(f3 < -30F)
+            if (f3 < -30F)
             {
                 f3 = -30F;
             }
             rotationYaw += f3;
-            if(hasAttacked && entityToAttack != null)
+            if (hasAttacked && entityToAttack != null)
             {
                 double d4 = entityToAttack.posX - posX;
                 double d5 = entityToAttack.posZ - posZ;
@@ -125,20 +119,20 @@ public abstract class EntityCreature extends EntityLiving
                 moveStrafing = -MathHelper.sin(f4) * moveForward * 1.0F;
                 moveForward = MathHelper.cos(f4) * moveForward * 1.0F;
             }
-            if(d3 > 0.0D)
+            if (d3 > 0.0D)
             {
                 isJumping = true;
             }
         }
-        if(entityToAttack != null)
+        if (entityToAttack != null)
         {
             faceEntity(entityToAttack, 30F, 30F);
         }
-        if(isCollidedHorizontally && !hasPath())
+        if (isCollidedHorizontally && !hasPath())
         {
             isJumping = true;
         }
-        if(rand.nextFloat() < 0.8F && (flag || flag1))
+        if (rand.nextFloat() < 0.8F && (flag || flag1))
         {
             isJumping = true;
         }
@@ -153,13 +147,13 @@ public abstract class EntityCreature extends EntityLiving
         int j = -1;
         int k = -1;
         float f = -99999F;
-        for(int l = 0; l < 10; l++)
+        for (int l = 0; l < 10; l++)
         {
             int i1 = MathHelper.floor_double((posX + (double)rand.nextInt(13)) - 6D);
             int j1 = MathHelper.floor_double((posY + (double)rand.nextInt(7)) - 3D);
             int k1 = MathHelper.floor_double((posZ + (double)rand.nextInt(13)) - 6D);
             float f1 = getBlockPathWeight(i1, j1, k1);
-            if(f1 > f)
+            if (f1 > f)
             {
                 f = f1;
                 i = i1;
@@ -169,7 +163,7 @@ public abstract class EntityCreature extends EntityLiving
             }
         }
 
-        if(flag)
+        if (flag)
         {
             pathToEntity = worldObj.getEntityPathToXYZ(this, i, j, k, 10F);
         }
@@ -184,7 +178,7 @@ public abstract class EntityCreature extends EntityLiving
     {
     }
 
-    protected float getBlockPathWeight(int i, int j, int k)
+    public float getBlockPathWeight(int i, int j, int k)
     {
         return 0.0F;
     }
@@ -222,10 +216,10 @@ public abstract class EntityCreature extends EntityLiving
         entityToAttack = entity;
     }
 
-    protected float func_35166_t_()
+    protected float getSpeedModifier()
     {
-        float f = super.func_35166_t_();
-        if(fleeingTick > 0)
+        float f = super.getSpeedModifier();
+        if (fleeingTick > 0)
         {
             f *= 2.0F;
         }
