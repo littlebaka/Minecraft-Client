@@ -1,0 +1,255 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) braces deadcode fieldsfirst 
+
+package net.minecraft.src;
+
+import java.util.List;
+import java.util.Random;
+
+// Referenced classes of package net.minecraft.src:
+//            Entity, World, EntityDamageSource, WM_WeaponDamageSource, 
+//            AxisAlignedBB, MathHelper, Block, DamageSource, 
+//            Item, mod_WeaponMod, EntityPlayer, InventoryPlayer, 
+//            ItemStack, WM_ItemWeaponMod, ItemSword, ItemBow, 
+//            NBTTagCompound
+
+public class EntityDummy extends Entity
+{
+
+    private int durability;
+    public int dummyCurrentDamage;
+    public int dummyTimeSinceHit;
+    public int dummyRockDirection;
+
+    public EntityDummy(World world)
+    {
+        super(world);
+        dummyCurrentDamage = 0;
+        dummyTimeSinceHit = 0;
+        dummyRockDirection = 1;
+        preventEntitySpawning = true;
+        rotationPitch = -20F;
+        setRotation(rotationYaw, rotationPitch);
+        setSize(1.5F, 1.9F);
+        yOffset = 0.41F;
+        durability = 50;
+    }
+
+    public EntityDummy(World world, double d, double d1, double d2)
+    {
+        this(world);
+        setPosition(d, d1 + (double)yOffset, d2);
+        motionX = 0.0D;
+        motionY = 0.0D;
+        motionZ = 0.0D;
+        prevPosX = d;
+        prevPosY = d1;
+        prevPosZ = d2;
+    }
+
+    protected void entityInit()
+    {
+    }
+
+    public AxisAlignedBB getCollisionBox(Entity entity)
+    {
+        return entity.boundingBox;
+    }
+
+    public AxisAlignedBB getBoundingBox()
+    {
+        return boundingBox;
+    }
+
+    public boolean canBePushed()
+    {
+        return false;
+    }
+
+    public boolean attackEntityFrom(DamageSource damagesource, int i)
+    {
+        if(worldObj.multiplayerWorld || isDead || i <= 0)
+        {
+            return false;
+        }
+        dummyRockDirection = -dummyRockDirection;
+        dummyTimeSinceHit = 10;
+        dummyCurrentDamage += i * 5;
+        if(dummyCurrentDamage > 50)
+        {
+            dummyCurrentDamage = 50;
+        }
+        if(!(damagesource instanceof EntityDamageSource))
+        {
+            durability -= i;
+        } else
+        if(damagesource instanceof WeaponDamageSource)
+        {
+            Entity entity = ((WeaponDamageSource)damagesource).getProjectile();
+            if(Math.sqrt(entity.motionX * entity.motionX + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ) > 0.5D)
+            {
+                entity.motionX *= 0.10000000149011612D;
+                entity.motionY *= 0.10000000149011612D;
+                entity.motionZ *= 0.10000000149011612D;
+                playRandomHitSound();
+            } else
+            {
+                entity.motionX = rand.nextFloat() - 0.5F;
+                entity.motionY = rand.nextFloat() - 0.5F;
+                entity.motionZ = rand.nextFloat() - 0.5F;
+            }
+        } else
+        {
+            playRandomHitSound();
+        }
+        if(durability <= 0)
+        {
+            dropAsItem(true);
+        }
+        setBeenAttacked();
+        return false;
+    }
+
+    public void playRandomHitSound()
+    {
+        int i = rand.nextInt(2);
+        if(i == 0)
+        {
+            worldObj.playSoundAtEntity(this, "step.cloth", 0.7F, (1.0F / rand.nextFloat()) * 0.2F + 0.4F);
+        } else
+        if(i == 1)
+        {
+            worldObj.playSoundAtEntity(this, "step.wood", 0.7F, (1.0F / rand.nextFloat()) * 0.2F + 0.2F);
+        }
+    }
+
+    public void performHurtAnimation()
+    {
+        dummyRockDirection = -dummyRockDirection;
+        dummyTimeSinceHit = 10;
+        dummyCurrentDamage += dummyCurrentDamage * 10;
+    }
+
+    public boolean canBeCollidedWith()
+    {
+        return !isDead;
+    }
+
+    public void onUpdate()
+    {
+        super.onUpdate();
+        if(dummyTimeSinceHit > 0)
+        {
+            dummyTimeSinceHit--;
+        }
+        if(dummyCurrentDamage > 0)
+        {
+            dummyCurrentDamage--;
+        }
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
+        if(onGround)
+        {
+            motionX = 0.0D;
+            motionY = 0.0D;
+            motionZ = 0.0D;
+        } else
+        {
+            motionX *= 0.98999999999999999D;
+            motionZ *= 0.98999999999999999D;
+            motionY -= 0.050000000000000003D;
+            fallDistance += -motionY;
+        }
+        setRotation(rotationYaw, rotationPitch);
+        moveEntity(0.0D, motionY, 0.0D);
+        List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(0.20000000000000001D, 0.0D, 0.20000000000000001D));
+        if(list != null && list.size() > 0)
+        {
+            for(int i = 0; i < list.size(); i++)
+            {
+                Entity entity = (Entity)list.get(i);
+                if(entity != riddenByEntity && entity.canBePushed())
+                {
+                    entity.applyEntityCollision(this);
+                }
+            }
+
+        }
+        for(int j = 0; j < 4; j++)
+        {
+            int k = MathHelper.floor_double(posX + ((double)(j % 2) - 0.5D) * 0.80000000000000004D);
+            int l = MathHelper.floor_double(posY);
+            int i1 = MathHelper.floor_double(posZ + ((double)(j / 2) - 0.5D) * 0.80000000000000004D);
+            if(worldObj.getBlockId(k, l, i1) == Block.snow.blockID)
+            {
+                worldObj.setBlockWithNotify(k, l, i1, 0);
+            }
+        }
+
+    }
+
+    protected void fall(float f)
+    {
+        super.fall(f);
+        if(!onGround)
+        {
+            return;
+        } else
+        {
+            int i = MathHelper.floor_float(f);
+            attackEntityFrom(DamageSource.fall, i);
+            return;
+        }
+    }
+
+    public float getShadowSize()
+    {
+        return 1.0F;
+    }
+
+    public void dropAsItem(boolean flag)
+    {
+        if(flag)
+        {
+            for(int i = 0; i < rand.nextInt(8); i++)
+            {
+                dropItemWithOffset(Item.leather.shiftedIndex, 1, 0.0F);
+            }
+
+        } else
+        {
+            dropItemWithOffset(Item.dummy.shiftedIndex, 1, 0.0F);
+        }
+        setEntityDead();
+    }
+
+    public boolean interact(EntityPlayer entityplayer)
+    {
+        ItemStack itemstack = entityplayer.inventory.getCurrentItem();
+        if(itemstack == null)
+        {
+            dropAsItem(false);
+            return true;
+        }
+        if(/*!(itemstack.getItem() instanceof ItemWeaponMod) &&*/ !(itemstack.getItem() instanceof ItemSword) && !(itemstack.getItem() instanceof ItemBow))
+        {
+            dropAsItem(false);
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    protected void writeEntityToNBT(NBTTagCompound nbttagcompound)
+    {
+    }
+
+    protected void readEntityFromNBT(NBTTagCompound nbttagcompound)
+    {
+        setPosition(posX, posY, posZ);
+        setRotation(rotationYaw, rotationPitch);
+    }
+}
