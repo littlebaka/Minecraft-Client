@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="27" version="2.0">
 <workbenchAdvisor/>
-<window height="768" maximized="true" width="1024" x="40" y="-9">
+<window height="768" maximized="true" width="1024" x="537" y="-9">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -38,7 +38,7 @@
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Block.java" partName="Block.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/Block.java" title="Block.java" tooltip="Client/src/net/minecraft/src/Block.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/Block.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="42285" selectionTopPixel="18460"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="42543" selectionTopPixel="18180"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BlockJump.java" partName="BlockJump.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/BlockJump.java" title="BlockJump.java" tooltip="Client/src/net/minecraft/src/BlockJump.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/BlockJump.java"/>
@@ -46,7 +46,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ContainerCreative.java" partName="ContainerCreative.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/ContainerCreative.java" title="ContainerCreative.java" tooltip="Client/src/net/minecraft/src/ContainerCreative.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/ContainerCreative.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="900" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="914" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -234,6 +234,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/BlockJump.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/BlockBarrel.java"/>
 </editors>
 <item historyLabel="Entity.java" index="0">
 <position info="not_deleted" x="1791" y="5"/>
@@ -295,8 +297,20 @@
 <item historyLabel="Block.java" index="7">
 <position info="not_deleted" x="42285" y="0"/>
 </item>
-<item active="true" historyLabel="ContainerCreative.java" index="4">
+<item historyLabel="ContainerCreative.java" index="4">
 <position info="not_deleted" x="900" y="0"/>
+</item>
+<item historyLabel="Block.java" index="8">
+<position info="not_deleted" x="42903" y="0"/>
+</item>
+<item historyLabel="BlockBarrel.java" index="9">
+<position info="not_deleted" x="436" y="0"/>
+</item>
+<item historyLabel="Block.java" index="8">
+<position info="not_deleted" x="42543" y="0"/>
+</item>
+<item active="true" historyLabel="ContainerCreative.java" index="4">
+<position info="not_deleted" x="914" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -317,6 +331,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BlockBarrel.java" tooltip="Client/src/net/minecraft/src/BlockBarrel.java">
+<persistable path="/Client/src/net/minecraft/src/BlockBarrel.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ContainerCreative.java" tooltip="Client/src/net/minecraft/src/ContainerCreative.java">
 <persistable path="/Client/src/net/minecraft/src/ContainerCreative.java"/>
 </file>
