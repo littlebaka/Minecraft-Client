@@ -147,7 +147,6 @@ public class Block
     public static final Block dragonEgg;
     //iCraftEvo Begin TODO
     public static final Block jump;
-    public static final Block lampadaire;
     //iCraftEvo End
     public int blockIndexInTexture;
     public final int blockID;
@@ -934,7 +933,6 @@ public class Block
         dragonEgg = (new BlockDragonEgg(122, 167)).setHardness(3F).setResistance(15F).setStepSound(soundStoneFootstep).setLightValue(0.125F).setBlockName("dragonEgg");
         //iCraftEvo Begin TODO
         jump = (new BlockJump(142, 196)).setHardness(1.0F).setStepSound(Block.soundClothFootstep).setBlockName("Trampoline"); //image à côté du rail détecteur.
-        lampadaire = (new BlockGlowStone(123, 30, Material.glass)).setHardness(0.3F).setStepSound(soundGlassFootstep).setLightValue(1.0F).setBlockName("lampadaire"); //image à côté du champignon
         //iCraftEvo End
         Item.itemsList[cloth.blockID] = (new ItemCloth(cloth.blockID - 256)).setItemName("cloth");
         Item.itemsList[wood.blockID] = (new ItemMetadata(wood.blockID - 256, wood)).setItemName("log");
