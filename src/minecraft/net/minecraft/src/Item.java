@@ -147,6 +147,9 @@ public class Item
     public static Item recordStrad = (new ItemRecord(2008, "strad")).setIconCoord(8, 15).setItemName("record");
     public static Item recordWard = (new ItemRecord(2009, "ward")).setIconCoord(9, 15).setItemName("record");
     public static Item record11 = (new ItemRecord(2010, "11")).setIconCoord(10, 15).setItemName("record");
+    //iCraftEvo Begin TODO
+    public static Item dummy;
+    //iCraftEvo End
     public final int shiftedIndex;
     protected int maxStackSize;
     private int maxDamage;
@@ -545,6 +548,9 @@ public class Item
         brewingStand = (new ItemReed(123, Block.brewingStand)).setIconCoord(12, 10).setItemName("brewingStand");
         cauldron = (new ItemReed(124, Block.cauldron)).setIconCoord(12, 9).setItemName("cauldron");
         speckledMelon = (new Item(126)).setIconCoord(9, 8).setItemName("speckledMelon").setPotionModifier(PotionHelper.speckledMelonEffect);
+        //iCraftEvo Begin TODO
+        dummy =(new ItemDummy(603)).setIconCoord(2,2).setItemName("dummy");
+        //iCraftEvo End
         StatList.initStats();
     }
 }

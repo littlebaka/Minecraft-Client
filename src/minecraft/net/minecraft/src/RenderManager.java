@@ -68,6 +68,9 @@ public class RenderManager
         entityRenderMap.put(net.minecraft.src.EntityBoat.class, new RenderBoat());
         entityRenderMap.put(net.minecraft.src.EntityFishHook.class, new RenderFish());
         entityRenderMap.put(net.minecraft.src.EntityLightningBolt.class, new RenderLightningBolt());
+        //iCraftEvo Begin TODO
+        entityRenderMap.put(net.minecraft.src.EntityDummy.class, new RenderDummy());
+        //icraftEvo End
         Render render;
         for (Iterator iterator = entityRenderMap.values().iterator(); iterator.hasNext(); render.setRenderManager(this))
         {

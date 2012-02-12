@@ -179,5 +179,8 @@ public class EntityList
         addMapping(net.minecraft.src.EntitySnowman.class, "SnowMan", 97);
         func_46152_a(net.minecraft.src.EntityVillager.class, "Villager", 120, 0x563c33, 0xbd8b72);
         addMapping(net.minecraft.src.EntityEnderCrystal.class, "EnderCrystal", 200);
+        //iCraftEvo Begin TODO
+        addMapping(net.minecraft.src.EntityDummy.class, "Dummy", 400);
+        //iCraftEvo End
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="27" version="2.0">
 <workbenchAdvisor/>
-<window height="768" maximized="true" width="1024" x="537" y="-9">
+<window height="768" maximized="true" width="1024" x="451" y="-16">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -32,6 +32,14 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<part id="3"/>
+<part id="4"/>
+<part id="5"/>
+<part id="6"/>
+<part id="7"/>
+<part id="8"/>
+<part id="9"/>
+<part id="10"/>
 </presentation>
 </folder>
 </info>
@@ -40,24 +48,59 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/Block.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="42543" selectionTopPixel="18180"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BlockJump.java" partName="BlockJump.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/BlockJump.java" title="BlockJump.java" tooltip="Client/src/net/minecraft/src/BlockJump.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/BlockJump.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="249"/>
-</editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ContainerCreative.java" partName="ContainerCreative.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/ContainerCreative.java" title="ContainerCreative.java" tooltip="Client/src/net/minecraft/src/ContainerCreative.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/ContainerCreative.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="914" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1175" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Item.java" partName="Item.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/Item.java" title="Item.java" tooltip="Client/src/net/minecraft/src/Item.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/Item.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="25878" selectionTopPixel="10129"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ItemDummy.java" partName="ItemDummy.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/ItemDummy.java" title="ItemDummy.java" tooltip="Client/src/net/minecraft/src/ItemDummy.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/ItemDummy.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2231" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntityDummy.java" partName="EntityDummy.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/EntityDummy.java" title="EntityDummy.java" tooltip="Client/src/net/minecraft/src/EntityDummy.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/EntityDummy.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1892" selectionTopPixel="942"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntityList.java" partName="EntityList.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/EntityList.java" title="EntityList.java" tooltip="Client/src/net/minecraft/src/EntityList.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/EntityList.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7597" selectionTopPixel="2709"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RenderManager.java" partName="RenderManager.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/RenderManager.java" title="RenderManager.java" tooltip="Client/src/net/minecraft/src/RenderManager.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/RenderManager.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4946" selectionTopPixel="720"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RenderDummy.java" partName="RenderDummy.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/RenderDummy.java" title="RenderDummy.java" tooltip="Client/src/net/minecraft/src/RenderDummy.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/RenderDummy.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="374" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelDummy.java" partName="ModelDummy.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/ModelDummy.java" title="ModelDummy.java" tooltip="Client/src/net/minecraft/src/ModelDummy.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/ModelDummy.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1027" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WeaponDamageSource.java" partName="WeaponDamageSource.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/WeaponDamageSource.java" title="WeaponDamageSource.java" tooltip="Client/src/net/minecraft/src/WeaponDamageSource.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/WeaponDamageSource.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="737" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DamageSource.java" partName="DamageSource.java" path="C:/Dev/Minecraft Client/src/minecraft/net/minecraft/src/DamageSource.java" title="DamageSource.java" tooltip="Client/src/net/minecraft/src/DamageSource.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Client/src/net/minecraft/src/DamageSource.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="13" selectionOffset="1860" selectionTopPixel="320"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.search.ui.views.SearchView" partName="Search">
 <viewState isPinned="false">
-<view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
 <view IMemento.internal.id="org.eclipse.search.text.FileSearchResultPage" org.eclipse.search.lastActivation="1" org.eclipse.search.resultpage.layout="2" org.eclipse.search.resultpage.limit="1000" org.eclipse.search.resultpage.sorting="2"/>
+<view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
 </viewState>
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
+<expanded>
+<category IMemento.internal.id="Errors"/>
+</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="120" org.eclipse.ui.ide.markerType="120" org.eclipse.ui.ide.pathField="160" org.eclipse.ui.ide.resourceField="120" org.eclipse.ui.ide.severityAndDescriptionField="400"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -159,30 +202,32 @@
 <perspective_action id="org.eclipse.debug.ui.DebugPerspective"/>
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
-<view id="org.eclipse.jdt.ui.PackageExplorer"/>
 <fastViewBars>
 <fastViewBar fastViewLocation="1024" id="bottom" orientation="256" selectedTabId="org.eclipse.ui.console.ConsoleView" style="0">
 <fastViews>
 <view id="org.eclipse.ui.views.ProblemView" ratio="0.3"/>
 <view id="org.eclipse.jdt.ui.JavadocView" ratio="0.3"/>
 <view id="org.eclipse.jdt.ui.SourceView" ratio="0.3"/>
-<view id="org.eclipse.search.ui.views.SearchView" ratio="0.64788735"/>
+<view id="org.eclipse.search.ui.views.SearchView" ratio="0.6472424"/>
 <view id="org.eclipse.ui.console.ConsoleView" ratio="0.36836627"/>
+</fastViews>
+</fastViewBar>
+<fastViewBar fastViewLocation="16384" id="left" orientation="512" selectedTabId="org.eclipse.jdt.ui.PackageExplorer" style="0">
+<fastViews>
+<view id="org.eclipse.jdt.ui.PackageExplorer" ratio="0.3"/>
 </fastViews>
 </fastViewBar>
 </fastViewBars>
 <layout>
 <mainWindow>
 <info folder="true" part="left">
-<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
+<folder appearance="2" expanded="0">
+<page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.junit.ResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="stickyFolderRight" ratio="0.749499" ratioLeft="748" ratioRight="250" relationship="2" relative="left">
@@ -226,90 +271,174 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Entity.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/EntityPlayer.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/BlockJump.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/ContainerCreative.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/BlockJump.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/BlockBarrel.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/BlockJump.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Block.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/Item.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/ItemDummy.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/EntityDummy.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/World.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/BlockDispenser.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/EntityList.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/EntityRenderer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/RenderManager.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/RenderDummy.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/ModelDummy.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/WeaponDamageSource.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Client/src/net/minecraft/src/DamageSource.java"/>
 </editors>
-<item historyLabel="Entity.java" index="0">
-<position info="not_deleted" x="1791" y="5"/>
+<item historyLabel="ContainerCreative.java" index="0">
+<position info="not_deleted" x="884" y="0"/>
 </item>
-<item historyLabel="Entity.java" index="0">
-<position info="not_deleted" x="2157" y="0"/>
+<item historyLabel="Block.java" index="1">
+<position info="not_deleted" x="41954" y="0"/>
 </item>
-<item historyLabel="Entity.java" index="0">
-<position info="not_deleted" x="36914" y="5"/>
-</item>
-<item historyLabel="EntityPlayer.java" index="1">
-<position info="not_deleted" x="36983" y="5"/>
-</item>
-<item historyLabel="EntityPlayer.java" index="1">
-<position info="not_deleted" x="9627" y="0"/>
+<item historyLabel="ContainerCreative.java" index="0">
+<position info="not_deleted" x="884" y="0"/>
 </item>
 <item historyLabel="Block.java" index="2">
-<position info="not_deleted" x="41735" y="0"/>
+<position info="not_deleted" x="42285" y="0"/>
 </item>
-<item historyLabel="BlockJump.java" index="3">
-<position info="not_deleted" x="762" y="0"/>
+<item historyLabel="ContainerCreative.java" index="0">
+<position info="not_deleted" x="900" y="0"/>
 </item>
-<item historyLabel="Block.java" index="2">
-<position info="not_deleted" x="41735" y="0"/>
+<item historyLabel="Block.java" index="3">
+<position info="not_deleted" x="42903" y="0"/>
 </item>
-<item historyLabel="BlockJump.java" index="3">
-<position info="not_deleted" x="926" y="0"/>
+<item historyLabel="BlockBarrel.java" index="4">
+<position info="not_deleted" x="436" y="0"/>
 </item>
-<item historyLabel="Block.java" index="2">
-<position info="not_deleted" x="6361" y="0"/>
+<item historyLabel="Block.java" index="3">
+<position info="not_deleted" x="42543" y="0"/>
 </item>
-<item historyLabel="BlockJump.java" index="3">
-<position info="not_deleted" x="975" y="0"/>
-</item>
-<item historyLabel="Block.java" index="2">
-<position info="not_deleted" x="41869" y="0"/>
-</item>
-<item historyLabel="ContainerCreative.java" index="4">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="ContainerCreative.java" index="4">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="ContainerCreative.java" index="0">
+<position info="not_deleted" x="914" y="0"/>
 </item>
 <item historyLabel="BlockJump.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
 <item historyLabel="Block.java" index="6">
-<position info="not_deleted" x="41954" y="0"/>
-</item>
-<item historyLabel="ContainerCreative.java" index="4">
-<position info="not_deleted" x="884" y="0"/>
-</item>
-<item historyLabel="Block.java" index="6">
-<position info="not_deleted" x="41954" y="0"/>
-</item>
-<item historyLabel="ContainerCreative.java" index="4">
-<position info="not_deleted" x="884" y="0"/>
-</item>
-<item historyLabel="Block.java" index="7">
-<position info="not_deleted" x="42285" y="0"/>
-</item>
-<item historyLabel="ContainerCreative.java" index="4">
-<position info="not_deleted" x="900" y="0"/>
-</item>
-<item historyLabel="Block.java" index="8">
-<position info="not_deleted" x="42903" y="0"/>
-</item>
-<item historyLabel="BlockBarrel.java" index="9">
-<position info="not_deleted" x="436" y="0"/>
-</item>
-<item historyLabel="Block.java" index="8">
 <position info="not_deleted" x="42543" y="0"/>
 </item>
-<item active="true" historyLabel="ContainerCreative.java" index="4">
+<item historyLabel="Item.java" index="7">
+<position info="not_deleted" x="25878" y="0"/>
+</item>
+<item historyLabel="ItemDummy.java" index="8">
+<position info="not_deleted" x="70" y="0"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="6696" y="0"/>
+</item>
+<item historyLabel="ItemDummy.java" index="8">
+<position info="not_deleted" x="70" y="0"/>
+</item>
+<item historyLabel="ItemDummy.java" index="8">
+<position info="not_deleted" x="2210" y="0"/>
+</item>
+<item historyLabel="ItemDummy.java" index="8">
+<position info="not_deleted" x="225" y="0"/>
+</item>
+<item historyLabel="World.java" index="10">
+<position info="not_deleted" x="34655" y="6"/>
+</item>
+<item historyLabel="ItemDummy.java" index="8">
+<position info="not_deleted" x="225" y="0"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="World.java" index="10">
+<position info="not_deleted" x="34655" y="6"/>
+</item>
+<item historyLabel="BlockDispenser.java" index="11">
+<position info="not_deleted" x="4177" y="18"/>
+</item>
+<item historyLabel="World.java" index="10">
+<position info="not_deleted" x="34655" y="6"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="ItemDummy.java" index="8">
+<position info="not_deleted" x="2231" y="0"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="1892" y="0"/>
+</item>
+<item historyLabel="World.java" index="10">
+<position info="not_deleted" x="34655" y="6"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="1892" y="0"/>
+</item>
+<item historyLabel="BlockDispenser.java" index="11">
+<position info="not_deleted" x="4177" y="18"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="1668" y="0"/>
+</item>
+<item historyLabel="EntityList.java" index="12">
+<position info="not_deleted" x="7597" y="0"/>
+</item>
+<item historyLabel="EntityRenderer.java" index="13">
+<position info="not_deleted" x="988" y="0"/>
+</item>
+<item historyLabel="EntityList.java" index="12">
+<position info="not_deleted" x="7597" y="0"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="1668" y="0"/>
+</item>
+<item historyLabel="EntityList.java" index="12">
+<position info="not_deleted" x="7597" y="0"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="1668" y="0"/>
+</item>
+<item historyLabel="RenderManager.java" index="14">
+<position info="not_deleted" x="4946" y="0"/>
+</item>
+<item historyLabel="RenderDummy.java" index="15">
+<position info="not_deleted" x="1341" y="0"/>
+</item>
+<item historyLabel="ModelDummy.java" index="16">
+<position info="not_deleted" x="1027" y="0"/>
+</item>
+<item historyLabel="EntityDummy.java" index="9">
+<position info="not_deleted" x="1892" y="0"/>
+</item>
+<item historyLabel="WeaponDamageSource.java" index="17">
+<position info="not_deleted" x="724" y="13"/>
+</item>
+<item historyLabel="DamageSource.java" index="18">
+<position info="not_deleted" x="1860" y="13"/>
+</item>
+<item historyLabel="WeaponDamageSource.java" index="17">
+<position info="not_deleted" x="737" y="0"/>
+</item>
+<item historyLabel="ModelDummy.java" index="16">
+<position info="not_deleted" x="1027" y="0"/>
+</item>
+<item historyLabel="RenderDummy.java" index="15">
+<position info="not_deleted" x="374" y="0"/>
+</item>
+<item historyLabel="DamageSource.java" index="18">
+<position info="not_deleted" x="1860" y="13"/>
+</item>
+<item historyLabel="Block.java" index="6">
+<position info="not_deleted" x="42543" y="0"/>
+</item>
+<item historyLabel="BlockJump.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Block.java" index="6">
+<position info="not_deleted" x="42543" y="0"/>
+</item>
+<item active="true" historyLabel="ContainerCreative.java" index="0">
 <position info="not_deleted" x="914" y="0"/>
 </item>
 </navigationHistory>
@@ -318,6 +447,9 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
+<trimArea IMemento.internal.id="16384">
+<trimItem IMemento.internal.id="left"/>
+</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 <trimItem IMemento.internal.id="org.eclipse.mylyn.tasks.ui.trim.container"/>
@@ -331,6 +463,42 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DamageSource.java" tooltip="Client/src/net/minecraft/src/DamageSource.java">
+<persistable path="/Client/src/net/minecraft/src/DamageSource.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WeaponDamageSource.java" tooltip="Client/src/net/minecraft/src/WeaponDamageSource.java">
+<persistable path="/Client/src/net/minecraft/src/WeaponDamageSource.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelDummy.java" tooltip="Client/src/net/minecraft/src/ModelDummy.java">
+<persistable path="/Client/src/net/minecraft/src/ModelDummy.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RenderDummy.java" tooltip="Client/src/net/minecraft/src/RenderDummy.java">
+<persistable path="/Client/src/net/minecraft/src/RenderDummy.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RenderManager.java" tooltip="Client/src/net/minecraft/src/RenderManager.java">
+<persistable path="/Client/src/net/minecraft/src/RenderManager.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntityRenderer.java" tooltip="Client/src/net/minecraft/src/EntityRenderer.java">
+<persistable path="/Client/src/net/minecraft/src/EntityRenderer.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntityList.java" tooltip="Client/src/net/minecraft/src/EntityList.java">
+<persistable path="/Client/src/net/minecraft/src/EntityList.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BlockDispenser.java" tooltip="Client/src/net/minecraft/src/BlockDispenser.java">
+<persistable path="/Client/src/net/minecraft/src/BlockDispenser.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="World.java" tooltip="Client/src/net/minecraft/src/World.java">
+<persistable path="/Client/src/net/minecraft/src/World.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntityDummy.java" tooltip="Client/src/net/minecraft/src/EntityDummy.java">
+<persistable path="/Client/src/net/minecraft/src/EntityDummy.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ItemDummy.java" tooltip="Client/src/net/minecraft/src/ItemDummy.java">
+<persistable path="/Client/src/net/minecraft/src/ItemDummy.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Item.java" tooltip="Client/src/net/minecraft/src/Item.java">
+<persistable path="/Client/src/net/minecraft/src/Item.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BlockBarrel.java" tooltip="Client/src/net/minecraft/src/BlockBarrel.java">
 <persistable path="/Client/src/net/minecraft/src/BlockBarrel.java"/>
 </file>
@@ -339,12 +507,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BlockJump.java" tooltip="Client/src/net/minecraft/src/BlockJump.java">
 <persistable path="/Client/src/net/minecraft/src/BlockJump.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Block.java" tooltip="Client/src/net/minecraft/src/Block.java">
-<persistable path="/Client/src/net/minecraft/src/Block.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Entity.java" tooltip="Client/src/net/minecraft/src/Entity.java">
-<persistable path="/Client/src/net/minecraft/src/Entity.java"/>
 </file>
 </mruList>
 </workbench>
