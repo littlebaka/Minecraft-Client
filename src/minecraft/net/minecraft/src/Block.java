@@ -145,6 +145,9 @@ public class Block
     public static final Block endPortalFrame;
     public static final Block whiteStone;
     public static final Block dragonEgg;
+    //iCraftEvo Begin TODO
+    public static final Block jump;
+    //iCraftEvo End
     public int blockIndexInTexture;
     public final int blockID;
     protected float blockHardness;
@@ -928,6 +931,9 @@ public class Block
         endPortalFrame = (new BlockEndPortalFrame(120)).setStepSound(soundGlassFootstep).setLightValue(0.125F).setHardness(-1F).setBlockName("endPortalFrame").setRequiresSelfNotify().setResistance(6000000F);
         whiteStone = (new Block(121, 175, Material.rock)).setHardness(3F).setResistance(15F).setStepSound(soundStoneFootstep).setBlockName("whiteStone");
         dragonEgg = (new BlockDragonEgg(122, 167)).setHardness(3F).setResistance(15F).setStepSound(soundStoneFootstep).setLightValue(0.125F).setBlockName("dragonEgg");
+        //iCraftEvo Begin TODO
+        jump = (new BlockJump(142, 196)).setHardness(1.0F).setStepSound(Block.soundClothFootstep).setBlockName("Trampoline"); //image à côté du rail détecteur.
+        //iCraftEvo End
         Item.itemsList[cloth.blockID] = (new ItemCloth(cloth.blockID - 256)).setItemName("cloth");
         Item.itemsList[wood.blockID] = (new ItemMetadata(wood.blockID - 256, wood)).setItemName("log");
         Item.itemsList[stoneBrick.blockID] = (new ItemMetadata(stoneBrick.blockID - 256, stoneBrick)).setItemName("stonebricksmooth");
