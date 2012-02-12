@@ -2,25 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
-		<item value="543" key="DIALOG_Y_ORIGIN"/>
+		<item value="410" key="DIALOG_Y_ORIGIN"/>
+		<item value="1152" key="DIALOG_X_ORIGIN"/>
 		<item value="366" key="DIALOG_HEIGHT"/>
-		<item value="1541" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="entity" key="selection"/>
+		<item value="(9, 7)" key="selection"/>
 		<list key="findhistory">
-			<item value="entity"/>
-			<item value="enity"/>
-			<item value="22"/>
-			<item value="21"/>
-			<item value="196"/>
-			<item value="195"/>
+			<item value="(9, 7)"/>
+			<item value="(8, 7)"/>
+			<item value="(7, 8)"/>
+			<item value="(6, 15)"/>
+			<item value="(6, 4)"/>
+			<item value="(6, 5)"/>
+			<item value="(5, 6)"/>
+			<item value="(5, 6]"/>
 		</list>
 		<list key="replacehistory">
 		</list>

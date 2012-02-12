@@ -935,10 +935,10 @@ public class Block
         whiteStone = (new Block(121, 175, Material.rock)).setHardness(3F).setResistance(15F).setStepSound(soundStoneFootstep).setBlockName("whiteStone");
         dragonEgg = (new BlockDragonEgg(122, 167)).setHardness(3F).setResistance(15F).setStepSound(soundStoneFootstep).setLightValue(0.125F).setBlockName("dragonEgg");
         //iCraftEvo Begin TODO
-        jump = (new BlockJump(142, 4)).setHardness(1.0F).setStepSound(Block.soundClothFootstep).setBlockName("Trampoline"); //image à côté du rail détecteur.
+        jump = (new BlockJump(142, 196)).setHardness(1.0F).setStepSound(Block.soundClothFootstep).setBlockName("Trampoline"); //image à côté du rail détecteur.
         lampadaire = (new BlockGlowStone(123, 30, Material.glass)).setHardness(0.3F).setStepSound(soundGlassFootstep).setLightValue(1.0F).setBlockName("lampadaire"); //image à côté du champignon
         fenceFer = (new BlockFence(124, 22)).setHardness(2.0F).setResistance(5F).setStepSound(soundWoodFootstep).setBlockName("fenceFer");
-        barrel = (new BlockBarrel(141, 229)).setHardness(2.0F).setResistance(5F).setStepSound(soundWoodFootstep).setBlockName("Tonneau"); // 2 images à la suite à côté des chanpignons du nether. 
+        barrel = (new BlockBarrel(141, 4)).setHardness(2.0F).setResistance(5F).setStepSound(soundWoodFootstep).setBlockName("Tonneau"); // 2 images à la suite à côté des chanpignons du nether. 
         //iCraftEvo End
         Item.itemsList[cloth.blockID] = (new ItemCloth(cloth.blockID - 256)).setItemName("cloth");
         Item.itemsList[wood.blockID] = (new ItemMetadata(wood.blockID - 256, wood)).setItemName("log");

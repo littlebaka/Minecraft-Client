@@ -20,7 +20,7 @@ public class BlockJump extends Block
 	{
 		if(i == 1)
 		{
-			return 196;
+			return blockIndexInTexture +1;
 		} else
 		{
 			return blockIndexInTexture;

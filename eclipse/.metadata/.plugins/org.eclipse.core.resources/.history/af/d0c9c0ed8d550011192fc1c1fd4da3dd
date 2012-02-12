@@ -549,7 +549,7 @@ public class Item
         cauldron = (new ItemReed(124, Block.cauldron)).setIconCoord(12, 9).setItemName("cauldron");
         speckledMelon = (new Item(126)).setIconCoord(9, 8).setItemName("speckledMelon").setPotionModifier(PotionHelper.speckledMelonEffect);
         //iCraftEvo Begin TODO
-        dummy =(new ItemDummy(603)).setIconCoord(6, 6).setItemName("dummy");
+        dummy =(new ItemDummy(603)).setIconCoord(2,2).setItemName("dummy");
         //iCraftEvo End
         StatList.initStats();
     }
