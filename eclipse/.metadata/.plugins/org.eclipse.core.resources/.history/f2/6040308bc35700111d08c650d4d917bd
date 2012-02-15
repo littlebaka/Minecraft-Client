@@ -1,0 +1,51 @@
+package net.minecraft.server;
+
+import net.minecraft.server.Block;
+import net.minecraft.server.IBlockAccess;
+
+public class BlockMuret extends Block
+{
+
+   private Block modelBlock;
+    public BlockMuret(int i, Block block)
+    {
+        super(i, block.textureId, block.material);
+        modelBlock = SMOOTH_BRICK;
+        c(block.strength);
+        b(block.durability / 3F);
+        a(block.stepSound);
+        g(0);
+    }
+    
+    public int getBlockTextureFromSideAndMetadata(int i, int j)
+    {
+       return modelBlock.a(i, 0);
+    }
+
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    public int getRenderType()
+    {
+        return 28;
+    }
+
+    public boolean isFenceAt(IBlockAccess iblockaccess, int i, int j, int k)
+    {
+        int l = iblockaccess.getBlockId(i, j, k);
+        if(l == id || l == Block.FENCE_GATE.id)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+}

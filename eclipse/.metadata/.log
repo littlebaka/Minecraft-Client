@@ -82,3 +82,9 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY org.eclipse.ui 4 4 2012-02-12 16:27:33.323
 !MESSAGE Invalid preference page path: XML Syntax
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2012-02-13 21:49:22.601
+!MESSAGE Could not download sources for org.bukkit:minecraft-server:1.1_01
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2012-02-13 22:16:33.930
+!MESSAGE Could not download sources for org.bukkit:bukkit:1.1-R4-SNAPSHOT

@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="net.minecraft.server.MaterialPortal"/>
+<fullyQualifiedTypeName name="net.minecraft.server.EntityDummy"/>
+<fullyQualifiedTypeName name="org.bukkit.entity.Entity"/>
+</qualifiedTypeNameHistroy>

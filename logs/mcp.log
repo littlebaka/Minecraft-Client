@@ -1361,3 +1361,261 @@
 23:26:34 - !! Can not find server sources !!
 23:26:34 - > Generating the md5 (client)
 23:26:34 - > Generating the md5 (server)
+13:06:17 - == MCP 5.6 (data: 5.6, client: 1.1, server: 1.1) ==
+13:06:17 - OS : win32
+13:06:18 - > Getting modified client source
+13:06:26 - > Getting modified server source
+13:06:26 - !! Can not find server sources !!
+13:06:42 - == MCP 5.6 (data: 5.6, client: 1.1, server: 1.1) ==
+13:06:42 - OS : win32
+13:06:42 - > Recompiling client...
+13:06:42 - runcmd: 'javac.exe -g -source 1.6 -target 1.6 -classpath "lib;lib\*;jars\bin\minecraft.jar;jars\bin\jinput.jar;jars\bin\lwjgl.jar;jars\bin\lwjgl_util.jar" -sourcepath src\minecraft -d bin\minecraft src\minecraft\net\minecraft\client\*.java src\minecraft\net\minecraft\isom\*.java src\minecraft\net\minecraft\src\*.java conf\patches\ga.java conf\patches\Start.java'
+13:07:01 - Note: src\minecraft\net\minecraft\src\NetworkMasterThread.java uses or overrides a deprecated API.
+13:07:01 - Note: Recompile with -Xlint:deprecation for details.
+13:07:01 - Note: Some input files use unchecked or unsafe operations.
+13:07:01 - Note: Recompile with -Xlint:unchecked for details.
+13:07:01 - > Done in 18.96 seconds
+13:07:01 - > Recompiling server...
+13:07:01 - !! Can not find server sources !!
+13:07:12 - == MCP 5.6 (data: 5.6, client: 1.1, server: 1.1) ==
+13:07:12 - OS : win32
+13:07:12 - == Reobfuscating client ==
+13:07:12 - > Gathering md5 checksums
+13:07:12 - > Compacting client bin directory
+13:07:14 - > Reobfuscating client jar
+13:07:14 - runcmd: 'java.exe -cp "runtime\bin\retroguard.jar;lib;lib\*;jars\bin\minecraft.jar;jars\bin\jinput.jar;jars\bin\lwjgl.jar;jars\bin\lwjgl_util.jar" RetroGuard -notch temp\client_ro.cfg'
+13:07:26 - # Trying to remap net/minecraft/src/EnumAction/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumRarity/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumArt/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumStatus/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumMovingObjectType/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumEnchantmentType/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumDoor/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumOptions/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumJsonNodeType/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumToolMaterial/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumSkyBlock/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumCreatureType/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumOS2/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumWorldType/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumOS1/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumArmorMaterial/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/client/Minecraft/main = main to main fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumMobType/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - # Trying to remap net/minecraft/src/EnumCreatureAttribute/valueOf = valueOf to valueOf fixed by Script
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumAction;>; => Ljava/lang/EnumLyt
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumArmorMaterial;>; => Ljava/lang/EnumLca
+13:07:26 - !m (Ljava/lang/String;II[II)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumArt;>; => Ljava/lang/EnumLge
+13:07:26 - !m (Ljava/lang/String;ILjava/lang/String;IIII)V => Ljava/lang/StringLjava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumCreatureAttribute;>; => Ljava/lang/EnumLbh
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumCreatureType;>; => Ljava/lang/EnumLaah
+13:07:26 - !m (Ljava/lang/String;ILjava/lang/Class;ILnet/minecraft/src/Material;Z)V => Ljava/lang/StringLjava/lang/ClassLaan
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumDoor;>; => Ljava/lang/EnumLlo
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumEnchantmentType;>; => Ljava/lang/EnumLlj
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumJsonNodeType;>; => Ljava/lang/EnumLsq
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumMobType;>; => Ljava/lang/EnumLaeu
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumMovingObjectType;>; => Ljava/lang/EnumLyw
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumOptions;>; => Ljava/lang/EnumLxt
+13:07:26 - !m (Ljava/lang/String;ILjava/lang/String;ZZ)V => Ljava/lang/StringLjava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumOS1;>; => Ljava/lang/EnumLzc
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumOS2;>; => Ljava/lang/EnumLacz
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumRarity;>; => Ljava/lang/EnumLfh
+13:07:26 - !m (Ljava/lang/String;IILjava/lang/String;)V => Ljava/lang/StringLjava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumSkyBlock;>; => Ljava/lang/EnumLuy
+13:07:26 - !m (Ljava/lang/String;II)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumStatus;>; => Ljava/lang/EnumLcc
+13:07:26 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumToolMaterial;>; => Ljava/lang/EnumLtg
+13:07:26 - !m (Ljava/lang/String;IIIFII)V => Ljava/lang/String
+13:07:26 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumWorldType;>; => Ljava/lang/EnumLum
+13:07:26 - !m (Ljava/lang/String;ILjava/lang/String;)V => Ljava/lang/StringLjava/lang/String
+13:07:26 - > Extracting modified classes
+13:07:26 - > New class found      : net/minecraft/src/ItemDummy
+13:07:26 - > New class found      : net/minecraft/src/BlockBarrel
+13:07:26 - > New class found      : net/minecraft/src/BlockJump
+13:07:26 - > New class found      : net/minecraft/src/ModelDummy
+13:07:26 - > Modified class found : net/minecraft/src/Item
+13:07:26 - > Modified class found : net/minecraft/src/EntityList
+13:07:26 - > Modified class found : net/minecraft/src/ContainerCreative
+13:07:26 - > Modified class found : net/minecraft/src/CraftingManager
+13:07:26 - > New class found      : net/minecraft/src/WeaponDamageSource
+13:07:26 - > New class found      : net/minecraft/src/RenderDummy
+13:07:26 - > Modified class found : net/minecraft/src/EntityPlayer
+13:07:26 - > New class found      : net/minecraft/src/BlockMuret
+13:07:26 - > New class found      : net/minecraft/src/EntityDummy
+13:07:26 - > Modified class found : net/minecraft/src/RenderBlocks
+13:07:26 - > Modified class found : net/minecraft/src/RenderManager
+13:07:26 - > Modified class found : net/minecraft/src/Block
+13:07:26 - > Outputted net/minecraft/src/ItemDummy         to reobf\minecraft as ItemDummy.class
+13:07:26 - > Outputted net/minecraft/src/BlockBarrel       to reobf\minecraft as BlockBarrel.class
+13:07:26 - > Outputted net/minecraft/src/BlockJump         to reobf\minecraft as BlockJump.class
+13:07:26 - > Outputted net/minecraft/src/ModelDummy        to reobf\minecraft as ModelDummy.class
+13:07:26 - > Outputted net/minecraft/src/Item              to reobf\minecraft as ww.class
+13:07:26 - > Outputted net/minecraft/src/EntityList        to reobf\minecraft as yr.class
+13:07:26 - > Outputted net/minecraft/src/ContainerCreative to reobf\minecraft as nv.class
+13:07:26 - > Outputted net/minecraft/src/CraftingManager   to reobf\minecraft as fk.class
+13:07:26 - > Outputted net/minecraft/src/WeaponDamageSource to reobf\minecraft as WeaponDamageSource.class
+13:07:26 - > Outputted net/minecraft/src/RenderDummy       to reobf\minecraft as RenderDummy.class
+13:07:26 - > Outputted net/minecraft/src/EntityPlayer      to reobf\minecraft as xb.class
+13:07:26 - > Outputted net/minecraft/src/BlockMuret        to reobf\minecraft as BlockMuret.class
+13:07:26 - > Outputted net/minecraft/src/EntityDummy       to reobf\minecraft as EntityDummy.class
+13:07:26 - > Outputted net/minecraft/src/RenderBlocks      to reobf\minecraft as uc.class
+13:07:26 - > Outputted net/minecraft/src/RenderManager     to reobf\minecraft as afq.class
+13:07:26 - > Outputted net/minecraft/src/Block             to reobf\minecraft as oe.class
+13:07:26 - == Reobfuscating server ==
+13:07:26 - !! Can not find server bins !!
+13:58:54 - == MCP 5.6 (data: 5.6, client: 1.1, server: 1.1) ==
+13:58:54 - OS : win32
+13:58:55 - > Getting modified client source
+13:59:05 - > New class found      : net/minecraft/src/ItemDummy
+13:59:05 - > New class found      : net/minecraft/src/BlockBarrel
+13:59:05 - > New class found      : net/minecraft/src/BlockJump
+13:59:05 - > New class found      : net/minecraft/src/ModelDummy
+13:59:05 - > Modified class found : net/minecraft/src/Item
+13:59:05 - > Modified class found : net/minecraft/src/EntityList
+13:59:05 - > Modified class found : net/minecraft/src/ContainerCreative
+13:59:05 - > Modified class found : net/minecraft/src/CraftingManager
+13:59:05 - > New class found      : net/minecraft/src/WeaponDamageSource
+13:59:05 - > New class found      : net/minecraft/src/RenderDummy
+13:59:05 - > Modified class found : net/minecraft/src/EntityPlayer
+13:59:05 - > New class found      : net/minecraft/src/BlockMuret
+13:59:05 - > New class found      : net/minecraft/src/EntityDummy
+13:59:05 - > Modified class found : net/minecraft/src/RenderBlocks
+13:59:05 - > Modified class found : net/minecraft/src/RenderManager
+13:59:05 - > Modified class found : net/minecraft/src/Block
+13:59:05 - > Outputted net/minecraft/src/ItemDummy to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/BlockBarrel to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/BlockJump to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/ModelDummy to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/Item to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/EntityList to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/ContainerCreative to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/CraftingManager to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/WeaponDamageSource to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/RenderDummy to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/EntityPlayer to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/BlockMuret to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/EntityDummy to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/RenderBlocks to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/RenderManager to modsrc\minecraft
+13:59:05 - > Outputted net/minecraft/src/Block to modsrc\minecraft
+13:59:05 - > Getting modified server source
+13:59:05 - !! Can not find server sources !!
+13:59:08 - == MCP 5.6 (data: 5.6, client: 1.1, server: 1.1) ==
+13:59:08 - OS : win32
+13:59:08 - > Recompiling client...
+13:59:09 - runcmd: 'javac.exe -g -source 1.6 -target 1.6 -classpath "lib;lib\*;jars\bin\minecraft.jar;jars\bin\jinput.jar;jars\bin\lwjgl.jar;jars\bin\lwjgl_util.jar" -sourcepath src\minecraft -d bin\minecraft src\minecraft\net\minecraft\client\*.java src\minecraft\net\minecraft\isom\*.java src\minecraft\net\minecraft\src\*.java conf\patches\ga.java conf\patches\Start.java'
+13:59:30 - Note: src\minecraft\net\minecraft\src\NetworkMasterThread.java uses or overrides a deprecated API.
+13:59:30 - Note: Recompile with -Xlint:deprecation for details.
+13:59:30 - Note: Some input files use unchecked or unsafe operations.
+13:59:30 - Note: Recompile with -Xlint:unchecked for details.
+13:59:30 - > Done in 21.46 seconds
+13:59:30 - > Recompiling server...
+13:59:30 - !! Can not find server sources !!
+13:59:36 - == MCP 5.6 (data: 5.6, client: 1.1, server: 1.1) ==
+13:59:36 - OS : win32
+13:59:37 - == Reobfuscating client ==
+13:59:37 - > Gathering md5 checksums
+13:59:38 - > Compacting client bin directory
+13:59:39 - > Reobfuscating client jar
+13:59:39 - runcmd: 'java.exe -cp "runtime\bin\retroguard.jar;lib;lib\*;jars\bin\minecraft.jar;jars\bin\jinput.jar;jars\bin\lwjgl.jar;jars\bin\lwjgl_util.jar" RetroGuard -notch temp\client_ro.cfg'
+13:59:51 - # Trying to remap net/minecraft/src/EnumAction/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumRarity/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumArt/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumStatus/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumMovingObjectType/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumEnchantmentType/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumDoor/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumOptions/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumJsonNodeType/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumToolMaterial/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumSkyBlock/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumCreatureType/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumOS2/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumWorldType/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumOS1/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumArmorMaterial/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/client/Minecraft/main = main to main fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumMobType/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - # Trying to remap net/minecraft/src/EnumCreatureAttribute/valueOf = valueOf to valueOf fixed by Script
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumAction;>; => Ljava/lang/EnumLyt
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumArmorMaterial;>; => Ljava/lang/EnumLca
+13:59:51 - !m (Ljava/lang/String;II[II)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumArt;>; => Ljava/lang/EnumLge
+13:59:51 - !m (Ljava/lang/String;ILjava/lang/String;IIII)V => Ljava/lang/StringLjava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumCreatureAttribute;>; => Ljava/lang/EnumLbh
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumCreatureType;>; => Ljava/lang/EnumLaah
+13:59:51 - !m (Ljava/lang/String;ILjava/lang/Class;ILnet/minecraft/src/Material;Z)V => Ljava/lang/StringLjava/lang/ClassLaan
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumDoor;>; => Ljava/lang/EnumLlo
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumEnchantmentType;>; => Ljava/lang/EnumLlj
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumJsonNodeType;>; => Ljava/lang/EnumLsq
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumMobType;>; => Ljava/lang/EnumLaeu
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumMovingObjectType;>; => Ljava/lang/EnumLyw
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumOptions;>; => Ljava/lang/EnumLxt
+13:59:51 - !m (Ljava/lang/String;ILjava/lang/String;ZZ)V => Ljava/lang/StringLjava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumOS1;>; => Ljava/lang/EnumLzc
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumOS2;>; => Ljava/lang/EnumLacz
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumRarity;>; => Ljava/lang/EnumLfh
+13:59:51 - !m (Ljava/lang/String;IILjava/lang/String;)V => Ljava/lang/StringLjava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumSkyBlock;>; => Ljava/lang/EnumLuy
+13:59:51 - !m (Ljava/lang/String;II)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumStatus;>; => Ljava/lang/EnumLcc
+13:59:51 - !m (Ljava/lang/String;I)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumToolMaterial;>; => Ljava/lang/EnumLtg
+13:59:51 - !m (Ljava/lang/String;IIIFII)V => Ljava/lang/String
+13:59:51 - !c Ljava/lang/Enum<Lnet/minecraft/src/EnumWorldType;>; => Ljava/lang/EnumLum
+13:59:51 - !m (Ljava/lang/String;ILjava/lang/String;)V => Ljava/lang/StringLjava/lang/String
+13:59:51 - > Extracting modified classes
+13:59:51 - > New class found      : net/minecraft/src/ItemDummy
+13:59:51 - > New class found      : net/minecraft/src/BlockBarrel
+13:59:51 - > New class found      : net/minecraft/src/BlockJump
+13:59:51 - > New class found      : net/minecraft/src/ModelDummy
+13:59:51 - > Modified class found : net/minecraft/src/Item
+13:59:51 - > Modified class found : net/minecraft/src/EntityList
+13:59:51 - > Modified class found : net/minecraft/src/ContainerCreative
+13:59:51 - > Modified class found : net/minecraft/src/CraftingManager
+13:59:51 - > New class found      : net/minecraft/src/WeaponDamageSource
+13:59:51 - > New class found      : net/minecraft/src/RenderDummy
+13:59:51 - > Modified class found : net/minecraft/src/EntityPlayer
+13:59:51 - > New class found      : net/minecraft/src/BlockMuret
+13:59:51 - > New class found      : net/minecraft/src/EntityDummy
+13:59:51 - > Modified class found : net/minecraft/src/RenderBlocks
+13:59:51 - > Modified class found : net/minecraft/src/RenderManager
+13:59:51 - > Modified class found : net/minecraft/src/Block
+13:59:52 - > Outputted net/minecraft/src/ItemDummy         to reobf\minecraft as ItemDummy.class
+13:59:52 - > Outputted net/minecraft/src/BlockBarrel       to reobf\minecraft as BlockBarrel.class
+13:59:52 - > Outputted net/minecraft/src/BlockJump         to reobf\minecraft as BlockJump.class
+13:59:52 - > Outputted net/minecraft/src/ModelDummy        to reobf\minecraft as ModelDummy.class
+13:59:52 - > Outputted net/minecraft/src/Item              to reobf\minecraft as ww.class
+13:59:52 - > Outputted net/minecraft/src/EntityList        to reobf\minecraft as yr.class
+13:59:52 - > Outputted net/minecraft/src/ContainerCreative to reobf\minecraft as nv.class
+13:59:52 - > Outputted net/minecraft/src/CraftingManager   to reobf\minecraft as fk.class
+13:59:52 - > Outputted net/minecraft/src/WeaponDamageSource to reobf\minecraft as WeaponDamageSource.class
+13:59:53 - > Outputted net/minecraft/src/RenderDummy       to reobf\minecraft as RenderDummy.class
+13:59:53 - > Outputted net/minecraft/src/EntityPlayer      to reobf\minecraft as xb.class
+13:59:53 - > Outputted net/minecraft/src/BlockMuret        to reobf\minecraft as BlockMuret.class
+13:59:53 - > Outputted net/minecraft/src/EntityDummy       to reobf\minecraft as EntityDummy.class
+13:59:53 - > Outputted net/minecraft/src/RenderBlocks      to reobf\minecraft as uc.class
+13:59:53 - > Outputted net/minecraft/src/RenderManager     to reobf\minecraft as afq.class
+13:59:53 - > Outputted net/minecraft/src/Block             to reobf\minecraft as oe.class
+13:59:53 - == Reobfuscating server ==
+13:59:53 - !! Can not find server bins !!

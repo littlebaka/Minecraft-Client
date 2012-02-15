@@ -1,0 +1,84 @@
+package net.minecraft.server;
+
+import net.minecraft.server.Block;
+import net.minecraft.server.EntityDummy;
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.EnumMovingObjectType;
+import net.minecraft.server.Item;
+import net.minecraft.server.ItemStack;
+import net.minecraft.server.MathHelper;
+import net.minecraft.server.MovingObjectPosition;
+import net.minecraft.server.Vec3D;
+import net.minecraft.server.World;
+
+//prevRotationPitch = lastPitch
+//rotationPitch = pitch
+//prevRotationYaw = lastYaw
+//rotationYaw = yaw
+//prevPosX = lastX
+//posX = locX
+//prevPosY = lastY
+//posY = locY
+//prevPosZ = lastZ
+//posZ = locZ
+//yOffset = height
+//createVector = create
+//addVector = add
+//rayTraceBlocks_do_do = rayTrace
+//typeOfHit = type
+//blockX = b
+//blockY = c
+//blockZ = d
+
+public class ItemDummy extends Item
+{
+
+    public ItemDummy(int i)
+    {
+        super(i);
+        maxStackSize = 1;
+    }
+
+    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
+    {
+        float f = 1.0F;
+        float f1 = entityplayer.lastPitch + (entityplayer.pitch - entityplayer.lastPitch) * f;
+        float f2 = entityplayer.lastYaw + (entityplayer.yaw - entityplayer.lastYaw) * f;
+        double d = entityplayer.lastX + (entityplayer.locX - entityplayer.lastX) * (double)f;
+        double d1 = (entityplayer.lastY + (entityplayer.locY - entityplayer.lastY) * (double)f + 1.6200000000000001D) - (double)entityplayer.height;
+        double d2 = entityplayer.lastZ + (entityplayer.locZ - entityplayer.lastZ) * (double)f;
+        Vec3D vec3d = Vec3D.create(d, d1, d2);
+        float f3 = MathHelper.cos(-f2 * 0.01745329F - 3.141593F);
+        float f4 = MathHelper.sin(-f2 * 0.01745329F - 3.141593F);
+        float f5 = -MathHelper.cos(-f1 * 0.01745329F);
+        float f6 = MathHelper.sin(-f1 * 0.01745329F);
+        float f7 = f4 * f5;
+        float f8 = f6;
+        float f9 = f3 * f5;
+        double d3 = 5D;
+        Vec3D vec3d1 = vec3d.add((double)f7 * d3, (double)f8 * d3, (double)f9 * d3);
+        MovingObjectPosition movingobjectposition = world.rayTrace(vec3d, vec3d1, true);
+        if(movingobjectposition == null)
+        {
+            return itemstack;
+        }
+        if(movingobjectposition.type == EnumMovingObjectType.TILE)
+        {
+            int i = movingobjectposition.b;
+            int j = movingobjectposition.c;
+            int k = movingobjectposition.d;
+            if(!world.multiplayerWorld)
+            {
+                if(world.getBlockId(i, j, k) == Block.snow.blockID)
+                {
+                    j--;
+                }
+                EntityDummy entitydummy = new EntityDummy(world, (float)i + 0.5F, (float)j + 1.0F, (float)k + 0.5F);
+                entitydummy.rotationYaw = entityplayer.rotationYaw;
+                world.spawnEntityInWorld(entitydummy);
+            }
+            itemstack.stackSize--;
+        }
+        return itemstack;
+    }
+}

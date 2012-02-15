@@ -1,0 +1,247 @@
+package net.minecraft.server;
+
+import java.util.List;
+import java.util.Random;
+
+public class EntityDummy extends Entity
+{
+
+    private int durability;
+    public int dummyCurrentDamage;
+    public int dummyTimeSinceHit;
+    public int dummyRockDirection;
+
+    public EntityDummy(World world)
+    {
+        super(world);
+        this.dummyCurrentDamage = 0;
+        this.dummyTimeSinceHit = 0;
+        this.dummyRockDirection = 1;
+        this.bf = true;
+        this.pitch = -20F;
+        c(this.yaw, this.pitch);
+        b(1.5F, 1.9F);
+        this.height = 0.41F;
+        this.durability = 50;
+    }
+
+    public EntityDummy(World world, double d, double d1, double d2)
+    {
+        this(world);
+        setPosition(d, d1 + (double)this.height, d2);
+        this.motX = 0.0D;
+        this.motY = 0.0D;
+        this.motZ = 0.0D;
+        this.lastX = d;
+        this.lastY = d1;
+        this.lastZ = d2;
+    }
+
+    protected void b()
+    {
+    }
+
+    public AxisAlignedBB a_(Entity entity)
+    {
+        return entity.boundingBox;
+    }
+
+    public AxisAlignedBB h_()
+    {
+        return boundingBox;
+    }
+
+    public boolean f_()
+    {
+        return false;
+    }
+
+    public boolean damageEntity(DamageSource damagesource, int i)
+    {
+        if(/*world.isStatic ||*/ this.dead || i <= 0)
+        {
+            return false;
+        }
+        this.dummyRockDirection = (-this.dummyRockDirection);
+        this.dummyTimeSinceHit = 10;
+        this.dummyCurrentDamage += i * 5;
+        if(this.dummyCurrentDamage > 50)
+        {
+        	this.dummyCurrentDamage = 50;
+        }
+        if(!(damagesource instanceof EntityDamageSource))
+        {
+        	this.durability -= i;
+        } else
+        if(damagesource instanceof WeaponDamageSource)
+        {
+            Entity entity = ((WeaponDamageSource)damagesource).getProjectile();
+            if(Math.sqrt(entity.motX * entity.motX + entity.motY * entity.motY + entity.motZ * entity.motZ) > 0.5D)
+            {
+                entity.motX *= 0.10000000149011612D;
+                entity.motY *= 0.10000000149011612D;
+                entity.motZ *= 0.10000000149011612D;
+                //playRandomHitSound();
+            } else
+            {
+                entity.motX = this.random.nextFloat() - 0.5F;
+                entity.motY = this.random.nextFloat() - 0.5F;
+                entity.motZ = this.random.nextFloat() - 0.5F;
+            }
+        } else
+        {
+            //playRandomHitSound();
+        }
+        if(this.durability <= 0)
+        {
+            dropAsItem(true);
+        }
+        aM();
+        return false;
+    }
+
+    /*public void playRandomHitSound()
+    {
+        int i = this.random.nextInt(2);
+        if(i == 0)
+        {
+            this.world.makeSound(this, "step.cloth", 0.7F, (1.0F / this.random.nextFloat()) * 0.2F + 0.4F);
+        } else
+        if(i == 1)
+        {
+            this.world.makeSound(this, "step.wood", 0.7F, (1.0F / this.random.nextFloat()) * 0.2F + 0.2F);
+        }
+    }*/
+
+    /*public void performHurtAnimation()
+    {
+        dummyRockDirection = -dummyRockDirection;
+        dummyTimeSinceHit = 10;
+        dummyCurrentDamage += dummyCurrentDamage * 10;
+    }*/
+
+    public boolean e_()
+    {
+        return !this.dead;
+    }
+
+    public void y_()
+    {
+        super.y_();
+        if(this.dummyTimeSinceHit > 0)
+        {
+        	this.dummyTimeSinceHit--;
+        }
+        if(this.dummyCurrentDamage > 0)
+        {
+        	this.dummyCurrentDamage--;
+        }
+        this.lastX = locX;
+        this.lastY = locY;
+        this.lastZ = locZ;
+        if(this.onGround)
+        {
+        	this.motX = 0.0D;
+        	this.motY = 0.0D;
+        	this.motZ = 0.0D;
+        } else
+        {
+        	this.motX *= 0.98999999999999999D;
+        	this.motZ *= 0.98999999999999999D;
+        	this.motY -= 0.050000000000000003D;
+        	this.fallDistance += -this.motY;
+        }
+        c(this.yaw, this.pitch);
+        move(0.0D, this.motY, 0.0D);
+        List list = this.world.getEntities(this, this.boundingBox.grow(0.20000000000000001D, 0.0D, 0.20000000000000001D));
+        if(list != null && list.size() > 0)
+        {
+            for(int i = 0; i < list.size(); i++)
+            {
+                Entity entity = (Entity)list.get(i);
+                if(entity != this.passenger && entity.f_())
+                {
+                    entity.collide(this);
+                }
+            }
+
+        }
+        for(int j = 0; j < 4; j++)
+        {
+            int k = MathHelper.floor(this.locX + ((double)(j % 2) - 0.5D) * 0.80000000000000004D);
+            int l = MathHelper.floor(this.locY);
+            int i1 = MathHelper.floor(this.locZ + ((double)(j / 2) - 0.5D) * 0.80000000000000004D);
+            if(this.world.getTypeId(k, l, i1) == Block.SNOW.id)
+            {
+            	this.world.setTypeId(k, l, i1, 0);
+            }
+        }
+
+    }
+
+    protected void b(float f)
+    {
+        super.b(f);
+        if(!this.onGround)
+        {
+            return;
+        } else
+        {
+            int i = MathHelper.d(f);
+            damageEntity(DamageSource.FALL, i);
+            return;
+        }
+    }
+
+    /*public float getShadowSize()
+    {
+        return 1.0F;
+    }*/
+
+    public void dropAsItem(boolean flag)
+    {
+        if(flag)
+        {
+            for(int i = 0; i < random.nextInt(8); i++)
+            {
+                a(Item.LEATHER.id, 1, 0.0F);
+            }
+
+        } else
+        {
+            a(Item.DUMMY.id, 1, 0.0F);
+        }
+        die();
+    }
+
+    public boolean b(EntityPlayer entityplayer)
+    {
+        ItemStack itemstack = entityplayer.inventory.getItemInHand();
+        if(itemstack == null)
+        {
+        	System.out.println("1");
+            dropAsItem(false);
+            return true;
+        }
+        if(/*!(itemstack.getItem() instanceof ItemWeaponMod) &&*/ !(itemstack.getItem() instanceof ItemSword) && !(itemstack.getItem() instanceof ItemBow))
+        {
+        	System.out.println("2");
+            dropAsItem(false);
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    protected void b(NBTTagCompound nbttagcompound)
+    {
+    }
+
+    protected void a(NBTTagCompound nbttagcompound)
+    {
+        setPosition(locX, locY, locZ);
+        c(yaw, pitch);
+    }
+
+}

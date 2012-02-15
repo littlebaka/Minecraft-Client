@@ -1,0 +1,455 @@
+/*     */ package org.bukkit;
+/*     */ 
+/*     */ import com.google.common.collect.Maps;
+/*     */ import java.lang.reflect.Constructor;
+/*     */ import java.lang.reflect.InvocationTargetException;
+/*     */ import java.util.Map;
+/*     */ import java.util.logging.Level;
+/*     */ import java.util.logging.Logger;
+/*     */ import org.apache.commons.lang.Validate;
+/*     */ import org.bukkit.material.Bed;
+/*     */ import org.bukkit.material.Button;
+/*     */ import org.bukkit.material.Cake;
+/*     */ import org.bukkit.material.Coal;
+/*     */ import org.bukkit.material.Crops;
+/*     */ import org.bukkit.material.DetectorRail;
+/*     */ import org.bukkit.material.Diode;
+/*     */ import org.bukkit.material.Dispenser;
+/*     */ import org.bukkit.material.Door;
+/*     */ import org.bukkit.material.Dye;
+/*     */ import org.bukkit.material.Furnace;
+/*     */ import org.bukkit.material.Ladder;
+/*     */ import org.bukkit.material.Lever;
+/*     */ import org.bukkit.material.LongGrass;
+/*     */ import org.bukkit.material.MaterialData;
+/*     */ import org.bukkit.material.MonsterEggs;
+/*     */ import org.bukkit.material.PistonBaseMaterial;
+/*     */ import org.bukkit.material.PistonExtensionMaterial;
+/*     */ import org.bukkit.material.PoweredRail;
+/*     */ import org.bukkit.material.PressurePlate;
+/*     */ import org.bukkit.material.Pumpkin;
+/*     */ import org.bukkit.material.Rails;
+/*     */ import org.bukkit.material.RedstoneTorch;
+/*     */ import org.bukkit.material.RedstoneWire;
+/*     */ import org.bukkit.material.Sign;
+/*     */ import org.bukkit.material.SmoothBrick;
+/*     */ import org.bukkit.material.Stairs;
+/*     */ import org.bukkit.material.Step;
+/*     */ import org.bukkit.material.Torch;
+/*     */ import org.bukkit.material.TrapDoor;
+/*     */ import org.bukkit.material.Tree;
+/*     */ import org.bukkit.material.Wool;
+/*     */ import org.bukkit.util.Java15Compat;
+/*     */ 
+/*     */ public enum Material
+/*     */ {
+/*  19 */   AIR(0), 
+/*  20 */   STONE(1), 
+/*  21 */   GRASS(2), 
+/*  22 */   DIRT(3), 
+/*  23 */   COBBLESTONE(4), 
+/*  24 */   WOOD(5), 
+/*  25 */   SAPLING(6, Tree.class), 
+/*  26 */   BEDROCK(7), 
+/*  27 */   WATER(8, MaterialData.class), 
+/*  28 */   STATIONARY_WATER(9, MaterialData.class), 
+/*  29 */   LAVA(10, MaterialData.class), 
+/*  30 */   STATIONARY_LAVA(11, MaterialData.class), 
+/*  31 */   SAND(12), 
+/*  32 */   GRAVEL(13), 
+/*  33 */   GOLD_ORE(14), 
+/*  34 */   IRON_ORE(15), 
+/*  35 */   COAL_ORE(16), 
+/*  36 */   LOG(17, Tree.class), 
+/*  37 */   LEAVES(18, Tree.class), 
+/*  38 */   SPONGE(19), 
+/*  39 */   GLASS(20), 
+/*  40 */   LAPIS_ORE(21), 
+/*  41 */   LAPIS_BLOCK(22), 
+/*  42 */   DISPENSER(23, Dispenser.class), 
+/*  43 */   SANDSTONE(24), 
+/*  44 */   NOTE_BLOCK(25), 
+/*  45 */   BED_BLOCK(26, Bed.class), 
+/*  46 */   POWERED_RAIL(27, PoweredRail.class), 
+/*  47 */   DETECTOR_RAIL(28, DetectorRail.class), 
+/*  48 */   PISTON_STICKY_BASE(29, PistonBaseMaterial.class), 
+/*  49 */   WEB(30), 
+/*  50 */   LONG_GRASS(31, LongGrass.class), 
+/*  51 */   DEAD_BUSH(32), 
+/*  52 */   PISTON_BASE(33, PistonBaseMaterial.class), 
+/*  53 */   PISTON_EXTENSION(34, PistonExtensionMaterial.class), 
+/*  54 */   WOOL(35, Wool.class), 
+/*  55 */   PISTON_MOVING_PIECE(36), 
+/*  56 */   YELLOW_FLOWER(37), 
+/*  57 */   RED_ROSE(38), 
+/*  58 */   BROWN_MUSHROOM(39), 
+/*  59 */   RED_MUSHROOM(40), 
+/*  60 */   GOLD_BLOCK(41), 
+/*  61 */   IRON_BLOCK(42), 
+/*  62 */   DOUBLE_STEP(43, Step.class), 
+/*  63 */   STEP(44, Step.class), 
+/*  64 */   BRICK(45), 
+/*  65 */   TNT(46), 
+/*  66 */   BOOKSHELF(47), 
+/*  67 */   MOSSY_COBBLESTONE(48), 
+/*  68 */   OBSIDIAN(49), 
+/*  69 */   TORCH(50, Torch.class), 
+/*  70 */   FIRE(51), 
+/*  71 */   MOB_SPAWNER(52), 
+/*  72 */   WOOD_STAIRS(53, Stairs.class), 
+/*  73 */   CHEST(54), 
+/*  74 */   REDSTONE_WIRE(55, RedstoneWire.class), 
+/*  75 */   DIAMOND_ORE(56), 
+/*  76 */   DIAMOND_BLOCK(57), 
+/*  77 */   WORKBENCH(58), 
+/*  78 */   CROPS(59, Crops.class), 
+/*  79 */   SOIL(60, MaterialData.class), 
+/*  80 */   FURNACE(61, Furnace.class), 
+/*  81 */   BURNING_FURNACE(62, Furnace.class), 
+/*  82 */   SIGN_POST(63, 64, Sign.class), 
+/*  83 */   WOODEN_DOOR(64, Door.class), 
+/*  84 */   LADDER(65, Ladder.class), 
+/*  85 */   RAILS(66, Rails.class), 
+/*  86 */   COBBLESTONE_STAIRS(67, Stairs.class), 
+/*  87 */   WALL_SIGN(68, 64, Sign.class), 
+/*  88 */   LEVER(69, Lever.class), 
+/*  89 */   STONE_PLATE(70, PressurePlate.class), 
+/*  90 */   IRON_DOOR_BLOCK(71, Door.class), 
+/*  91 */   WOOD_PLATE(72, PressurePlate.class), 
+/*  92 */   REDSTONE_ORE(73), 
+/*  93 */   GLOWING_REDSTONE_ORE(74), 
+/*  94 */   REDSTONE_TORCH_OFF(75, RedstoneTorch.class), 
+/*  95 */   REDSTONE_TORCH_ON(76, RedstoneTorch.class), 
+/*  96 */   STONE_BUTTON(77, Button.class), 
+/*  97 */   SNOW(78), 
+/*  98 */   ICE(79), 
+/*  99 */   SNOW_BLOCK(80), 
+/* 100 */   CACTUS(81, MaterialData.class), 
+/* 101 */   CLAY(82), 
+/* 102 */   SUGAR_CANE_BLOCK(83, MaterialData.class), 
+/* 103 */   JUKEBOX(84), 
+/* 104 */   FENCE(85), 
+/* 105 */   PUMPKIN(86, Pumpkin.class), 
+/* 106 */   NETHERRACK(87), 
+/* 107 */   SOUL_SAND(88), 
+/* 108 */   GLOWSTONE(89), 
+/* 109 */   PORTAL(90), 
+/* 110 */   JACK_O_LANTERN(91, Pumpkin.class), 
+/* 111 */   CAKE_BLOCK(92, 64, Cake.class), 
+/* 112 */   DIODE_BLOCK_OFF(93, Diode.class), 
+/* 113 */   DIODE_BLOCK_ON(94, Diode.class), 
+/* 114 */   LOCKED_CHEST(95), 
+/* 115 */   TRAP_DOOR(96, TrapDoor.class), 
+/* 116 */   MONSTER_EGGS(97, MonsterEggs.class), 
+/* 117 */   SMOOTH_BRICK(98, SmoothBrick.class), 
+/* 118 */   HUGE_MUSHROOM_1(99), 
+/* 119 */   HUGE_MUSHROOM_2(100), 
+/* 120 */   IRON_FENCE(101), 
+/* 121 */   THIN_GLASS(102), 
+/* 122 */   MELON_BLOCK(103), 
+/* 123 */   PUMPKIN_STEM(104), 
+/* 124 */   MELON_STEM(105), 
+/* 125 */   VINE(106), 
+/* 126 */   FENCE_GATE(107), 
+/* 127 */   BRICK_STAIRS(108), 
+/* 128 */   SMOOTH_STAIRS(109), 
+/* 129 */   MYCEL(110), 
+/* 130 */   WATER_LILY(111), 
+/* 131 */   NETHER_BRICK(112), 
+/* 132 */   NETHER_FENCE(113), 
+/* 133 */   NETHER_BRICK_STAIRS(114), 
+/* 134 */   NETHER_WARTS(115), 
+/* 135 */   ENCHANTMENT_TABLE(116), 
+/* 136 */   BREWING_STAND(117), 
+/* 137 */   CAULDRON(118), 
+/* 138 */   ENDER_PORTAL(119), 
+/* 139 */   ENDER_PORTAL_FRAME(120), 
+/* 140 */   ENDER_STONE(121), 
+/* 141 */   DRAGON_EGG(122),
+JUMP(142),
+LAMPADAIRE(140),
+FENCE_FER(143),
+BARREL(141),
+/*     */ 
+/* 143 */   IRON_SPADE(256, 1, 250), 
+/* 144 */   IRON_PICKAXE(257, 1, 250), 
+/* 145 */   IRON_AXE(258, 1, 250), 
+/* 146 */   FLINT_AND_STEEL(259, 1, 64), 
+/* 147 */   APPLE(260), 
+/* 148 */   BOW(261, 1, 384), 
+/* 149 */   ARROW(262), 
+/* 150 */   COAL(263, Coal.class), 
+/* 151 */   DIAMOND(264), 
+/* 152 */   IRON_INGOT(265), 
+/* 153 */   GOLD_INGOT(266), 
+/* 154 */   IRON_SWORD(267, 1, 250), 
+/* 155 */   WOOD_SWORD(268, 1, 59), 
+/* 156 */   WOOD_SPADE(269, 1, 59), 
+/* 157 */   WOOD_PICKAXE(270, 1, 59), 
+/* 158 */   WOOD_AXE(271, 1, 59), 
+/* 159 */   STONE_SWORD(272, 1, 131), 
+/* 160 */   STONE_SPADE(273, 1, 131), 
+/* 161 */   STONE_PICKAXE(274, 1, 131), 
+/* 162 */   STONE_AXE(275, 1, 131), 
+/* 163 */   DIAMOND_SWORD(276, 1, 1561), 
+/* 164 */   DIAMOND_SPADE(277, 1, 1561), 
+/* 165 */   DIAMOND_PICKAXE(278, 1, 1561), 
+/* 166 */   DIAMOND_AXE(279, 1, 1561), 
+/* 167 */   STICK(280), 
+/* 168 */   BOWL(281), 
+/* 169 */   MUSHROOM_SOUP(282, 1), 
+/* 170 */   GOLD_SWORD(283, 1, 32), 
+/* 171 */   GOLD_SPADE(284, 1, 32), 
+/* 172 */   GOLD_PICKAXE(285, 1, 32), 
+/* 173 */   GOLD_AXE(286, 1, 32), 
+/* 174 */   STRING(287), 
+/* 175 */   FEATHER(288), 
+/* 176 */   SULPHUR(289), 
+/* 177 */   WOOD_HOE(290, 1, 59), 
+/* 178 */   STONE_HOE(291, 1, 131), 
+/* 179 */   IRON_HOE(292, 1, 250), 
+/* 180 */   DIAMOND_HOE(293, 1, 1561), 
+/* 181 */   GOLD_HOE(294, 1, 32), 
+/* 182 */   SEEDS(295), 
+/* 183 */   WHEAT(296), 
+/* 184 */   BREAD(297), 
+/* 185 */   LEATHER_HELMET(298, 1, 55), 
+/* 186 */   LEATHER_CHESTPLATE(299, 1, 80), 
+/* 187 */   LEATHER_LEGGINGS(300, 1, 75), 
+/* 188 */   LEATHER_BOOTS(301, 1, 65), 
+/* 189 */   CHAINMAIL_HELMET(302, 1, 165), 
+/* 190 */   CHAINMAIL_CHESTPLATE(303, 1, 240), 
+/* 191 */   CHAINMAIL_LEGGINGS(304, 1, 225), 
+/* 192 */   CHAINMAIL_BOOTS(305, 1, 195), 
+/* 193 */   IRON_HELMET(306, 1, 165), 
+/* 194 */   IRON_CHESTPLATE(307, 1, 240), 
+/* 195 */   IRON_LEGGINGS(308, 1, 225), 
+/* 196 */   IRON_BOOTS(309, 1, 195), 
+/* 197 */   DIAMOND_HELMET(310, 1, 363), 
+/* 198 */   DIAMOND_CHESTPLATE(311, 1, 528), 
+/* 199 */   DIAMOND_LEGGINGS(312, 1, 495), 
+/* 200 */   DIAMOND_BOOTS(313, 1, 429), 
+/* 201 */   GOLD_HELMET(314, 1, 77), 
+/* 202 */   GOLD_CHESTPLATE(315, 1, 112), 
+/* 203 */   GOLD_LEGGINGS(316, 1, 105), 
+/* 204 */   GOLD_BOOTS(317, 1, 91), 
+/* 205 */   FLINT(318), 
+/* 206 */   PORK(319), 
+/* 207 */   GRILLED_PORK(320), 
+/* 208 */   PAINTING(321), 
+/* 209 */   GOLDEN_APPLE(322), 
+/* 210 */   SIGN(323, 1), 
+/* 211 */   WOOD_DOOR(324, 1), 
+/* 212 */   BUCKET(325, 1), 
+/* 213 */   WATER_BUCKET(326, 1), 
+/* 214 */   LAVA_BUCKET(327, 1), 
+/* 215 */   MINECART(328, 1), 
+/* 216 */   SADDLE(329, 1), 
+/* 217 */   IRON_DOOR(330, 1), 
+/* 218 */   REDSTONE(331), 
+/* 219 */   SNOW_BALL(332, 16), 
+/* 220 */   BOAT(333, 1), 
+/* 221 */   LEATHER(334), 
+/* 222 */   MILK_BUCKET(335, 1), 
+/* 223 */   CLAY_BRICK(336), 
+/* 224 */   CLAY_BALL(337), 
+/* 225 */   SUGAR_CANE(338), 
+/* 226 */   PAPER(339), 
+/* 227 */   BOOK(340), 
+/* 228 */   SLIME_BALL(341), 
+/* 229 */   STORAGE_MINECART(342, 1), 
+/* 230 */   POWERED_MINECART(343, 1), 
+/* 231 */   EGG(344, 16), 
+/* 232 */   COMPASS(345), 
+/* 233 */   FISHING_ROD(346, 1, 64), 
+/* 234 */   WATCH(347), 
+/* 235 */   GLOWSTONE_DUST(348), 
+/* 236 */   RAW_FISH(349), 
+/* 237 */   COOKED_FISH(350), 
+/* 238 */   INK_SACK(351, Dye.class), 
+/* 239 */   BONE(352), 
+/* 240 */   SUGAR(353), 
+/* 241 */   CAKE(354, 1), 
+/* 242 */   BED(355, 1), 
+/* 243 */   DIODE(356), 
+/* 244 */   COOKIE(357), 
+/* 245 */   MAP(358, 1, MaterialData.class), 
+/* 246 */   SHEARS(359, 1, 238), 
+/* 247 */   MELON(360), 
+/* 248 */   PUMPKIN_SEEDS(361), 
+/* 249 */   MELON_SEEDS(362), 
+/* 250 */   RAW_BEEF(363), 
+/* 251 */   COOKED_BEEF(364), 
+/* 252 */   RAW_CHICKEN(365), 
+/* 253 */   COOKED_CHICKEN(366), 
+/* 254 */   ROTTEN_FLESH(367), 
+/* 255 */   ENDER_PEARL(368, 16), 
+/* 256 */   BLAZE_ROD(369), 
+/* 257 */   GHAST_TEAR(370), 
+/* 258 */   GOLD_NUGGET(371), 
+/* 259 */   NETHER_STALK(372), 
+/* 260 */   POTION(373, 1), 
+/* 261 */   GLASS_BOTTLE(374), 
+/* 262 */   SPIDER_EYE(375), 
+/* 263 */   FERMENTED_SPIDER_EYE(376), 
+/* 264 */   BLAZE_POWDER(377), 
+/* 265 */   MAGMA_CREAM(378), 
+/* 266 */   BREWING_STAND_ITEM(379), 
+/* 267 */   CAULDRON_ITEM(380), 
+/* 268 */   EYE_OF_ENDER(381), 
+/* 269 */   SPECKLED_MELON(382), 
+/* 270 */   MONSTER_EGG(383, 1), 
+/* 271 */   GOLD_RECORD(2256, 1), 
+/* 272 */   GREEN_RECORD(2257, 1), 
+/* 273 */   RECORD_3(2258, 1), 
+/* 274 */   RECORD_4(2259, 1), 
+/* 275 */   RECORD_5(2260, 1), 
+/* 276 */   RECORD_6(2261, 1), 
+/* 277 */   RECORD_7(2262, 1), 
+/* 278 */   RECORD_8(2263, 1), 
+/* 279 */   RECORD_9(2264, 1), 
+/* 280 */   RECORD_10(2265, 1), 
+/* 281 */   RECORD_11(2266, 1),
+DUMMY(603, 1);
+/*     */ 
+/*     */   private final int id;
+/*     */   private final Class<? extends MaterialData> data;
+/*     */   private static Material[] byId;
+/*     */   private static final Map<String, Material> BY_NAME;
+/*     */   private final int maxStack;
+/*     */   private final short durability;
+/*     */ 
+/* 291 */   private Material(int id) { this(id, 64); }
+/*     */ 
+/*     */   private Material(int id, int stack)
+/*     */   {
+/* 295 */     this(id, stack, null);
+/*     */   }
+/*     */ 
+/*     */   private Material(int id, int stack, int durability) {
+/* 299 */     this(id, stack, durability, null);
+/*     */   }
+/*     */ 
+/*     */   private Material(int id, Class<? extends MaterialData> data) {
+/* 303 */     this(id, 64, data);
+/*     */   }
+/*     */ 
+/*     */   private Material(int id, int stack, Class<? extends MaterialData> data) {
+/* 307 */     this(id, stack, 0, data);
+/*     */   }
+/*     */ 
+/*     */   private Material(int id, int stack, int durability, Class<? extends MaterialData> data) {
+/* 311 */     this.id = id;
+/* 312 */     this.durability = (short)durability;
+/* 313 */     this.maxStack = stack;
+/* 314 */     this.data = (data == null ? MaterialData.class : data);
+/*     */   }
+/*     */ 
+/*     */   public int getId()
+/*     */   {
+/* 323 */     return this.id;
+/*     */   }
+/*     */ 
+/*     */   public int getMaxStackSize()
+/*     */   {
+/* 332 */     return this.maxStack;
+/*     */   }
+/*     */ 
+/*     */   public short getMaxDurability()
+/*     */   {
+/* 341 */     return this.durability;
+/*     */   }
+/*     */ 
+/*     */   public Class<? extends MaterialData> getData()
+/*     */   {
+/* 350 */     return this.data;
+/*     */   }
+/*     */ 
+/*     */   public MaterialData getNewData(byte raw)
+/*     */   {
+/*     */     try
+/*     */     {
+/* 362 */       Constructor ctor = this.data.getConstructor(new Class[] { Integer.TYPE, Byte.TYPE });
+/*     */ 
+/* 364 */       return (MaterialData)ctor.newInstance(new Object[] { Integer.valueOf(this.id), Byte.valueOf(raw) });
+/*     */     } catch (InstantiationException ex) {
+/* 366 */       Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+/*     */     } catch (IllegalAccessException ex) {
+/* 368 */       Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+/*     */     } catch (IllegalArgumentException ex) {
+/* 370 */       Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+/*     */     } catch (InvocationTargetException ex) {
+/* 372 */       Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+/*     */     } catch (NoSuchMethodException ex) {
+/* 374 */       Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+/*     */     } catch (SecurityException ex) {
+/* 376 */       Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+/*     */     }
+/*     */ 
+/* 379 */     return null;
+/*     */   }
+/*     */ 
+/*     */   public boolean isBlock()
+/*     */   {
+/* 388 */     return this.id < 256;
+/*     */   }
+/*     */ 
+/*     */   public boolean isEdible()
+/*     */   {
+/* 397 */     return (equals(BREAD)) || (equals(COOKIE)) || (equals(MELON)) || (equals(MUSHROOM_SOUP)) || (equals(RAW_CHICKEN)) || (equals(COOKED_CHICKEN)) || (equals(RAW_BEEF)) || (equals(COOKED_BEEF)) || (equals(RAW_FISH)) || (equals(COOKED_FISH)) || (equals(PORK)) || (equals(GRILLED_PORK)) || (equals(APPLE)) || (equals(GOLDEN_APPLE)) || (equals(ROTTEN_FLESH)) || (equals(SPIDER_EYE));
+/*     */   }
+/*     */ 
+/*     */   public static Material getMaterial(int id)
+/*     */   {
+/* 422 */     if (byId.length > id) {
+/* 423 */       return byId[id];
+/*     */     }
+/* 425 */     return null;
+/*     */   }
+/*     */ 
+/*     */   public static Material getMaterial(String name)
+/*     */   {
+/* 438 */     return (Material)BY_NAME.get(name);
+/*     */   }
+/*     */ 
+/*     */   public static Material matchMaterial(String name)
+/*     */   {
+/* 450 */     Validate.notNull(name, "Name cannot be null");
+/*     */ 
+/* 452 */     Material result = null;
+/*     */     try
+/*     */     {
+/* 455 */       result = getMaterial(Integer.parseInt(name));
+/*     */     } catch (NumberFormatException ex) {
+/*     */     }
+/* 458 */     if (result == null) {
+/* 459 */       String filtered = name.toUpperCase();
+/*     */ 
+/* 461 */       filtered = filtered.replaceAll("\\s+", "_").replaceAll("\\W", "");
+/* 462 */       result = (Material)BY_NAME.get(filtered);
+/*     */     }
+/*     */ 
+/* 465 */     return result;
+/*     */   }
+/*     */ 
+/*     */   static
+/*     */   {
+/* 285 */     byId = new Material[383];
+/* 286 */     BY_NAME = Maps.newHashMap();
+/*     */ 
+/* 469 */     for (Material material : values()) {
+/* 470 */       if (byId.length > material.id) {
+/* 471 */         byId[material.id] = material;
+/*     */       } else {
+/* 473 */         byId = (Material[])Java15Compat.Arrays_copyOfRange(byId, 0, material.id + 2);
+/* 474 */         byId[material.id] = material;
+/*     */       }
+/* 476 */       BY_NAME.put(material.name(), material);
+/*     */     }
+/*     */   }
+/*     */ }
+
+/* Location:           C:\Users\Matthieu\Downloads\craftbukkit-1.1-R4-SNAPSHOT.jar
+ * Qualified Name:     org.bukkit.Material
+ * JD-Core Version:    0.6.0
+ */

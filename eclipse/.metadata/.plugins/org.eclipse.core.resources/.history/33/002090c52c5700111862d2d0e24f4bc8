@@ -1,0 +1,25 @@
+package org.bukkit.craftbukkit.entity;
+
+import net.minecraft.server.Entity;
+import net.minecraft.server.EntityDummy;
+
+import org.bukkit.craftbukkit.CraftServer;
+
+public class CraftDummy extends CraftEntity implements Dummy {
+
+	public CraftDummy(CraftServer server, EntityDummy entity) {
+		super(server, entity);
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+    public EntityDummy getHandle() {
+        return (EntityDummy) entity;
+    }
+
+    @Override
+    public String toString() {
+        return "CraftBandit";
+    }
+
+}

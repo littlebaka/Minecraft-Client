@@ -1,0 +1,8 @@
+package org.bukkit.craftbukkit.entity;
+
+import org.bukkit.entity.Entity;
+
+public abstract interface Dummy extends Entity
+{
+	public abstract boolean interact();
+}
